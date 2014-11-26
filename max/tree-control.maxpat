@@ -41,11 +41,11 @@
 					"id" : "obj-49",
 					"maxclass" : "newobj",
 					"numinlets" : 1,
-					"numoutlets" : 2,
-					"outlettype" : [ "", "" ],
-					"patching_rect" : [ 231.25, 568.0, 29.5, 22.0 ],
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 231.25, 568.0, 23.0, 22.0 ],
 					"style" : "",
-					"text" : "t"
+					"text" : "t s"
 				}
 
 			}

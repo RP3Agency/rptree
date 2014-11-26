@@ -1,8 +1,10 @@
 var twitter 	= require('ntwitter'),
 	config		= require('config'),
 	text    	= require('twitter-text'),
+	osc			= require('node-osc'),
 	twit 		= new twitter(config.twitter),
-	terms		= ['rptree', '#rptree', '#wtf'];
+	terms		= ['rptree', '#rptree', '#wtf'],
+	tree		= new osc.Client(config.tree.address, config.tree.port);
 	
 
 
@@ -20,6 +22,8 @@ twit.stream('statuses/filter', { track: terms }, function(stream) {
   	};
   	
 	console.log(incoming);
+	
+	tree.send('/tweet', incoming.user);
 	
 	
   });

@@ -1,8 +1,8 @@
 #Setup
-Max isn't very kind about setting per-project include paths.
+Max isn't very kind about setting per-project include paths.  You have to configure it in the UI.
 
 ##For Deployment
-In Max Preferences, make this your default path.
+Change your User path to the path to this folder.
 
 ##For Development
-Copy the patches folder into your default path.
+Add this project as a new path set to your paths under Options > File Preferences.

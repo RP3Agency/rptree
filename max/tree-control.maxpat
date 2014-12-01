@@ -9,7 +9,7 @@
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 32.0, 79.0, 785.0, 645.0 ],
+		"rect" : [ 876.0, 78.0, 1198.0, 1116.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -37,6 +37,19 @@
 		"style" : "",
 		"subpatcher_template" : "",
 		"boxes" : [ 			{
+				"box" : 				{
+					"id" : "obj-5",
+					"maxclass" : "newobj",
+					"numinlets" : 2,
+					"numoutlets" : 3,
+					"outlettype" : [ "", "", "" ],
+					"patching_rect" : [ 686.0, 836.0, 100.0, 22.0 ],
+					"style" : "",
+					"text" : "maxuino.maxpat"
+				}
+
+			}
+, 			{
 				"box" : 				{
 					"id" : "obj-49",
 					"maxclass" : "newobj",
@@ -83,7 +96,6 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 507.0, 560.0, 103.0, 22.0 ],
-					"presentation_rect" : [ 459.0, 525.0, 0.0, 0.0 ],
 					"style" : "",
 					"text" : "digitalWrite $1 $2"
 				}
@@ -98,7 +110,6 @@
 					"outlettype" : [ "", "bang" ],
 					"parameter_enable" : 0,
 					"patching_rect" : [ 507.0, 488.0, 50.0, 22.0 ],
-					"presentation_rect" : [ 482.0, 490.0, 0.0, 0.0 ],
 					"style" : ""
 				}
 
@@ -111,7 +122,6 @@
 					"numoutlets" : 4,
 					"outlettype" : [ "int", "", "", "int" ],
 					"patching_rect" : [ 523.5, 447.0, 81.0, 22.0 ],
-					"presentation_rect" : [ 466.5, 449.0, 0.0, 0.0 ],
 					"style" : "",
 					"text" : "counter 1 2 9"
 				}
@@ -126,7 +136,6 @@
 					"outlettype" : [ "int" ],
 					"parameter_enable" : 0,
 					"patching_rect" : [ 552.0, 364.0, 24.0, 24.0 ],
-					"presentation_rect" : [ 495.0, 366.0, 0.0, 0.0 ],
 					"style" : ""
 				}
 
@@ -139,7 +148,6 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "bang" ],
 					"patching_rect" : [ 535.0, 398.0, 58.0, 22.0 ],
-					"presentation_rect" : [ 478.0, 400.0, 0.0, 0.0 ],
 					"style" : "",
 					"text" : "metro 25"
 				}
@@ -267,7 +275,6 @@
 					"numinlets" : 1,
 					"numoutlets" : 0,
 					"patching_rect" : [ 718.0, 300.0, 60.0, 20.0 ],
-					"presentation_rect" : [ 534.0, 425.0, 0.0, 0.0 ],
 					"style" : "",
 					"text" : "updown"
 				}
@@ -280,7 +287,6 @@
 					"numinlets" : 1,
 					"numoutlets" : 0,
 					"patching_rect" : [ 558.0, 300.0, 60.0, 20.0 ],
-					"presentation_rect" : [ 485.0, 427.0, 0.0, 0.0 ],
 					"style" : "",
 					"text" : "random"
 				}
@@ -306,7 +312,6 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "bang" ],
 					"patching_rect" : [ 713.0, 326.0, 24.0, 24.0 ],
-					"presentation_rect" : [ 475.0, 300.0, 0.0, 0.0 ],
 					"style" : ""
 				}
 
@@ -319,7 +324,6 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "bang" ],
 					"patching_rect" : [ 552.0, 326.0, 24.0, 24.0 ],
-					"presentation_rect" : [ 429.0, 301.0, 0.0, 0.0 ],
 					"style" : ""
 				}
 
@@ -357,7 +361,6 @@
 					"numinlets" : 1,
 					"numoutlets" : 0,
 					"patching_rect" : [ 378.0, 136.0, 150.0, 33.0 ],
-					"presentation_rect" : [ 378.0, 120.0, 0.0, 0.0 ],
 					"style" : "",
 					"text" : "Preset Screen Path - \nFire Named Presets"
 				}
@@ -698,6 +701,15 @@
 			}
 , 			{
 				"patchline" : 				{
+					"destination" : [ "obj-5", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-49", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
 					"destination" : [ "obj-49", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
@@ -706,7 +718,80 @@
 
 			}
  ],
-		"dependency_cache" : [  ],
+		"parameters" : 		{
+			"obj-5::obj-125::obj-70::obj-126" : [ "value[12]", "value", 0 ],
+			"obj-5::obj-125::obj-82::obj-126" : [ "value[15]", "value", 0 ],
+			"obj-5::obj-125::obj-29::obj-126" : [ "value[3]", "value", 0 ],
+			"obj-5::obj-125::obj-46::obj-126" : [ "value[6]", "value", 0 ],
+			"obj-5::obj-125::obj-54::obj-126" : [ "value[8]", "value", 0 ],
+			"obj-5::obj-125::obj-62::obj-126" : [ "value[10]", "value", 0 ],
+			"obj-5::obj-125::obj-104::obj-126" : [ "value[18]", "value", 0 ],
+			"obj-5::obj-125::obj-40::obj-126" : [ "value[5]", "value", 0 ],
+			"obj-5::obj-125::obj-7::obj-126" : [ "value", "value", 0 ],
+			"obj-5::obj-125::obj-78::obj-126" : [ "value[14]", "value", 0 ],
+			"obj-5::obj-125::obj-89::obj-126" : [ "value[16]", "value", 0 ],
+			"obj-5::obj-125::obj-20::obj-126" : [ "value[2]", "value", 0 ],
+			"obj-5::obj-125::obj-58::obj-126" : [ "value[9]", "value", 0 ],
+			"obj-5::obj-125::obj-66::obj-126" : [ "value[11]", "value", 0 ],
+			"obj-5::obj-125::obj-74::obj-126" : [ "value[13]", "value", 0 ],
+			"obj-5::obj-125::obj-111::obj-126" : [ "value[19]", "value", 0 ],
+			"obj-5::obj-125::obj-13::obj-126" : [ "value[1]", "value", 0 ],
+			"obj-5::obj-125::obj-34::obj-126" : [ "value[4]", "value", 0 ],
+			"obj-5::obj-125::obj-50::obj-126" : [ "value[7]", "value", 0 ],
+			"obj-5::obj-125::obj-99::obj-126" : [ "value[17]", "value", 0 ],
+			"obj-5::obj-125::obj-16" : [ "live.text", "live.text", 0 ]
+		}
+,
+		"dependency_cache" : [ 			{
+				"name" : "maxuino.maxpat",
+				"bootpath" : "~/Documents/Max 7/Library/maxuino",
+				"patcherrelativepath" : "../../../Documents/Max 7/Library/maxuino",
+				"type" : "JSON",
+				"implicit" : 1
+			}
+, 			{
+				"name" : "maxuino.js",
+				"bootpath" : "~/Documents/Max 7/Library/maxuino/support",
+				"patcherrelativepath" : "../../../Documents/Max 7/Library/maxuino/support",
+				"type" : "TEXT",
+				"implicit" : 1
+			}
+, 			{
+				"name" : "maxuino-gui.maxpat",
+				"bootpath" : "~/Documents/Max 7/Library/maxuino/support",
+				"patcherrelativepath" : "../../../Documents/Max 7/Library/maxuino/support",
+				"type" : "JSON",
+				"implicit" : 1
+			}
+, 			{
+				"name" : "dpin.maxpat",
+				"bootpath" : "~/Documents/Max 7/Library/maxuino/support",
+				"patcherrelativepath" : "../../../Documents/Max 7/Library/maxuino/support",
+				"type" : "JSON",
+				"implicit" : 1
+			}
+, 			{
+				"name" : "Teensy++.png",
+				"bootpath" : "~/Documents/Max 7/Library/maxuino/hardware",
+				"patcherrelativepath" : "../../../Documents/Max 7/Library/maxuino/hardware",
+				"type" : "PNG ",
+				"implicit" : 1
+			}
+, 			{
+				"name" : "maxuino-hardware.txt",
+				"bootpath" : "~/Documents/Max 7/Library/maxuino/hardware",
+				"patcherrelativepath" : "../../../Documents/Max 7/Library/maxuino/hardware",
+				"type" : "TEXT",
+				"implicit" : 1
+			}
+, 			{
+				"name" : "maxuino-debug.maxpat",
+				"bootpath" : "~/Documents/Max 7/Library/maxuino/support",
+				"patcherrelativepath" : "../../../Documents/Max 7/Library/maxuino/support",
+				"type" : "JSON",
+				"implicit" : 1
+			}
+ ],
 		"embedsnapshot" : 0
 	}
 

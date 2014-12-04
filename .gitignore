@@ -1,2 +1,7 @@
-/app/config/default.json
+.sass-cache
+.vagrant
+app/config/*
+config/*
+!config/default.json
 node_modules
+www

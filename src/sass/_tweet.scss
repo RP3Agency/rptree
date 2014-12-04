@@ -1,0 +1,56 @@
+.tweet {
+	@extend %roboto-regular;
+	color: $blue;
+	margin-bottom: rem(35px);
+
+	@include breakpoint(600px) {
+		width: percentage(689px / 1436px);
+	}
+
+	a {
+		color: currentColor;
+		text-decoration: none;
+	}
+
+	&__container {
+		background-color: $white;
+		border: 1px solid nth($grays, 2);
+		border-radius: 8px 8px 0 0;
+		overflow: hidden;
+		padding: rem(31px) percentage(57px / 689px);
+	}
+
+	&__avatar {
+		border-radius: 8px;
+	}
+
+	&__handle {
+		@extend %roboto-light;
+		display: block;
+		font-size: em(16px);
+		margin: 1em 0;
+	}
+
+	&__content {
+		margin-bottom: 0.5em;
+	}
+
+	&__timestamp {
+		color: nth($grays, 1);
+		font-size: em(13px);
+	}
+
+	&__footer {
+		@extend %roboto-light;
+		background-color: $blue;
+		border-radius: 0 0 8px 8px;
+		font-size: em(16px);
+		overflow: hidden;
+		padding: rem(15px) percentage(57px / 689px);
+
+		a {
+			color: $white;
+			display: block;
+		}
+	}
+}

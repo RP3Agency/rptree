@@ -1,0 +1,16 @@
+.page {
+	background: nth($grays, 3);
+	padding: rem(20px) percentage(30px / 1500px);
+
+	&__video {
+		border-radius: 8px;
+		margin-bottom: rem(28px);
+		overflow: hidden;
+		width: 100%;
+
+		img {
+			height: auto;
+			width: 100%;
+		}
+	}
+}

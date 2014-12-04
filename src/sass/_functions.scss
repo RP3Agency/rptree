@@ -1,0 +1,9 @@
+/** Calculate rems */
+@function rem( $target ) {
+	@return $target / $default-font-size * 1rem;
+}
+
+/** Calculate ems */
+@function em( $target, $context: $default-font-size ) {
+	@return $target / $context * 1em;
+}

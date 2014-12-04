@@ -35,11 +35,13 @@ var // Project
 	src_js_plugins	= src_js + '/plugins',
 	src_sass		= src + '/sass',
 	src_html		= src + '/html',
+	src_images		= src + '/images',
 
 	// Destination files, WordPress
 	dest			= __dirname + '/www',
 	dest_js			= dest + '/js',
-	dest_css		= dest + '/css';
+	dest_css		= dest + '/css',
+	dest_images		= dest + '/images';
 
 /**
  * Now, let's do things.
@@ -109,6 +111,15 @@ gulp.task('scripts', function() {
 });
 
 
+// Images: for now, just move them into /www/, but we really should be imageminning them
+gulp.task('images', function() {
+	var filesToMove = [ src_images + '/**/*.*' ];
+
+	return gulp.src(filesToMove)
+		.pipe(gulp.dest(dest_images));
+})
+
+
 // Clean
 gulp.task('clean', function() {
 	del( [dest + '/*'], function( err ) {
@@ -129,7 +140,7 @@ gulp.task('build-www', function() {
 });
 
 // build: run the build-www, CSS & JS processing tasks
-gulp.task('build', ['styles', 'scripts'], function() {
+gulp.task('build', ['styles', 'scripts', 'images'], function() {
 	gulp.start('build-www');
 });
 
@@ -155,6 +166,9 @@ gulp.task('watch', function() {
 	// Watch custom JavaScript files
 	gulp.watch( src_js + '/*.js', ['scripts-custom'] );
 
-	// Watch theme template files
+	// Watch HTML files
 	gulp.watch( src_html + '/**/*.*', ['build-www'] );
+
+	// Watch image files
+	gulp.watch( src_images + '/**/*.*', ['images'] );
 });

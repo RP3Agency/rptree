@@ -48,15 +48,14 @@ var // Project
 
 // Styles
 gulp.task('styles', function() {
+	console.log(src_sass + '/*.scss');
 	return gulp.src(src_sass + '/*.scss')
 		.pipe(sass({
 			bundleExec: true,
-			require: 'breakpoint'
+			require: ['breakpoint']
 		}))
 		.on( 'error', gutil.log )
-		.pipe(sourcemaps.init({
-			loadMaps: true
-		}))
+		.pipe(sourcemaps.init())
 		.pipe(autoprefixer({
 			browsers: ['last 2 versions', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4']
 		}))
@@ -129,7 +128,7 @@ gulp.task('build-www', function() {
 	];
 
 	return gulp.src(filesToMove, { base: src_html })
-		.pipe(gulp.dest(dest_theme));
+		.pipe(gulp.dest(dest));
 });
 
 // build: run the build-www, CSS & JS processing tasks

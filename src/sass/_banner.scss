@@ -1,0 +1,15 @@
+.banner {
+
+	&__content {
+		background-color: $red;
+		color: $white;
+		padding: rem( 166px / 2 ) percentage( 130px / 1500px );
+	}
+
+	&__header {
+		@extend %opensans-semibold;
+		font-size: em(90px / 2);
+		margin-bottom: 0.5em;
+		text-transform: uppercase;
+	}
+}

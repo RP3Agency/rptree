@@ -42,7 +42,13 @@ $font-weight-semibold:		600;
 
 /** Set base font styling */
 
+$default-font-size: 25px !default;
+
 html {
 	@extend %roboto-light;
-	font-size: percentage( 25px / 16px );
+	font-size: percentage( $default-font-size / 16px );
+}
+
+body {
+	line-height: 1.3;
 }

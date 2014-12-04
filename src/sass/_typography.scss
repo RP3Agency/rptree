@@ -1,0 +1,48 @@
+/** Load in Google fonts */
+@import url(http://fonts.googleapis.com/css?family=Roboto:500,300,400|Open+Sans:600);
+
+/** Set our font sets as placeholder selectors to be @extend-ed */
+
+$font-family-roboto:		"Roboto", sans-serif;
+$font-family-opensans:		"Open Sans", sans-serif;
+
+$font-weight-light:			300;
+$font-weight-regular:		400;
+$font-weight-medium:		500;
+$font-weight-semibold:		600;
+
+%roboto-light {
+	font: {
+		family: $font-family-roboto;
+		weight: $font-weight-light;
+	}
+}
+
+%roboto-regular {
+	font: {
+		family: $font-family-roboto;
+		weight: $font-weight-regular;
+	}
+}
+
+%roboto-medium {
+	font: {
+		family: $font-family-roboto;
+		weight: $font-weight-medium;
+	}
+}
+
+%opensans-semibold {
+	font: {
+		family: $font-family-opensans;
+		weight: $font-weight-semibold;
+	}
+}
+
+
+/** Set base font styling */
+
+html {
+	@extend %roboto-light;
+	font-size: percentage( 25px / 16px );
+}

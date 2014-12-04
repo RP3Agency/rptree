@@ -8,9 +8,9 @@
     "url": "https://github.com/RP3Agency/rptree.git"
   },
   "keywords": [
-      "arduino",
-      "node",
-      "max/msp"
+    "arduino",
+    "node",
+    "max/msp"
   ],
   "homepage": "https://github.com/RP3Agency/rptree",
   "author": "Tracy Rotton, Kurt Roberts, Bryan Cox",
@@ -61,6 +61,7 @@
     "monk": "~0.9.1",
     "node-osc": "~0.3.0",
     "ntwitter": "~0.5.0",
-    "twitter-text": "~1.10.0"
+    "twitter-text": "~1.10.0",
+    "webpurify": "~0.8.3"
   }
 }

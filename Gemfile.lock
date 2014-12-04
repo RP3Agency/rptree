@@ -13,4 +13,4 @@ PLATFORMS
 
 DEPENDENCIES
   breakpoint (~> 2.5.0)
-  sass (~> 3.4.2)
+  sass (~> 3.4.9)

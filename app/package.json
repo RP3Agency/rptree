@@ -20,5 +20,11 @@
   "bugs": {
     "url": "https://github.com/RP3Agency/rptree/issues"
   },
-  "homepage": "https://github.com/RP3Agency/rptree"
+  "homepage": "https://github.com/RP3Agency/rptree",
+  "dependencies": {
+    "config": "^1.8.1",
+    "node-osc": "^0.3.0",
+    "ntwitter": "^0.5.0",
+    "twitter-text": "^1.10.0"
+  }
 }

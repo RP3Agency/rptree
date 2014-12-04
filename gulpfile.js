@@ -128,7 +128,7 @@ gulp.task('build-www', function() {
 		src + '/**/.htaccess'
 	];
 
-	return gulp.src(filesToMove, { base: src_theme })
+	return gulp.src(filesToMove, { base: src_html })
 		.pipe(gulp.dest(dest_theme));
 });
 

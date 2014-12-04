@@ -156,6 +156,7 @@
 						"tags" : "",
 						"style" : "",
 						"subpatcher_template" : "",
+						"visible" : 1,
 						"boxes" : [ 							{
 								"box" : 								{
 									"comment" : "",
@@ -203,7 +204,7 @@
 									"outlettype" : [ "", "", "", "", "", "", "", "", "" ],
 									"patching_rect" : [ 1154.0, 158.0, 118.0, 22.0 ],
 									"style" : "",
-									"text" : "route 1 2 3 4 5 6 7 8"
+									"text" : "route 0 1 2 3 4 5 6 7"
 								}
 
 							}
@@ -216,7 +217,7 @@
 									"outlettype" : [ "int", "", "", "int" ],
 									"patching_rect" : [ 1154.0, 111.0, 71.0, 22.0 ],
 									"style" : "",
-									"text" : "counter 0 8"
+									"text" : "counter 0 7"
 								}
 
 							}

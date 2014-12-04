@@ -1,0 +1,19 @@
+{
+	"debug": true,
+	"server": {
+		"options": {
+			"name": "RPTree 2.0.0 Server"
+		},
+		"port": 3000
+	},
+	"db": {
+		"hostname": "localhost",
+		"port": 27017,
+		"dbname": "rptree"
+	},
+	"tree": {
+		"address": "rptree.local",
+		"port": "5001"
+	},
+	"twitter": false
+}

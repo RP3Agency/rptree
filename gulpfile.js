@@ -75,7 +75,6 @@ gulp.task('scripts-custom', function() {
 		.pipe(jshint(__dirname + '/.jshintrc'))
 		.pipe(jshint.reporter('default'))
 		.pipe(concat(project + '.js'))
-		.pipe(gulp.dest(dest_js))
 		.pipe(rename({suffix: '.min'}))
 		.pipe(uglify())
 		.on('error', gutil.log)
@@ -86,7 +85,6 @@ gulp.task('scripts-custom', function() {
 gulp.task('scripts-plugins', function() {
 	return gulp.src(src_js_plugins + '/*.js')
 		.pipe(concat(project + '-plugins.js'))
-		.pipe(gulp.dest(dest_js))
 		.pipe(rename({suffix: '.min'}))
 		.pipe(uglify())
 		.on('error', gutil.log)
@@ -97,7 +95,6 @@ gulp.task('scripts-plugins', function() {
 gulp.task('scripts-vendor', function() {
 	return gulp.src(src_js_vendor + '/*.js')
 		.pipe(concat(project + '-vendor.js'))
-		.pipe(gulp.dest(dest_js))
 		.pipe(rename({suffix: '.min'}))
 		.pipe(uglify())
 		.on('error', gutil.log)
@@ -123,8 +120,8 @@ gulp.task('clean', function() {
 // build-www: build web (html) files to the www directory
 gulp.task('build-www', function() {
 	var filesToMove = [
-		src + '/**/*.*',
-		src + '/**/.htaccess'
+		src_html + '/**/*.*',
+		src_html + '/**/.htaccess'
 	];
 
 	return gulp.src(filesToMove, { base: src_html })

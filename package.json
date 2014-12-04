@@ -1,7 +1,19 @@
 {
-  "name": "",
-  "title": "",
-  "url": "",
+  "name": "rptree",
+  "description": "RPTree 2014 - The Remix",
+  "title": "RPTree",
+  "url": "http://rptree.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RP3Agency/rptree.git"
+  },
+  "keywords": [
+    "arduino",
+    "node",
+    "max/msp"
+  ],
+  "homepage": "https://github.com/RP3Agency/rptree",
+  "author": "Tracy Rotton, Kurt Roberts, Bryan Cox",
   "contributors": [
     {
       "name": "Tracy Rotton",
@@ -13,15 +25,20 @@
     {
       "name": "Kurt Roberts",
       "email": "kroberts@rp3agency.com"
+    },
+    {
+      "name": "Bryan Cox",
+      "email": "bcox@rp3agency.com"
     }
   ],
   "copyright": "2014",
-  "version": "1.0.0",
-  "license": "Private",
-  "repository": {
-    "type": "git",
-    "url": ""
+  "version": "2.0.0",
+  "license": "MIT",
+  "scripts": {
+    "start": "node app",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "main": "app",
   "devDependencies": {
     "del": "^1.0.0",
     "gulp": "^3.8.10",
@@ -36,5 +53,15 @@
     "gulp-util": "^3.0.1",
     "matchdep": "^0.3.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "config": "~1.8.1",
+    "restify": "~2.8.3",
+    "bluebird": "~2.3.11",
+    "lodash": "~2.4.1",
+    "monk": "~0.9.1",
+    "node-osc": "~0.3.0",
+    "ntwitter": "~0.5.0",
+    "twitter-text": "~1.10.0",
+    "webpurify": "~0.8.3"
+  }
 }

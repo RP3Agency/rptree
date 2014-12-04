@@ -2,7 +2,10 @@
 	@extend %roboto-regular;
 	color: $blue;
 	margin-bottom: rem(35px);
-	width: percentage(689px / 1436px);
+
+	@include breakpoint(600px) {
+		width: percentage(689px / 1436px);
+	}
 
 	a {
 		color: currentColor;

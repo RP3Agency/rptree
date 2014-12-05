@@ -55,7 +55,7 @@ server.use(restify.queryParser());
 //TODO: add REST route to retrieve tweets from Mongo (used by Backbone)
 
 // Create static route
-server.get('/', restify.serveStatic({
+server.get(/.*/, restify.serveStatic({
 	directory: './www',
 	default: 'index.html'
 }));

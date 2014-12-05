@@ -1,5 +1,12 @@
 .site-header {
+	background-color: $white;
 	padding: rem(56px / 2) percentage(121px / 1500px) rem(40px / 2);
+
+	&__wrapper {
+		margin: 0 auto;
+		max-width: em(1600px, $default-font-size);
+	}
+
 	&__header {
 		height: ( 96px / 2);
 		width: ( 286px / 2 );

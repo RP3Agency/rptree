@@ -9,7 +9,7 @@ if ( rptree === undefined ) { var rptree = {}; }
 
 /**
  * Breakpoints, which are primary properties of the "rptree" object
- * These need to be updated when/if the Sass breakpoints change: src/sass/utils/_settings.scss
+ * These need to be updated when/if the Sass breakpoints change: [path TK]
  */
 rptree.bpSmall	= window.matchMedia( '( min-width: ' + ( 321 / 16 ) + 'em' ).matches;
 rptree.bpMedium	= window.matchMedia( '( min-width: ' + ( 680 / 16 ) + 'em' ).matches;
@@ -27,7 +27,7 @@ rptree.global = (function($) {
 	var
 
 	/**
-	 * masonry layout for the learn page
+	 * masonry layout for tweets
 	 * http://masonry.desandro.com/
 	 */
 	masonry = function() {
@@ -40,8 +40,9 @@ rptree.global = (function($) {
 			if ( $pageTweets.length > 0 ) {
 				$pageTweets.masonry({
 					columnWidth: '.tweet',
-					itemSelector: '.tweet',
-					gutter: 10
+					// itemSelector: '.tweet',
+					// gutter: 10,
+					stamp: ".page__video"
 				});
 			}
 		}

@@ -1,39 +1,111 @@
 .banner {
+	font-size: rem(18px);
+	position: relative;
+	transition: font-size 200ms linear;
+
+	@include breakpoint($breakpoint-sm) {
+		font-size: rem(25px);
+	}
+
+	@include breakpoint($breakpoint) {
+		font-size: rem(18px)
+	}
+
+	@include breakpoint($breakpoint-lg) {
+		font-size: rem(25px);
+	}
+
+	&__graphic {
+		max-height: rem(980px / 2);
+		overflow: hidden;
+		position: relative;
+		width: 100%;
+
+		&::before {
+			content: "";
+			display: block;
+			padding-top: percentage(980px / 1500px);
+
+			@include breakpoint($breakpoint) {
+				padding-top: percentage(980px / 3200px);
+			}
+		}
+
+		&-inner {
+			background-color: $blue;
+			bottom: 0;
+			left: 0;
+			position: absolute;
+			right: 0;
+			top: 0;
+
+			img {
+				bottom: 0;
+				max-width: (1720px / 2);
+				position: absolute;
+				right: -10%;
+				width: 120%;
+
+				@include breakpoint($breakpoint) {
+					right: percentage(125px / 3200px);
+					max-width: (1720px / 2);
+					width: percentage(1720px / 3200px);
+				}
+			}
+
+			/** Animated snow. Because of course. */
+
+			.snow {
+				animation: snow 120s linear infinite;
+				background: {
+					image: url("../images/snow-1.png"), url("../images/snow-2.png");
+					position: 0 0, 50% 50%;
+					repeat: repeat, repeat;
+				}
+				bottom: 0;
+				left: 0;
+				opacity: 0.8;
+				position: absolute;
+				right: 0;
+				top: 0;
+				transform: translateZ(0); // Enable hardware acceleration for better performance
+			}
+		}
+	}
 
 	&__content {
 		background-color: $red;
 		color: $white;
 		margin-top: -1px;
-		padding: rem( 166px / 2 ) percentage( 130px / 1500px );
+		padding: em(40px) percentage( 130px / 1500px );
+
+		@include breakpoint($breakpoint) {
+			background-color: transparent;
+			left: percentage(90px / 3200px);
+			padding: 0;
+			position: absolute;
+			top: 50%;
+			transform: translate(0, -50%);
+			width: 40%;
+		}
 	}
 
 	&__header {
 		@extend %opensans-semibold;
-		font-size: em(90px / 2);
+		font-size: rem(18px);
 		margin-bottom: 0.5em;
 		text-transform: uppercase;
-	}
 
-	/** Animated snow. Because of course. */
+		@include breakpoint($breakpoint-sm) {
+			font-size: em(45px);
+		}
 
-	&__graphic {
-		position: relative;
+		@include breakpoint($breakpoint) {
+			font-size: em(25px, 18px);
+		}
 
-		.snow {
-			background: {
-				image: url("../images/snow-1.png"), url("../images/snow-2.png");
-				position: 0 0, 50% 50%;
-				repeat: repeat, repeat;
-			}
-			bottom: 0;
-			left: 0;
-			opacity: 0.8;
-			position: absolute;
-			right: 0;
-			top: 0;
-			transform: translateZ(0); // Enable hardware acceleration for better performance
-
-			animation: snow 120s linear infinite;
+		@include breakpoint($breakpoint-lg) {
+			font-size: em(45px);
 		}
 	}
 }

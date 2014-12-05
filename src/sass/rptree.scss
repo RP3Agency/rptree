@@ -1,5 +1,10 @@
 /** Breakpoint */
 @import "breakpoint";
+$breakpoint-to-ems: true;
+
+$breakpoint-sm:	600px;
+$breakpoint:	760px;
+$breakpoint-lg:	1120px;
 
 /** Eric Meyer Reset */
 @import "reset";
@@ -27,3 +32,7 @@
 
 /** Tweet */
 @import "tweet";
+
+body {
+	background-color: nth($grays, 3);
+}

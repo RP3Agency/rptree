@@ -1,6 +1,7 @@
 .page {
-	background: nth($grays, 3);
 	padding: rem(20px) percentage(30px / 1500px);
+	margin: 0 auto;
+	max-width: em(1600px, $default-font-size);
 
 	&__video {
 		border-radius: 8px;
@@ -8,7 +9,7 @@
 		overflow: hidden;
 		width: 100%;
 
-		img {
+		object {
 			height: auto;
 			width: 100%;
 		}

@@ -1,3 +1,27 @@
 [submodule "max/patches/maxuino"]
 	path = max/patches/maxuino
 	url = https://github.com/maxuino/maxuino.git
+[submodule "provisioning/puppet/modules/apt"]
+	path = provisioning/puppet/modules/apt
+	url = https://github.com/puppetlabs/puppetlabs-apt
+[submodule "provisioning/puppet/modules/gcc"]
+	path = provisioning/puppet/modules/gcc
+	url = https://github.com/puppetlabs/puppetlabs-gcc
+[submodule "provisioning/puppet/modules/logrotate"]
+	path = provisioning/puppet/modules/logrotate
+	url = https://github.com/rodjek/puppet-logrotate
+[submodule "provisioning/puppet/modules/stdlib"]
+	path = provisioning/puppet/modules/stdlib
+	url = https://github.com/puppetlabs/puppetlabs-stdlib
+[submodule "provisioning/puppet/modules/wget"]
+	path = provisioning/puppet/modules/wget
+	url = https://github.com/maestrodev/puppet-wget
+[submodule "provisioning/puppet/modules/ruby"]
+	path = provisioning/puppet/modules/ruby
+	url = https://github.com/puppetlabs/puppetlabs-ruby
+[submodule "provisioning/puppet/modules/mongodb"]
+	path = provisioning/puppet/modules/mongodb
+	url = https://github.com/puppetlabs/puppetlabs-mongodb.git
+[submodule "provisioning/puppet/modules/git"]
+	path = provisioning/puppet/modules/git
+	url = https://github.com/mxhero/puppet-git.git

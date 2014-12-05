@@ -1,53 +1,118 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
-VAGRANTFILE_API_VERSION = "2"
+require "yaml"
 
-Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  # All Vagrant configuration is done here. The most common configuration
-  # options are documented and commented below. For a complete reference,
-  # please see the online documentation at vagrantup.com.
+# Load default git-managed configuration
+_config = YAML.load(
+	File.open(
+		File.join(File.dirname(__FILE__), "provisioning/default.yaml"),
+		File::RDONLY
+	).read
+)
 
-  # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box = "precise64"
+# Load other configuration files
+config_files = [ "provisioning/config.yaml", "provisioning/config.local.yaml" ]
+config_files.each do |filename|
+	begin
+		confvars = YAML.load(
+			File.open(
+				File.join(File.dirname(__FILE__), filename),
+				File::RDONLY
+			).read
+		)
 
-  # The url from where the 'config.vm.box' box will be fetched if it
-  # doesn't already exist on the user's system.
-  config.vm.box_url = "http://files.vagrantup.com/precise64.box"
+		_config.merge!(confvars) if confvars.is_a?(Hash)
+	rescue Errno::ENOENT
+		# No overriden YAML found -- that's OK; just use the defaults.
+	end
+end
 
-  # Create a forwarded port mapping which allows access to a specific port
-  # within the machine from a port on the host machine. In the example below,
-  # accessing "localhost:8080" will access port 80 on the guest machine.
-  # config.vm.network :forwarded_port, guest: 80, host: 8080
-  # config.vm.network :forwarded_port, guest: 443, host: 8090
+CONF = _config
 
-  # Create a private network, which allows host-only access to the machine
-  # using a specific IP.
+# Add extra extension modules
+base_path = Pathname.new( File.dirname( __FILE__ ) )
+module_paths = [ base_path.to_s + "/provisioning/puppet/modules" ]
+module_paths.concat Dir.glob( base_path.to_s + "/extensions/*/modules" )
 
-  config.hostmanager.enabled = true
-  config.hostmanager.manage_host = true
-  config.hostmanager.ignore_private_ip = false
-  config.hostmanager.include_offline = true
-  config.vm.define 'rptree-website' do |node|
-    node.vm.provision :shell, :path => "provision/bootstrap.sh"
-    node.vm.hostname = 'rptree-website-hostname'
-    node.vm.network :private_network, ip: '192.168.12.25'
-    node.hostmanager.aliases = %w(rptree-website.dev)
-  end
+# Convert to relative from Vagrantfile
+module_paths.map! do |path|
+	pathname = Pathname.new(path)
+	pathname.relative_path_from(base_path).to_s
+end
 
-  # Create a public network, which generally matched to bridged network.
-  # Bridged networks make the machine appear as another physical device on
-  # your network.
-  # config.vm.network :public_network
+Vagrant.configure("2") do |config|
+	# Store the current version of Vagrant for use in conditionals when dealing
+	# with possible backward compatible issues.
+	vagrant_version = Vagrant::VERSION.sub(/^v/, '')
 
-  # If true, then any SSH connections made will enable agent forwarding.
-  # Default value: false
-  # config.ssh.forward_agent = true
+	# Setup VM image to be used
+	config.vm.box = CONF['box']
 
-  # Share an additional folder to the guest VM. The first argument is
-  # the path on the host to the actual folder. The second argument is
-  # the path on the guest to mount the folder. And the optional third
-  # argument is a set of non-required options.
-  config.vm.synced_folder ".", "/vagrant"
+	# Networking config - "dhcp" or specific IP address
+	# VM hostname will be set to the first host in config
+	if CONF['ip'] == "dhcp"
+		config.vm.network :private_network, type: "dhcp"
+	else
+		config.vm.network :private_network, ip: CONF['ip']
+	end
+	config.vm.hostname = CONF['hosts'][0]
+
+	# Define forwarded ports
+	CONF['ports'].each do |port|
+		config.vm.network :forwarded_port, host: port['host'], guest: port['guest']
+	end
+
+	# Configure VirtualBox VM
+	#  - VM name set to project name
+	#  - VM memory set to configured value
+	#  - NAT guest should use host DNS resolver
+	config.vm.provider "virtualbox" do |vb|
+		vb.customize [
+			"modifyvm", :id,
+			"--name", CONF['name'],
+			"--cpus", CONF['cpus'],
+			"--memory", CONF['memory'],
+			"--natdnshostresolver1", "on"
+		]
+	end
+
+	# Define host manager settings - requires Vagrant plugin
+	config.hostmanager.enabled = true
+  	config.hostmanager.manage_host = true
+  	config.hostmanager.ignore_private_ip = false
+  	config.hostmanager.include_offline = true
+	config.hostmanager.aliases = CONF['hosts']
+
+	# Before any other provisioning, ensure that we're up-to-date
+	bootstrap_args = [
+		CONF['apt_release'].to_s,
+		CONF['apt_mirror'].to_s
+	]
+	config.vm.provision :shell, :path => "provisioning/bootstrap.sh", :args => bootstrap_args
+
+	# Provision our setup with Puppet
+	config.vm.provision :puppet do |puppet|
+		puppet.manifests_path = "provisioning/puppet/manifests"
+		puppet.manifest_file  = "development.pp"
+		puppet.facter = CONF['puppet']
+
+		# Broken due to https://github.com/mitchellh/vagrant/issues/2902
+		## puppet.module_path    = module_paths
+		# Workaround:
+		module_paths.map! { |rel_path| "/vagrant/" + rel_path }
+		puppet.options = "--modulepath " +  module_paths.join( ':' ).inspect
+
+		puppet.options = puppet.options + " --environment vagrant"
+		#puppet.options = puppet.options + " --verbose --debug"
+	end
+
+	# Ensure that the shared directory is fully writable from the guest
+	if vagrant_version >= "1.3.0"
+		config.vm.synced_folder ".", "/vagrant", :mount_options => [ "dmode=777,fmode=777" ]
+	else
+		config.vm.synced_folder ".", "/vagrant", :extra => "dmode=777,fmode=777"
+	end
+
+	# Success?
 end

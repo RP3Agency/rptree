@@ -13,4 +13,36 @@
 		margin-bottom: 0.5em;
 		text-transform: uppercase;
 	}
+
+	/** Animated snow. Because of course. */
+
+	&__graphic {
+		position: relative;
+
+		.snow {
+			background: {
+				image: url("../images/snow.png"), url("../images/snow.png");
+				position: 0 0, 50% 50%;
+				repeat: repeat, repeat;
+			}
+			bottom: 0;
+			left: 0;
+			position: absolute;
+			right: 0;
+			top: 0;
+			transform: translateZ(0); // Enable hardware acceleration for better performance
+
+			animation: snow 40s linear infinite;
+		}
+	}
+}
+
+@keyframes snow {
+	0% {
+		background-position: 0 0, 0 0;
+	}
+
+	100% {
+		background-position: 1000px 1000px, 0 250px;
+	}
 }

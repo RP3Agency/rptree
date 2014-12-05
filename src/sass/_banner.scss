@@ -21,18 +21,19 @@
 
 		.snow {
 			background: {
-				image: url("../images/snow.png"), url("../images/snow.png");
+				image: url("../images/snow-1.png"), url("../images/snow-2.png");
 				position: 0 0, 50% 50%;
 				repeat: repeat, repeat;
 			}
 			bottom: 0;
 			left: 0;
+			opacity: 0.8;
 			position: absolute;
 			right: 0;
 			top: 0;
 			transform: translateZ(0); // Enable hardware acceleration for better performance
 
-			animation: snow 40s linear infinite;
+			animation: snow 120s linear infinite;
 		}
 	}
 }
@@ -43,6 +44,6 @@
 	}
 
 	100% {
-		background-position: 1000px 1000px, 0 250px;
+		background-position: 3000px 4000px, -100px 2000px;
 	}
 }

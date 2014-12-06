@@ -2,17 +2,14 @@
 	@extend %roboto-regular;
 	color: $blue;
 	margin-bottom: rem(35px);
+	width: 100%;
 
 	@include breakpoint($breakpoint-sm) {
-		width: 50%
-	}
-
-	@include breakpoint($breakpoint) {
-		width: 33%;
+		width: 48%
 	}
 
 	@include breakpoint($breakpoint-lg) {
-		width: 25%;
+		width: 23.5%;
 	}
 
 	a {
@@ -61,4 +58,8 @@
 			display: block;
 		}
 	}
+}
+
+.masonry-gutter {
+	width: 2%;
 }

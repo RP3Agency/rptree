@@ -33,23 +33,26 @@ rptree.global = (function($) {
 	masonry = function() {
 
 		// breakpoint medium and up
-		if ( rptree.bpMedium ) {
 
-			var $pageTweets = $('#page__tweets');
+		var $pageTweets = $('#page__tweets');
 
-			if ( $pageTweets.length > 0 ) {
-				$pageTweets.masonry({
-					columnWidth: '.tweet',
-					// itemSelector: '.tweet',
-					// gutter: 10,
-					stamp: ".page__video"
-				});
-			}
+		if ( $pageTweets.length > 0 ) {
+			$pageTweets.masonry({
+				columnWidth: '.tweet',
+				itemSelector: '.tweet',
+				gutter: '.masonry-gutter',
+				stamp: ".page__video"
+			});
 		}
+	},
+
+	fitVids = function() {
+		$('#page__video').fitVids();
 	},
 
 	init = function() {
 		masonry();
+		fitVids();
 
 		$(window).on( 'scroll', function() {
 			// Do something else.

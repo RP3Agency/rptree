@@ -2,16 +2,25 @@
 	padding: rem(20px) percentage(30px / 1500px);
 	margin: 0 auto;
 	max-width: em(1600px, $default-font-size);
+	position: relative;
 
 	&__video {
 		border-radius: 8px;
+		left: 0;
 		margin-bottom: rem(28px);
 		overflow: hidden;
+		position: absolute;
+		top: 0;
 		width: 100%;
 
-		object {
-			height: auto;
-			width: 100%;
+		@include breakpoint($breakpoint) {
+			margin-right: 2%;
+			width: 48%;
+		}
+
+		object,
+		embed {
+			display: block;
 		}
 	}
 }

@@ -37,11 +37,14 @@ rptree.global = (function($) {
 		var $pageTweets = $('#page__tweets');
 
 		if ( $pageTweets.length > 0 ) {
-			$pageTweets.masonry({
-				columnWidth: '.tweet',
-				itemSelector: '.tweet',
-				gutter: '.masonry-gutter',
-				stamp: ".page__video"
+
+			$pageTweets.imagesLoaded( function() {
+				$pageTweets.masonry({
+					columnWidth: '.tweet',
+					itemSelector: '.tweet',
+					gutter: '.masonry-gutter',
+					stamp: ".page__video"
+				});
 			});
 		}
 	},

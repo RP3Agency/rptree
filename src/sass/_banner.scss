@@ -108,6 +108,32 @@
 			font-size: em(45px);
 		}
 	}
+
+	&__logo {
+		display: none;
+		height: 50px;
+		position: absolute;
+		right: percentage( 122px / 3200px );
+		top: rem(112px / 4);
+		width: 70px;
+
+		transition-property: height, top, width;
+		transition: 200ms linear;
+
+		@include breakpoint($breakpoint) {
+			display: block;
+		}
+
+		@include breakpoint($breakpoint-lg) {
+			height: (164px / 2);
+			top: rem(112px / 2);
+			width: (228px / 2);
+		}
+
+		path {
+			fill: $white;
+		}
+	}
 }
 
 @keyframes snow {

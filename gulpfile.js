@@ -9,6 +9,9 @@ var gulp			= require('gulp'),
 	minifycss		= require('gulp-minify-css'),
 	sourcemaps		= require('gulp-sourcemaps'),
 
+	// HTML
+	minifyhtml		= require('gulp-minify-html'),
+
 	// JavaScript
 	jshint			= require('gulp-jshint'),
 	uglify			= require('gulp-uglify'),
@@ -136,6 +139,7 @@ gulp.task('build-www', function() {
 	];
 
 	return gulp.src(filesToMove, { base: src_html })
+		.pipe(minifyhtml())
 		.pipe(gulp.dest(dest));
 });
 

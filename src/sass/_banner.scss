@@ -45,7 +45,7 @@
 				position: absolute;
 				right: -10%;
 				width: 120%;
-				z-index: 10;
+				z-index: 5;
 
 				@include breakpoint($breakpoint) {
 					right: percentage(125px / 3200px);
@@ -57,19 +57,26 @@
 			/** Animated snow. Because of course. */
 
 			.snow {
-				animation: snow 120s linear infinite;
-				background: {
-					image: url("../images/snow-1.png"), url("../images/snow-2.png");
-					position: 0 0, 50% 50%;
-					repeat: repeat, repeat;
-				}
+				background: transparent url("../images/snow.png") repeat 0 0;
 				bottom: 0;
 				left: 0;
-				opacity: 0.8;
 				position: absolute;
 				right: 0;
 				top: 0;
 				transform: translateZ(0); // Enable hardware acceleration for better performance
+
+				&--background {
+					animation: snow--background 120s linear infinite;
+					background-size: 70%;
+					opacity: 0.8;
+					z-index: 0;
+				}
+
+				&--foreground {
+					animation: snow--foreground 120s linear infinite;
+					opacity: 0.9;
+					z-index: 10;
+				}
 			}
 		}
 	}
@@ -137,12 +144,22 @@
 	}
 }
 
-@keyframes snow {
+@keyframes snow--background {
 	0% {
-		background-position: 0 0, 0 0;
+		background-position: 0 0;
 	}
 
 	100% {
-		background-position: 3000px 4000px, -100px 2000px;
+		background-position: -100px 2000px;
+	}
+}
+
+@keyframes snow--foreground {
+	0% {
+		background-position: 0 0;
+	}
+
+	100% {
+		background-position: 2000px 3000px;
 	}
 }

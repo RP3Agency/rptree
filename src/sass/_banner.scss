@@ -57,7 +57,7 @@
 			/** Animated snow. Because of course. */
 
 			.snow {
-				background: transparent url("../images/snow.png") repeat 0 0;
+				background: transparent url("../images/snow.png") repeat;
 				bottom: 0;
 				left: 0;
 				position: absolute;
@@ -146,7 +146,7 @@
 
 @keyframes snow--background {
 	0% {
-		background-position: 0 0;
+		background-position: center center;
 	}
 
 	100% {

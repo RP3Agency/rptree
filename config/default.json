@@ -6,14 +6,13 @@
 		},
 		"port": 3000
 	},
-	"db": {
-		"hostname": "localhost",
-		"port": 27017,
-		"dbname": "rptree"
-	},
+	"db": "localhost/rptree",
 	"tree": {
 		"address": "rptree.local",
 		"port": "5001"
+	},
+	"feed": {
+		"pagesize": 10
 	},
 	"twitter": false
 }

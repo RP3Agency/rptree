@@ -1,6 +1,6 @@
 .tweet {
 	@extend %roboto-regular;
-	color: $blue;
+	color: nth($blues, 1);
 	margin-bottom: rem(35px);
 	width: 100%;
 
@@ -47,7 +47,7 @@
 
 	&__footer {
 		@extend %roboto-light;
-		background-color: $blue;
+		background-color: nth($blues, 1);
 		border-radius: 0 0 8px 8px;
 		font-size: em(16px);
 		overflow: hidden;

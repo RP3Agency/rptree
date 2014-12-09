@@ -54,5 +54,6 @@ body {
 }
 
 strong {
+	color: nth($blues, 1);
 	font-weight: $font-weight-medium;
 }

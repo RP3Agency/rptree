@@ -1,6 +1,6 @@
 .tweet {
-	@extend %roboto-regular;
-	color: nth($blues, 1);
+	@extend %roboto-light;
+	color: $black;
 	margin-bottom: rem(35px);
 	width: 100%;
 

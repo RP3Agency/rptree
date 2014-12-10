@@ -1,6 +1,7 @@
 /** Breakpoint */
 @import "breakpoint";
 $breakpoint-to-ems: true;
+$hidpi: min-resolution 1.5dppx;
 
 $breakpoint-sm:	600px;
 $breakpoint:	760px;

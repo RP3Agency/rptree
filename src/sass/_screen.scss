@@ -20,7 +20,7 @@
 		width: 785px;
 
 		&::before {
-			color: #c1c1c1;
+			color: nth($grays, 2);
 			content: '\f099';
 			display: block;
 			font: {
@@ -44,6 +44,7 @@
 
 		a {
 			color: nth($blues, 1);
+			text-decoration: none;
 		}
 	}
 
@@ -65,5 +66,58 @@
 		padding: 1em 0;
 		position: absolute;
 		right: 0;
+	}
+}
+
+/** Adjustments for an alternate version of the screen */
+.screen-alt {
+
+	body {
+		background-color: nth($blues, 2);
+		background-image: url("../images/snow.png");
+		height: 100vh;
+		width: 100vw;
+
+		&::after {
+			background: url("../images/houses@2x.png") no-repeat -330px 100%;
+			background-size: 1000px auto;
+			bottom: 0;
+			content: "";
+			display: block;
+			height: 500px;
+			left: 0;
+			position: absolute;
+			width: 100%
+		}
+	}
+
+	main {
+		@extend %roboto-medium;
+		background-color: $white;
+		border: 2px solid nth($grays, 2);
+		border-radius: 35px;
+		font-size: rem(58px);
+		padding: 2rem 30px 2rem;
+		width: 90%;
+		z-index: 10;
+
+		&::before {
+			display: none;
+			top: 26px;
+		}
+
+		a {
+			color: mix(#000, nth($blues, 1), 20%);
+		}
+	}
+
+	.screen__user {
+		color: mix(#000, nth($blues, 1), 20%);
+		font-size: em(26px);
+	}
+
+
+	.screen__footer {
+		display: none;
 	}
 }

@@ -75,39 +75,49 @@
 	body {
 		background-color: nth($blues, 2);
 		background-image: url("../images/snow.png");
+		height: 100vh;
+		width: 100vw;
+
+		&::after {
+			background: url("../images/houses@2x.png") no-repeat -330px 100%;
+			background-size: 1000px auto;
+			bottom: 0;
+			content: "";
+			display: block;
+			height: 500px;
+			left: 0;
+			position: absolute;
+			width: 100%
+		}
 	}
 
 	main {
+		@extend %roboto-medium;
 		background-color: $white;
 		border: 2px solid nth($grays, 2);
 		border-radius: 35px;
-		left: 62.5%;
-		padding: 4rem 30px 2rem;
-		top: 2em;
-		transform: none;
-		width: 33%;
+		font-size: rem(58px);
+		padding: 2rem 30px 2rem;
+		width: 90%;
+		z-index: 10;
 
 		&::before {
+			display: none;
 			top: 26px;
+		}
+
+		a {
+			color: mix(#000, nth($blues, 1), 20%);
 		}
 	}
 
+	.screen__user {
+		color: mix(#000, nth($blues, 1), 20%);
+		font-size: em(26px);
+	}
+
+
 	.screen__footer {
-
-		&::after {
-			background: url("../images/houses.png") no-repeat 0 100%;
-			content: "";
-			display: block;
-			height: 402px;
-			left: 0;
-			position: absolute;
-			top: -402px;
-			width: 860px;
-
-			@include breakpoint($hidpi) {
-				background-image: url("../images/houses@2x.png");
-				background-size: 860px auto;
-			}
-		}
+		display: none;
 	}
 }

@@ -72,7 +72,74 @@ rptree.global = (function($) {
 
 }(jQuery));
 
+/**
+ * rptree.backbone
+ * Backbone all the things!
+ */
+rptree.backbone = (function($, _, Backbone) {
+
+	'use strict';
+
+	var
+
+	$pageTweets = $('#page__tweets'),
+
+	/**
+	 * Backbone Classes
+	 */
+	
+	/** Tweet model */
+	TweetModel = Backbone.Model.extend(),
+
+	/** Tweets Collection */
+	TweetsCollection = Backbone.Collection.extend({
+		url: 'http://rptree.com/feed',
+		model: TweetModel
+	}),
+
+	/** TweetListView */
+	TweetListView = Backbone.View.extend({
+		el: "#page__tweets",
+		render: function() {
+			var that = this;
+
+			tweetsCollection.fetch({
+				success: function(tweets) {
+					var template = _.template( $("#tweet-template").html() );
+					that.$el.append( template({tweets: tweets.models}));
+					$pageTweets.masonry();
+				},
+				error: function() {
+					alert( 'oh, snap!' );
+				}
+			});
+
+			return this;
+		},
+		initialize: function() {
+			this.render();
+		}
+	}),
+
+	/**
+	 * Backbone Objects
+	 */
+	
+	tweetsCollection = new TweetsCollection(),
+	tweetListView = new TweetListView(),
+
+	init = function() {
+		
+	};
+
+	return {
+		init:init
+	};
+
+}(jQuery, _, Backbone));
+
 (function() {
 	'use strict';
 	rptree.global.init();
+	rptree.backbone.init();
 }());

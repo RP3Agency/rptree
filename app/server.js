@@ -11,10 +11,11 @@ server = restify.createServer(app.config.server.options);
 
 // Load Restify middleware
 server.use(restify.queryParser());
+server.use(restify.CORS());
 
 // Define REST route to retrieve tweets from Mongo (used by Backbone)
 server.get('/feed', function(req, res) {
-	app.config.debug && console.log("<SRV> Feed request");
+	app.config.debug && console.log("<SRV> Feed request, params = " + JSON.stringify(req.params));
 	app.data.listTweets(req.params)
 	.then(function(tweets) {
 		res.json(tweets);

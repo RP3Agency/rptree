@@ -9,19 +9,19 @@
 
 <body>
 
-
-	<!-- <main class="fa fa-twitter"> -->
-	<main>
-
+	<script type="text/template" id="tweet-template">
+	<% _.each(tweets, function(tweet) { %>
 		<div class="screen__tweet">
-			<p>Making a charitable #donation this holiday season? Share where by tweeting w/ the hashtag #RPTree + watch rptree.com</p>
+			<%= tweet.get('text') %>
 		</div>
 
 		<div class="screen__user">
-			<p>@LindsayDLewis</p>
+			<p>@<%= tweet.get('user') %></p>
 		</div>
+	<% }); %>
+	</script>
 
-	</main>
+	<main id="page__tweets"></main>
 
 	<footer class="screen__footer">
 		<p>www.globalgiving.org/rp3agency</p>

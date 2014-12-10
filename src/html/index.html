@@ -105,11 +105,11 @@
 
 				<img src="<%= tweet.get('profileImage') %>" class="tweet__avatar">
 
-				<a href="https://twitter.com/<%= tweet.get('user') %>" class="tweet__handle">@rp3bcox</a>
+				<a href="https://twitter.com/<%= tweet.get('user') %>" class="tweet__handle">@<%= tweet.get('user') %></a>
 
 				<p class="tweet__content"><%= tweet.get('text') %></p>
 
-				<p class="tweet__timestamp"><%= tweet.get('timestamp') %></p>
+				<a title="<%= tweet.get('timestamp') %>" class="tweet__timestamp" id="tweet__timestamp"><%= tweet.get('timestamp') %></a>
 
 			</div>
 

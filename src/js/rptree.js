@@ -36,7 +36,7 @@ rptree.global = (function($) {
 
 		var $pageTweets = $('#page__tweets');
 
-		if ( $pageTweets.length > 0 ) {
+		if ( ( $pageTweets.length > 0 ) && ( ! $('html').hasClass('screen') ) ) {
 
 			$pageTweets.imagesLoaded( function() {
 				$pageTweets.masonry({
@@ -80,9 +80,27 @@ rptree.backbone = (function($, _, Backbone) {
 
 	'use strict';
 
-	var
+	// Determine if we're on the microsite or the screen page
 
-	$pageTweets = $('#page__tweets'),
+	var microsite, screen;
+
+	if ( $('html').hasClass('screen') ) {
+		microsite = false;
+		screen = true;
+	} else {
+		microsite = true;
+		screen = false;
+	}
+
+
+	// Set up our variables accordingly
+	var url = 'http://rptree.com/feed';
+
+	if ( screen ) {
+		url = url + '?limit=1';
+	}
+
+	var	$pageTweets = $('#page__tweets'),
 
 	/**
 	 * Backbone Classes
@@ -93,7 +111,7 @@ rptree.backbone = (function($, _, Backbone) {
 
 	/** Tweets Collection */
 	TweetsCollection = Backbone.Collection.extend({
-		url: 'http://rptree.com/feed',
+		url: url,
 		model: TweetModel
 	}),
 
@@ -105,9 +123,13 @@ rptree.backbone = (function($, _, Backbone) {
 
 			tweetsCollection.fetch({
 				success: function(tweets) {
+
 					var template = _.template( $("#tweet-template").html() );
 					that.$el.append( template({tweets: tweets.models}));
-					$pageTweets.masonry();
+
+					if ( microsite ) {
+						$pageTweets.masonry();
+					}
 				},
 				error: function() {
 					alert( 'oh, snap!' );
@@ -129,11 +151,11 @@ rptree.backbone = (function($, _, Backbone) {
 	tweetListView = new TweetListView(),
 
 	init = function() {
-		
 	};
 
 	return {
-		init:init
+		init:init,
+		tweetListView:tweetListView
 	};
 
 }(jQuery, _, Backbone));

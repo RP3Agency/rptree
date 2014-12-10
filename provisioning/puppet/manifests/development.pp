@@ -48,7 +48,7 @@ class othertools {
 
 class logs {
 	logrotate::rule { "${app_name}" :
-		path          => '/var/log/${app_name}/*.log',
+		path          => '/var/log/${app_name}.log',
 		rotate        => 14,
 		rotate_every  => 'daily',
 		compress      => true,

@@ -20,7 +20,7 @@
 		width: 785px;
 
 		&::before {
-			color: #c1c1c1;
+			color: nth($grays, 2);
 			content: '\f099';
 			display: block;
 			font: {
@@ -44,6 +44,7 @@
 
 		a {
 			color: nth($blues, 1);
+			text-decoration: none;
 		}
 	}
 
@@ -65,5 +66,48 @@
 		padding: 1em 0;
 		position: absolute;
 		right: 0;
+	}
+}
+
+/** Adjustments for an alternate version of the screen */
+.screen-alt {
+
+	body {
+		background-color: nth($blues, 2);
+		background-image: url("../images/snow.png");
+	}
+
+	main {
+		background-color: $white;
+		border: 2px solid nth($grays, 2);
+		border-radius: 35px;
+		left: 62.5%;
+		padding: 4rem 30px 2rem;
+		top: 2em;
+		transform: none;
+		width: 33%;
+
+		&::before {
+			top: 26px;
+		}
+	}
+
+	.screen__footer {
+
+		&::after {
+			background: url("../images/houses.png") no-repeat 0 100%;
+			content: "";
+			display: block;
+			height: 402px;
+			left: 0;
+			position: absolute;
+			top: -402px;
+			width: 860px;
+
+			@include breakpoint($hidpi) {
+				background-image: url("../images/houses@2x.png");
+				background-size: 860px auto;
+			}
+		}
 	}
 }

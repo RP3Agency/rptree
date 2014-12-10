@@ -1,7 +1,35 @@
 .banner {
-	font-size: rem(18px);
+	background-color: nth($blues, 2);
 	position: relative;
 	transition: font-size 200ms linear;
+
+	/** Animated snow. Because of course. */
+
+	.snow {
+		background: transparent url("../images/snow.png") repeat;
+		bottom: 0;
+		left: 0;
+		position: absolute;
+		right: 0;
+		top: 0;
+		transform: translateZ(0); // Enable hardware acceleration for better performance
+
+		&--background {
+			animation: snow--background 120s linear infinite;
+			background-size: 70%;
+			opacity: 0.8;
+			z-index: 0;
+		}
+
+		&--foreground {
+			animation: snow--foreground 120s linear infinite;
+			opacity: 0.9;
+			z-index: 10;
+		}
+	}
+
+	/** Font sizes */
+	font-size: rem(18px);
 
 	@include breakpoint($breakpoint-sm) {
 		font-size: rem(25px);
@@ -24,7 +52,7 @@
 		&::before {
 			content: "";
 			display: block;
-			padding-top: percentage(980px / 1500px);
+			padding-top: percentage(700px / 1500px);
 
 			@include breakpoint($breakpoint) {
 				padding-top: percentage(980px / 3200px);
@@ -32,7 +60,6 @@
 		}
 
 		&-inner {
-			background-color: $blue;
 			bottom: 0;
 			left: 0;
 			position: absolute;
@@ -41,49 +68,28 @@
 
 			img {
 				bottom: -1px;
+				left: 50%;
 				max-width: (1720px / 2);
 				position: absolute;
-				right: -10%;
-				width: 120%;
+				transform: translate(-50%, 0);
+				width: 95%;
 				z-index: 5;
 
 				@include breakpoint($breakpoint) {
-					right: percentage(125px / 3200px);
+					left: auto;
 					max-width: (1720px / 2);
+					right: percentage(45px / 3200px);
+					transform: none;
 					width: percentage(1720px / 3200px);
-				}
-			}
-
-			/** Animated snow. Because of course. */
-
-			.snow {
-				background: transparent url("../images/snow.png") repeat;
-				bottom: 0;
-				left: 0;
-				position: absolute;
-				right: 0;
-				top: 0;
-				transform: translateZ(0); // Enable hardware acceleration for better performance
-
-				&--background {
-					animation: snow--background 120s linear infinite;
-					background-size: 70%;
-					opacity: 0.8;
-					z-index: 0;
-				}
-
-				&--foreground {
-					animation: snow--foreground 120s linear infinite;
-					opacity: 0.9;
-					z-index: 10;
 				}
 			}
 		}
 	}
 
 	&__content {
-		background-color: $red;
-		color: $white;
+		@extend %roboto-light;
+		color: $black;
+		line-height: (70 / 50);
 		margin-top: -1px;
 		padding: em(40px) percentage( 130px / 1500px );
 
@@ -99,48 +105,10 @@
 	}
 
 	&__header {
-		@extend %opensans-semibold;
-		font-size: rem(18px);
+		color: $green;
+		font-size: em(50px);
+		line-height: (110 / 100);
 		margin-bottom: 0.5em;
-		text-transform: uppercase;
-
-		@include breakpoint($breakpoint-sm) {
-			font-size: em(45px);
-		}
-
-		@include breakpoint($breakpoint) {
-			font-size: em(25px, 18px);
-		}
-
-		@include breakpoint($breakpoint-lg) {
-			font-size: em(45px);
-		}
-	}
-
-	&__logo {
-		display: none;
-		height: 50px;
-		position: absolute;
-		right: percentage( 122px / 3200px );
-		top: rem(112px / 4);
-		width: 70px;
-
-		transition-property: height, top, width;
-		transition: 200ms linear;
-
-		@include breakpoint($breakpoint) {
-			display: block;
-		}
-
-		@include breakpoint($breakpoint-lg) {
-			height: (164px / 2);
-			top: rem(112px / 2);
-			width: (228px / 2);
-		}
-
-		path {
-			fill: $white;
-		}
 	}
 }
 

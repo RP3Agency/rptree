@@ -4,6 +4,8 @@ GEM
     breakpoint (2.5.0)
       sass (~> 3.3)
       sassy-maps (< 1.0.0)
+    font-awesome-sass (4.2.2)
+      sass (~> 3.2)
     sass (3.4.9)
     sassy-maps (0.4.0)
       sass (~> 3.3)
@@ -13,4 +15,5 @@ PLATFORMS
 
 DEPENDENCIES
   breakpoint (~> 2.5.0)
+  font-awesome-sass
   sass (~> 3.4.9)

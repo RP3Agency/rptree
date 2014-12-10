@@ -9,10 +9,19 @@ $breakpoint-lg:	1120px;
 /** Eric Meyer Reset */
 @import "reset";
 
+/** Font Awesome */
+@import "font-awesome";
+
+/** Emoji */
+@import "emoji";
+
 /** Variables */
 @import "variables";
 
-/** Formulae */
+/** Extend (placeholder selectors) */
+@import "extend";
+
+/** Functions */
 @import "functions";
 
 /** Mixins */

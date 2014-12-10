@@ -27,7 +27,10 @@ var data = {
 		};
 		var query = {};
 		if(params.before && Date.parse(params.before)) {
-			query.timestamp = { $lt: new Date(params.before) };
+			_.assign(query, { timestamp: { $lt: new Date(params.before) } });
+		}
+		if(params.after && Date.parse(params.after)) {
+			_.assign(query, { timestamp: { $gt: new Date(params.after) } });
 		}
 		var result = tweets.find(query, opts);
 		return Promise.cast(result);

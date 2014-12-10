@@ -9,25 +9,27 @@
 
 <body>
 
-
-	<!-- <main class="fa fa-twitter"> -->
-	<main>
-
+	<script type="text/template" id="tweet-template">
+	<% _.each(tweets, function(tweet) { %>
 		<div class="screen__tweet">
-			<p>Making a charitable #donation this holiday season? Share where by tweeting w/ the hashtag #RPTree + watch rptree.com</p>
+			<%= tweet.get('text') %>
 		</div>
 
 		<div class="screen__user">
-			<p>@LindsayDLewis</p>
+			<p>@<%= tweet.get('user') %></p>
 		</div>
+	<% }); %>
+	</script>
 
-	</main>
+	<main id="page__tweets"></main>
 
 	<footer class="screen__footer">
 		<p>www.globalgiving.org/rp3agency</p>
 	</footer>
 
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
 	<script src="js/rptree-plugins.min.js"></script>
 	<script src="js/rptree.min.js"></script>
 </body>

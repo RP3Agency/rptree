@@ -35,6 +35,16 @@
 			transform: translate(-50%, 0);
 			width: 45px;
 		}
+
+		&::after {
+			clear: both;
+			content: "";
+			display: table;
+		}
+
+		a {
+			color: nth($blues, 1);
+		}
 	}
 
 	&__tweet {

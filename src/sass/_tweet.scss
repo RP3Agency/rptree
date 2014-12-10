@@ -38,6 +38,10 @@
 
 	&__content {
 		margin-bottom: 0.5em;
+
+		a {
+			color: nth($blues, 1);
+		}
 	}
 
 	&__timestamp {

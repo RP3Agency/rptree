@@ -55,13 +55,15 @@
     "gulp-minify-html": "^0.1.7"
   },
   "dependencies": {
-    "config": "~1.8.1",
-    "restify": "~2.8.3",
     "bluebird": "~2.3.11",
+    "config": "~1.8.1",
+    "emoji": "^0.3.2",
     "lodash": "~2.4.1",
     "monk": "~0.9.1",
     "node-osc": "~0.3.0",
-    "ntwitter": "~0.5.0",
+    "require-directory": "^2.0.0",
+    "restify": "~2.8.3",
+    "twitter": "~0.2.13",
     "twitter-text": "~1.10.0",
     "webpurify": "~0.8.3"
   }

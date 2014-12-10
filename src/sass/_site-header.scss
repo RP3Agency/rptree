@@ -15,15 +15,6 @@
 		width: ( 286px / 2 );
 	}
 
-	/** Social media */
-	$social-media: (
-		'linkedin',
-		'facebook',
-		'twitter',
-		'instagram',
-		'youtube-play'
-	);
-
 	&__social {
 		@extend %clearfix;
 		color: nth($blues, 1);
@@ -77,6 +68,15 @@
 					width: 28px;
 				}
 			}
+
+			/** Social media */
+			$social-media: (
+				'linkedin',
+				'facebook',
+				'twitter',
+				'instagram',
+				'youtube-play'
+			);
 
 			@each $service in $social-media {
 				&.#{$service} a {

@@ -1,0 +1,59 @@
+.screen {
+	height: 100vh;
+	width: 100vw;
+
+	body {
+		@extend %roboto-light;
+		background-color: $white;
+		font-size: em(35px);
+		height: 100%;
+		position: relative;
+		text-align: center;
+		width: 100%;
+	}
+
+	main {
+		left: 50%;
+		position: absolute;
+		top: 50%;
+		transform: translate(-50%, -50%);
+		width: 785px;
+
+		&::before {
+			color: #c1c1c1;
+			content: '\f099';
+			display: block;
+			font: {
+				family: FontAwesome;
+				size: em(36px);
+			}
+			height: 45px;
+			left: 50%;
+			line-height: 1;
+			position: absolute;
+			top: -90px;
+			transform: translate(-50%, 0);
+			width: 45px;
+		}
+	}
+
+	&__tweet {
+		margin-bottom: rem(45px);
+	}
+
+	&__user {
+		color: nth($blues, 1);
+		font-size: em(26px);
+	}
+
+	&__footer {
+		background-color: nth($blues, 1);
+		bottom: 0;
+		color: $white;
+		font-size: em(26px);
+		left: 0;
+		padding: 1em 0;
+		position: absolute;
+		right: 0;
+	}
+}

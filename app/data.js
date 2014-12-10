@@ -14,7 +14,7 @@ var _ = require('lodash'),
 
 // Ensure indexes
 var tweets = db.get('tweets');
-tweets.index('id', { unique: true });
+tweets.index({ 'id': -1 }, { unique: true });
 tweets.index({ 'timestamp': -1 });
 
 // Create database singleton
@@ -32,6 +32,13 @@ var data = {
 		if(params.after && Date.parse(params.after)) {
 			_.assign(query, { timestamp: { $gt: new Date(params.after) } });
 		}
+		if(params.since && !_.isNaN(parseInt(params.since))) {
+			_.assign(query, { id: { $gt: params.since } });
+		}
+		if(params.priorTo && !_.isNaN(parseInt(params.priorTo))) {
+			_.assign(query, { id: { $lte: params.priorTo } });
+		}
+
 		var result = tweets.find(query, opts);
 		return Promise.cast(result);
 	},

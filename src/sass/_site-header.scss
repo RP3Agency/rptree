@@ -1,14 +1,88 @@
 .site-header {
+	@extend %clearfix;
 	background-color: $white;
 	padding: rem(56px / 2) percentage(121px / 1500px) rem(40px / 2);
 
 	&__wrapper {
+		@extend %clearfix;
 		margin: 0 auto;
 		max-width: em(1600px, $default-font-size);
 	}
 
 	&__header {
+		float: left;
 		height: ( 96px / 2);
 		width: ( 286px / 2 );
+	}
+
+	/** Social media */
+	$social-media: (
+		'linkedin',
+		'facebook',
+		'twitter',
+		'instagram',
+		'youtube-play'
+	);
+
+	&__social {
+		@extend %clearfix;
+		color: nth($blues, 1);
+		display: none;
+		float: right;
+		height: 48px;
+		position: relative;
+
+		@include breakpoint(640px) {
+			display: block;
+		}
+
+		li {
+			float: left;
+			margin: 0 14px;
+
+			&:first-child {
+				margin-left: 0;
+			}
+
+			&:last-child {
+				margin-right: 0;
+			}
+
+			a {
+				color: currentColor;
+				text-decoration: none;
+			}
+
+			&.rp3 a {
+				@extend %roboto-regular;
+				display: block;
+				font-size: em(15px);
+				line-height: 48px;
+			}
+
+			&:not(.rp3) a {
+				@extend .fa;
+				height: 48px;
+				overflow: hidden;
+				position: relative;
+				white-space: nowrap;
+				width: 28px;
+
+				&::before {
+					display: block;
+					height: 48px;
+					line-height: 48px;
+					text-align: center;
+					text-indent: 0;
+					width: 28px;
+				}
+			}
+
+			@each $service in $social-media {
+				&.#{$service} a {
+					@extend .fa-#{$service};
+				}
+			}
+		}
 	}
 }

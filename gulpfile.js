@@ -39,12 +39,14 @@ var // Project
 	src_sass		= src + '/sass',
 	src_html		= src + '/html',
 	src_images		= src + '/images',
+	src_fonts		= src + '/fonts',
 
 	// Destination files, WordPress
 	dest			= __dirname + '/www',
 	dest_js			= dest + '/js',
 	dest_css		= dest + '/css',
-	dest_images		= dest + '/images';
+	dest_images		= dest + '/images',
+	dest_fonts		= dest + '/fonts';
 
 /**
  * Now, let's do things.
@@ -57,7 +59,7 @@ gulp.task('styles', function() {
 	return gulp.src(src_sass + '/*.scss')
 		.pipe(sass({
 			bundleExec: true,
-			require: ['breakpoint']
+			require: ['breakpoint', 'font-awesome-sass']
 		}))
 		.on( 'error', gutil.log )
 		.pipe(sourcemaps.init())
@@ -120,7 +122,15 @@ gulp.task('images', function() {
 
 	return gulp.src(filesToMove)
 		.pipe(gulp.dest(dest_images));
-})
+});
+
+// Fonts
+gulp.task('fonts', function() {
+	var filesToMove = [ src_fonts + '/**/*.*' ];
+
+	return gulp.src(filesToMove)
+		.pipe(gulp.dest(dest_fonts));
+});
 
 
 // Clean
@@ -144,7 +154,7 @@ gulp.task('build-www', function() {
 });
 
 // build: run the build-www, CSS & JS processing tasks
-gulp.task('build', ['styles', 'scripts', 'images'], function() {
+gulp.task('build', ['styles', 'scripts', 'images', 'fonts'], function() {
 	gulp.start('build-www');
 });
 

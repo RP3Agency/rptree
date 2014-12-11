@@ -1,7 +1,13 @@
 .banner {
 	background-color: nth($blues, 2);
+	font-size: rem(18px);
+	overflow: hidden;
 	position: relative;
-	transition: font-size 200ms linear;
+
+	a {
+		font-weight: $font-weight-medium;
+		text-decoration: none;
+	}
 
 	/** Animated snow. Because of course. */
 
@@ -28,21 +34,6 @@
 		}
 	}
 
-	/** Font sizes */
-	font-size: rem(18px);
-
-	@include breakpoint($breakpoint-sm) {
-		font-size: rem(25px);
-	}
-
-	@include breakpoint($breakpoint) {
-		font-size: rem(18px)
-	}
-
-	@include breakpoint($breakpoint-lg) {
-		font-size: rem(25px);
-	}
-
 	&__wrapper {
 		@extend %clearfix;
 		margin: 0 auto;
@@ -64,7 +55,7 @@
 
 	&__graphic {
 		max-height: rem(980px / 2);
-		overflow: hidden;
+		// overflow: hidden;
 		position: relative;
 		width: 100%;
 
@@ -73,8 +64,8 @@
 			display: block;
 			padding-top: percentage(700px / 1500px);
 
-			@include breakpoint($breakpoint) {
-				padding-top: percentage(980px / 3200px);
+			@include breakpoint($breakpoint-lg) {
+				padding-top: percentage(1300px / 3200px);
 			}
 		}
 
@@ -85,6 +76,10 @@
 			right: 0;
 			top: 0;
 
+			@include breakpoint($breakpoint-lg) {
+				right: -170px;
+			}
+
 			img {
 				bottom: -1px;
 				left: 50%;
@@ -94,7 +89,7 @@
 				width: 95%;
 				z-index: 5;
 
-				@include breakpoint($breakpoint) {
+				@include breakpoint($breakpoint-lg) {
 					left: auto;
 					max-width: (1720px / 2);
 					right: percentage(45px / 3200px);
@@ -114,8 +109,7 @@
 		position: relative;
 		z-index: 20;
 
-		@include breakpoint($breakpoint) {
-			background-color: transparent;
+		@include breakpoint($breakpoint-lg) {
 			left: percentage(121px / 1500px);
 			padding: 0;
 			position: absolute;
@@ -131,7 +125,7 @@
 
 	&__header {
 		color: $green;
-		font-size: em(50px);
+		font-size: em(34px);
 		line-height: (110 / 100);
 		margin-bottom: 0.5em;
 	}

@@ -50,6 +50,10 @@ body {
 	background-color: nth($grays, 3);
 }
 
+p {
+	margin: 0.5em 0;
+}
+
 a {
 	color: nth($blues, 1);
 }

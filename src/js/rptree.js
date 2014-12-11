@@ -111,7 +111,7 @@ rptree.backbone = (function($, _, Backbone) {
 				return null;
 			}
 			var first = this.first();
-			if(first && (first.get('id') > this.firstTweetID)) {
+			if(first && (this.firstTweetID == null || first.get('id') > this.firstTweetID)) {
 				this.firstTweetID = first.get('id');
 			}
 			return this.firstTweetID;
@@ -122,13 +122,13 @@ rptree.backbone = (function($, _, Backbone) {
 				return null;
 			}
 			var last = this.last();
-			if(last) {
+			if(last && (this.lastTweetID == null || last.get('id') < this.lastTweetID)) {
 				this.lastTweetID = last.get('id');
 			}
 			return this.lastTweetID;
 		},
 		url: function() {
-			var url = location.href + 'feed';
+			var url = 'http://' + location.host + '/feed';
 			var params = {
 				priorTo: this.lastTweet(),
 				since: this.firstTweet(),
@@ -149,7 +149,9 @@ rptree.backbone = (function($, _, Backbone) {
 		el: "#page__tweets",
 		initialize: function() {
 			_.bindAll(this, 'checkScroll', 'refresh');
-			$(window).scroll(this.checkScroll);
+			if (microsite) {
+				$(window).scroll(this.checkScroll);
+			}
 			this.timer = setInterval(this.refresh, 5000);
 			this.isLoading = false;
 			this.isAppending = false;
@@ -165,6 +167,9 @@ rptree.backbone = (function($, _, Backbone) {
 		loadResults: function(refresh) {
 			var that = this;
 
+			if(this.isLoading) {
+				return this;
+			}
 			this.isLoading = true;
 			if(refresh) {
 				this.tweetsCollection.isUpdating = true;
@@ -173,36 +178,43 @@ rptree.backbone = (function($, _, Backbone) {
 				success: function(tweets) {
 					var content = $( tweetTemplate({ tweets: tweets.models }) );
 
-					if(refresh) {
-						content.insertBefore($('.tweet:first()', that.$el));
-					} else {
-						that.$el.append(content);
+					if ( screen && tweets.models.length) {
+						that.$el.html(content);
 					}
-					content.find('.tweet__timestamp').prettyDate();
 
 					if ( microsite ) {
 						if(refresh) {
+							content.insertBefore($('.tweet:first()', that.$el));
 							that.$el.masonry('prepended', content);
-							that.tweetsCollection.isUpdating = false;
-						} else if(that.isAppending) {
-							that.$el.masonry('appended', content);
 						} else {
-							that.$el.masonry({
-								columnWidth: '.tweet',
-								itemSelector: '.tweet',
-								gutter: '.masonry-gutter',
-								stamp: ".page__video"
-							});
-							that.isAppending = true;
+							that.$el.append(content);
+							if(that.isAppending) {
+								that.$el.masonry('appended', content);
+							} else {
+								that.$el.masonry({
+									columnWidth: '.tweet',
+									itemSelector: '.tweet',
+									gutter: '.masonry-gutter',
+									stamp: ".page__video"
+								});
+								that.isAppending = true;
+							}
 						}
+						content.find('.tweet__timestamp').prettyDate();
 					}
 
+					that.tweetsCollection.firstTweet();
+					that.tweetsCollection.lastTweet();
+
+					that.tweetsCollection.isUpdating = false;
 					that.isLoading = false;
 				},
 				error: function() {
-					alert( 'oh, snap!' );
+					// silently return to listening state
+					that.tweetsCollection.isUpdating = false;
+					that.isLoading = false;
 				}
-			}, { remove: false });
+			});
 
 			return this;
 		},
@@ -213,7 +225,7 @@ rptree.backbone = (function($, _, Backbone) {
 			if( !this.isLoading && ($(window).scrollTop() + $(window).height() > $(document).height() - 100) ) {
 				this.loadResults();
 			}
-		}, 0)
+		}, 100)
 	}),
 
 	/**

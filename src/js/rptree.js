@@ -53,9 +53,33 @@ rptree.global = (function($) {
 		$('#page__video').fitVids();
 	},
 
+	/**
+	 * sundown
+	 * adjust the class on the screen depending on the time of day.
+	 * of course.
+	 */
+	sundown = function() {
+
+		var date = new Date(),
+			hour = date.getHours(),
+			$html = $('html.screen');
+
+		if ($html.length > 0) {
+			if ( (hour > 6) && (hour < 16) ) {
+				$html.removeClass('night').addClass('day');
+			} else {
+				$html.removeClass('day').addClass('night');
+			}
+		}
+	},
+
 	init = function() {
 		masonry();
 		fitVids();
+
+		setInterval(function() {
+			sundown();
+		}, 60000);
 
 		$(window).on( 'scroll', function() {
 			// Do something else.

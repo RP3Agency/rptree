@@ -4,8 +4,6 @@
 
 	body {
 		@extend %roboto-regular;
-		background-color: nth($blues, 3);
-		color: $white;
 		font-size: em(58px);
 		height: 100%;
 		position: relative;
@@ -57,4 +55,15 @@
 		@extend %roboto-bold;
 		font-size: em(26px);
 	}
+}
+
+
+html.screen.day body {
+	background-color: nth($blues, 2);
+	color: $black;
+}
+
+html.screen.night body {
+	background-color: nth($blues, 3);
+	color: $white;
 }

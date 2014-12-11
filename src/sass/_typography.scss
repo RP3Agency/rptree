@@ -1,5 +1,5 @@
 /** Load in Google fonts */
-@import url(http://fonts.googleapis.com/css?family=Roboto:500,300,400|Open+Sans:600);
+@import url(http://fonts.googleapis.com/css?family=Roboto:500,300,400,700|Open+Sans:600);
 
 /** Set our font sets as placeholder selectors to be @extend-ed */
 
@@ -10,6 +10,7 @@ $font-weight-light:			300;
 $font-weight-regular:		400;
 $font-weight-medium:		500;
 $font-weight-semibold:		600;
+$font-weight-bold:			700;
 
 %roboto-light {
 	font: {
@@ -29,6 +30,13 @@ $font-weight-semibold:		600;
 	font: {
 		family: $font-family-roboto;
 		weight: $font-weight-medium;
+	}
+}
+
+%roboto-bold {
+	font: {
+		family: $font-family-roboto;
+		weight: $font-weight-bold;
 	}
 }
 

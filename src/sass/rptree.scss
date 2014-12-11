@@ -49,3 +49,7 @@ $breakpoint-lg:	1120px;
 body {
 	background-color: nth($grays, 3);
 }
+
+a {
+	color: nth($blues, 1);
+}

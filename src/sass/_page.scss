@@ -1,8 +1,16 @@
 .page {
-	padding: rem(20px) percentage(30px / 1500px);
+	padding: rem(20px) percentage(115px / 1500px);
 	margin: 0 auto;
-	max-width: em(1600px, $default-font-size);
+	max-width: em(1830px, $default-font-size);
 	position: relative;
+
+	@include breakpoint(1830px) {
+		max-width: em(1600px);
+		padding: {
+			left: 0;
+			right: 0;
+		}
+	}
 
 	&__video {
 		border-radius: 8px;

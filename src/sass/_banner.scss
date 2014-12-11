@@ -43,6 +43,25 @@
 		font-size: rem(25px);
 	}
 
+	&__wrapper {
+		@extend %clearfix;
+		margin: 0 auto;
+		max-width: em(1830px, $default-font-size);
+		padding: {
+			left: percentage(115px / 1500px);
+			right: percentage(115px / 1500px);
+		}
+		position: relative;
+
+		@include breakpoint(1830px) {
+			max-width: em(1600px);
+			padding: {
+				left: 0;
+				right: 0;
+			}
+		}
+	}
+
 	&__graphic {
 		max-height: rem(980px / 2);
 		overflow: hidden;
@@ -91,16 +110,22 @@
 		color: $black;
 		line-height: (70 / 50);
 		margin-top: -1px;
-		padding: em(40px) percentage( 130px / 1500px );
+		padding: em(40px) 0;
+		position: relative;
+		z-index: 20;
 
 		@include breakpoint($breakpoint) {
 			background-color: transparent;
-			left: percentage(90px / 3200px);
+			left: percentage(121px / 1500px);
 			padding: 0;
 			position: absolute;
 			top: 50%;
 			transform: translate(0, -50%);
 			width: 40%;
+		}
+
+		@include breakpoint(1830px) {
+			left: 0;
 		}
 	}
 

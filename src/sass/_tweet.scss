@@ -38,10 +38,6 @@
 
 	&__content {
 		margin-bottom: 0.5em;
-
-		a {
-			color: nth($blues, 1);
-		}
 	}
 
 	&__timestamp {
@@ -50,17 +46,8 @@
 	}
 
 	&__footer {
-		@extend %roboto-light;
 		background-color: nth($blues, 1);
-		border-radius: 0 0 8px 8px;
-		font-size: em(16px);
-		overflow: hidden;
-		padding: rem(15px) percentage(57px / 689px);
-
-		a {
-			color: $white;
-			display: block;
-		}
+		height: rem(15px);
 	}
 }
 

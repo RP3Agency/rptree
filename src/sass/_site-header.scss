@@ -1,12 +1,20 @@
 .site-header {
 	@extend %clearfix;
 	background-color: $white;
-	padding: rem(56px / 2) percentage(121px / 1500px) rem(40px / 2);
+	padding: rem(56px / 2) percentage(115px / 1500px) rem(48px);
+
+	@include breakpoint(1830px) {
+		padding: {
+			left: 0;
+			right: 0;
+		}
+	}
 
 	&__wrapper {
 		@extend %clearfix;
 		margin: 0 auto;
 		max-width: em(1600px, $default-font-size);
+		position: relative;
 	}
 
 	&__header {
@@ -15,16 +23,46 @@
 		width: ( 286px / 2 );
 	}
 
+	&__links {
+		@include breakpoint(668px) {
+			float: right;
+			height: rem(48px);
+			overflow: hidden;
+		}
+	}
+
+	&__rp3 {
+		display: inline-block;
+		position: absolute;
+		right: 0;
+		top: 0;
+
+		@include breakpoint(668px) {
+			position: static;
+			line-height: rem(48px);
+			height: rem(48px);
+			float: left;
+		}
+
+		a {
+			@extend %roboto-regular;
+			font-size: em(15px);
+			text-decoration: none;
+		}
+	}
+
 	&__social {
 		@extend %clearfix;
+		bottom: rem(-48px);
 		color: nth($blues, 1);
-		display: none;
-		float: right;
-		height: 48px;
-		position: relative;
+		display: inline-block;
+		height: rem(48px);
+		left: 0;
+		overflow: hidden;
+		position: absolute;
 
-		@include breakpoint(640px) {
-			display: block;
+		@include breakpoint(668px) {
+			position: static;
 		}
 
 		li {
@@ -33,6 +71,10 @@
 
 			&:first-child {
 				margin-left: 0;
+
+				@include breakpoint(668px) {
+					margin-left: 21px;
+				}
 			}
 
 			&:last-child {
@@ -44,14 +86,7 @@
 				text-decoration: none;
 			}
 
-			&.rp3 a {
-				@extend %roboto-regular;
-				display: block;
-				font-size: em(15px);
-				line-height: 48px;
-			}
-
-			&:not(.rp3) a {
+			a {
 				@extend .fa;
 				height: 48px;
 				overflow: hidden;

@@ -23,7 +23,7 @@ var data = {
 		var opts = {
 			skip: _.parseInt(params.skip) || 0,
 			limit: _.parseInt(params.limit) || app.config.feed.pagesize,
-			sort: { timestamp: -1 }
+			sort: { id: -1 }
 		};
 		var query = {};
 		if(params.before && Date.parse(params.before)) {
@@ -36,7 +36,7 @@ var data = {
 			_.assign(query, { id: { $gt: params.since } });
 		}
 		if(params.priorTo && !_.isNaN(parseInt(params.priorTo))) {
-			_.assign(query, { id: { $lte: params.priorTo } });
+			_.assign(query, { id: { $lt: params.priorTo } });
 		}
 
 		var result = tweets.find(query, opts);

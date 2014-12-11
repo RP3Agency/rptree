@@ -92,70 +92,152 @@ rptree.backbone = (function($, _, Backbone) {
 		screen = false;
 	}
 
-
-	// Set up our variables accordingly
-	var url = 'http://rptree.com/feed';
-
-	if ( screen ) {
-		url = url + '?limit=1';
-	}
-
-	var	$pageTweets = $('#page__tweets'),
+	// Cache the tweet template for reuse
+	var tweetTemplate = _.template( $("#tweet-template").html() ),
 
 	/**
 	 * Backbone Classes
 	 */
-	
+
 	/** Tweet model */
 	TweetModel = Backbone.Model.extend(),
 
 	/** Tweets Collection */
 	TweetsCollection = Backbone.Collection.extend({
-		url: url,
+		isUpdating: false,
+		firstTweetID: null,
+		firstTweet: function() {
+			if(!this.isUpdating) {
+				return null;
+			}
+			var first = this.first();
+			if(first && (this.firstTweetID === null || first.get('id') > this.firstTweetID)) {
+				this.firstTweetID = first.get('id');
+			}
+			return this.firstTweetID;
+		},
+		lastTweetID: null,
+		lastTweet: function() {
+			if(this.isUpdating) {
+				return null;
+			}
+			var last = this.last();
+			if(last && (this.lastTweetID === null || last.get('id') < this.lastTweetID)) {
+				this.lastTweetID = last.get('id');
+			}
+			return this.lastTweetID;
+		},
+		url: function() {
+			var url = 'http://' + location.host + '/feed';
+			var params = {
+				priorTo: this.lastTweet(),
+				since: this.firstTweet(),
+			};
+			if(screen) {
+				params.limit = 1;
+			}
+			if(_.any(params, _.identity)) {
+				url += '?' + $.param(_.pick(params, _.identity));
+			}
+			return url;
+		},
 		model: TweetModel
 	}),
 
 	/** TweetListView */
 	TweetListView = Backbone.View.extend({
 		el: "#page__tweets",
+		initialize: function() {
+			_.bindAll(this, 'checkScroll', 'refresh');
+			if (microsite) {
+				$(window).scroll(this.checkScroll);
+			}
+			this.timer = setInterval(this.refresh, 5000);
+			this.isLoading = false;
+			this.isAppending = false;
+			this.tweetsCollection = new TweetsCollection();
+			this.render();
+		},
 		render: function() {
+			this.loadResults();
+		},
+		refresh: function() {
+			this.loadResults(true);
+		},
+		loadResults: function(refresh) {
 			var that = this;
 
-			tweetsCollection.fetch({
+			if(this.isLoading) {
+				return this;
+			}
+			this.isLoading = true;
+			if(refresh) {
+				this.tweetsCollection.isUpdating = true;
+			}
+			this.tweetsCollection.fetch({
 				success: function(tweets) {
+					var content = $( tweetTemplate({ tweets: tweets.models }) );
 
-					var template = _.template( $("#tweet-template").html() );
-					that.$el.append( template({tweets: tweets.models}));
+					if ( screen && tweets.models.length) {
+						that.$el.html(content);
+					}
 
 					if ( microsite ) {
-						$pageTweets.masonry();
+						if(refresh) {
+							content.insertBefore($('.tweet:first()', that.$el));
+							that.$el.masonry('prepended', content);
+						} else {
+							that.$el.append(content);
+							if(that.isAppending) {
+								that.$el.masonry('appended', content);
+							} else {
+								that.$el.masonry({
+									columnWidth: '.tweet',
+									itemSelector: '.tweet',
+									gutter: '.masonry-gutter',
+									stamp: ".page__video"
+								});
+								that.isAppending = true;
+							}
+						}
+						content.find('.tweet__timestamp').prettyDate();
 					}
+
+					that.tweetsCollection.firstTweet();
+					that.tweetsCollection.lastTweet();
+
+					that.tweetsCollection.isUpdating = false;
+					that.isLoading = false;
 				},
 				error: function() {
-					alert( 'oh, snap!' );
+					// silently return to listening state
+					that.tweetsCollection.isUpdating = false;
+					that.isLoading = false;
 				}
 			});
 
 			return this;
 		},
-		initialize: function() {
-			this.render();
-		}
+		events: {
+			'scroll': 'checkScroll'
+		},
+		checkScroll: _.debounce(function() {
+			if( !this.isLoading && ($(window).scrollTop() + $(window).height() > $(document).height() - 100) ) {
+				this.loadResults();
+			}
+		}, 100)
 	}),
 
 	/**
 	 * Backbone Objects
 	 */
-	
-	tweetsCollection = new TweetsCollection(),
-	tweetListView = new TweetListView(),
 
 	init = function() {
 	};
 
 	return {
 		init:init,
-		tweetListView:tweetListView
+		tweetListView: new TweetListView()
 	};
 
 }(jQuery, _, Backbone));

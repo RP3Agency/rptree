@@ -111,7 +111,7 @@ rptree.backbone = (function($, _, Backbone) {
 				return null;
 			}
 			var first = this.first();
-			if(first && (this.firstTweetID == null || first.get('id') > this.firstTweetID)) {
+			if(first && (this.firstTweetID === null || first.get('id') > this.firstTweetID)) {
 				this.firstTweetID = first.get('id');
 			}
 			return this.firstTweetID;
@@ -122,7 +122,7 @@ rptree.backbone = (function($, _, Backbone) {
 				return null;
 			}
 			var last = this.last();
-			if(last && (this.lastTweetID == null || last.get('id') < this.lastTweetID)) {
+			if(last && (this.lastTweetID === null || last.get('id') < this.lastTweetID)) {
 				this.lastTweetID = last.get('id');
 			}
 			return this.lastTweetID;

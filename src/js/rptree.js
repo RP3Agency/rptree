@@ -26,29 +26,6 @@ rptree.global = (function($) {
 
 	var
 
-	/**
-	 * masonry layout for tweets
-	 * http://masonry.desandro.com/
-	 */
-	masonry = function() {
-
-		// breakpoint medium and up
-
-		var $pageTweets = $('#page__tweets');
-
-		if ( ( $pageTweets.length > 0 ) && ( ! $('html').hasClass('screen') ) ) {
-
-			$pageTweets.imagesLoaded( function() {
-				$pageTweets.masonry({
-					columnWidth: '.tweet',
-					itemSelector: '.tweet',
-					gutter: '.masonry-gutter',
-					stamp: ".page__video"
-				});
-			});
-		}
-	},
-
 	fitVids = function() {
 		$('#page__video').fitVids();
 	},
@@ -74,12 +51,10 @@ rptree.global = (function($) {
 	},
 
 	init = function() {
-		masonry();
+		sundown();
 		fitVids();
 
-		setInterval(function() {
-			sundown();
-		}, 60000);
+		setInterval(sundown, 60000);
 
 		$(window).on( 'scroll', function() {
 			// Do something else.
@@ -221,14 +196,16 @@ rptree.backbone = (function($, _, Backbone) {
 									gutter: '.masonry-gutter',
 									stamp: ".page__video"
 								});
+								that.$el.imagesLoaded(function() {
+									that.$el.masonry();
+								});
 								that.isAppending = true;
+								that.tweetsCollection.firstTweetID = tweets.first().get('id');
+								that.tweetsCollection.lastTweetID = tweets.last().get('id');
 							}
 						}
 						content.find('.tweet__timestamp').prettyDate();
 					}
-
-					that.tweetsCollection.firstTweet();
-					that.tweetsCollection.lastTweet();
 
 					that.tweetsCollection.isUpdating = false;
 					that.isLoading = false;

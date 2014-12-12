@@ -105,33 +105,10 @@ rptree.backbone = (function($, _, Backbone) {
 	TweetsCollection = Backbone.Collection.extend({
 		isUpdating: false,
 		firstTweetID: null,
-		firstTweet: function() {
-			if(!this.isUpdating) {
-				return null;
-			}
-			var first = this.first();
-			if(first && (this.firstTweetID === null || first.get('id') > this.firstTweetID)) {
-				this.firstTweetID = first.get('id');
-			}
-			return this.firstTweetID;
-		},
 		lastTweetID: null,
-		lastTweet: function() {
-			if(this.isUpdating) {
-				return null;
-			}
-			var last = this.last();
-			if(last && (this.lastTweetID === null || last.get('id') < this.lastTweetID)) {
-				this.lastTweetID = last.get('id');
-			}
-			return this.lastTweetID;
-		},
 		url: function() {
 			var url = 'http://' + location.host + '/feed';
-			var params = {
-				priorTo: this.lastTweet(),
-				since: this.firstTweet(),
-			};
+			var params = this.isUpdating ? { since: this.firstTweetID } : { priorTo: this.lastTweetID };
 			if(screen) {
 				params.limit = 1;
 			}
@@ -200,14 +177,21 @@ rptree.backbone = (function($, _, Backbone) {
 									that.$el.masonry();
 								});
 								that.isAppending = true;
-								that.tweetsCollection.firstTweetID = tweets.first().get('id');
-								that.tweetsCollection.lastTweetID = tweets.last().get('id');
 							}
 						}
 						content.find('.tweet__timestamp').prettyDate();
 					}
 
-					that.tweetsCollection.isUpdating = false;
+					var those = that.tweetsCollection;
+					if(tweets.models.length) {
+						if(those.firstTweetID === null || tweets.first().get('id') > those.firstTweetID) {
+							those.firstTweetID = tweets.first().get('id');
+						}
+						if(those.lastTweetID === null || tweets.last().get('id') < those.lastTweetID) {
+							those.lastTweetID = tweets.last().get('id');
+						}
+					}
+					those.isUpdating = false;
 					that.isLoading = false;
 				},
 				error: function() {

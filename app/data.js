@@ -39,7 +39,10 @@ var data = {
 			_.assign(query, { id: { $lt: params.priorTo } });
 		}
 
-		var result = tweets.find(query, opts);
+		var result = tweets.find(query, opts)
+		.error(function(err) {
+			console.log('<DB> !!! ERRROR: ', err);
+		});
 		return Promise.cast(result);
 	},
 	saveTweet: function(tweet) {
@@ -47,7 +50,10 @@ var data = {
 			{ id: tweet.id },
 			{ $set: tweet },
 			{ upsert: true, new: true }
-		);
+		)
+		.error(function(err) {
+			console.log('<DB> !!! ERRROR: ', err);
+		});
 		return Promise.cast(result);
 	},
 };

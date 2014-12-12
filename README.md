@@ -17,9 +17,3 @@
 ##The environment
 
 TODO: Write all this.
-
-```
-
-export NODE_CONFIG_DIR=../config/
-
-```

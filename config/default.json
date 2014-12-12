@@ -6,6 +6,10 @@
 		},
 		"port": 3000
 	},
+	"snowball" : {
+		"port": "9001",
+		"host": "rptree.com"
+	},
 	"db": "localhost/rptree",
 	"tree": {
 		"address": "rptree.local",

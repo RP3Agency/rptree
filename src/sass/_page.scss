@@ -17,6 +17,7 @@
 		left: 0;
 		margin-bottom: rem(28px);
 		overflow: hidden;
+		padding-top: percentage(270px / 480px);
 		position: absolute;
 		top: 0;
 		width: 100%;
@@ -27,8 +28,14 @@
 		}
 
 		object,
-		embed {
+		embed,
+		video {
 			display: block;
+		}
+
+		video {
+			height: auto;
+			width: 100%;
 		}
 	}
 }

@@ -5,3 +5,4 @@ config/*
 !config/default.json
 node_modules
 www
+.DS_Store

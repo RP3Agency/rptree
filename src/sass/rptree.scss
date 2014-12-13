@@ -46,6 +46,9 @@ $breakpoint-lg:	1120px;
 /** Screen */
 @import "screen";
 
+/** A little "parallax" (but not really) */
+@import "parallax";
+
 body {
 	background-color: nth($grays, 3);
 }

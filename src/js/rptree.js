@@ -50,18 +50,36 @@ rptree.global = (function($) {
 		}
 	},
 
+	/**
+	 * pagePosition
+	 * Set the position of the page relative to the size of the banner
+	 */
+	pagePosition = function() {
+		var $page = $('#page'),
+			$top  = $('#top'),
+			topHeightInEms,
+			breakpointLg = ( 1120 / 16 ) + 'em';
+
+		if ( window.matchMedia('(min-width: ' + breakpointLg + ')').matches ) {
+			// Figure out the top height (with a little margin) in rems
+			topHeightInEms = ( $top.outerHeight() / 21 ) + 1;
+			topHeightInEms = topHeightInEms + 'rem';
+
+			$page.css('top', topHeightInEms);
+		} else {
+			$page.css('top', 'auto');
+		}
+	},
+
 	init = function() {
 		sundown();
 		fitVids();
+		pagePosition();
 
 		setInterval(sundown, 60000);
 
-		$(window).on( 'scroll', function() {
-			// Do something else.
-		});
-
 		$(window).on( 'resize', function() {
-			// Do another thing.
+			pagePosition();
 		});
 	};
 

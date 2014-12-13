@@ -11,3 +11,9 @@
 
 
 ##The Software
+
+
+
+##The environment
+
+TODO: Write all this.

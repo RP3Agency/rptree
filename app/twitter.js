@@ -5,25 +5,81 @@
 // Get link to main module
 app = require.main.exports;
 
-// Initialize scanner
-var scanner = { };
+// Load helper modules
+var _ = require('lodash'),
+	Promise = require('bluebird');
 
-// Set up Twitter listener
-if(app.config.twitter) {
-	app.config.debug && console.log('<FEED> Twitter scanner starting');
+// Create Twitter scanner singleton
+var Scanner = _.bindAll({
 
-	var _ = require('lodash'),
-		twitter = require('twitter'),
+	initialize: function() {
+		if(app.config.twitter) {
+			console.log('<FEED> Twitter scanner initializing');
+			this.connect();
+		} else {
+			app.config.debug && console.log('-- Twitter scanner not configured, skipping --');
+		}
+		return this;
+	},
+
+	connect: function() {
+		var	twitter = require('twitter');
+		this.client = new twitter(app.config.twitter.account);
+
+		// Load cache on start and once an hour after
+		this.search();
+		this.searchTimer = setInterval(this.search, 3600000);
+
+		// Start streaming listener
+		this.scan();
+	},
+
+	// Load cache with past tweets tagged with terms
+	search: function() {
+		app.config.debug && console.log('<FEED> Updating cache of recent statuses');
+		var self = this;
+		this.client.search(app.config.twitter.terms.join(' OR '), { result_type: 'recent', count: 100 },  function(data) {
+			_.each(data.statuses, function(tweet) {
+				self.processTweet(tweet);
+			});
+		});
+	},
+
+	// Listen to status stream for incoming tweets tagged with terms
+	scan: function() {
+		app.config.debug && console.log('<FEED> Starting stream listener');
+		var self = this;
+		this.client.stream('statuses/filter', { track: app.config.twitter.terms }, function(stream) {
+			stream.on('data', function(data) {
+				app.config.debug && console.log("<FEED> Incoming tweet from %s", data.user.screen_name);
+				self.processTweet(data)
+				.then(function(tweet) {
+					//TODO: send tweet notification to tree
+				});
+			});
+			stream.on('end', function() {
+				console.log("<FEED> !!! Warning! Twitter stream has closed!");
+
+				// Destroy the stream
+				stream.destroy();
+
+				// Restart scanner after 30 seconds
+				setTimeout(this.scan, 30000);
+			});
+			stream.on('error', function(err) {
+				console.log("<FEED> !!! ERROR (Twitter): ", err);
+			});
+		});
+
+	},
+
+	// Analyzing and processing a single tweet
+	processTweet: function(tweet) {
+		var webpurify = require('webpurify'),
+		purify = Promise.promisifyAll(new webpurify(app.config.webpurify)),
 		text = require('twitter-text'),
-		client = new twitter(app.config.twitter.account),
-		Promise = require('bluebird'),
-		emoji = require('emoji'),
-		webpurify = require('webpurify'),
-		purify = Promise.promisifyAll(new webpurify(app.config.webpurify));
+		emoji = require('emoji');
 
-	// Define method for analyzing and processing a single tweet
-	var processTweet = function(tweet) {
-		// analyze tweet with WebPurify
 		return purify.checkAsync([tweet.user.screen_name, tweet.user.name, tweet.text].join(' '))
 		.then(function(isProfane) {
 			var incoming = {
@@ -40,6 +96,7 @@ if(app.config.twitter) {
 				app.config.debug && console.log('<FEED> *** BAD LANGUAGE DETECTED ***');
 				return Promise.resolve(false);
 			} else {
+				app.config.debug && console.log("<FEED> Saving tweet %s from %s", incoming.id, incoming.user);
 				// save tweet to Mongo
 				return app.data.saveTweet(incoming)
 				.return(incoming)
@@ -47,30 +104,14 @@ if(app.config.twitter) {
 					app.config.debug && console.log("<FEED> !!! ERROR: ", err);
 				});
 			}
+		})
+		.catch(function(err) {
+			console.log("<FEED> !!! ERROR (WebPurify): ", err);
 		});
-	};
 
-	// Load Mongo with cache of past tweets tagged with terms
-	client.search(app.config.twitter.terms.join(' OR '), { result_type: 'recent', count: 100 },  function(data) {
-		_.each(data.statuses, function(tweet) {
-			processTweet(tweet);
-		});
-	});
+	},
 
-	// Listen to status stream for incoming tweets tagged with terms
-	scanner = client.stream('statuses/filter', { track: app.config.twitter.terms }, function(stream) {
-		stream.on('data', function(data) {
-			app.config.debug && console.log("<FEED> Incoming tweet from %s", data.user.screen_name);
-			processTweet(data)
-			.then(function(tweet) {
-				//TODO: send tweet notification to tree
-			});
-		});
-	});
-
-} else {
-	app.config.debug && console.log('-- Twitter scanner not configured, skipping --');
-}
+});
 
 // Export scanner module
-module.exports = scanner;
+module.exports = Scanner.initialize();

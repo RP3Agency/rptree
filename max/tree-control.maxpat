@@ -92,6 +92,7 @@
 						"tags" : "",
 						"style" : "",
 						"subpatcher_template" : "",
+						"visible" : 1,
 						"boxes" : [ 							{
 								"box" : 								{
 									"id" : "obj-73",
@@ -861,9 +862,9 @@
 									"numinlets" : 5,
 									"numoutlets" : 4,
 									"outlettype" : [ "int", "", "", "int" ],
-									"patching_rect" : [ 675.0, 185.0, 71.0, 22.0 ],
+									"patching_rect" : [ 675.0, 185.0, 81.0, 22.0 ],
 									"style" : "",
-									"text" : "counter 0 5"
+									"text" : "counter 2 0 4"
 								}
 
 							}
@@ -906,16 +907,6 @@
 							}
  ],
 						"lines" : [ 							{
-								"patchline" : 								{
-									"destination" : [ "obj-161", 1 ],
-									"disabled" : 0,
-									"hidden" : 0,
-									"midpoints" : [ 381.5, 369.0, 382.0, 369.0, 382.0, 180.0, 697.5, 180.0 ],
-									"source" : [ "obj-12", 0 ]
-								}
-
-							}
-, 							{
 								"patchline" : 								{
 									"destination" : [ "obj-18", 0 ],
 									"disabled" : 0,
@@ -1866,16 +1857,6 @@
 									"hidden" : 0,
 									"midpoints" : [ 1008.5, 473.0, 986.0, 473.0, 986.0, 848.0, 1032.0, 848.0 ],
 									"source" : [ "obj-82", 0 ]
-								}
-
-							}
-, 							{
-								"patchline" : 								{
-									"destination" : [ "obj-161", 1 ],
-									"disabled" : 0,
-									"hidden" : 0,
-									"midpoints" : [ 1041.5, 375.0, 1041.0, 375.0, 1041.0, 180.0, 697.5, 180.0 ],
-									"source" : [ "obj-83", 0 ]
 								}
 
 							}
@@ -12900,28 +12881,8 @@
 			}
  ],
 		"parameters" : 		{
-			"obj-12::obj-125::obj-66::obj-126" : [ "value[11]", "value", 0 ],
-			"obj-12::obj-125::obj-74::obj-126" : [ "value[13]", "value", 0 ],
-			"obj-12::obj-125::obj-111::obj-126" : [ "value[19]", "value", 0 ],
-			"obj-12::obj-125::obj-20::obj-126" : [ "value[2]", "value", 0 ],
-			"obj-12::obj-125::obj-54::obj-126" : [ "value[8]", "value", 0 ],
 			"obj-5::obj-125::obj-16" : [ "live.text", "live.text", 0 ],
-			"obj-12::obj-125::obj-7::obj-126" : [ "value", "value", 0 ],
-			"obj-12::obj-125::obj-104::obj-126" : [ "value[18]", "value", 0 ],
-			"obj-12::obj-125::obj-13::obj-126" : [ "value[1]", "value", 0 ],
-			"obj-12::obj-125::obj-50::obj-126" : [ "value[7]", "value", 0 ],
-			"obj-12::obj-125::obj-70::obj-126" : [ "value[12]", "value", 0 ],
-			"obj-12::obj-125::obj-78::obj-126" : [ "value[14]", "value", 0 ],
-			"obj-12::obj-125::obj-99::obj-126" : [ "value[17]", "value", 0 ],
-			"obj-12::obj-125::obj-46::obj-126" : [ "value[6]", "value", 0 ],
-			"obj-12::obj-125::obj-62::obj-126" : [ "value[10]", "value", 0 ],
-			"obj-12::obj-125::obj-89::obj-126" : [ "value[16]", "value", 0 ],
-			"obj-12::obj-125::obj-40::obj-126" : [ "value[5]", "value", 0 ],
-			"obj-12::obj-125::obj-82::obj-126" : [ "value[15]", "value", 0 ],
-			"obj-12::obj-125::obj-29::obj-126" : [ "value[3]", "value", 0 ],
-			"obj-12::obj-125::obj-16" : [ "live.text[1]", "live.text", 0 ],
-			"obj-12::obj-125::obj-34::obj-126" : [ "value[4]", "value", 0 ],
-			"obj-12::obj-125::obj-58::obj-126" : [ "value[9]", "value", 0 ]
+			"obj-12::obj-125::obj-16" : [ "live.text[1]", "live.text", 0 ]
 		}
 ,
 		"dependency_cache" : [ 			{
@@ -12961,13 +12922,6 @@
 			}
 , 			{
 				"name" : "maxuino-debug.maxpat",
-				"bootpath" : "~/Projects/rptree/max/patches/maxuino/support",
-				"patcherrelativepath" : "./patches/maxuino/support",
-				"type" : "JSON",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "dpin.maxpat",
 				"bootpath" : "~/Projects/rptree/max/patches/maxuino/support",
 				"patcherrelativepath" : "./patches/maxuino/support",
 				"type" : "JSON",

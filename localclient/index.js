@@ -11,7 +11,7 @@ var config 		= require('config'),
 		oscClient.send('/sequencer/start 1');
 		oscClient.send('/menorah/flash');
 		setTimeout(function () {
-			oscClient.send('/menorah/flash');
+			oscClient.send('/menorah/reset');
 		}, 1000);
 	});
 

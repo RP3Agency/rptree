@@ -54,7 +54,7 @@ var Scanner = _.bindAll({
 				app.config.debug && console.log("<FEED> Incoming tweet from %s", data.user.screen_name);
 				self.processTweet(data)
 				.then(function(tweet) {
-					//TODO: send tweet notification to tree
+					app.tree.send('TWEET');
 				});
 			});
 			stream.on('end', function() {

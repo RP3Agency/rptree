@@ -29,3 +29,26 @@ tcpClient.on('end', function() {
 tcpClient.on('error', function(err) {
 	console.log('Snowball error! ', err);
 });
+
+
+// Keep tabs on the menorah
+var updateHour = 16,
+	updateMinute = 47,
+	start = new Date(2014, 12, 16, updateHour, updateMinute),
+	lastUpdate = new Date(),
+	checkInterval = 60000,
+
+
+setInterval(function () {
+	console.log('Checking date...');
+
+	var now = new Date();
+	if (lastUpdate.getDate() > now.date() && now.getHours() >= updateHour && now.getMiunutes() >= updateMinute) {
+		console.log('Updating!');
+
+		oscClient.send('/menorah/inc');
+
+		lastUpdate = now;
+	}
+
+}, checkInterval);

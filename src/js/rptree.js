@@ -191,12 +191,12 @@ rptree.backbone = (function($, _, Backbone) {
 									gutter: '.masonry-gutter',
 									stamp: ".page__video"
 								});
-								that.$el.imagesLoaded(function() {
-									that.$el.masonry();
-								});
 								that.isAppending = true;
 							}
 						}
+						that.$el.imagesLoaded(function() {
+							that.$el.masonry();
+						});
 						content.find('.tweet__timestamp').prettyDate();
 					}
 

@@ -65,7 +65,7 @@
 							"modernui" : 1
 						}
 ,
-						"rect" : [ -2372.0, 153.0, 1372.0, 752.0 ],
+						"rect" : [ 34.0, 79.0, 1372.0, 752.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 12.0,
@@ -92,7 +92,6 @@
 						"tags" : "",
 						"style" : "",
 						"subpatcher_template" : "",
-						"visible" : 1,
 						"boxes" : [ 							{
 								"box" : 								{
 									"id" : "obj-73",
@@ -2050,7 +2049,7 @@
 							"modernui" : 1
 						}
 ,
-						"rect" : [ -1890.0, 348.0, 1856.0, 1034.0 ],
+						"rect" : [ 34.0, 79.0, 1372.0, 752.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 12.0,
@@ -2124,7 +2123,7 @@
 									"outlettype" : [ "" ],
 									"patching_rect" : [ 1301.0, 121.0, 29.5, 22.0 ],
 									"style" : "",
-									"text" : "4"
+									"text" : "2"
 								}
 
 							}
@@ -2279,7 +2278,7 @@
 									"outlettype" : [ "" ],
 									"patching_rect" : [ 1637.0, 386.0, 90.0, 22.0 ],
 									"style" : "",
-									"text" : "digitalWrite 2 1"
+									"text" : "digitalWrite 2 0"
 								}
 
 							}

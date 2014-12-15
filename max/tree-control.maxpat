@@ -2076,7 +2076,6 @@
 						"tags" : "",
 						"style" : "",
 						"subpatcher_template" : "",
-						"visible" : 1,
 						"boxes" : [ 							{
 								"box" : 								{
 									"id" : "obj-183",
@@ -2123,7 +2122,7 @@
 									"outlettype" : [ "" ],
 									"patching_rect" : [ 1301.0, 136.0, 29.5, 22.0 ],
 									"style" : "",
-									"text" : "2"
+									"text" : "0"
 								}
 
 							}

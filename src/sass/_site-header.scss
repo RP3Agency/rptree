@@ -1,0 +1,123 @@
+.site-header {
+	@extend %clearfix;
+	background-color: $white;
+	padding: rem(56px / 2) percentage(115px / 1500px) rem(48px);
+
+	@include breakpoint(1830px) {
+		padding: {
+			left: 0;
+			right: 0;
+		}
+	}
+
+	&__wrapper {
+		@extend %clearfix;
+		margin: 0 auto;
+		max-width: em(1600px, $default-font-size);
+		position: relative;
+	}
+
+	&__header {
+		float: left;
+		height: ( 96px / 2);
+		width: ( 286px / 2 );
+	}
+
+	&__links {
+		@include breakpoint(668px) {
+			float: right;
+			height: rem(48px);
+			overflow: hidden;
+		}
+	}
+
+	&__rp3 {
+		display: inline-block;
+		position: absolute;
+		right: 0;
+		top: 0;
+
+		@include breakpoint(668px) {
+			position: static;
+			line-height: rem(48px);
+			height: rem(48px);
+			float: left;
+		}
+
+		a {
+			@extend %roboto-regular;
+			font-size: em(15px);
+			text-decoration: none;
+		}
+	}
+
+	&__social {
+		@extend %clearfix;
+		bottom: rem(-48px);
+		color: nth($blues, 1);
+		display: inline-block;
+		height: rem(48px);
+		left: 0;
+		overflow: hidden;
+		position: absolute;
+
+		@include breakpoint(668px) {
+			position: static;
+		}
+
+		li {
+			float: left;
+			margin: 0 14px;
+
+			&:first-child {
+				margin-left: 0;
+
+				@include breakpoint(668px) {
+					margin-left: 21px;
+				}
+			}
+
+			&:last-child {
+				margin-right: 0;
+			}
+
+			a {
+				color: currentColor;
+				text-decoration: none;
+			}
+
+			a {
+				@extend .fa;
+				height: 48px;
+				overflow: hidden;
+				position: relative;
+				white-space: nowrap;
+				width: 28px;
+
+				&::before {
+					display: block;
+					height: 48px;
+					line-height: 48px;
+					text-align: center;
+					text-indent: 0;
+					width: 28px;
+				}
+			}
+
+			/** Social media */
+			$social-media: (
+				'linkedin',
+				'facebook',
+				'twitter',
+				'instagram',
+				'youtube-play'
+			);
+
+			@each $service in $social-media {
+				&.#{$service} a {
+					@extend .fa-#{$service};
+				}
+			}
+		}
+	}
+}

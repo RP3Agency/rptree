@@ -1,0 +1,53 @@
+{
+    "variables": {
+        "aws_access_key": "{{env `AWS_ACCESS_KEY_ID`}}",
+        "aws_secret_key": "{{env `AWS_SECRET_ACCESS_KEY`}}",
+        "ubuntu_release": "trusty",
+        "ubuntu_mirror": "false"
+    },
+    "builders": [
+        {
+            "name": "amazon-ami",
+            "type": "amazon-ebs",
+            "access_key": "{{user `aws_access_key`}}",
+            "secret_key": "{{user `aws_secret_key`}}",
+            "region": "us-east-1",
+            "source_ami": "ami-64e27e0c",
+            "instance_type": "t1.micro",
+            "ssh_username": "ubuntu",
+            "ami_name": "rptree {{timestamp}}"
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "shell",
+            "script": "provisioning/bootstrap.sh",
+            "execute_command": "chmod +x {{ .Path }}; {{ .Vars }} sudo -E {{ .Path }} {{user `ubuntu_release`}} {{user `ubuntu_mirror`}}",
+            "only": [
+                "amazon-ami"
+            ]
+        },
+        {
+            "type": "shell",
+            "inline": [
+                "wget https://apt.puppetlabs.com/puppetlabs-release-precise.deb",
+                "sudo dpkg -i puppetlabs-release-precise.deb",
+                "sudo apt-get update",
+                "sudo apt-get --yes --force-yes install puppet"
+            ]
+        },
+        {
+            "type": "puppet-masterless",
+            "manifest_file": "provisioning/puppet/manifests/development.pp",
+            "module_paths": [
+                "provisioning/puppet/modules"
+            ],
+            "facter": {
+                "app_name": "rptree",
+                "app_repo": "git://github.com/RP3Agency/rptree.git",
+                "app_branch": "develop",
+                "db_name": "rptree"
+            }
+        }
+    ]
+}

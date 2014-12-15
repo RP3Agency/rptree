@@ -1,0 +1,151 @@
+.banner {
+	background-color: nth($blues, 2);
+	font-size: rem(18px);
+	overflow: hidden;
+	position: relative;
+
+	a {
+		font-weight: $font-weight-medium;
+		text-decoration: none;
+	}
+
+	/** Animated snow. Because of course. */
+
+	.snow {
+		background: transparent url("../images/snow.png") repeat;
+		bottom: 0;
+		left: 0;
+		position: absolute;
+		right: 0;
+		top: 0;
+		transform: translateZ(0); // Enable hardware acceleration for better performance
+
+		&--background {
+			animation: snow--background 120s linear infinite;
+			background-size: 70%;
+			opacity: 0.8;
+			z-index: 0;
+		}
+
+		&--foreground {
+			animation: snow--foreground 120s linear infinite;
+			opacity: 0.9;
+			z-index: 10;
+		}
+	}
+
+	&__wrapper {
+		@extend %clearfix;
+		margin: 0 auto;
+		max-width: em(1830px, $default-font-size);
+		padding: {
+			left: percentage(115px / 1500px);
+			right: percentage(115px / 1500px);
+		}
+		position: relative;
+
+		@include breakpoint(1830px) {
+			max-width: em(1600px);
+			padding: {
+				left: 0;
+				right: 0;
+			}
+		}
+	}
+
+	&__graphic {
+		max-height: rem(980px / 2);
+		position: relative;
+		width: 100%;
+
+		&::before {
+			content: "";
+			display: block;
+			padding-top: percentage(700px / 1500px);
+
+			@include breakpoint($breakpoint-lg) {
+				padding-top: percentage(1300px / 3200px);
+			}
+		}
+
+		&-inner {
+			bottom: 0;
+			left: 0;
+			position: absolute;
+			right: 0;
+			top: 0;
+
+			@include breakpoint($breakpoint-lg) {
+				right: -170px;
+			}
+
+			img {
+				bottom: -1px;
+				left: 50%;
+				max-width: (1720px / 2);
+				position: absolute;
+				transform: translate(-50%, 0);
+				width: 95%;
+				z-index: 5;
+
+				@include breakpoint($breakpoint-lg) {
+					left: auto;
+					max-width: (1720px / 2);
+					right: percentage(45px / 3200px);
+					transform: none;
+					width: percentage(1720px / 3200px);
+				}
+			}
+		}
+	}
+
+	&__content {
+		@extend %roboto-light;
+		color: $black;
+		line-height: (70 / 50);
+		margin-top: -1px;
+		padding: em(40px) 0;
+		position: relative;
+		z-index: 20;
+
+		@include breakpoint($breakpoint-lg) {
+			left: percentage(121px / 1500px);
+			padding: 0;
+			position: absolute;
+			top: 50%;
+			transform: translate(0, -50%);
+			width: 40%;
+		}
+
+		@include breakpoint(1830px) {
+			left: 0;
+		}
+	}
+
+	&__header {
+		color: $green;
+		font-size: em(34px);
+		line-height: (110 / 100);
+		margin-bottom: 0.5em;
+	}
+}
+
+@keyframes snow--background {
+	0% {
+		background-position: center center;
+	}
+
+	100% {
+		background-position: -100px 2000px;
+	}
+}
+
+@keyframes snow--foreground {
+	0% {
+		background-position: 0 0;
+	}
+
+	100% {
+		background-position: 2000px 3000px;
+	}
+}

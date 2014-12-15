@@ -1,0 +1,46 @@
+#
+# RPTree Provisioning Configuration
+#
+
+# Project name
+#
+# Will be used for VirtualBox VM name, unless overridden
+name: rptree
+
+# Domain names to use for Vagrant
+#
+# The first name will be used as the machine's name,
+# subsequent names will be aliased in your hosts file
+#
+# (When overriding, include vagrant.local if you need it)
+hosts:
+- vagrant.local
+- rptree-website.dev
+
+# IP address to use on the private network
+#
+# DHCP is used by default to assign IP addresses dynamically, override only if
+# you need a static IP for your box.
+#
+# Values: "dhcp", or any valid IP
+ip: 192.168.12.25
+
+# TCP ports to be forwarded
+#
+# Values: list of { host: port, guest: port }
+# (When overriding, include all values)
+ports:
+- { host: 3000, guest: 3000 }
+
+# Virtual machine memory (in megabytes)
+memory: 1024
+
+# Puppet provisioning configuration variables
+#
+# Value must be an object - key/value pairs will be imported into Facter for use by Puppet
+# (When overriding, include all values)
+puppet:
+  app_name: rptree
+  app_repo: git://github.com/RP3Agency/rptree.git
+  app_branch: develop
+  db_name: rptree

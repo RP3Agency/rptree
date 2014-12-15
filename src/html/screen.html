@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html class="screen">
+<head>
+	<title>RPTree</title>
+	<link rel="stylesheet" href="css/rptree.min.css">
+	<script src="js/rptree-vendor.min.js"></script>
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<link rel="shortcut icon" href="images/favicon.ico" />
+</head>
+
+<body>
+
+	<script type="text/template" id="tweet-template">
+	<% _.each(tweets, function(tweet) { %>
+		<div class="screen__tweet">
+			<%= tweet.get('text') %>
+		</div>
+
+		<div class="screen__user">
+			<p>@<%= tweet.get('user') %></p>
+		</div>
+	<% }); %>
+	</script>
+
+	<main id="page__tweets"></main>
+
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
+	<script src="js/rptree-plugins.min.js"></script>
+	<script src="js/rptree.min.js"></script>
+</body>
+</html>

@@ -4,7 +4,7 @@
 		"appversion" : 		{
 			"major" : 7,
 			"minor" : 0,
-			"revision" : 1,
+			"revision" : 0,
 			"architecture" : "x86",
 			"modernui" : 1
 		}
@@ -60,7 +60,7 @@
 						"appversion" : 						{
 							"major" : 7,
 							"minor" : 0,
-							"revision" : 1,
+							"revision" : 0,
 							"architecture" : "x86",
 							"modernui" : 1
 						}
@@ -2045,7 +2045,7 @@
 						"appversion" : 						{
 							"major" : 7,
 							"minor" : 0,
-							"revision" : 1,
+							"revision" : 0,
 							"architecture" : "x86",
 							"modernui" : 1
 						}
@@ -6897,7 +6897,7 @@
 						"appversion" : 						{
 							"major" : 7,
 							"minor" : 0,
-							"revision" : 1,
+							"revision" : 0,
 							"architecture" : "x86",
 							"modernui" : 1
 						}
@@ -12137,7 +12137,7 @@
 					"destination" : [ "obj-120", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"source" : [ "obj-124", 1 ]
+					"source" : [ "obj-124", 0 ]
 				}
 
 			}
@@ -12146,7 +12146,7 @@
 					"destination" : [ "obj-122", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"source" : [ "obj-124", 2 ]
+					"source" : [ "obj-124", 1 ]
 				}
 
 			}
@@ -12881,49 +12881,49 @@
 			}
  ],
 		"parameters" : 		{
-			"obj-5::obj-125::obj-16" : [ "live.text", "live.text", 0 ],
-			"obj-12::obj-125::obj-16" : [ "live.text[1]", "live.text", 0 ]
+			"obj-12::obj-125::obj-16" : [ "live.text[1]", "live.text", 0 ],
+			"obj-5::obj-125::obj-16" : [ "live.text", "live.text", 0 ]
 		}
 ,
 		"dependency_cache" : [ 			{
 				"name" : "maxuino.maxpat",
-				"bootpath" : "~/Projects/rptree/max/patches/maxuino",
-				"patcherrelativepath" : "./patches/maxuino",
+				"bootpath" : "~/Documents/Max 7/Library/maxuino",
+				"patcherrelativepath" : "../../../Documents/Max 7/Library/maxuino",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "maxuino.js",
-				"bootpath" : "~/Projects/rptree/max/patches/maxuino/support",
-				"patcherrelativepath" : "./patches/maxuino/support",
+				"bootpath" : "~/Documents/Max 7/Library/maxuino/support",
+				"patcherrelativepath" : "../../../Documents/Max 7/Library/maxuino/support",
 				"type" : "TEXT",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "maxuino-gui.maxpat",
-				"bootpath" : "~/Projects/rptree/max/patches/maxuino/support",
-				"patcherrelativepath" : "./patches/maxuino/support",
+				"bootpath" : "~/Documents/Max 7/Library/maxuino/support",
+				"patcherrelativepath" : "../../../Documents/Max 7/Library/maxuino/support",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "Teensy++.png",
-				"bootpath" : "~/Projects/rptree/max/patches/maxuino/hardware",
-				"patcherrelativepath" : "./patches/maxuino/hardware",
+				"bootpath" : "~/Documents/Max 7/Library/maxuino/hardware",
+				"patcherrelativepath" : "../../../Documents/Max 7/Library/maxuino/hardware",
 				"type" : "PNG ",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "maxuino-hardware.txt",
-				"bootpath" : "~/Projects/rptree/max/patches/maxuino/hardware",
-				"patcherrelativepath" : "./patches/maxuino/hardware",
+				"bootpath" : "~/Documents/Max 7/Library/maxuino/hardware",
+				"patcherrelativepath" : "../../../Documents/Max 7/Library/maxuino/hardware",
 				"type" : "TEXT",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "maxuino-debug.maxpat",
-				"bootpath" : "~/Projects/rptree/max/patches/maxuino/support",
-				"patcherrelativepath" : "./patches/maxuino/support",
+				"bootpath" : "~/Documents/Max 7/Library/maxuino/support",
+				"patcherrelativepath" : "../../../Documents/Max 7/Library/maxuino/support",
 				"type" : "JSON",
 				"implicit" : 1
 			}

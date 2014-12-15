@@ -9,6 +9,10 @@ var config 		= require('config'),
 	//For now, whenever we recieve data, start the sequencer
 	tcpClient.on('data', function () {
 		oscClient.send('/sequencer/start 1');
+		oscClient.send('/menorah/flash');
+		setTimeout(function () {
+			oscClient.send('/menorah/reset');
+		}, 1000);
 	});
 
 	tcpClient.on('end', function() {
@@ -16,4 +20,4 @@ var config 		= require('config'),
 	});
 
 
-	
+

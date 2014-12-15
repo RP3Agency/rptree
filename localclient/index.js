@@ -33,18 +33,26 @@ tcpClient.on('error', function(err) {
 
 // Keep tabs on the menorah
 var updateHour = 16,
-	updateMinute = 47,
-	start = new Date(2014, 12, 16, updateHour, updateMinute),
-	lastUpdate = new Date(),
-	checkInterval = 60000,
+	updateMinute = 45,
+	start = new Date(2014, 11, 16, updateHour, updateMinute),
+	end = new Date(2014, 11, 25, 0, 0),
+	now = new Date(),
+	lastUpdate = new Date(now.getFullYear(), 0, 1),
+	checkInterval = 60000;
 
+if (now.getHours() == updateHour && now.getMinutes() > updateMinute || now.getHours() > updateHour) {
+	console.log('Menorah already updated today.');
+	lastUpdate = now;
+}
 
 setInterval(function () {
-	console.log('Checking date...');
+	now = new Date();
 
-	var now = new Date();
-	if (lastUpdate.getDate() > now.date() && now.getHours() >= updateHour && now.getMiunutes() >= updateMinute) {
-		console.log('Updating!');
+	if (start.getFullYear() == lastUpdate.getFullYear() && now.getDate() > lastUpdate.getDate()
+		&& now >= start && now < end
+		&& now.getHours() >= updateHour && now.getMinutes() >= updateMinute) {
+
+		console.log('Updating Menorah.');
 
 		oscClient.send('/menorah/inc');
 

@@ -12,35 +12,36 @@ function connect() {
 		console.log('Connected to Snowball.');		//an homage to RPTree 1.0.  Long Live Snowball.
 	});
 
+	//For now, whenever we recieve data, start the sequencer
+	tcpClient.on('data', function (data) {
+		console.log('Incoming: ', data.toString());
+
+		console.log('Throwing Snowball at Tree.');
+		oscClient.send('/sequencer/start 1');
+
+		console.log('Throwing Snowball at Menorah.');
+		oscClient.send('/menorah/flash');
+
+		setTimeout(function () {
+			console.log('Relighting Menorah.');
+			oscClient.send('/menorah/reset');
+		}, menorahTimeout);
+	});
+
+	tcpClient.on('end', function() {
+		console.log('Disconnected from Snowball.');
+		setTimeout(connect, reconnectTimeout);
+	});
+
+	tcpClient.on('error', function(err) {
+		console.log('Snowball error! ', err);
+		setTimeout(connect, reconnectTimeout);
+	});
+
 	return tcpClient;
 }
 
 connect();
-
-//For now, whenever we recieve data, start the sequencer
-tcpClient.on('data', function (data) {
-	console.log('Incoming: ', data.toString());
-
-	console.log('Throwing Snowball at Tree.');
-	oscClient.send('/sequencer/start 1');
-
-	console.log('Throwing Snowball at Menorah.');
-	oscClient.send('/menorah/flash');
-
-	setTimeout(function () {
-		console.log('Relighting Menorah.');
-		oscClient.send('/menorah/reset');
-	}, menorahTimeout);
-});
-
-tcpClient.on('end', function() {
-	console.log('Disconnected from Snowball.');
-	setTimeout(connect, reconnectTimeout);
-});
-
-tcpClient.on('error', function(err) {
-	console.log('Snowball error! ', err);
-});
 
 // Keep tabs on the menorah
 (function () {

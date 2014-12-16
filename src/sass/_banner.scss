@@ -37,7 +37,7 @@
 	&__wrapper {
 		@extend %clearfix;
 		margin: 0 auto;
-		max-width: em(1830px, $default-font-size);
+		max-width: rem(1830px);
 		padding: {
 			left: percentage(115px / 1500px);
 			right: percentage(115px / 1500px);
@@ -45,7 +45,7 @@
 		position: relative;
 
 		@include breakpoint(1830px) {
-			max-width: em(1600px);
+			max-width: rem(1600px);
 			padding: {
 				left: 0;
 				right: 0;

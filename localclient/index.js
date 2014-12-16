@@ -6,7 +6,7 @@ var config 		= require('config'),
 		console.log('Connected to Snowball.');		//an homage to RPTree 1.0.  Long Live Snowball.
 	});
 
-var menorahTimeout = 3000;
+var menorahTimeout = 5000;
 
 //For now, whenever we recieve data, start the sequencer
 tcpClient.on('data', function (data) {

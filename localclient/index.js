@@ -7,6 +7,16 @@ var config 		= require('config'),
 var menorahTimeout = 4500,
 	reconnectTimeout = 1000;
 
+function connect() {
+	tcpClient = net.connect(config.snowball, function () {
+		console.log('Connected to Snowball.');		//an homage to RPTree 1.0.  Long Live Snowball.
+	});
+
+	return tcpClient;
+}
+
+connect();
+
 //For now, whenever we recieve data, start the sequencer
 tcpClient.on('data', function (data) {
 	console.log('Incoming: ', data.toString());
@@ -31,15 +41,6 @@ tcpClient.on('end', function() {
 tcpClient.on('error', function(err) {
 	console.log('Snowball error! ', err);
 });
-
-function connect() {
-	tcpClient = net.connect(config.snowball, function () {
-		console.log('Connected to Snowball.');		//an homage to RPTree 1.0.  Long Live Snowball.
-	});
-}
-
-
-connect();
 
 // Keep tabs on the menorah
 (function () {

@@ -50,7 +50,7 @@ if (now.getHours() == updateHour && now.getMinutes() > updateMinute || now.getHo
 setInterval(function () {
 	now = new Date();
 
-	if (start.getFullYear() == lastUpdate.getFullYear() && now.getDate() > lastUpdate.getDate()
+	if (now.getDate() > lastUpdate.getDate()
 		&& now >= start && now < end
 		&& now.getHours() >= updateHour && now.getMinutes() >= updateMinute) {
 

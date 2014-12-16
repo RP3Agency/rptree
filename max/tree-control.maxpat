@@ -9,7 +9,7 @@
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 98.0, 92.0, 1102.0, 706.0 ],
+		"rect" : [ -2504.0, 93.0, 1102.0, 706.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -5174,7 +5174,7 @@
 							"modernui" : 1
 						}
 ,
-						"rect" : [ 34.0, 79.0, 1372.0, 752.0 ],
+						"rect" : [ -2526.0, 79.0, 2492.0, 1327.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 12.0,
@@ -5201,7 +5201,34 @@
 						"tags" : "",
 						"style" : "",
 						"subpatcher_template" : "",
+						"visible" : 1,
 						"boxes" : [ 							{
+								"box" : 								{
+									"id" : "obj-165",
+									"maxclass" : "newobj",
+									"numinlets" : 5,
+									"numoutlets" : 4,
+									"outlettype" : [ "int", "", "", "int" ],
+									"patching_rect" : [ 1647.0, 54.0, 81.0, 22.0 ],
+									"style" : "",
+									"text" : "counter 0 1 3"
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"id" : "obj-7",
+									"maxclass" : "newobj",
+									"numinlets" : 3,
+									"numoutlets" : 3,
+									"outlettype" : [ "", "", "" ],
+									"patching_rect" : [ 1688.333374, 93.0, 58.0, 22.0 ],
+									"style" : "",
+									"text" : "route 0 1"
+								}
+
+							}
+, 							{
 								"box" : 								{
 									"id" : "obj-4",
 									"maxclass" : "message",
@@ -5272,9 +5299,9 @@
 									"numinlets" : 5,
 									"numoutlets" : 4,
 									"outlettype" : [ "int", "", "", "int" ],
-									"patching_rect" : [ 1154.0, 111.0, 71.0, 22.0 ],
+									"patching_rect" : [ 1154.0, 111.0, 81.0, 22.0 ],
 									"style" : "",
-									"text" : "counter 0 7"
+									"text" : "counter 2 0 7"
 								}
 
 							}
@@ -7882,16 +7909,6 @@
 							}
 , 							{
 								"patchline" : 								{
-									"destination" : [ "obj-4", 0 ],
-									"disabled" : 0,
-									"hidden" : 0,
-									"midpoints" : [ 1670.5, 1026.0, 2012.0, 1026.0, 2012.0, 966.0, 2012.0, 966.0, 2012.0, 48.0, 1401.5, 48.0 ],
-									"source" : [ "obj-142", 1 ]
-								}
-
-							}
-, 							{
-								"patchline" : 								{
 									"destination" : [ "obj-144", 0 ],
 									"disabled" : 0,
 									"hidden" : 0,
@@ -8114,6 +8131,16 @@
 							}
 , 							{
 								"patchline" : 								{
+									"destination" : [ "obj-165", 0 ],
+									"disabled" : 0,
+									"hidden" : 0,
+									"midpoints" : [ 1734.5, 300.0, 1961.0, 300.0, 1961.0, 31.0, 1656.5, 31.0 ],
+									"source" : [ "obj-157", 0 ]
+								}
+
+							}
+, 							{
+								"patchline" : 								{
 									"destination" : [ "obj-159", 0 ],
 									"disabled" : 0,
 									"hidden" : 0,
@@ -8237,6 +8264,15 @@
 									"disabled" : 0,
 									"hidden" : 0,
 									"source" : [ "obj-163", 0 ]
+								}
+
+							}
+, 							{
+								"patchline" : 								{
+									"destination" : [ "obj-7", 0 ],
+									"disabled" : 0,
+									"hidden" : 0,
+									"source" : [ "obj-165", 2 ]
 								}
 
 							}
@@ -8878,6 +8914,15 @@
 									"hidden" : 0,
 									"midpoints" : [ 940.5, 445.0, 898.5, 445.0 ],
 									"source" : [ "obj-69", 0 ]
+								}
+
+							}
+, 							{
+								"patchline" : 								{
+									"destination" : [ "obj-4", 0 ],
+									"disabled" : 0,
+									"hidden" : 0,
+									"source" : [ "obj-7", 1 ]
 								}
 
 							}
@@ -11162,8 +11207,8 @@
 			}
  ],
 		"parameters" : 		{
-			"obj-12::obj-125::obj-16" : [ "live.text[1]", "live.text", 0 ],
-			"obj-5::obj-125::obj-16" : [ "live.text", "live.text", 0 ]
+			"obj-5::obj-125::obj-16" : [ "live.text", "live.text", 0 ],
+			"obj-12::obj-125::obj-16" : [ "live.text[1]", "live.text", 0 ]
 		}
 ,
 		"dependency_cache" : [ 			{
@@ -11174,10 +11219,31 @@
 				"implicit" : 1
 			}
 , 			{
+				"name" : "maxuino.js",
+				"bootpath" : "~/Projects/rptree/max/patches/maxuino/support",
+				"patcherrelativepath" : "./patches/maxuino/support",
+				"type" : "TEXT",
+				"implicit" : 1
+			}
+, 			{
 				"name" : "maxuino-gui.maxpat",
 				"bootpath" : "~/Projects/rptree/max/patches/maxuino/support",
 				"patcherrelativepath" : "./patches/maxuino/support",
 				"type" : "JSON",
+				"implicit" : 1
+			}
+, 			{
+				"name" : "Teensy++.png",
+				"bootpath" : "~/Projects/rptree/max/patches/maxuino/hardware",
+				"patcherrelativepath" : "./patches/maxuino/hardware",
+				"type" : "PNG ",
+				"implicit" : 1
+			}
+, 			{
+				"name" : "maxuino-hardware.txt",
+				"bootpath" : "~/Projects/rptree/max/patches/maxuino/hardware",
+				"patcherrelativepath" : "./patches/maxuino/hardware",
+				"type" : "TEXT",
 				"implicit" : 1
 			}
 , 			{

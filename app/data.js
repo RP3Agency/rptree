@@ -25,7 +25,9 @@ var data = {
 			limit: _.parseInt(params.limit) || app.config.feed.pagesize,
 			sort: { id: -1 }
 		};
-		var query = {};
+		var query = {
+			hidden: { $exists: false }
+		};
 		if(params.before && Date.parse(params.before)) {
 			_.assign(query, { timestamp: { $lt: new Date(params.before) } });
 		}

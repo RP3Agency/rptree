@@ -34,31 +34,32 @@ tcpClient.on('error', function(err) {
 
 
 // Keep tabs on the menorah
-var updateHour = 16,
-	updateMinute = 45,
-	start = new Date(2014, 11, 16, updateHour, updateMinute),
-	end = new Date(2014, 11, 25, 0, 0),
-	now = new Date(),
-	lastUpdate = new Date(now.getFullYear(), 0, 1),
-	checkInterval = 60000;
+(function () {
+	var updateHour = 16,
+		updateMinute = 45,
+		start = new Date(2014, 11, 16, updateHour, updateMinute),
+		end = new Date(2014, 11, 25, 0, 0),
+		now = new Date(),
+		lastUpdate = new Date(now.getFullYear(), 0, 1),
+		checkInterval = 60000;
 
-if (now.getHours() == updateHour && now.getMinutes() > updateMinute || now.getHours() > updateHour) {
-	console.log('Menorah already updated today.');
-	lastUpdate = now;
-}
-
-setInterval(function () {
-	now = new Date();
-
-	if (now.getDate() > lastUpdate.getDate()
-		&& now >= start && now < end
-		&& now.getHours() >= updateHour && now.getMinutes() >= updateMinute) {
-
-		console.log('Updating Menorah.');
-
-		oscClient.send('/menorah/inc');
-
+	if (now.getHours() == updateHour && now.getMinutes() > updateMinute || now.getHours() > updateHour) {
+		console.log('Menorah already updated today.');
 		lastUpdate = now;
 	}
 
-}, checkInterval);
+	setInterval(function () {
+		now = new Date();
+
+		if (now.getDate() > lastUpdate.getDate()
+			&& now >= start && now < end
+			&& now.getHours() >= updateHour && now.getMinutes() >= updateMinute) {
+
+			console.log('Updating Menorah.');
+			oscClient.send('/menorah/inc');
+
+			lastUpdate = now;
+		}
+
+	}, checkInterval);
+})();

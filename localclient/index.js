@@ -20,10 +20,10 @@ function connect() {
 		console.log('Throwing Snowball at Tree.');
 		oscClient.send('/sequencer/start 1');
 
-		console.log('Throwing Snowball at Menorah.');
-		oscClient.send('/menorah/flash');
-
-		if (menorahTimer !== null) {
+		if (menorahTimer === null) {
+			console.log('Throwing Snowball at Menorah.');
+			oscClient.send('/menorah/flash');
+		} else {
 			clearTimeout(menorahTimer);
 		}
 

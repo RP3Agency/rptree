@@ -5,7 +5,8 @@ var config 		= require('config'),
 	tcpClient	= null;
 
 var menorahTimeout = 4500,
-	reconnectTimeout = 1000;
+	reconnectTimeout = 1000,
+	menorahTimer = null;
 
 function connect() {
 	tcpClient = net.connect(config.snowball, function () {
@@ -22,9 +23,14 @@ function connect() {
 		console.log('Throwing Snowball at Menorah.');
 		oscClient.send('/menorah/flash');
 
-		setTimeout(function () {
+		if (menorahTimer !== null) {
+			clearTimeout(menorahTimer);
+		}
+
+		menorahTimer = setTimeout(function () {
 			console.log('Relighting Menorah.');
 			oscClient.send('/menorah/reset');
+			menorahTimer = null;
 		}, menorahTimeout);
 	});
 

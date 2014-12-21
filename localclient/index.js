@@ -53,8 +53,8 @@ connect();
 (function () {
 	var updateHour = 16,
 		updateMinute = 45,
-		start = new Date(2014, 11, 16, updateHour, updateMinute),
-		end = new Date(2014, 11, 25, 0, 0),
+		start = new Date(2014, 11, 16, 0, 0),
+		end = new Date(2014, 11, 24, 0, 0),
 		now = new Date(),
 		lastUpdate = new Date(now.getFullYear(), 0, 1),
 		checkInterval = 60000;

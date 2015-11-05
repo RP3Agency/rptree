@@ -1,19 +1,9 @@
-#RPTree - The Remix
+# RPTree 2015: The Revenge of RPYeti
 
-##Prerequisites
-- node.js
-- Max/MSP
-- Christmas Tree
-- Lights
+## Prerequisites
 
+## The Hardware
 
-##The Hardware
+## The Software
 
-
-##The Software
-
-
-
-##The environment
-
-TODO: Write all this.
+## The environment

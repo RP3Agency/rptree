@@ -1,14 +1,21 @@
 .page {
 	padding: rem(20px) percentage(115px / 1500px);
-	margin: 0 auto;
-	max-width: em(1830px, $default-font-size);
 	position: relative;
+	z-index: 30;
 
 	@include breakpoint(1830px) {
-		max-width: em(1600px);
 		padding: {
 			left: 0;
 			right: 0;
+		}
+	}
+
+	&__tweets {
+		margin: 0 auto;
+		max-width: em(1830px, $default-font-size);
+
+		@include breakpoint(1830px) {
+			max-width: em(1600px);			
 		}
 	}
 

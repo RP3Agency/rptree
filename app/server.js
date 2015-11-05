@@ -26,6 +26,17 @@ server.get('/feed', function(req, res) {
 	});
 });
 
+// Define tree-testing endpoint
+server.get('/test-tree', function(req, res) {
+	app.config.debug && console.log("<SRV> * Tree Test, params = " + JSON.stringify(req.params));
+	var command = req.params.command || 'TEST';
+	app.tree.send(command);
+	res.json({
+		command: command,
+		clients: app.tree.clients.length
+	});
+});
+
 // Create static route
 server.get(/.*/, restify.serveStatic({
 	directory: './www',

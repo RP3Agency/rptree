@@ -2,18 +2,80 @@ var config 		= require('config'),
 	osc 		= require('node-osc'),
 	oscClient 	= new osc.Client(config.tree.address, config.tree.port),
 	net 		= require('net'),
-	tcpClient	= net.connect(config.snowball, function () {
+	tcpClient	= null;
+
+var menorahTimeout = 4500,
+	reconnectTimeout = 1000,
+	menorahTimer = null;
+
+function connect() {
+	tcpClient = net.connect(config.snowball, function () {
 		console.log('Connected to Snowball.');		//an homage to RPTree 1.0.  Long Live Snowball.
 	});
 
 	//For now, whenever we recieve data, start the sequencer
-	tcpClient.on('data', function () {
+	tcpClient.on('data', function (data) {
+		console.log('Incoming: ', data.toString());
+
+		console.log('Throwing Snowball at Tree.');
 		oscClient.send('/sequencer/start 1');
+
+		if (menorahTimer === null) {
+			console.log('Throwing Snowball at Menorah.');
+			oscClient.send('/menorah/flash');
+		} else {
+			clearTimeout(menorahTimer);
+		}
+
+		menorahTimer = setTimeout(function () {
+			console.log('Relighting Menorah.');
+			oscClient.send('/menorah/reset');
+			menorahTimer = null;
+		}, menorahTimeout);
 	});
 
 	tcpClient.on('end', function() {
-	  console.log('Disconnected from Snowball.');
+		console.log('Disconnected from Snowball.');
+		setTimeout(connect, reconnectTimeout);
 	});
 
+	tcpClient.on('error', function(err) {
+		console.log('Snowball error! ', err);
+		setTimeout(connect, reconnectTimeout);
+	});
 
-	
+	return tcpClient;
+}
+
+connect();
+
+// Keep tabs on the menorah
+(function () {
+	var updateHour = 16,
+		updateMinute = 45,
+		start = new Date(2014, 11, 16, 0, 0),
+		end = new Date(2014, 11, 24, 0, 0),
+		now = new Date(),
+		lastUpdate = new Date(now.getFullYear(), 0, 1),
+		checkInterval = 60000;
+
+	if (now.getHours() == updateHour && now.getMinutes() > updateMinute || now.getHours() > updateHour) {
+		console.log('Menorah already updated today.');
+		lastUpdate = now;
+	}
+
+	setInterval(function () {
+		now = new Date();
+
+		if (now.getDate() > lastUpdate.getDate()
+			&& now >= start && now < end
+			&& now.getHours() >= updateHour && now.getMinutes() >= updateMinute) {
+
+			console.log('Updating Menorah.');
+			oscClient.send('/menorah/inc');
+
+			lastUpdate = now;
+		}
+
+	}, checkInterval);
+})();

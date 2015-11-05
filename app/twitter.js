@@ -64,7 +64,7 @@ var Scanner = _.bindAll({
 				stream.destroy();
 
 				// Restart scanner after 30 seconds
-				setTimeout(this.scan, 30000);
+				setTimeout(self.scan, 30000);
 			});
 			stream.on('error', function(err) {
 				console.log("<FEED> !!! ERROR (Twitter): ", err);

@@ -2,7 +2,7 @@
  * rptree custom JavaScript
  */
 
-/* global rptree:true */
+/* global rptree:true, Modernizr:true */
 
 // Define our "rptree" object, if not already defined
 if ( rptree === undefined ) { var rptree = {}; }
@@ -26,8 +26,14 @@ rptree.global = (function($) {
 
 	var
 
+	/** $('#page__videos') is used more than once, so cache its reference */
+
+	$pageVideo = $('#page__video'),
+
+	/** Now for our methods */
+
 	fitVids = function() {
-		$('#page__video').fitVids();
+		$pageVideo.fitVids();
 	},
 
 	/**
@@ -71,10 +77,24 @@ rptree.global = (function($) {
 		}
 	},
 
+	/**
+	 * On touch devices, swap out the flash video with something that's
+	 * hopefully a little more iOS-friendly.
+	 */
+	touchVideo = function() {
+
+		if ( Modernizr.touch ) {
+			var $touchVideo = $('<video>').attr('autoplay', 'autoplay').add('<source>').attr('src', 'https://stream-delta.dropcam.com/nexus_aac/b82c6c1ff3ca44db8b457ea49cb4882d/playlist.m3u8');
+
+			$pageVideo.html( $touchVideo );
+		}
+	},
+
 	init = function() {
 		sundown();
 		fitVids();
 		pagePosition();
+		touchVideo();
 
 		setInterval(sundown, 60000);
 

@@ -6,4 +6,4 @@
 
 ## The Software
 
-## The environment
+## The Environment

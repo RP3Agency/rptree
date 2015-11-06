@@ -25,6 +25,7 @@
   <script src="js/third-party/threejs/StereoEffect.js"></script>
   <script src="js/third-party/threejs/DeviceOrientationControls.js"></script>
   <script src="js/third-party/threejs/OrbitControls.js"></script>
+  <script src="js/third-party/threejs/OBJLoader.js"></script>
 
   <script>
     var camera, scene, renderer;
@@ -33,6 +34,7 @@
 
     var clock = new THREE.Clock();
 	
+	//helper function 
 	function getRandomInt(min, max) {
 	  return Math.floor(Math.random() * (max - min)) + min;
 	}
@@ -42,17 +44,21 @@
 	
 	//add a tree to the scene
 	function makeTree (x,z) {
-		var	height = getRandomInt(5, 15)
-			base = getRandomInt(3, 6),
-			treeG = new THREE.CylinderGeometry(0,base,height,32),
-		  	treeM = new THREE.MeshBasicMaterial( {color : 0x00ff00 } );
-	  	  	tree = new THREE.Mesh( treeG, treeM);
-		
-			tree.translateX(x);
-			tree.translateY(height / 2);
-			tree.translateZ(z);
+		var	loader = new THREE.OBJLoader();
+		loader.load(
+				'models/shapeshifter-tree.obj',
+			function (object) {
+				
+			
+				object.translateX(x);
+				object.translateZ(z);
 
-			scene.add( tree );
+				scene.add( object );
+			}
+
+		);
+		
+
 	};
 	
 	

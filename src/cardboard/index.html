@@ -32,6 +32,31 @@
     var element, container;
 
     var clock = new THREE.Clock();
+	
+	function getRandomInt(min, max) {
+	  return Math.floor(Math.random() * (max - min)) + min;
+	}
+	
+	
+	
+	
+	//add a tree to the scene
+	function makeTree (x,z) {
+		var	height = getRandomInt(5, 15)
+			base = getRandomInt(3, 6),
+			treeG = new THREE.CylinderGeometry(0,base,height,32),
+		  	treeM = new THREE.MeshBasicMaterial( {color : 0x00ff00 } );
+	  	  	tree = new THREE.Mesh( treeG, treeM);
+		
+			tree.translateX(x);
+			tree.translateY(height / 2);
+			tree.translateZ(z);
+
+			scene.add( tree );
+	};
+	
+	
+	
 
     init();
     animate();
@@ -100,6 +125,19 @@
       var mesh = new THREE.Mesh(geometry, material);
       mesh.rotation.x = -Math.PI / 2;
       scene.add(mesh);
+
+		var trees = [ 
+					[ 40, 0 ],
+					[ 50, 10 ],
+					[ 30, 2 ],
+					[ 25, 10 ],
+					[ 30, -10 ]
+  								];
+
+	  for (var i = 0; i < trees.length; i++) {
+	  	  makeTree(trees[i][0], trees[i][1]);
+	  }
+
 
       window.addEventListener('resize', resize, false);
       setTimeout(resize, 1);

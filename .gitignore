@@ -6,3 +6,4 @@ config/*
 node_modules
 www
 .DS_Store
+dist

@@ -48,17 +48,16 @@
 		loader.load(
 				'models/shapeshifter-tree.obj',
 			function (object) {
-				
-			
 				object.translateX(x);
 				object.translateZ(z);
-
+				object.traverse(function ( child ) {
+			        if ( child instanceof THREE.Mesh ) {
+			            child.material.color.setRGB (0, 1, 0);
+					}
+			    });
 				scene.add( object );
 			}
-
 		);
-		
-
 	};
 	
 	

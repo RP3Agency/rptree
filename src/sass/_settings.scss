@@ -1,0 +1,21 @@
+/**
+ * Colors
+ */
+
+$colors: (
+	"blue--light":		#c0d1da,
+	"blue--dark":		#061a25
+);
+
+@function get-color( $key ) {
+	@return map-get( $colors, $key );
+}
+
+
+/**
+ * Breakpoint
+ */
+
+@include breakpoint-set( 'to ems', true );
+
+$bp: 718px;

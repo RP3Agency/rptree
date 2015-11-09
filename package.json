@@ -1,6 +1,6 @@
 {
   "name": "rptree",
-  "version": "2015",
+  "version": "3.0.0",
   "description": "RPTree 2015: Revenge of RPYeti",
   "main": "http://rptree.com/",
   "scripts": {
@@ -34,7 +34,7 @@
     {
       "name": "Michael Kahane",
       "email": "mkahane@rp3agency.com"
-    },
+    }
   ],
   "license": "MIT",
   "private": true,
@@ -55,6 +55,7 @@
     "gulp-rename": "^1.2.2",
     "gulp-s3-upload": "^1.4.2",
     "gulp-sass": "^2.0.4",
+    "gulp-sourcemaps": "^1.6.0",
     "gulp-uglify": "^1.4.1",
     "gulp-util": "^3.0.6",
     "matchdep": "^1.0.0",

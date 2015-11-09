@@ -8,6 +8,7 @@ var gulp			= require('gulp'),
 	sass			= require('gulp-sass'),
 	autoprefixer	= require('gulp-autoprefixer'),
 	minifycss		= require('gulp-minify-css'),
+	sourcemaps		= require('gulp-sourcemaps'),
 
 	// JS preprocessors
 	jshint			= require('gulp-jshint'),
@@ -57,6 +58,7 @@ gulp.task('styles', function() {
 	.pipe( autoprefixer({
 		browsers: [ 'last 2 versions', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4' ]
 	}) )
+	.pipe( gulp.dest( __dirname + '/dist/css') )
 	.pipe( minifycss() )
 	.pipe( rename({
 		suffix: '.min'
@@ -87,7 +89,7 @@ gulp.task('html', function(){
 	.pipe( extender({
 		annotations: false,
 		verbose: false,
-		root: __dirname + '/src/html',
+		root: './src/html',
 	}) )
 	.pipe( ejs() )
 	.pipe( gulp.dest(__dirname + '/dist') )
@@ -104,13 +106,22 @@ gulp.task('static', function() {
 	.pipe( livereload() );
 });
 
+// Process the cardboard proof of concept
+gulp.task( 'cardboard', function() {
+	return gulp.src( __dirname + '/src/cardboard/**' )
+		.pipe( plumber( logError ) )
+		.pipe( gulp.dest( __dirname + '/dist/cardboard' ) )
+		.pipe( notify( { message: 'Cardboard task complete', onLast: true } ) )
+		.pipe( livereload() );
+});
+
 // Clean task
 gulp.task('clean', function() {
 	return del([__dirname + '/dist/**']);
 });
 
 // Build task
-gulp.task('build', [ 'static', 'html', 'styles', 'scripts' ]);
+gulp.task('build', [ 'static', 'html', 'styles', 'scripts', 'cardboard' ]);
 
 // Rebuild task
 gulp.task('rebuild', [ 'clean' ], function() {
@@ -129,10 +140,11 @@ gulp.task('serve', function() {
 // Watch task
 gulp.task('watch', function() {
 
-	gulp.watch( __dirname + '/src/sass/**/*.scss',	['styles'] );
-	gulp.watch( __dirname + '/src/js/**/*.js',		['scripts'] );
-	gulp.watch( __dirname + '/src/html/**/*.html',	['html'] );
-	gulp.watch( __dirname + '/src/static/**/*.*',	['static'] );
+	gulp.watch( __dirname + '/src/sass/**/*.scss',		['styles'] );
+	gulp.watch( __dirname + '/src/js/**/*.js',			['scripts'] );
+	gulp.watch( __dirname + '/src/html/**/*.html',		['html'] );
+	gulp.watch( __dirname + '/src/static/**/*.*',		['static'] );
+	gulp.watch( __dirname + '/src/cardboard/**/*.*',	['cardboard'] )
 
 });
 

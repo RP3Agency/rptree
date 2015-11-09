@@ -21,6 +21,33 @@
   <body>
     <div id="example"></div>
 
+
+	
+	<script type="application/x-glsl" id="sky-vertex">  
+	varying vec2 vUV;
+
+	void main() {  
+		vUV = uv;
+		vec4 pos = vec4(position, 10.0);
+		gl_Position = projectionMatrix * modelViewMatrix * pos;
+	}
+	</script>
+
+	<script type="application/x-glsl" id="sky-fragment">  
+	uniform sampler2D texture;  
+	varying vec2 vUV;
+
+	void main() {  
+		vec4 sample = texture2D(texture, vUV);
+		gl_FragColor = vec4(sample.xyz, sample.w);
+	}
+	</script>  
+
+	
+	
+
+
+
   <script src="js/third-party/threejs/three.js"></script>
   <script src="js/third-party/threejs/StereoEffect.js"></script>
   <script src="js/third-party/threejs/DeviceOrientationControls.js"></script>
@@ -28,17 +55,17 @@
   <script src="js/third-party/threejs/OBJLoader.js"></script>
 
   <script>
-    var camera, scene, renderer;
-    var effect, controls;
-    var element, container;
+	var camera, scene, renderer;
+	var effect, controls;
+	var element, container;
 
-    var clock = new THREE.Clock();
-	
+	var clock = new THREE.Clock();
+
 	//helper function 
 	function getRandomInt(min, max) {
-	  return Math.floor(Math.random() * (max - min)) + min;
+		return Math.floor(Math.random() * (max - min)) + min;
 	}
-	
+
 	
 	
 	
@@ -61,7 +88,60 @@
 	};
 	
 	
+	function makeSnow (scene) {
+		var texture = THREE.ImageUtils.loadTexture(
+			'textures/patterns/snow.jpg'
+		);
+		texture.wrapS = THREE.RepeatWrapping;
+		texture.wrapT = THREE.RepeatWrapping;
+		texture.repeat = new THREE.Vector2(1024, 768);
+		texture.anisotropy = renderer.getMaxAnisotropy();
+
+		var material = new THREE.MeshPhongMaterial({
+			color: 0xffffff,
+			specular: 0xffffff,
+			shininess: 10,
+			shading: THREE.FlatShading,
+			map: texture
+		});
+
+		var geometry = new THREE.PlaneGeometry(1000, 1000);
+
+		var mesh = new THREE.Mesh(geometry, material);
+		mesh.rotation.x = -Math.PI / 2;
+		scene.add(mesh);
+	};
 	
+	function addLight (scene) {
+        var light = new THREE.HemisphereLight(0xffffff, 0x000000, 0.6);
+        scene.add(light);
+	};
+
+	function addSky (scene) {
+		var geometry = new THREE.SphereGeometry(1000, 200, 100),
+			uniforms = {
+				texture: { type: 't', value: THREE.ImageUtils.loadTexture('textures/patterns/stars.jpg')}
+			},
+			material = new THREE.ShaderMaterial({
+				uniforms: uniforms,
+				vertexShader: document.getElementById('sky-vertex').textContent,
+				fragmentShader: document.getElementById('sky-fragment').textContent
+			}),
+			skybox = new THREE.Mesh(geometry, material);
+
+		skybox.scale.set(-1, 1, 1);
+		skybox.rotation.order = 'XZY';
+		skybox.renderDepth = 1000.0;
+
+
+		scene.add(skybox);
+		
+	}
+
+
+
+
+
 
     init();
     animate();
@@ -106,43 +186,21 @@
       window.addEventListener('deviceorientation', setOrientationControls, true);
 
 
-      var light = new THREE.HemisphereLight(0x777777, 0x000000, 0.6);
-      scene.add(light);
-
-      var texture = THREE.ImageUtils.loadTexture(
-        'textures/patterns/checker.png'
-      );
-      texture.wrapS = THREE.RepeatWrapping;
-      texture.wrapT = THREE.RepeatWrapping;
-      texture.repeat = new THREE.Vector2(50, 50);
-      texture.anisotropy = renderer.getMaxAnisotropy();
-
-      var material = new THREE.MeshPhongMaterial({
-        color: 0xffffff,
-        specular: 0xffffff,
-        shininess: 20,
-        shading: THREE.FlatShading,
-        map: texture
-      });
-
-      var geometry = new THREE.PlaneGeometry(1000, 1000);
-
-      var mesh = new THREE.Mesh(geometry, material);
-      mesh.rotation.x = -Math.PI / 2;
-      scene.add(mesh);
+		addLight(scene);
+		makeSnow(scene);
+		addSky(scene);
 
 		var trees = [ 
-					[ 40, 0 ],
-					[ 50, 10 ],
-					[ 30, 2 ],
-					[ 25, 10 ],
-					[ 30, -10 ]
-  								];
+			[ 40, 0 ],
+			[ 50, 10 ],
+			[ 30, 2 ],
+			[ 25, 10 ],
+			[ 30, -10 ]
+		];
 
-	  for (var i = 0; i < trees.length; i++) {
-	  	  makeTree(trees[i][0], trees[i][1]);
-	  }
-
+		for (var i = 0; i < trees.length; i++) {
+			makeTree(trees[i][0], trees[i][1]);
+		}
 
       window.addEventListener('resize', resize, false);
       setTimeout(resize, 1);
@@ -168,7 +226,9 @@
     }
 
     function render(dt) {
-      effect.render(scene, camera);
+		//uncomment next line and comment second to render in 2D
+        //renderer.render(scene, camera);
+        effect.render(scene, camera);
     }
 
     function animate(t) {
@@ -190,5 +250,9 @@
       }
     }
   </script>
+	
+
+	
+	
   </body>
 </html>

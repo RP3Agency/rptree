@@ -1,4 +1,4 @@
-# RPTree 2015: The Revenge of RPYeti
+# RPTree 2015: The Rise of RPYeti
 
 ## Prerequisites
 

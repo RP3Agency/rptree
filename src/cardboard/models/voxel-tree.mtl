@@ -1,0 +1,119 @@
+Wavefront OBJ material file
+# Contains 10 materials
+
+newmtl Grass_Block
+# Ns 0
+# Ka 0.2 0.2 0.2
+Kd 1 1 1
+Ks 0 0 0
+# map_Ka tree-RGB.png
+map_Kd tree-RGB.png
+# illum 2
+# d 1
+# Tr 1
+
+newmtl Wood
+# Ns 0
+# Ka 0.2 0.2 0.2
+Kd 1 1 1
+Ks 0 0 0
+# map_Ka tree-RGB.png
+map_Kd tree-RGB.png
+# illum 2
+# d 1
+# Tr 1
+
+newmtl Oak_Leaves
+# Ns 0
+# Ka 0.2 0.2 0.2
+Kd 1 1 1
+Ks 0 0 0
+# map_Ka tree-RGBA.png
+map_Kd tree-RGBA.png
+map_d tree-Alpha.png
+# illum 2
+# d 1
+# Tr 1
+
+newmtl Wool
+# Ns 0
+# Ka 0.2 0.2 0.2
+Kd 1 1 1
+Ks 0 0 0
+# map_Ka tree-RGB.png
+map_Kd tree-RGB.png
+# illum 2
+# d 1
+# Tr 1
+
+newmtl Redstone_Wire
+# Ns 0
+# Ka 0.2 0.2 0.2
+Kd 1 1 1
+Ks 0 0 0
+# map_Ka tree-RGB.png
+map_Kd tree-RGB.png
+# illum 2
+# d 1
+# Tr 1
+
+newmtl Redstone_Torch_(off)
+# Ns 0
+# Ka 0.2 0.2 0.2
+Kd 1 1 1
+Ks 0 0 0
+# map_Ka tree-RGBA.png
+map_Kd tree-RGBA.png
+map_d tree-Alpha.png
+# illum 2
+# d 1
+# Tr 1
+
+newmtl Redstone_Torch_(on)
+# Ns 0
+# Ka 0.2 0.2 0.2
+Kd 1 1 1
+Ks 0 0 0
+Ke 1 1 1
+# map_Ka tree-RGBA.png
+map_Kd tree-RGBA.png
+map_d tree-Alpha.png
+map_Ke tree-RGBA.png
+# illum 2
+# d 1
+# Tr 1
+
+newmtl Snow
+# Ns 0
+# Ka 0.2 0.2 0.2
+Kd 1 1 1
+Ks 0 0 0
+# map_Ka tree-RGB.png
+map_Kd tree-RGB.png
+# illum 2
+# d 1
+# Tr 1
+
+newmtl Stone_Bricks
+# Ns 0
+# Ka 0.2 0.2 0.2
+Kd 1 1 1
+Ks 0 0 0
+# map_Ka tree-RGB.png
+map_Kd tree-RGB.png
+# illum 2
+# d 1
+# Tr 1
+
+newmtl Redstone_Lamp_(on)
+# Ns 0
+# Ka 0.2 0.2 0.2
+Kd 1 1 1
+Ks 0 0 0
+Ke 1 1 1
+# map_Ka tree-RGB.png
+map_Kd tree-RGB.png
+map_Ke tree-RGB.png
+# illum 2
+# d 1
+# Tr 1

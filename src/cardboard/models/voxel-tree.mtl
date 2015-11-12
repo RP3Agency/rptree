@@ -1,24 +1,13 @@
 Wavefront OBJ material file
-# Contains 10 materials
-
-newmtl Grass_Block
-# Ns 0
-# Ka 0.2 0.2 0.2
-Kd 1 1 1
-Ks 0 0 0
-# map_Ka tree-RGB.png
-map_Kd tree-RGB.png
-# illum 2
-# d 1
-# Tr 1
+# Contains 8 materials
 
 newmtl Wood
 # Ns 0
 # Ka 0.2 0.2 0.2
 Kd 1 1 1
 Ks 0 0 0
-# map_Ka tree-RGB.png
-map_Kd tree-RGB.png
+# map_Ka voxel-tree-RGB.png
+map_Kd voxel-tree-RGB.png
 # illum 2
 # d 1
 # Tr 1
@@ -28,9 +17,9 @@ newmtl Oak_Leaves
 # Ka 0.2 0.2 0.2
 Kd 1 1 1
 Ks 0 0 0
-# map_Ka tree-RGBA.png
-map_Kd tree-RGBA.png
-map_d tree-Alpha.png
+# map_Ka voxel-tree-RGBA.png
+map_Kd voxel-tree-RGBA.png
+map_d voxel-tree-Alpha.png
 # illum 2
 # d 1
 # Tr 1
@@ -40,8 +29,8 @@ newmtl Wool
 # Ka 0.2 0.2 0.2
 Kd 1 1 1
 Ks 0 0 0
-# map_Ka tree-RGB.png
-map_Kd tree-RGB.png
+# map_Ka voxel-tree-RGB.png
+map_Kd voxel-tree-RGB.png
 # illum 2
 # d 1
 # Tr 1
@@ -51,8 +40,8 @@ newmtl Redstone_Wire
 # Ka 0.2 0.2 0.2
 Kd 1 1 1
 Ks 0 0 0
-# map_Ka tree-RGB.png
-map_Kd tree-RGB.png
+# map_Ka voxel-tree-RGB.png
+map_Kd voxel-tree-RGB.png
 # illum 2
 # d 1
 # Tr 1
@@ -62,9 +51,9 @@ newmtl Redstone_Torch_(off)
 # Ka 0.2 0.2 0.2
 Kd 1 1 1
 Ks 0 0 0
-# map_Ka tree-RGBA.png
-map_Kd tree-RGBA.png
-map_d tree-Alpha.png
+# map_Ka voxel-tree-RGBA.png
+map_Kd voxel-tree-RGBA.png
+map_d voxel-tree-Alpha.png
 # illum 2
 # d 1
 # Tr 1
@@ -75,10 +64,10 @@ newmtl Redstone_Torch_(on)
 Kd 1 1 1
 Ks 0 0 0
 Ke 1 1 1
-# map_Ka tree-RGBA.png
-map_Kd tree-RGBA.png
-map_d tree-Alpha.png
-map_Ke tree-RGBA.png
+# map_Ka voxel-tree-RGBA.png
+map_Kd voxel-tree-RGBA.png
+map_d voxel-tree-Alpha.png
+map_Ke voxel-tree-RGBA.png
 # illum 2
 # d 1
 # Tr 1
@@ -88,19 +77,8 @@ newmtl Snow
 # Ka 0.2 0.2 0.2
 Kd 1 1 1
 Ks 0 0 0
-# map_Ka tree-RGB.png
-map_Kd tree-RGB.png
-# illum 2
-# d 1
-# Tr 1
-
-newmtl Stone_Bricks
-# Ns 0
-# Ka 0.2 0.2 0.2
-Kd 1 1 1
-Ks 0 0 0
-# map_Ka tree-RGB.png
-map_Kd tree-RGB.png
+# map_Ka voxel-tree-RGB.png
+map_Kd voxel-tree-RGB.png
 # illum 2
 # d 1
 # Tr 1
@@ -111,9 +89,9 @@ newmtl Redstone_Lamp_(on)
 Kd 1 1 1
 Ks 0 0 0
 Ke 1 1 1
-# map_Ka tree-RGB.png
-map_Kd tree-RGB.png
-map_Ke tree-RGB.png
+# map_Ka voxel-tree-RGB.png
+map_Kd voxel-tree-RGB.png
+map_Ke voxel-tree-RGB.png
 # illum 2
 # d 1
 # Tr 1

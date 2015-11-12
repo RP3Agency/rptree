@@ -28,8 +28,6 @@
 	<script src="js/third-party/threejs/StereoEffect.js"></script>
 	<script src="js/third-party/threejs/DeviceOrientationControls.js"></script>
 	<script src="js/third-party/threejs/OrbitControls.js"></script>
-	<script src="js/third-party/threejs/OBJLoader.js"></script>
-	<script src="js/third-party/threejs/DDSLoader.js"></script>
 	<script src="js/third-party/threejs/MTLLoader.js"></script>
 	<script src="js/third-party/threejs/OBJMTLLoader.js"></script>
 
@@ -40,22 +38,14 @@
 
 		var clock = new THREE.Clock();
 
-		//helper function
-		function getRandomInt(min, max) {
-			return Math.floor(Math.random() * (max - min)) + min;
-		}
-
 		function makeTrees(trees) {
-			THREE.Loader.Handlers.add(/\.dds$/i, new THREE.DDSLoader());
 			var loader = new THREE.OBJMTLLoader();
 			loader.load('models/voxel-tree.obj', 'models/voxel-tree.mtl', function(object) {
 				for (var i = 0; i < trees.length; i++) {
 					var tree = object.clone();
 					tree.castShadow = true;
 					tree.translateX(trees[i][0]);
-					tree.translateY(-0.9);
 					tree.translateZ(trees[i][1]);
-					tree.scale.set(6, 6, 6);
 					scene.add(tree);
 				}
 			});
@@ -127,21 +117,24 @@
 			container = document.getElementById('example');
 			container.appendChild(element);
 
-			effect = new THREE.StereoEffect(renderer);
+			effect = new THREE.StereoEffect( renderer );
+			effect.eyeSeparation = 1;
+			effect.focalLength = 15;
 
 			scene = new THREE.Scene();
 
-			camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.001, 700);
-			camera.position.set(0, 8, 0);
+			//var fov = ( window.location.hash == '#desktop' ) ? 45 : 90;
+			camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.001, 700 );
+			camera.position.set(0, 1, 0);
 
-			controls = new THREE.OrbitControls(camera, element);
+			controls = new THREE.OrbitControls( camera, element );
 			controls.target.set(
 				camera.position.x + 0.1,
 				camera.position.y,
 				camera.position.z
 			);
-			controls.noZoom = true;
-			controls.noPan = true;
+			controls.enableZoom = false;
+			controls.enablePan = false;
 
 			function setOrientationControls(e) {
 				if (!e.alpha) {
@@ -164,12 +157,12 @@
 			addSky(scene);
 
 			var trees = [
-				[50, 20],
-				[30, 2],
-				[25, 10],
-				[30, -15],
-				[60, -5],
-				[-20, 0],
+				[10, -2],
+				[10, 1],
+				[5, -3],
+				[7, 0],
+				[5, 3],
+				[-5, 0],
 			];
 
 			makeTrees(trees);
@@ -198,9 +191,11 @@
 		}
 
 		function render(dt) {
-			//uncomment next line and comment second to render in 2D
-			renderer.render(scene, camera);
-			//effect.render(scene, camera);
+			if( window.location.hash == '#desktop' ) {
+				renderer.render(scene, camera);
+			} else {
+				effect.render(scene, camera);
+			}
 		}
 
 		function animate(t) {

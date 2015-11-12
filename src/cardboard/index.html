@@ -43,9 +43,15 @@
 			loader.load('models/voxel-tree.obj', 'textures/voxel-tree.mtl', function(object) {
 				for (var i = 0; i < trees.length; i++) {
 					var tree = object.clone();
-					tree.castShadow = true;
 					tree.translateX(trees[i][0]);
 					tree.translateZ(trees[i][1]);
+					/* wireframe mode
+					tree.traverse(function(child) {
+						if ( child instanceof THREE.Mesh ) {
+							child.material.wireframe = true;
+						}
+					});
+					*/
 					scene.add(tree);
 				}
 			});
@@ -56,22 +62,17 @@
             loader.load('textures/patterns/pixel-snow.jpg', function(texture) {
                 texture.wrapS = THREE.RepeatWrapping;
     			texture.wrapT = THREE.RepeatWrapping;
-    			texture.repeat = new THREE.Vector2(2048, 2048);
+    			texture.repeat = new THREE.Vector2(1024, 1024);
     			texture.anisotropy = renderer.getMaxAnisotropy();
 
     			var material = new THREE.MeshPhongMaterial({
-    				color: 0xffffff,
-    				specular: 0xffffff,
-    				shininess: 10,
-    				shading: THREE.FlatShading,
     				map: texture
     			});
 
-    			var geometry = new THREE.PlaneGeometry(1000, 1000);
+    			var geometry = new THREE.PlaneGeometry(200, 200);
 
     			var mesh = new THREE.Mesh(geometry, material);
     			mesh.rotation.x = -Math.PI / 2;
-                mesh.receiveShadow = true;
     			scene.add(mesh);
             });
 		};
@@ -83,7 +84,6 @@
 			var directional = new THREE.DirectionalLight( 0xffeedd, 0.4 );
             directional.position.set(-200, 100, -100);
 			directional.target.position.set(30, 0, 10);
-            directional.castShadow = true;
             scene.add( directional );
 		};
 
@@ -108,7 +108,6 @@
 				antialias: true,
 			});
             renderer.setSize( window.innerWidth, window.innerHeight );
-            renderer.shadowMap.enabled = true;
 
 			element = renderer.domElement;
 			container = document.getElementById('example');
@@ -157,7 +156,7 @@
 				[10, -2],
 				[10, 1],
 				[5, -3],
-				[7, 0],
+				[7, -0.25],
 				[5, 3],
 				[-5, 0],
 			];

@@ -24,16 +24,6 @@
 <body>
 	<div id="example"></div>
 
-
-
-	<script type="application/x-glsl" id="sky-vertex">
-		varying vec2 vUV; void main() { vUV = uv; vec4 pos = vec4(position, 10.0); gl_Position = projectionMatrix * modelViewMatrix * pos; }
-	</script>
-
-	<script type="application/x-glsl" id="sky-fragment">
-		uniform sampler2D texture; varying vec2 vUV; void main() { vec4 sample = texture2D(texture, vUV); gl_FragColor = vec4(sample.xyz, sample.w); }
-	</script>
-
 	<script src="js/third-party/threejs/three.js"></script>
 	<script src="js/third-party/threejs/StereoEffect.js"></script>
 	<script src="js/third-party/threejs/DeviceOrientationControls.js"></script>
@@ -113,22 +103,12 @@
 		function addSky(scene) {
             var loader = new THREE.TextureLoader();
             loader.load('textures/patterns/starfield.png', function(texture) {
-    			var geometry = new THREE.SphereGeometry(1000, 200, 100),
-    				uniforms = {
-    					texture: {
-    						type: 't',
-    						value: texture
-    					}
-    				},
-    				material = new THREE.ShaderMaterial({
-    					uniforms: uniforms,
-    					vertexShader: document.getElementById('sky-vertex').textContent,
-    					fragmentShader: document.getElementById('sky-fragment').textContent
-    				}),
+    			var geometry = new THREE.SphereGeometry(200, 32, 32),
+					material = new THREE.MeshBasicMaterial({
+						map: texture,
+						side: THREE.BackSide
+					}),
     				skybox = new THREE.Mesh(geometry, material);
-    			skybox.scale.set(-1, 1, 1);
-    			skybox.rotation.order = 'XZY';
-    			skybox.renderOrder = 1000.0;
     			scene.add(skybox);
             });
 		}

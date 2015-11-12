@@ -1,3 +1,7 @@
+.cardboard-instructions {
+	@include make-col-span(12);
+}
+
 .how-to-use-cardboard {
 	display: none;
 }

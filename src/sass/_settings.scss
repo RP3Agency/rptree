@@ -5,7 +5,8 @@
 $colors: (
 	"blue--light":		#c0d1da,
 	"blue--dark":		#061a25,
-	"blue--brand":		#00aeef
+	"blue--brand":		#00aeef,
+	"white":			#fff
 );
 
 @function get-color( $key ) {

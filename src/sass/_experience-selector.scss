@@ -1,0 +1,52 @@
+.experience-selector {
+	display: flex;
+
+	> a {
+		width: 50%;
+
+		@include hover-state {
+			text-decoration: none;
+
+			.experience-selector__image__container::before {
+				background-color: rgba( 255, 255, 255, 0.4 );
+			}
+		}
+	}
+
+	&__image {
+		@include aspect-ratio();
+	}
+
+	&__image__container {
+		display: flex;
+
+		&::before {
+			bottom: 0;
+			content: "";
+			display: block;
+			left: 0;
+			position: absolute;
+			right: 0;
+			top: 0;
+			transition: background-color 0.2s;
+			z-index: 1;
+		}
+	}
+
+	.experience-selector__image--vr {
+
+		img {
+			display: block;
+			width: 50%;
+		}
+	}
+
+	&__text {
+		background-color: $gray-lightest; // bootstrap color variable
+		border: 1px solid $gray-light; // bootstrap color variable
+		font-size: 0.8em;
+		padding: 3px;
+		text-transform: uppercase;
+		white-space: nowrap;
+	}
+}

@@ -2,25 +2,25 @@
 	background-color: get-color( "blue--brand" );
 	color: get-color( "white" );
 	height: 4em;
+	white-space: nowrap;
 
 	&__inner {
 		height: 100%;
 		@include make-container();
 	}
-	// &__inner
 
 	&__row {
 		height: 100%;
+		justify-content: space-between;
 		@include make-row();
 	}
-	// &__row
 
 	&__logo {
 		align-items: center;
 		display: flex;
 		height: 100%;
 		@include make-col();
-		@include make-col-span(6);
+		// @include make-col-span(6);
 
 		svg {
 			height: 2em;
@@ -42,5 +42,12 @@
 			}
 		}
 	}
-	// &__logo
+	
+	&__social-media {
+		display: none !important;
+
+		@include media-breakpoint-up(sm) {
+			display: flex !important;
+		}
+	}
 }

@@ -3,7 +3,10 @@
 	display: flex;
 	justify-content: flex-end;
 	@include make-col();
-	@include make-col-span(6);
+
+	@include media-breakpoint-up(sm) {
+		// @include make-col-span(6);
+	}
 }
 
 ul.social-media {

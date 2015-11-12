@@ -15,6 +15,10 @@
 
 	&__image {
 		@include aspect-ratio();
+
+		img {
+			width: 100%;
+		}
 	}
 
 	&__image__container {

@@ -26,7 +26,10 @@ body.page {
  * Site Footer
  */
 
-.site-footer {
-	background-color: get-color( "blue--brand" );
-	height: 4em;
-}
+@import "site-footer";
+
+/**
+ * Social Media
+ */
+
+@import "social-media";

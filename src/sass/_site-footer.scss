@@ -1,4 +1,4 @@
-.site-header {
+.site-footer {
 	background-color: get-color( "blue--brand" );
 	color: get-color( "white" );
 	height: 4em;
@@ -23,8 +23,19 @@
 		@include make-col();
 		@include make-col-span(6);
 
+		a {
+			color: get-color( "white" );
+			display: inline-block;
+
+			@include hover-state {
+				text-decoration: none;
+			}
+		}
+
 		svg {
-			height: 2em;
+			display: inline-block;
+			height: 1.5em;
+			margin-bottom: -0.5em;
 			width: auto;
 
 			path {

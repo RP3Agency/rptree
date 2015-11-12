@@ -40,7 +40,7 @@
 
 		function makeTrees(trees) {
 			var loader = new THREE.OBJMTLLoader();
-			loader.load('models/voxel-tree.obj', 'models/voxel-tree.mtl', function(object) {
+			loader.load('models/voxel-tree.obj', 'textures/voxel-tree.mtl', function(object) {
 				for (var i = 0; i < trees.length; i++) {
 					var tree = object.clone();
 					tree.castShadow = true;
@@ -53,10 +53,10 @@
 
 		function makeSnow(scene) {
             var loader = new THREE.TextureLoader();
-            loader.load('textures/patterns/snow-ground.jpg', function(texture) {
+            loader.load('textures/patterns/pixel-snow.jpg', function(texture) {
                 texture.wrapS = THREE.RepeatWrapping;
     			texture.wrapT = THREE.RepeatWrapping;
-    			texture.repeat = new THREE.Vector2(1024, 1024);
+    			texture.repeat = new THREE.Vector2(2048, 2048);
     			texture.anisotropy = renderer.getMaxAnisotropy();
 
     			var material = new THREE.MeshPhongMaterial({
@@ -77,11 +77,8 @@
 		};
 
 		function addLights(scene) {
-			var light = new THREE.HemisphereLight(0xffffff, 0x000000, 0.6);
+			var light = new THREE.HemisphereLight(0xffffff, 0x000000, 0.8);
 			scene.add( light );
-
-			var ambient = new THREE.AmbientLight(0x444444);
-			scene.add( ambient );
 
 			var directional = new THREE.DirectionalLight( 0xffeedd, 0.4 );
             directional.position.set(-200, 100, -100);

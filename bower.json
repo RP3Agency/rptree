@@ -17,7 +17,7 @@
     "tests"
   ],
   "devDependencies": {
-    "bootstrap-sass": "~3.3.5",
-    "compass-breakpoint": "breakpoint-sass#~2.6.1"
+    "compass-breakpoint": "breakpoint-sass#~2.6.1",
+    "bootstrap": "4.0.0-alpha"
   }
 }

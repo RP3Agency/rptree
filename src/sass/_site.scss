@@ -1,0 +1,44 @@
+/**
+ * Sticky footer via flexbox (http://philipwalton.github.io/solved-by-flexbox/demos/sticky-footer/)
+ */
+
+body.page {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+}
+
+/**
+ * Site Header
+ */
+
+.site-header {
+	background-color: get-color( "blue--brand" );
+	height: 4em;
+
+	&__inner {
+		max-width: 60em;
+		@include make-container();
+	}
+
+	&__row {
+		@include make-row();
+	}
+}
+
+/**
+ * Main Content
+ */
+
+.site-content {
+	flex: 1;
+}
+
+/**
+ * Site Footer
+ */
+
+.site-footer {
+	background-color: get-color( "blue--brand" );
+	height: 4em;
+}

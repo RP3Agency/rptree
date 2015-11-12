@@ -4,7 +4,8 @@
 
 $colors: (
 	"blue--light":		#c0d1da,
-	"blue--dark":		#061a25
+	"blue--dark":		#061a25,
+	"blue--brand":		#00aeef
 );
 
 @function get-color( $key ) {
@@ -19,3 +20,10 @@ $colors: (
 @include breakpoint-set( 'to ems', true );
 
 $bp: 718px;
+
+
+/**
+ * Bootstrap Variables
+ */
+
+$enable-flex: true;

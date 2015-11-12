@@ -115,13 +115,22 @@ gulp.task( 'cardboard', function() {
 		.pipe( livereload() );
 });
 
+// Process Font Awesome fonts from bower_components
+gulp.task( 'font-awesome', function() {
+	return gulp.src( __dirname + '/bower_components/font-awesome/fonts/**' )
+		.pipe( plumber( logError ) )
+		.pipe( gulp.dest( __dirname + '/dist/fonts' ) )
+		.pipe( notify( { message: 'Font Awesome task complete', onLast: true } ) )
+		.pipe( livereload() );
+});
+
 // Clean task
 gulp.task('clean', function() {
 	return del([__dirname + '/dist/**']);
 });
 
 // Build task
-gulp.task('build', [ 'static', 'html', 'styles', 'scripts', 'cardboard' ]);
+gulp.task('build', [ 'static', 'html', 'styles', 'scripts', 'cardboard', 'font-awesome' ]);
 
 // Rebuild task
 gulp.task('rebuild', [ 'clean' ], function() {

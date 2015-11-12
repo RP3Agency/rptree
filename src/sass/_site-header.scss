@@ -1,0 +1,88 @@
+.site-header {
+	background-color: get-color( "blue--brand" );
+	color: get-color( "white" );
+	height: 4em;
+
+	&__inner {
+		height: 100%;
+		max-width: 60em;
+		@include make-container();
+	}
+
+	&__row {
+		height: 100%;
+		@include make-row();
+	}
+
+	&__logo {
+		align-items: center;
+		display: flex;
+		height: 100%;
+		@include make-col();
+		@include make-col-span(6);
+
+		svg {
+			height: 2em;
+			width: auto;
+
+			path {
+				fill: get-color( "white" );
+			}
+		}
+
+		&__tagline {
+			display: block;
+			margin-top: -0.75em;
+			text-indent: 2em;
+
+			a {
+				color: get-color( "white" );
+				text-decoration: underline;
+			}
+		}
+	}
+
+	&__social-media {
+		align-items: center;
+		display: flex;
+		justify-content: flex-end;
+		@include make-col();
+		@include make-col-span(6);
+
+		ul {
+			margin-bottom: 0;
+		}
+
+		li {
+
+			a {
+				@extend .fa;
+				@extend .fa-2x;
+				color: get-color( "white" );
+				display: inline-block;
+				text-indent: 100%;
+				overflow: hidden;
+				position: relative;
+				white-space: nowrap;
+				width: 32px;
+
+				&::before {
+					bottom: 0;
+					left: 0;
+					position: absolute;
+					right: 0;
+					text-indent: 0;
+					top: 0;
+				}
+			}
+
+			&.tw a {
+				@extend .fa-twitter;
+			}
+
+			&.in a {
+				@extend .fa-instagram;
+			}
+		}
+	}
+}

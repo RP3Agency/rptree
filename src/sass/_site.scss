@@ -12,48 +12,7 @@ body.page {
  * Site Header
  */
 
-.site-header {
-	background-color: get-color( "blue--brand" );
-	color: get-color( "white" );
-	height: 4em;
-
-	&__inner {
-		height: 100%;
-		max-width: 60em;
-		@include make-container();
-	}
-
-	&__row {
-		height: 100%;
-		@include make-row();
-	}
-
-	&__logo {
-		align-items: center;
-		display: flex;
-		height: 100%;
-
-		svg {
-			height: 2em;
-			width: auto;
-
-			path {
-				fill: get-color( "white" );
-			}
-		}
-
-		&__tagline {
-			display: block;
-			margin-top: -0.75em;
-			text-indent: 2em;
-
-			a {
-				color: get-color( "white" );
-				text-decoration: underline;
-			}
-		}
-	}
-}
+@import "site-header";
 
 /**
  * Main Content

@@ -33,6 +33,7 @@
 
 	<script>
 		var camera, scene, renderer;
+		var sceneHUD, cameraHUD;
 		var effect, controls;
 		var element, container;
 
@@ -100,6 +101,28 @@
             });
 		}
 
+		function addHUD() {
+			var width = window.innerWidth;
+			var height = window.innerHeight;
+			var hudCanvas = document.createElement('canvas');
+			hudCanvas.width = width;
+			hudCanvas.height = height;
+			var hudBitmap = hudCanvas.getContext('2d');
+			hudBitmap.font = "Normal 20px Arial";
+			hudBitmap.textAlign = 'center';
+			hudBitmap.fillStyle = "rgba(245,245,245,0.85)";
+			hudBitmap.fillText('INSERT COIN', width / 2, height / 3);
+			cameraHUD = new THREE.OrthographicCamera( -width/2, width/2, height/2, -height/2, 0, 30	);
+			sceneHUD = new THREE.Scene();
+			var hudTexture = new THREE.Texture(hudCanvas)
+			hudTexture.needsUpdate = true;
+			var material = new THREE.MeshBasicMaterial( {map: hudTexture } );
+			material.transparent = true;
+			var planeGeometry = new THREE.PlaneGeometry( width, height );
+			var plane = new THREE.Mesh( planeGeometry, material );
+			sceneHUD.add( plane );
+		}
+
 		init();
 		animate();
 
@@ -163,6 +186,8 @@
 
 			makeTrees(trees);
 
+			addHUD();
+
 			window.addEventListener('resize', resize, false);
 			setTimeout(resize, 1);
 		}
@@ -189,8 +214,10 @@
 		function render(dt) {
 			if( window.location.hash == '#desktop' ) {
 				renderer.render(scene, camera);
+				renderer.render(sceneHUD, cameraHUD);
 			} else {
 				effect.render(scene, camera);
+				renderer.render(sceneHUD, cameraHUD);
 			}
 		}
 

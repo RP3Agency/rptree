@@ -20,7 +20,7 @@ RPYeti.game = (function() {
 
 			// create perspective camera
 			var fov = ( RPYeti.config.stereo ) ? RPYeti.config.cardboard.fov : RPYeti.config.desktop.fov;
-			this.camera = new THREE.PerspectiveCamera( fov, window.innerWidth / window.innerHeight, 0.001, 700 );
+			this.camera = new THREE.PerspectiveCamera( fov, window.innerWidth / window.innerHeight, 0.1, 200 );
 			this.camera.position.set( 0, 1, 0 );
 			this.scene.add( this.camera );
 
@@ -48,7 +48,7 @@ RPYeti.game = (function() {
 			this.addTrees();
 
 			// add game HUD
-			//this.addHUD();
+			this.addHUD();
 
 			if( RPYeti.config.wireframe ) {
 				setTimeout(function() {
@@ -216,30 +216,37 @@ RPYeti.game = (function() {
 
 		addHUD: function() {
 			//TODO: fix canvas size warning, figure out correct size and scale of HUD
-			var width = 1024;
-			var height = 1024;
+			var width = self.container.offsetWidth;
+			var height = self.container.offsetHeight;
 
-			var hudCanvas = $('canvas').width( width ).height( height );
+			var hudCanvas = document.createElement('canvas');
+			hudCanvas.width = width;
+			hudCanvas.height = height;
 
-			hud = hudCanvas.getContext('2d');
-			hud.font = "Normal 20px Arial";
-			hud.textAlign = 'center';
-			hud.fillStyle = "rgba(245,245,245,0.85)";
-			hud.fillText( 'INSERT COIN', width / 2, height / 3 );
+			self.hud = hudCanvas.getContext('2d');
+			self.hud.font = "Normal 16px Arial";
+			self.hud.textAlign = 'center';
+			self.hud.fillStyle = "rgba(245,245,245,0.85)";
+			self.hud.fillText( 'INSERT COIN', width / 2, height / 3 );
+
+			// self.hud.beginPath();
+			// self.hud.lineWidth = '200';
+			// self.hud.strokeStyle = 'rgba(255,255,255,1.0)';
+			// self.hud.rect(0, 0 , width, height);
+			// self.hud.stroke();
 
 			var hudTexture = new THREE.Texture( hudCanvas );
+			hudTexture.magFilter = THREE.NearestFilter;
+			hudTexture.minFilter = THREE.NearestFilter;
 			hudTexture.needsUpdate = true;
-			hudTexture.wrapS = THREE.RepeatWrapping;
-			hudTexture.wrapT = THREE.RepeatWrapping;
-			hudTexture.repeat = new THREE.Vector2(1024, 1024);
 
 			var material = new THREE.MeshBasicMaterial({ map: hudTexture });
 			material.transparent = true;
 
-			var planeGeometry = new THREE.PlaneGeometry( 16, 16 );
+			var planeGeometry = new THREE.PlaneGeometry( self.container.offsetWidth / 1000, self.container.offsetHeight / 1000 );
 			var plane = new THREE.Mesh( planeGeometry, material );
-			plane.position.set( 0, 1, -0.2 );
-			plane.scale.set( 12, 12, 12 )
+			plane.position.set( 0, 0, -0.2 );
+			plane.scale.set( 0.18, 0.18, 0.18 )
 
 			self.camera.add( plane );
 		},

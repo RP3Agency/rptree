@@ -20,8 +20,8 @@ RPYeti.game = (function() {
 
 			// create perspective camera
 			var fov = ( RPYeti.config.stereo ) ? RPYeti.config.cardboard.fov : RPYeti.config.desktop.fov;
-			this.camera = new THREE.PerspectiveCamera( fov, window.innerWidth / window.innerHeight, 0.1, 200 );
-			this.camera.position.set( 0, 1, 0 );
+			this.camera = new THREE.PerspectiveCamera( fov, 1, 0.1, 1000 );
+			this.camera.position.set( 0, 10, 0 );
 			this.scene.add( this.camera );
 
 			// create user controls
@@ -139,8 +139,8 @@ RPYeti.game = (function() {
 
 			if( RPYeti.config.stereo ) {
 				this.stereo = new THREE.StereoEffect( this.renderer );
-				this.eyeSeparation = RPYeti.config.cardboard.eyeSeparation;
-				this.focalLength = RPYeti.config.cardboard.focalLength;
+				this.stereo.eyeSeparation = RPYeti.config.cardboard.eyeSeparation;
+				this.stereo.focalLength = RPYeti.config.cardboard.focalLength;
 			}
 
 		},
@@ -153,14 +153,14 @@ RPYeti.game = (function() {
 			loader.load('../textures/patterns/pixel-snow.jpg', function(texture) {
 				texture.wrapS = THREE.RepeatWrapping;
 				texture.wrapT = THREE.RepeatWrapping;
-				texture.repeat = new THREE.Vector2(1024, 1024);
+				texture.repeat = new THREE.Vector2(512, 512);
 				texture.anisotropy = self.renderer.getMaxAnisotropy();
 
 				var material = new THREE.MeshPhongMaterial({
 					map: texture
 				});
 
-				var geometry = new THREE.PlaneGeometry(200, 200);
+				var geometry = new THREE.PlaneGeometry(1000, 1000);
 
 				var mesh = new THREE.Mesh(geometry, material);
 				mesh.rotation.x = -Math.PI / 2;
@@ -172,7 +172,7 @@ RPYeti.game = (function() {
 			//TODO: move asynchronous texture loader to preloader
 			var loader = new THREE.TextureLoader();
 			loader.load('../textures/patterns/starfield.png', function(texture) {
-				var geometry = new THREE.SphereGeometry(200, 32, 32),
+				var geometry = new THREE.SphereGeometry(1000, 32, 32),
 					material = new THREE.MeshBasicMaterial({
 						map: texture,
 						side: THREE.BackSide
@@ -201,8 +201,9 @@ RPYeti.game = (function() {
 			loader.load('../models/voxel-tree.obj', '../textures/voxel-tree.mtl', function(object) {
 				for (var i = 0; i < trees.length; i++) {
 					var tree = object.clone();
-					tree.translateX(trees[i][0]);
-					tree.translateZ(trees[i][1]);
+					tree.translateX( trees[i][0] );
+					tree.translateZ( trees[i][1] );
+					tree.scale.set( 10, 10, 10 );
 					self.scene.add(tree);
 				}
 			});

@@ -35,7 +35,7 @@ RPYeti.game = (function() {
 			this.controls.enablePan = false;
 
 			// if device orientation event is triggered, set controls to orientation mode
-			$(window).on('deviceorientation', this.setOrientationControls);
+			window.addEventListener('deviceorientation', this.setOrientationControls, true);
 
 			this.clock = new THREE.Clock();
 
@@ -97,9 +97,9 @@ RPYeti.game = (function() {
 			self.controls.connect();
 			self.controls.update();
 
-			$(self.renderer.domElement).on('click', fullscreen);
+			self.renderer.domElement.addEventListener('click', self.fullscreen, false);
 
-			$(window).off('deviceorientation', self.setOrientationControls);
+			window.removeEventListener('deviceorientation', self.setOrientationControls, true);
 		},
 
 		resize: function() {
@@ -246,7 +246,7 @@ RPYeti.game = (function() {
 			var planeGeometry = new THREE.PlaneGeometry( self.container.offsetWidth / 1000, self.container.offsetHeight / 1000 );
 			var plane = new THREE.Mesh( planeGeometry, material );
 			plane.position.set( 0, 0, -0.2 );
-			plane.scale.set( 0.18, 0.18, 0.18 )
+			plane.scale.set( 0.18, 0.18, 0.18 );
 
 			self.camera.add( plane );
 		},

@@ -16,7 +16,7 @@ RPYeti.game = (function() {
 
 			// create renderer and scene
 			this.createRenderer();
-			this.scene = new THREE.Scene();
+			this.createScene();
 
 			// create perspective camera
 			var fov = ( RPYeti.config.stereo ) ? RPYeti.config.cardboard.fov : RPYeti.config.desktop.fov;
@@ -145,7 +145,15 @@ RPYeti.game = (function() {
 				// for better comfort on larger format phones
 				this.stereo.eyeSeparation = (1 / 30) * this.stereo.focalLength * (750 / window.innerWidth);
 			}
+		},
 
+		createScene: function() {
+			this.scene = new THREE.Scene();
+
+			if( RPYeti.config.stereo ) {
+				this.scene.add( this.stereo.left );
+				this.scene.add( this.stereo.right );
+			}
 		},
 
 		/** Environment **/
@@ -219,25 +227,28 @@ RPYeti.game = (function() {
 		/** Game interface (HUD) **/
 
 		addHUD: function() {
-			//TODO: fix canvas size warning, figure out correct size and scale of HUD
-			var width = self.container.offsetWidth;
-			var height = self.container.offsetHeight;
+			var width = 1024;
+			var height = 1024;
 
 			var hudCanvas = document.createElement('canvas');
 			hudCanvas.width = width;
 			hudCanvas.height = height;
 
+			// save context
 			self.hud = hudCanvas.getContext('2d');
-			self.hud.font = "Normal 16px Arial";
-			self.hud.textAlign = 'center';
-			self.hud.fillStyle = "rgba(245,245,245,0.85)";
-			self.hud.fillText( 'INSERT COIN', width / 2, height / 3 );
 
-			// self.hud.beginPath();
-			// self.hud.lineWidth = '200';
-			// self.hud.strokeStyle = 'rgba(255,255,255,1.0)';
-			// self.hud.rect(0, 0 , width, height);
-			// self.hud.stroke();
+			// draw text
+			// self.hud.font = "Normal 20px Arial";
+			// self.hud.textAlign = 'center';
+			// self.hud.fillStyle = "rgba(245,245,245,0.85)";
+			// self.hud.fillText( 'INSERT COIN', width / 2, height / 3 );
+
+			// draw reticle
+			self.hud.beginPath();
+	        self.hud.arc( width/2, height/2, 50, 0, 2 * Math.PI, false );
+	        self.hud.lineWidth = 5;
+	        self.hud.strokeStyle = 'rgb(0,174,239)';
+	        self.hud.stroke();
 
 			var hudTexture = new THREE.Texture( hudCanvas );
 			hudTexture.magFilter = THREE.NearestFilter;
@@ -247,12 +258,19 @@ RPYeti.game = (function() {
 			var material = new THREE.MeshBasicMaterial({ map: hudTexture });
 			material.transparent = true;
 
-			var planeGeometry = new THREE.PlaneGeometry( self.container.offsetWidth / 1000, self.container.offsetHeight / 1000 );
+			var planeGeometry = new THREE.PlaneGeometry( 1, 1 );
 			var plane = new THREE.Mesh( planeGeometry, material );
-			plane.position.set( 0, 0, -0.2 );
-			plane.scale.set( 0.18, 0.18, 0.18 );
 
-			self.camera.add( plane );
+			if( RPYeti.config.stereo ) {
+				var plane2 = plane.clone();
+				plane.position.set( this.stereo.eyeSeparation / 20, 0, -1 );
+				this.stereo.left.add( plane );
+				plane2.position.set( - this.stereo.eyeSeparation / 20, 0, -1 );
+				this.stereo.right.add( plane2 );
+			} else {
+				plane.position.set( 0, 0, -1 );
+				self.camera.add( plane );
+			}
 		},
 
 	};

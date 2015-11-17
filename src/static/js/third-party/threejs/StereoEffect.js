@@ -61,6 +61,10 @@ THREE.StereoEffect = function ( renderer ) {
 	var _ndfl, _halfFocalWidth, _halfFocalHeight;
 	var _innerFactor, _outerFactor;
 
+	// CUSTOM: exposing private properties
+	this.left = _cameraL;
+	this.right = _cameraR;
+
 	// initialization
 
 	renderer.autoClear = false;

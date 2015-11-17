@@ -6,8 +6,7 @@ RPYeti.config = {
 
 	stereo: false,
 	cardboard: {
-		fov: 90,
-		eyeSeparation: 1,
+		fov: 60,
 		focalLength: 15,
 	},
 	desktop: {
@@ -15,12 +14,14 @@ RPYeti.config = {
 	},
 
 	trees: [
+		[300, -125],
+		[300, 115],
 		[100, -20],
 		[100, 10],
 		[50, -30],
 		[70, -2.5],
 		[50, 30],
-		[-50, 0],
+		[-10, 0],
 	],
 
 	/** Debug Settings **/

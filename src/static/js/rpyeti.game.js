@@ -20,7 +20,7 @@ RPYeti.game = (function() {
 
 			// create perspective camera
 			var fov = ( RPYeti.config.stereo ) ? RPYeti.config.cardboard.fov : RPYeti.config.desktop.fov;
-			this.camera = new THREE.PerspectiveCamera( fov, 1, 0.1, 1000 );
+			this.camera = new THREE.PerspectiveCamera( fov, self.container.offsetWidth / self.container.offsetHeight, 0.1, 1000 );
 			this.camera.position.set( 0, 10, 0 );
 			this.scene.add( this.camera );
 
@@ -139,8 +139,11 @@ RPYeti.game = (function() {
 
 			if( RPYeti.config.stereo ) {
 				this.stereo = new THREE.StereoEffect( this.renderer );
-				this.stereo.eyeSeparation = RPYeti.config.cardboard.eyeSeparation;
 				this.stereo.focalLength = RPYeti.config.cardboard.focalLength;
+
+				// 1/30th of focal length is a comfortable eye separation; also scaling relative to iPhone6 resolution
+				// for better comfort on larger format phones
+				this.stereo.eyeSeparation = (1 / 30) * this.stereo.focalLength * (750 / window.innerWidth);
 			}
 
 		},

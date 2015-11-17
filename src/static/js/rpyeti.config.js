@@ -7,7 +7,7 @@ RPYeti.config = {
 	stereo: false,
 	cardboard: {
 		fov: 90,
-		eyeSeparation: 1,
+		eyeSeparation: 3,
 		focalLength: 15,
 	},
 	desktop: {

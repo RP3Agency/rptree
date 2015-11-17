@@ -245,10 +245,10 @@ RPYeti.game = (function() {
 
 			// draw reticle
 			self.hud.beginPath();
-	        self.hud.arc( width/2, height/2, 50, 0, 2 * Math.PI, false );
-	        self.hud.lineWidth = 5;
-	        self.hud.strokeStyle = 'rgb(0,174,239)';
-	        self.hud.stroke();
+			self.hud.arc( width/2, height/2, 50, 0, 2 * Math.PI, false );
+			self.hud.lineWidth = 5;
+			self.hud.strokeStyle = 'rgb(0,174,239)';
+			self.hud.stroke();
 
 			var hudTexture = new THREE.Texture( hudCanvas );
 			hudTexture.magFilter = THREE.NearestFilter;
@@ -263,9 +263,11 @@ RPYeti.game = (function() {
 
 			if( RPYeti.config.stereo ) {
 				var plane2 = plane.clone();
-				plane.position.set( this.stereo.eyeSeparation / 20, 0, -1 );
+
+				// I'm not sure what the .014 is, but it's centered at every focal length and eye separation
+				plane.position.set( .014, 0, -1 );
 				this.stereo.left.add( plane );
-				plane2.position.set( - this.stereo.eyeSeparation / 20, 0, -1 );
+				plane2.position.set( -.014, 0, -1 );
 				this.stereo.right.add( plane2 );
 			} else {
 				plane.position.set( 0, 0, -1 );

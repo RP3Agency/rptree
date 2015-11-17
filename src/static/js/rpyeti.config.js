@@ -7,7 +7,7 @@ RPYeti.config = {
 	stereo: false,
 	cardboard: {
 		fov: 60,
-		focalLength: 15,
+		focalLength: 25,
 	},
 	desktop: {
 		fov: 45,
@@ -19,9 +19,9 @@ RPYeti.config = {
 		[100, -20],
 		[100, 10],
 		[50, -30],
-		[70, -2.5],
+		[70, 0],
 		[50, 30],
-		[-10, 0],
+		[-15, 0],
 	],
 
 	/** Debug Settings **/

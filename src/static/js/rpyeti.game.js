@@ -5,6 +5,10 @@ RPYeti.game = (function() {
 
 	return {
 
+		/** Public Properties **/
+		isFiring: false,
+		lastFire: 0,
+
 		/** Constructor **/
 
 		init: function() {
@@ -33,6 +37,28 @@ RPYeti.game = (function() {
 			);
 			this.controls.enableZoom = false;
 			this.controls.enablePan = false;
+
+			//TODO: use or make key controls library instead of hardcoding
+			$(document).on('keydown', function(e) {
+	            var prevent = true;
+	            // Update the state of the attached control to "false"
+	            switch (e.keyCode) {
+					case 32: //SPACE
+						self.isFiring = true;
+	                default:
+	                    prevent = false;
+	            }
+	            // Avoid the browser to react unexpectedly
+	            if (prevent) {
+	                e.preventDefault();
+	            }
+	        })
+			.on('touchstart', function() {
+				self.isFiring = true;
+			})
+			.on('keyup touchend', function(e) {
+				self.isFiring = false;
+			});
 
 			// if device orientation event is triggered, set controls to orientation mode
 			window.addEventListener('deviceorientation', this.setOrientationControls, true);
@@ -70,7 +96,20 @@ RPYeti.game = (function() {
 		animate: function(t) {
 			window.requestAnimationFrame( self.animate );
 			self.update( self.clock.getDelta() );
+
+			if( self.isFiring ) {
+				if( ( t - self.lastFire ) >= RPYeti.config.snowball.rate ) {
+					self.addSnowball();
+					self.lastFire = t;
+				}
+			}
+			self.updateSnowballs( self.clock.getDelta() );
+
 			self.render( self.clock.getDelta() );
+
+			if( self.stats ) {
+				self.stats.update();
+			}
 		},
 
 		update: function(dt) {
@@ -144,6 +183,10 @@ RPYeti.game = (function() {
 				// 1/30th of focal length is a comfortable eye separation; also scaling relative to iPhone6 resolution
 				// for better comfort on larger format phones
 				this.stereo.eyeSeparation = (1 / 30) * this.stereo.focalLength * (750 / window.innerWidth);
+			} else if( RPYeti.config.fps ) {
+				this.stats = new Stats();
+				$(this.stats.domElement).css({ position: 'absolute', top: '0px' });
+				$(this.container).append( this.stats.domElement );
 			}
 		},
 
@@ -209,13 +252,15 @@ RPYeti.game = (function() {
 			//TODO: move asynchronous model loader to preloader
 			var trees = RPYeti.config.trees,
 				loader = new THREE.OBJMTLLoader();
+			self.trees = new THREE.Group();
+			self.scene.add( self.trees );
 			loader.load('../models/voxel-tree.obj', '../textures/voxel-tree.mtl', function(object) {
 				for (var i = 0; i < trees.length; i++) {
 					var tree = object.clone();
 					tree.translateX( trees[i][0] );
 					tree.translateZ( trees[i][1] );
 					tree.scale.set( 10, 10, 10 );
-					self.scene.add(tree);
+					self.trees.add( tree );
 				}
 			});
 		},
@@ -245,10 +290,10 @@ RPYeti.game = (function() {
 
 			// draw reticle
 			self.hud.beginPath();
-			self.hud.arc( width/2, height/2, 50, 0, 2 * Math.PI, false );
-			self.hud.lineWidth = 5;
-			self.hud.strokeStyle = 'rgb(0,174,239)';
-			self.hud.stroke();
+	        self.hud.arc( width/2, height/2, 50, 0, 2 * Math.PI, false );
+	        self.hud.lineWidth = 5;
+	        self.hud.strokeStyle = 'rgb(0,174,239)';
+	        self.hud.stroke();
 
 			var hudTexture = new THREE.Texture( hudCanvas );
 			hudTexture.magFilter = THREE.NearestFilter;
@@ -272,6 +317,46 @@ RPYeti.game = (function() {
 			} else {
 				plane.position.set( 0, 0, -1 );
 				self.camera.add( plane );
+			}
+		},
+
+		/** Projectiles **/
+
+		addSnowball: function( source ) {
+			var geometry = new THREE.SphereGeometry( RPYeti.config.snowball.size, RPYeti.config.snowball.lod, RPYeti.config.snowball.lod ),
+				material = new THREE.MeshBasicMaterial({ color: 0xcccccc }),
+				snowball = new THREE.Mesh( geometry, material );
+
+			if( ! self.snowballs ) {
+				self.snowballs = new THREE.Group();
+				self.scene.add( self.snowballs );
+			}
+			if( ! source ) {
+				source = new THREE.Vector3( 0, 10, 0 );
+			}
+			var raycaster = new THREE.Raycaster();
+			raycaster.set( self.camera.getWorldPosition(), self.camera.getWorldDirection() );
+			snowball.ray = raycaster.ray;
+			snowball.ray.at( 1.0, snowball.position );
+			self.snowballs.add( snowball );
+			//debug
+			//console.log( raycaster.intersectObjects( self.scene.children, true ) );
+		},
+
+		updateSnowballs: function( delta ) {
+			if( self.snowballs ) {
+				self.snowballs.traverseVisible(function(snowball) {
+					if( snowball instanceof THREE.Mesh ) {
+						var speed = RPYeti.config.snowball.speed * delta,
+							dir = snowball.ray.direction;
+						snowball.translateX( speed * dir.x );
+						snowball.translateY( speed * dir.y );
+						snowball.translateZ( speed * dir.z );
+						if( snowball.ray.origin.distanceTo( snowball.position ) >= RPYeti.config.snowball.range ) {
+							snowball.visible = false;
+						}
+					}
+				});
 			}
 		},
 

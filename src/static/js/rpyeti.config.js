@@ -15,6 +15,18 @@ RPYeti.config = {
 		fov: 45,
 	},
 
+	/** Game Mechanics **/
+
+	snowball: {
+		size: 1,
+		lod: 8,
+		speed: 20000,
+		range: 300,
+		rate: 200,
+	},
+
+	/** Model Positioning **/
+
 	trees: [
 		[300, -125],
 		[300, 115],
@@ -29,10 +41,16 @@ RPYeti.config = {
 
 	/** Debug Settings **/
 	wireframe: false,
+	fps: true,
 
 	/** Constructor **/
 
 	init: function() {
+		// check for WebGL
+		if ( ! Detector.webgl ) {
+			Detector.addGetWebGLMessage();
+		}
+
 		// Detect stereo request
 		this.stereo = ( window.location.hash != '#desktop' );
 

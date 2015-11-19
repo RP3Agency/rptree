@@ -40,24 +40,29 @@ RPYeti.game = (function() {
 
 			//TODO: use or make key controls library instead of hardcoding
 			$(document).on('keydown', function(e) {
-				var prevent = true;
-				// Update the state of the attached control to "false"
-				switch (e.keyCode) {
+	            var prevent = true;
+	            // Update the state of the attached control to "false"
+	            switch (e.keyCode) {
 					case 32: //SPACE
 						self.isFiring = true;
-					default:
-						prevent = false;
-				}
-				// Avoid the browser to react unexpectedly
-				if (prevent) {
-					e.preventDefault();
-				}
-			})
-			.on('touchstart', function() {
+	                default:
+	                    prevent = false;
+	            }
+	            // Avoid the browser to react unexpectedly
+	            if (prevent) {
+	                e.preventDefault();
+	            }
+	        })
+			.on('touchstart', function(e) {
 				self.isFiring = true;
+				e.preventDefault();
+			})
+			.on('touchmove', function(e) {
+				e.preventDefault();
 			})
 			.on('keyup touchend', function(e) {
 				self.isFiring = false;
+				e.preventDefault();
 			});
 
 			// if device orientation event is triggered, set controls to orientation mode
@@ -132,6 +137,7 @@ RPYeti.game = (function() {
 			if (!e.alpha) {
 				return;
 			}
+			self.controls.dispose();
 			self.controls = new THREE.DeviceOrientationControls(self.camera, true);
 			self.controls.connect();
 			self.controls.update();
@@ -175,6 +181,7 @@ RPYeti.game = (function() {
 			this.renderer = new THREE.WebGLRenderer({
 				antialias: true,
 			});
+			this.renderer.shadowMap.enabled = true;
 			this.renderer.setSize( window.innerWidth, window.innerHeight );
 			$(this.container).append( this.renderer.domElement );
 
@@ -182,6 +189,10 @@ RPYeti.game = (function() {
 				this.stereo = new THREE.StereoEffect( this.renderer );
 				this.stereo.focalLength = RPYeti.config.cardboard.focalLength;
 				this.stereo.eyeSeparation = RPYeti.config.cardboard.eyeSeparation;
+			} else if( RPYeti.config.fps ) {
+				this.stats = new Stats();
+				$(this.stats.domElement).css({ position: 'absolute', top: '0px' });
+				$(this.container).append( this.stats.domElement );
 			}
 		},
 
@@ -232,12 +243,16 @@ RPYeti.game = (function() {
 		},
 
 		addLights: function() {
-			var light = new THREE.HemisphereLight(0xffffff, 0x000000, 0.8);
+			var ambient = new THREE.AmbientLight(0xffffff);
+			self.scene.add( ambient );
+
+			var light = new THREE.HemisphereLight(0xffffff, 0x000000, 0.4);
 			self.scene.add( light );
 
 			var directional = new THREE.DirectionalLight( 0xffeedd, 0.4 );
 			directional.position.set(-200, 100, -100);
 			directional.target.position.set(30, 0, 10);
+			directional.castShadow = true;
 			self.scene.add( directional );
 		},
 

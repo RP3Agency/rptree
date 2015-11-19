@@ -85,6 +85,8 @@ THREE.StereoEffect = function ( renderer ) {
 		if (offset !== undefined) {
 			offsetWidth += offset;
 			aspect = (offsetWidth * 2.0) / _height;
+		} else {
+			offset = 0;
 		}
 
 		scene.updateMatrixWorld();
@@ -149,7 +151,7 @@ THREE.StereoEffect = function ( renderer ) {
 		renderer.render( scene, _cameraL );
 
 		renderer.setScissor( _width, 0, _width, _height );
-		renderer.setViewport( _width - (offset), 0, offsetWidth, _height );
+		renderer.setViewport( _width - offset, 0, offsetWidth, _height );
 		renderer.render( scene, _cameraR );
 
 		renderer.enableScissorTest( false );

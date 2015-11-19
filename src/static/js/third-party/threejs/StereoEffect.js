@@ -89,6 +89,9 @@ THREE.StereoEffect = function ( renderer ) {
 			offset = 0;
 		}
 
+		_width = Math.ceil(_width);
+		offsetWidth = Math.ceil(offsetWidth);
+
 		scene.updateMatrixWorld();
 
 		if ( camera.parent === null ) camera.updateMatrixWorld();

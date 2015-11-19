@@ -78,7 +78,14 @@ THREE.StereoEffect = function ( renderer ) {
 
 	};
 
-	this.render = function ( scene, camera ) {
+	this.render = function ( scene, camera, offset ) {
+		var aspect = camera.aspect,
+			offsetWidth = _width;
+
+		if (offset !== undefined) {
+			offsetWidth += offset;
+			aspect = (offsetWidth * 2.0) / _height;
+		}
 
 		scene.updateMatrixWorld();
 
@@ -92,7 +99,7 @@ THREE.StereoEffect = function ( renderer ) {
 
 		_ndfl = camera.near / this.focalLength;
 		_halfFocalHeight = Math.tan( THREE.Math.degToRad( _fov ) * 0.5 ) * this.focalLength;
-		_halfFocalWidth = _halfFocalHeight * 0.5 * camera.aspect;
+		_halfFocalWidth = _halfFocalHeight * 0.5 * aspect;
 
 		_top = _halfFocalHeight * _ndfl;
 		_bottom = - _top;
@@ -138,11 +145,11 @@ THREE.StereoEffect = function ( renderer ) {
 		renderer.enableScissorTest( true );
 
 		renderer.setScissor( 0, 0, _width, _height );
-		renderer.setViewport( 0, 0, _width, _height );
+		renderer.setViewport( 0, 0, offsetWidth, _height );
 		renderer.render( scene, _cameraL );
 
 		renderer.setScissor( _width, 0, _width, _height );
-		renderer.setViewport( _width, 0, _width, _height );
+		renderer.setViewport( _width - (offset), 0, offsetWidth, _height );
 		renderer.render( scene, _cameraR );
 
 		renderer.enableScissorTest( false );

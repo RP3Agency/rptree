@@ -81,7 +81,7 @@ RPYeti.game = (function() {
 
 		render: function(dt) {
 			if( RPYeti.config.stereo ) {
-				self.stereo.render( self.scene, self.camera );
+				self.stereo.render( self.scene, self.camera, self.offset );
 			} else {
 				self.renderer.render( self.scene, self.camera );
 			}
@@ -111,6 +111,8 @@ RPYeti.game = (function() {
 
 			if( RPYeti.config.stereo ) {
 				self.stereo.setSize( width, height );
+				self.offset = (width - RPYeti.config.cardboard.pupillaryBaseline) / 2;
+				if (self.offset < 0) { self.offset = 0 }
 			} else {
 				self.renderer.setSize( width, height );
 			}
@@ -123,7 +125,7 @@ RPYeti.game = (function() {
 				self.container.msRequestFullscreen();
 			} else if ( self.container.mozRequestFullScreen ) {
 				self.container.mozRequestFullScreen();
-			} else if ( container.webkitRequestFullscreen ) {
+			} else if ( self.container.webkitRequestFullscreen ) {
 				self.container.webkitRequestFullscreen();
 			}
 		},
@@ -140,10 +142,7 @@ RPYeti.game = (function() {
 			if( RPYeti.config.stereo ) {
 				this.stereo = new THREE.StereoEffect( this.renderer );
 				this.stereo.focalLength = RPYeti.config.cardboard.focalLength;
-
-				// 1/30th of focal length is a comfortable eye separation; also scaling relative to iPhone6 resolution
-				// for better comfort on larger format phones
-				this.stereo.eyeSeparation = (1 / 30) * this.stereo.focalLength * (750 / window.innerWidth);
+				this.stereo.eyeSeparation = RPYeti.config.cardboard.eyeSeparation;
 			}
 		},
 
@@ -246,7 +245,7 @@ RPYeti.game = (function() {
 			// draw reticle
 			self.hud.beginPath();
 			self.hud.arc( width/2, height/2, 50, 0, 2 * Math.PI, false );
-			self.hud.lineWidth = 5;
+			self.hud.lineWidth = 10;
 			self.hud.strokeStyle = 'rgb(0,174,239)';
 			self.hud.stroke();
 
@@ -264,11 +263,14 @@ RPYeti.game = (function() {
 			if( RPYeti.config.stereo ) {
 				var plane2 = plane.clone();
 
-				// I'm not sure what the .014 is, but it's centered at every focal length and eye separation
-				plane.position.set( .014, 0, -1 );
+				plane.position.set( 0, 0, -1 );
 				this.stereo.left.add( plane );
-				plane2.position.set( -.014, 0, -1 );
+
+				plane2.position.set( 0, 0, -1 );
 				this.stereo.right.add( plane2 );
+
+				self.planeL = plane;
+				self.planeR = plane2;
 			} else {
 				plane.position.set( 0, 0, -1 );
 				self.camera.add( plane );

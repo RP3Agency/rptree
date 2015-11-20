@@ -8,6 +8,7 @@ RPYeti.game = (function() {
 		/** Public Properties **/
 		isFiring: false,
 		lastFire: 0,
+		health: 100,
 
 		/** Constructor **/
 
@@ -101,6 +102,20 @@ RPYeti.game = (function() {
 					});
 				}, 200);
 			}
+
+			/** SAMPLE HEALTH METER **/
+			function upd() {
+				self.health--;
+				if (self.health < 0) {
+					self.health = 100;
+				}
+
+				console.log('update ' + self.health);
+
+				self.updateHealth(self.health);
+				setTimeout(upd, 100);
+			}
+			upd();
 
 			// set resize event
 			$(window).on('resize', this.resize);
@@ -315,33 +330,18 @@ RPYeti.game = (function() {
 		/** Game interface (HUD) **/
 
 		addHUD: function() {
-			var width = 1024;
-			var height = 1024;
-
 			var hudCanvas = document.createElement('canvas');
-			hudCanvas.width = width;
-			hudCanvas.height = height;
+			hudCanvas.width = RPYeti.config.hud.canvasWidth;
+			hudCanvas.height = RPYeti.config.hud.canvasHeight;
 
 			// save context
 			self.hud = hudCanvas.getContext('2d');
-
-			// draw text
-			// self.hud.font = "Normal 20px Arial";
-			// self.hud.textAlign = 'center';
-			// self.hud.fillStyle = "rgba(245,245,245,0.85)";
-			// self.hud.fillText( 'INSERT COIN', width / 2, height / 3 );
+			self.hudTexture = new THREE.Texture( hudCanvas );
 
 			// draw reticle
-			self.hud.beginPath();
-			self.hud.arc( width/2, height/2, RPYeti.config.hud.size, 0, 2 * Math.PI, false );
-			self.hud.lineWidth = 10;
-			self.hud.strokeStyle = 'rgba(0,174,239,0.75)';
-			self.hud.stroke();
+			self.updateHealth(self.health);
 
-			var hudTexture = new THREE.Texture( hudCanvas );
-			hudTexture.needsUpdate = true;
-
-			var material = new THREE.MeshBasicMaterial({ map: hudTexture });
+			var material = new THREE.MeshBasicMaterial({ map: self.hudTexture });
 			material.transparent = true;
 
 			var planeGeometry = new THREE.PlaneGeometry( 1, 1 );
@@ -361,6 +361,35 @@ RPYeti.game = (function() {
 			} else {
 				self.camera.add( plane );
 			}
+		},
+
+		updateHealth: function (percent) {
+			var width = RPYeti.config.hud.canvasWidth,
+				height = RPYeti.config.hud.canvasHeight;
+
+			if (percent > 100) {
+				percent = 100;
+			} else if (percent < 0) {
+				percent = 0;
+			}
+
+			percent = (100 - percent) / 100 * (2 * Math.PI) + (1 * Math.PI);
+
+			self.hud.clearRect(0, 0, width, height);
+
+			self.hud.beginPath();
+			self.hud.arc( width/2, height/2, RPYeti.config.hud.size, 0, 2 * Math.PI, false );
+			self.hud.lineWidth = 10;
+			self.hud.strokeStyle = 'rgba(0,174,239,0.50)';
+			self.hud.stroke();
+
+			self.hud.beginPath();
+			self.hud.arc( width/2, height/2, RPYeti.config.hud.size, 1 * Math.PI, percent, false );
+			self.hud.lineWidth = 10;
+			self.hud.strokeStyle = 'rgba(255,0,0,1)';
+			self.hud.stroke();
+
+			self.hudTexture.needsUpdate = true;
 		},
 
 		updateHud: function () {

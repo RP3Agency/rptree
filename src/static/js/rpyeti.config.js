@@ -40,6 +40,8 @@ RPYeti.config = {
 	],
 
 	hud: {
+		canvasWidth: 1024,
+		canvasHeight: 1024,
 		size: 30,
 		easing: TWEEN.Easing.Quintic.Out,
 		easeDuration: 200

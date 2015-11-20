@@ -110,8 +110,6 @@ RPYeti.game = (function() {
 					self.health = 100;
 				}
 
-				console.log('update ' + self.health);
-
 				self.updateHealth(self.health);
 				setTimeout(upd, 100);
 			}

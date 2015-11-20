@@ -40,19 +40,19 @@ RPYeti.game = (function() {
 
 			//TODO: use or make key controls library instead of hardcoding
 			$(document).on('keydown', function(e) {
-	            var prevent = true;
-	            // Update the state of the attached control to "false"
-	            switch (e.keyCode) {
+				var prevent = true;
+				// Update the state of the attached control to "false"
+				switch (e.keyCode) {
 					case 32: //SPACE
 						self.isFiring = true;
-	                default:
-	                    prevent = false;
-	            }
-	            // Avoid the browser to react unexpectedly
-	            if (prevent) {
-	                e.preventDefault();
-	            }
-	        })
+					default:
+						prevent = false;
+				}
+				// Avoid the browser to react unexpectedly
+				if (prevent) {
+					e.preventDefault();
+				}
+			})
 			.on('touchstart', function(e) {
 				self.isFiring = true;
 				e.preventDefault();
@@ -80,6 +80,8 @@ RPYeti.game = (function() {
 
 			// add game HUD
 			this.addHUD();
+
+			this.focalRaycaster = new THREE.Raycaster();
 
 			if( RPYeti.config.wireframe ) {
 				setTimeout(function() {
@@ -125,6 +127,12 @@ RPYeti.game = (function() {
 
 		render: function(dt) {
 			if( RPYeti.config.stereo ) {
+				var points = self.getClosestFocalPoints(),
+					diff = (Math.abs(points[0].x) + Math.abs(points[1].x)) / 2.0;
+
+				self.hudPlaneL.position.x = diff
+				self.hudPlaneR.position.x = -(diff)
+
 				self.stereo.render( self.scene, self.camera, self.offset );
 			} else {
 				self.renderer.render( self.scene, self.camera );
@@ -300,7 +308,7 @@ RPYeti.game = (function() {
 
 			// draw reticle
 			self.hud.beginPath();
-			self.hud.arc( width/2, height/2, 50, 0, 2 * Math.PI, false );
+			self.hud.arc( width/2, height/2, 30, 0, 2 * Math.PI, false );
 			self.hud.lineWidth = 10;
 			self.hud.strokeStyle = 'rgb(0,174,239)';
 			self.hud.stroke();
@@ -316,20 +324,46 @@ RPYeti.game = (function() {
 			var planeGeometry = new THREE.PlaneGeometry( 1, 1 );
 			var plane = new THREE.Mesh( planeGeometry, material );
 
+			plane.name = 'HUD';
+			plane.position.set( 0, 0, -1 );
+
 			if( RPYeti.config.stereo ) {
 				var plane2 = plane.clone();
 
-				plane.position.set( 0, 0, -1 );
 				this.stereo.left.add( plane );
+				self.hudPlaneL = plane;
 
-				plane2.position.set( 0, 0, -1 );
 				this.stereo.right.add( plane2 );
-
-				self.planeL = plane;
-				self.planeR = plane2;
+				self.hudPlaneR = plane2;
 			} else {
-				plane.position.set( 0, 0, -1 );
 				self.camera.add( plane );
+			}
+		},
+
+		getClosestFocalPoints: function() {
+			self.focalRaycaster.setFromCamera( new THREE.Vector2(0, 0), self.camera );
+
+			var intersects = self.focalRaycaster.intersectObjects( self.scene.children, true ),
+				closest = null;
+
+			if (intersects.length > 0) {
+				for (var i in intersects) {
+					if (intersects[i].object.name != 'HUD' && intersects[i].distance < self.stereo.focalLength) {
+						closest = intersects[i];
+						break
+					}
+				}
+			}
+
+			if (closest != null) {
+				var p = closest.point,
+					p2 = p.clone(),
+					v = p.project(self.stereo.left),
+					v2 = p2.project(self.stereo.right);
+
+				return [ v, v2 ];
+			} else {
+				return [ new THREE.Vector3(), new THREE.Vector3() ];
 			}
 		},
 

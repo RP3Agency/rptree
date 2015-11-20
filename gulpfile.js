@@ -188,7 +188,8 @@ gulp.task( 'scripts-bower', function() {
 			bower_dir + '/moment/min/moment-with-locales.js',
 			bower_dir + '/underscore/underscore.js',
 			bower_dir + '/backbone/backbone.js',
-			bower_dir + '/masonry/dist/masonry.pkgd.js'
+			bower_dir + '/masonry/dist/masonry.pkgd.js',
+			bower_dir + '/tween.js/src/Tween.js'
 		];
 
 	return gulp.src( bower_files )

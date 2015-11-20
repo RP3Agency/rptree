@@ -371,7 +371,7 @@ RPYeti.game = (function() {
 				self.focalTween.end = diff;
 				self.focalTween.to({ x: diff, y: 0 }, RPYeti.config.easeDuration).start();
 			}
-		}
+		},
 
 		getClosestFocalPoints: function() {
 			self.focalRaycaster.setFromCamera( self.focalPoint, self.camera );

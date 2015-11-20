@@ -184,10 +184,11 @@ gulp.task( 'scripts-bower', function() {
 	var bower_dir = __dirname + '/bower_components',
 		bower_files = [
 			bower_dir + '/jquery/dist/jquery.js',
-			bower_dir + '/better-dom/dist/better-dom.js',
-			bower_dir + '/better-prettydate/dist/better-prettydate.js',
-			bower_dir + '/underscore/underscore.js',
-			bower_dir + '/masonry/dist/masonry.pkgd.js'
+			// bower_dir + '/better-dom/dist/better-dom.js',
+			// bower_dir + '/better-prettydate/dist/better-prettydate.js',
+			// bower_dir + '/underscore/underscore.js',
+			// bower_dir + '/backbone/backbone.js',
+			// bower_dir + '/masonry/dist/masonry.pkgd.js'
 		];
 
 	return gulp.src( bower_files )

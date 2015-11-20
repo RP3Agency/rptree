@@ -77,6 +77,7 @@ RPYeti.game = (function() {
 
 			// add static models
 			this.addTrees();
+			this.addSnowball();
 
 			// add game HUD
 			this.addHUD();
@@ -104,7 +105,7 @@ RPYeti.game = (function() {
 
 			if( self.isFiring ) {
 				if( ( t - self.lastFire ) >= RPYeti.config.snowball.rate ) {
-					self.addSnowball();
+					self.throwSnowball();
 					self.lastFire = t;
 				}
 			}
@@ -182,6 +183,7 @@ RPYeti.game = (function() {
 				antialias: true,
 			});
 			this.renderer.shadowMap.enabled = true;
+			this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 			this.renderer.setSize( window.innerWidth, window.innerHeight );
 			$(this.container).append( this.renderer.domElement );
 
@@ -210,10 +212,10 @@ RPYeti.game = (function() {
 		addSnow: function() {
 			//TODO: move asynchronous texture loader to preloader
 			var loader = new THREE.TextureLoader();
-			loader.load('../textures/patterns/pixel-snow.jpg', function(texture) {
+			loader.load('../textures/patterns/snow-tile.jpg', function(texture) {
 				texture.wrapS = THREE.RepeatWrapping;
 				texture.wrapT = THREE.RepeatWrapping;
-				texture.repeat = new THREE.Vector2(512, 512);
+				texture.repeat = new THREE.Vector2(256, 256);
 				texture.anisotropy = self.renderer.getMaxAnisotropy();
 
 				var material = new THREE.MeshPhongMaterial({
@@ -224,6 +226,7 @@ RPYeti.game = (function() {
 
 				var mesh = new THREE.Mesh(geometry, material);
 				mesh.rotation.x = -Math.PI / 2;
+				mesh.receiveShadow = true;
 				self.scene.add(mesh);
 			});
 		},
@@ -243,13 +246,13 @@ RPYeti.game = (function() {
 		},
 
 		addLights: function() {
-			var ambient = new THREE.AmbientLight(0xffffff);
+			var ambient = new THREE.AmbientLight(0x888888);
 			self.scene.add( ambient );
 
-			var light = new THREE.HemisphereLight(0xffffff, 0x000000, 0.4);
+			var light = new THREE.HemisphereLight(0xffffff, 0x000000, 0.2);
 			self.scene.add( light );
 
-			var directional = new THREE.DirectionalLight( 0xffeedd, 0.4 );
+			var directional = new THREE.DirectionalLight( 0xffeedd, 0.6 );
 			directional.position.set(-200, 100, -100);
 			directional.target.position.set(30, 0, 10);
 			directional.castShadow = true;
@@ -264,12 +267,19 @@ RPYeti.game = (function() {
 				loader = new THREE.OBJMTLLoader();
 			self.trees = new THREE.Group();
 			self.scene.add( self.trees );
-			loader.load('../models/voxel-tree.obj', '../textures/voxel-tree.mtl', function(object) {
+			loader.load('../models/tree-snow.obj', '../textures/tree-snow.mtl', function(object) {
+				object.traverse(function(child) {
+					if( child instanceof THREE.Mesh ) {
+						child.material.side = THREE.DoubleSide;
+						child.castShadow = true;
+						child.receiveShadow = true;
+					}
+				});
 				for (var i = 0; i < trees.length; i++) {
 					var tree = object.clone();
 					tree.translateX( trees[i][0] );
 					tree.translateZ( trees[i][1] );
-					tree.scale.set( 10, 10, 10 );
+					tree.scale.set( 4, 4, 4 );
 					self.trees.add( tree );
 				}
 			});
@@ -336,19 +346,29 @@ RPYeti.game = (function() {
 		/** Projectiles **/
 
 		addSnowball: function( source ) {
-			var geometry = new THREE.SphereGeometry( RPYeti.config.snowball.size, RPYeti.config.snowball.lod, RPYeti.config.snowball.lod ),
-				material = new THREE.MeshBasicMaterial({ color: 0xcccccc }),
-				snowball = new THREE.Mesh( geometry, material );
+			self.snowballs = new THREE.Group();
+			self.scene.add( self.snowballs );
+			var loader = new THREE.TextureLoader();
+			loader.load('../textures/patterns/snow-ground.jpg', function(texture) {
+				var geometry = new THREE.SphereGeometry( RPYeti.config.snowball.size, RPYeti.config.snowball.lod, RPYeti.config.snowball.lod ),
+					material = new THREE.MeshPhongMaterial({ map: texture });
+				self.snowball = new THREE.Mesh( geometry, material );
+				self.snowball.castShadow = true;
+				self.snowball.receiveShadow = true;
+			});
+		},
 
-			if( ! self.snowballs ) {
-				self.snowballs = new THREE.Group();
-				self.scene.add( self.snowballs );
-			}
+		throwSnowball: function( source ) {
+			if( ! self.snowball ) return;
+
 			if( ! source ) {
 				source = new THREE.Vector3( 0, 10, 0 );
 			}
+
 			var raycaster = new THREE.Raycaster();
 			raycaster.set( self.camera.getWorldPosition(), self.camera.getWorldDirection() );
+
+			var snowball = self.snowball.clone();
 			snowball.ray = raycaster.ray;
 			snowball.ray.at( 1.0, snowball.position );
 			self.snowballs.add( snowball );

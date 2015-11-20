@@ -131,7 +131,6 @@ RPYeti.game = (function() {
 		},
 
 		update: function(dt) {
-			self.resize();
 			self.camera.updateProjectionMatrix();
 			self.controls.update(dt);
 
@@ -268,17 +267,18 @@ RPYeti.game = (function() {
 			var light = new THREE.HemisphereLight(0xffffff, 0x000000, 0.3);
 			self.scene.add( light );
 
-			var spot = new THREE.SpotLight( 0xddeeff, 0.6 );
-			spot.position.x	= -600;
-			spot.position.y	= 400;
-			spot.position.z	= 20;
-			spot.castShadow = true;
-			spot.shadowMapWidth = 1024;
-			spot.shadowMapHeight = 1024;
-			spot.shadowCameraNear = 400;
-			spot.shadowCameraFar = 1000;
-			spot.shadowCameraFov = 60;
-			self.scene.add( spot );
+			var directional = new THREE.DirectionalLight( 0xddeeff, 0.6 );
+			directional.position.x	= -600;
+			directional.position.y	= 400;
+			directional.position.z	= 20;
+			directional.castShadow = true;
+			directional.shadowMapWidth = 512;
+			directional.shadowMapHeight = 512;
+			directional.shadowCameraNear = 200;
+			directional.shadowCameraFar = 1000;
+			directional.shadowCameraFov = 90;
+			self.scene.add( directional );
+
 		},
 
 		/** Models **/

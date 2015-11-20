@@ -1,25 +1,8 @@
 .site-footer {
-	background-color: get-color( "blue--brand" );
-	color: get-color( "white" );
-	height: 4em;
-
-	&__inner {
-		height: 100%;
-		@include make-container();
-	}
-
-	&__row {
-		height: 100%;
-		justify-content: space-between;
-		@include make-row();
-	}
+	padding: 2em 0;
 
 	&__logo {
-		align-items: center;
-		display: flex;
-		height: 100%;
-		@include make-col();
-		@include make-col-span(6);
+		margin-top: 0.5em;
 
 		a {
 			color: get-color( "white" );
@@ -32,24 +15,17 @@
 
 		svg {
 			display: inline-block;
-			height: 1.5em;
+			height: 3em;
 			margin-bottom: -0.5em;
 			width: auto;
 
 			path {
-				fill: get-color( "white" );
+				fill: get-color( "blue--brand" );
 			}
 		}
+	}
 
-		&__tagline {
-			display: block;
-			margin-top: -0.75em;
-			text-indent: 2em;
-
-			a {
-				color: get-color( "white" );
-				text-decoration: underline;
-			}
-		}
+	&__social-media {
+		margin-top: 1em;
 	}
 }

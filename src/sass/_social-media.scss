@@ -1,14 +1,3 @@
-[class$="__social-media"] {
-	align-items: center;
-	display: flex;
-	justify-content: flex-end;
-	@include make-col();
-
-	@include media-breakpoint-up(sm) {
-		// @include make-col-span(6);
-	}
-}
-
 ul.social-media {
 	margin-bottom: 0;
 
@@ -17,7 +6,7 @@ ul.social-media {
 		a {
 			@extend .fa;
 			@extend .fa-2x;
-			color: get-color( "white" );
+			color: get-color( "blue--brand" );
 			display: inline-block;
 			text-indent: 100%;
 			overflow: hidden;

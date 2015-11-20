@@ -20,7 +20,7 @@ RPYeti.config = {
 	snowball: {
 		size: 1,
 		lod: 8,
-		speed: 20000,
+		speed: 70,
 		range: 500,
 		rate: 200,
 	},

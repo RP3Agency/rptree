@@ -39,6 +39,12 @@ RPYeti.config = {
 		[800, 0],
 	],
 
+	hud: {
+		size: 30,
+		easing: TWEEN.Easing.Quintic.Out,
+		easeDuration: 200
+	},
+
 	/** Debug Settings **/
 	wireframe: false,
 	fps: true,

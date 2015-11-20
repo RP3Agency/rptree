@@ -84,6 +84,13 @@ RPYeti.game = (function() {
 
 			this.focalRaycaster = new THREE.Raycaster();
 			this.focalPoint = new THREE.Vector2(0, 0);
+			this.focalTween = new TWEEN.Tween({ x: 0, y: 0 })
+				.easing(RPYeti.config.hud.easing)
+				.onUpdate(function () {
+					self.hudPlaneL.position.x = this.x;
+					self.hudPlaneR.position.x = -(this.x);
+				});
+			this.focalTween.end = 0;
 
 			if( RPYeti.config.wireframe ) {
 				setTimeout(function() {
@@ -105,6 +112,8 @@ RPYeti.game = (function() {
 		animate: function(t) {
 			window.requestAnimationFrame( self.animate );
 			self.update( self.clock.getDelta() );
+
+			TWEEN.update(t);
 
 			if( self.isFiring ) {
 				if( ( t - self.lastFire ) >= RPYeti.config.snowball.rate ) {
@@ -129,12 +138,7 @@ RPYeti.game = (function() {
 
 		render: function(dt) {
 			if( RPYeti.config.stereo ) {
-				var points = self.getClosestFocalPoints(),
-					diff = (Math.abs(points[0].x) + Math.abs(points[1].x)) / 2.0;
-
-				self.hudPlaneL.position.x = diff
-				self.hudPlaneR.position.x = -(diff)
-
+				self.updateHud();
 				self.stereo.render( self.scene, self.camera, self.offset );
 			} else {
 				self.renderer.render( self.scene, self.camera );
@@ -319,7 +323,7 @@ RPYeti.game = (function() {
 
 			// draw reticle
 			self.hud.beginPath();
-			self.hud.arc( width/2, height/2, 30, 0, 2 * Math.PI, false );
+			self.hud.arc( width/2, height/2, RPYeti.config.hud.size, 0, 2 * Math.PI, false );
 			self.hud.lineWidth = 10;
 			self.hud.strokeStyle = 'rgb(0,174,239)';
 			self.hud.stroke();
@@ -350,6 +354,17 @@ RPYeti.game = (function() {
 				self.camera.add( plane );
 			}
 		},
+
+		updateHud: function () {
+			var points = self.getClosestFocalPoints(),
+				diff = (Math.abs(points[0].x) + Math.abs(points[1].x)) / 2.0;
+
+			if (self.focalTween.end != diff) {
+				self.focalTween.stop();
+				self.focalTween.end = diff;
+				self.focalTween.to({ x: diff, y: 0 }, RPYeti.config.easeDuration).start();
+			}
+		}
 
 		getClosestFocalPoints: function() {
 			self.focalRaycaster.setFromCamera( self.focalPoint, self.camera );

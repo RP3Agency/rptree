@@ -20,5 +20,8 @@
     "compass-breakpoint": "breakpoint-sass#~2.6.1",
     "bootstrap": "4.0.0-alpha",
     "font-awesome": "fontawesome#~4.4.0"
+  },
+  "dependencies": {
+    "tween.js": "tweenjs#~16.3.1"
   }
 }

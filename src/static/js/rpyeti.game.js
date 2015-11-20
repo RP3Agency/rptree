@@ -110,30 +110,32 @@ RPYeti.game = (function() {
 		/** Methods / Callbacks **/
 
 		animate: function(t) {
+			var delta = self.clock.getDelta();
+
 			window.requestAnimationFrame( self.animate );
-			self.update( self.clock.getDelta() );
+			self.update( delta );
 
-			TWEEN.update(t);
-
+			self.updateSnowballs( delta );
 			if( self.isFiring ) {
 				if( ( t - self.lastFire ) >= RPYeti.config.snowball.rate ) {
 					self.throwSnowball();
 					self.lastFire = t;
 				}
 			}
-			self.updateSnowballs( self.clock.getDelta() );
-
-			self.render( self.clock.getDelta() );
 
 			if( self.stats ) {
 				self.stats.update();
 			}
+
+			self.render( delta );
 		},
 
 		update: function(dt) {
 			self.resize();
 			self.camera.updateProjectionMatrix();
 			self.controls.update(dt);
+
+			TWEEN.update();
 		},
 
 		render: function(dt) {

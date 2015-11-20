@@ -83,6 +83,7 @@ RPYeti.game = (function() {
 			this.addHUD();
 
 			this.focalRaycaster = new THREE.Raycaster();
+			this.focalPoint = new THREE.Vector2(0, 0);
 
 			if( RPYeti.config.wireframe ) {
 				setTimeout(function() {
@@ -351,17 +352,15 @@ RPYeti.game = (function() {
 		},
 
 		getClosestFocalPoints: function() {
-			self.focalRaycaster.setFromCamera( new THREE.Vector2(0, 0), self.camera );
+			self.focalRaycaster.setFromCamera( self.focalPoint, self.camera );
 
 			var intersects = self.focalRaycaster.intersectObjects( self.scene.children, true ),
 				closest = null;
 
-			if (intersects.length > 0) {
-				for (var i in intersects) {
-					if (intersects[i].object.name != 'HUD' && intersects[i].distance < self.stereo.focalLength) {
-						closest = intersects[i];
-						break
-					}
+			for (var i in intersects) {
+				if (intersects[i].object.name != 'HUD' && intersects[i].distance < self.stereo.focalLength) {
+					closest = intersects[i];
+					break;
 				}
 			}
 

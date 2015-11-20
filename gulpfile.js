@@ -69,12 +69,20 @@ gulp.task('styles', function() {
 });
 
 // Process js files
-gulp.task('scripts', function() {
-	return gulp.src(__dirname + '/src/js/*.js')
+gulp.task('scripts', [ 'scripts-bower' ], function() {
+
+	var src_js_dir = __dirname + '/src/js',
+		src_js     = [
+			src_js_dir + '/rptree.js',
+			src_js_dir + '/rptree.backbone.js'
+		];
+
+	return gulp.src( src_js )
 	.pipe( plumber(logError) )
 	.pipe( jshint(__dirname + '/src/js/.jshintrc') )
 	.pipe( jshint.reporter('default') )
 	.pipe( concat('rptree.js') )
+	.pipe( gulp.dest(__dirname + '/dist/js') )
 	.pipe( rename({suffix: '.min'}) )
 	.pipe( uglify() )
 	.pipe( gulp.dest(__dirname + '/dist/js') )
@@ -167,4 +175,26 @@ gulp.task('deploy', function() {
 		Bucket: 'rptree.com',
 		ACL:    'public-read'
 	}) );
+});
+
+// Scripts - Bower
+// Take all of the bower-managed JavaScript and merge them into a single, uglified file
+
+gulp.task( 'scripts-bower', function() {
+
+	var bower_dir = __dirname + '/bower_components',
+		bower_files = [
+			bower_dir + '/jquery/dist/jquery.js',
+			bower_dir + '/moment/min/moment-with-locales.js',
+			bower_dir + '/underscore/underscore.js',
+			bower_dir + '/backbone/backbone.js',
+			bower_dir + '/masonry/dist/masonry.pkgd.js'
+		];
+
+	return gulp.src( bower_files )
+		.pipe( concat( 'scripts-bower.js' ) )
+		.pipe( gulp.dest( __dirname + '/dist/js' ) )
+		.pipe( rename( { suffix: '.min' } ) )
+		.pipe( uglify() )
+		.pipe( gulp.dest( __dirname + '/dist/js' ) );
 });

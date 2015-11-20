@@ -235,11 +235,12 @@ RPYeti.game = (function() {
 					map: texture
 				});
 
-				var geometry = new THREE.PlaneGeometry(1000, 1000);
+				var geometry = new THREE.PlaneGeometry(2000, 2000);
 
 				var mesh = new THREE.Mesh(geometry, material);
 				mesh.rotation.x = -Math.PI / 2;
 				mesh.receiveShadow = true;
+				self.snow = mesh;
 				self.scene.add(mesh);
 			});
 		},
@@ -262,14 +263,20 @@ RPYeti.game = (function() {
 			var ambient = new THREE.AmbientLight(0x888888);
 			self.scene.add( ambient );
 
-			var light = new THREE.HemisphereLight(0xffffff, 0x000000, 0.2);
+			var light = new THREE.HemisphereLight(0xffffff, 0x000000, 0.3);
 			self.scene.add( light );
 
-			var directional = new THREE.DirectionalLight( 0xffeedd, 0.6 );
-			directional.position.set(-200, 100, -100);
-			directional.target.position.set(30, 0, 10);
-			directional.castShadow = true;
-			self.scene.add( directional );
+			var spot = new THREE.SpotLight( 0xddeeff, 0.6 );
+			spot.position.x	= -600;
+			spot.position.y	= 400;
+			spot.position.z	= 20;
+			spot.castShadow = true;
+			spot.shadowMapWidth = 1024;
+			spot.shadowMapHeight = 1024;
+			spot.shadowCameraNear = 400;
+			spot.shadowCameraFar = 1000;
+			spot.shadowCameraFov = 60;
+			self.scene.add( spot );
 		},
 
 		/** Models **/
@@ -435,6 +442,15 @@ RPYeti.game = (function() {
 						snowball.translateZ( speed * dir.z );
 						if( snowball.ray.origin.distanceTo( snowball.position ) >= RPYeti.config.snowball.range ) {
 							snowball.visible = false;
+						}
+						var raycaster = new THREE.Raycaster( snowball.position, dir );
+						var collisions = raycaster.intersectObjects( [ self.snow, self.trees ], true );
+						for( var i = 0; i < collisions.length; i++ ) {
+							if( collisions[i].distance <= ( RPYeti.config.snowball.size * 4 ) ) {
+								//debug
+								//console.log('hit object!', collisions[i] );
+								snowball.visible = false;
+							}
 						}
 					}
 				});

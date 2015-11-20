@@ -427,7 +427,7 @@ RPYeti.game = (function() {
 
 			var snowball = self.snowball.clone();
 			snowball.ray = raycaster.ray;
-			snowball.ray.at( 1.0, snowball.position );
+			snowball.ray.at( 5.0, snowball.position );
 			self.snowballs.add( snowball );
 			//debug
 			//console.log( raycaster.intersectObjects( self.scene.children, true ) );

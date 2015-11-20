@@ -195,6 +195,7 @@ RPYeti.game = (function() {
 		createRenderer: function() {
 			this.renderer = new THREE.WebGLRenderer({
 				antialias: true,
+				alpha: true
 			});
 			this.renderer.shadowMap.enabled = true;
 			this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -334,12 +335,10 @@ RPYeti.game = (function() {
 			self.hud.beginPath();
 			self.hud.arc( width/2, height/2, RPYeti.config.hud.size, 0, 2 * Math.PI, false );
 			self.hud.lineWidth = 10;
-			self.hud.strokeStyle = 'rgb(0,174,239)';
+			self.hud.strokeStyle = 'rgba(0,174,239,0.75)';
 			self.hud.stroke();
 
 			var hudTexture = new THREE.Texture( hudCanvas );
-			hudTexture.magFilter = THREE.NearestFilter;
-			hudTexture.minFilter = THREE.NearestFilter;
 			hudTexture.needsUpdate = true;
 
 			var material = new THREE.MeshBasicMaterial({ map: hudTexture });

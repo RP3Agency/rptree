@@ -115,13 +115,13 @@ RPYeti.game = (function() {
 			window.requestAnimationFrame( self.animate );
 			self.update( delta );
 
-			self.updateSnowballs( delta );
 			if( self.isFiring ) {
 				if( ( t - self.lastFire ) >= RPYeti.config.snowball.rate ) {
 					self.throwSnowball();
 					self.lastFire = t;
 				}
 			}
+			self.updateSnowballs( delta );
 
 			if( self.stats ) {
 				self.stats.update();

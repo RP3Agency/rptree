@@ -2,9 +2,14 @@
   "name": "rptree",
   "homepage": "http://rptree.com",
   "authors": [
-    "Tracy Rotton <trotton@rp3agency.com>"
+    "Tracy Rotton <trotton@rp3agency.com>",
+    "Kurt Roberts <krobers@rp3agency.com>",
+    "Bryan Cox <bcox@rp3agency.com>",
+    "Jeremy Hilts <jhilts@rp3agency.com>",
+    "Michael Kahane <mkahane@rp3agency.com>",
+    "Deanna Steers <dsteers@rp3agency.com>"
   ],
-  "description": "RPTree 2015: Revenge of RPYeti",
+  "description": "RPTree 2015: Rise of RPYeti",
   "main": "",
   "moduleType": [],
   "license": "MIT",
@@ -19,6 +24,9 @@
   "devDependencies": {
     "compass-breakpoint": "breakpoint-sass#~2.6.1",
     "bootstrap": "4.0.0-alpha",
-    "font-awesome": "fontawesome#~4.4.0"
+    "font-awesome": "fontawesome#~4.4.0",
+    "masonry": "~3.3.2",
+    "better-prettydate": "~1.3.1",
+    "backbone": "~1.2.3"
   }
 }

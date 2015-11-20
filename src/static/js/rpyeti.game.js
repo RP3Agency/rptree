@@ -441,20 +441,26 @@ RPYeti.game = (function() {
 						snowball.translateY( speed * dir.y );
 						snowball.translateZ( speed * dir.z );
 						if( snowball.ray.origin.distanceTo( snowball.position ) >= RPYeti.config.snowball.range ) {
-							snowball.visible = false;
+							self.removeSnowball( snowball );
 						}
 						var raycaster = new THREE.Raycaster( snowball.position, dir );
 						var collisions = raycaster.intersectObjects( [ self.snow, self.trees ], true );
 						for( var i = 0; i < collisions.length; i++ ) {
 							if( collisions[i].distance <= ( RPYeti.config.snowball.size * 4 ) ) {
-								//debug
-								//console.log('hit object!', collisions[i] );
-								snowball.visible = false;
+								self.removeSnowball( snowball );
 							}
 						}
 					}
 				});
 			}
+		},
+
+		removeSnowball: function( snowball ) {
+			snowball.visible = false;
+			//TODO: make particle explosion at impact
+			setTimeout( function() {
+				self.snowballs.remove( snowball );
+			}, 500 );
 		},
 
 	};

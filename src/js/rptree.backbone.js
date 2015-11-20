@@ -161,6 +161,5 @@ rptree.backbone = (function($, _, Backbone) {
 
 (function() {
 	'use strict';
-	rptree.global.init();
 	rptree.backbone.init();
 }());

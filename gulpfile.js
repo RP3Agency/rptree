@@ -91,7 +91,7 @@ gulp.task('scripts', [ 'scripts-bower' ], function() {
 });
 
 // Process html files
-gulp.task('html', function(){
+gulp.task('html', [ 'styles' ], function(){
 	return gulp.src([ __dirname + '/src/html/**/*.html', '!' + __dirname + '/src/html/_templates/**', '!' + __dirname + '/src/html/**/_*.html' ])
 	.pipe( plumber(logError) )
 	.pipe( extender({

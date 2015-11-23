@@ -50,6 +50,18 @@ RPYeti.config = {
 		damageColor: 'rgba(255,0,0,1)'
 	},
 
+	/** Game Assets **/
+
+	assets: [
+
+		{ type: 'Texture', name: 'snow', file: 'patterns/snow-tile.jpg' },
+		{ type: 'Texture', name: 'stars', file: 'patterns/starfield.png' },
+		{ type: 'Texture', name: 'snowball', file: 'patterns/snow-ground.jpg' },
+
+		{ type: 'Model', name: 'tree', mesh: 'tree-snow.obj', skin: 'tree-snow.mtl' },
+
+	],
+
 	/** Debug Settings **/
 	wireframe: false,
 	fps: true,

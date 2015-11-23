@@ -238,40 +238,33 @@ RPYeti.game = (function() {
 		/** Environment **/
 
 		addSnow: function() {
-			//TODO: move asynchronous texture loader to preloader
-			var loader = new THREE.TextureLoader();
-			loader.load('../textures/patterns/snow-tile.jpg', function(texture) {
-				texture.wrapS = THREE.RepeatWrapping;
-				texture.wrapT = THREE.RepeatWrapping;
-				texture.repeat = new THREE.Vector2(256, 256);
-				texture.anisotropy = self.renderer.getMaxAnisotropy();
+			var texture = RPYeti.loader.textures.snow;
+			texture.wrapS = THREE.RepeatWrapping;
+			texture.wrapT = THREE.RepeatWrapping;
+			texture.repeat = new THREE.Vector2(256, 256);
+			texture.anisotropy = self.renderer.getMaxAnisotropy();
 
-				var material = new THREE.MeshPhongMaterial({
-					map: texture
-				});
-
-				var geometry = new THREE.PlaneGeometry(2000, 2000);
-
-				var mesh = new THREE.Mesh(geometry, material);
-				mesh.rotation.x = -Math.PI / 2;
-				mesh.receiveShadow = true;
-				self.snow = mesh;
-				self.scene.add(mesh);
+			var material = new THREE.MeshPhongMaterial({
+				map: texture,
 			});
+
+			var geometry = new THREE.PlaneGeometry(2000, 2000);
+
+			var mesh = new THREE.Mesh( geometry, material );
+			mesh.rotation.x = -Math.PI / 2;
+			mesh.receiveShadow = true;
+			self.snow = mesh;
+			self.scene.add( mesh );
 		},
 
 		addSky: function() {
-			//TODO: move asynchronous texture loader to preloader
-			var loader = new THREE.TextureLoader();
-			loader.load('../textures/patterns/starfield.png', function(texture) {
-				var geometry = new THREE.SphereGeometry(1000, 32, 32),
-					material = new THREE.MeshBasicMaterial({
-						map: texture,
-						side: THREE.BackSide
-					}),
-					skybox = new THREE.Mesh(geometry, material);
-				self.scene.add(skybox);
-			});
+			var geometry = new THREE.SphereGeometry(1000, 32, 32),
+				material = new THREE.MeshBasicMaterial({
+					map: RPYeti.loader.textures.stars,
+					side: THREE.BackSide
+				}),
+				skybox = new THREE.Mesh(geometry, material);
+			self.scene.add( skybox );
 		},
 
 		addLights: function() {
@@ -299,26 +292,24 @@ RPYeti.game = (function() {
 
 		addTrees: function() {
 			//TODO: move asynchronous model loader to preloader
-			var trees = RPYeti.config.trees,
-				loader = new THREE.OBJMTLLoader();
+			var model = RPYeti.loader.models.tree,
+				trees = RPYeti.config.trees;
 			self.trees = new THREE.Group();
 			self.scene.add( self.trees );
-			loader.load('../models/tree-snow.obj', '../textures/tree-snow.mtl', function(object) {
-				object.traverse(function(child) {
-					if( child instanceof THREE.Mesh ) {
-						child.material.side = THREE.DoubleSide;
-						child.castShadow = true;
-						child.receiveShadow = true;
-					}
-				});
-				for (var i = 0; i < trees.length; i++) {
-					var tree = object.clone();
-					tree.translateX( trees[i][0] );
-					tree.translateZ( trees[i][1] );
-					tree.scale.set( 4, 4, 4 );
-					self.trees.add( tree );
+			model.traverse(function(child) {
+				if( child instanceof THREE.Mesh ) {
+					child.material.side = THREE.DoubleSide;
+					child.castShadow = true;
+					child.receiveShadow = true;
 				}
 			});
+			for (var i = 0; i < trees.length; i++) {
+				var tree = model.clone();
+				tree.translateX( trees[i][0] );
+				tree.translateZ( trees[i][1] );
+				tree.scale.set( 4, 4, 4 );
+				self.trees.add( tree );
+			}
 		},
 
 		addHoles: function() {
@@ -437,14 +428,11 @@ RPYeti.game = (function() {
 		addSnowball: function( source ) {
 			self.snowballs = new THREE.Group();
 			self.scene.add( self.snowballs );
-			var loader = new THREE.TextureLoader();
-			loader.load('../textures/patterns/snow-ground.jpg', function(texture) {
-				var geometry = new THREE.SphereGeometry( RPYeti.config.snowball.size, RPYeti.config.snowball.lod, RPYeti.config.snowball.lod ),
-					material = new THREE.MeshPhongMaterial({ map: texture });
-				self.snowball = new THREE.Mesh( geometry, material );
-				self.snowball.castShadow = true;
-				self.snowball.receiveShadow = true;
-			});
+			var geometry = new THREE.SphereGeometry( RPYeti.config.snowball.size, RPYeti.config.snowball.lod, RPYeti.config.snowball.lod ),
+				material = new THREE.MeshPhongMaterial({ map: RPYeti.loader.textures.snowball });
+			self.snowball = new THREE.Mesh( geometry, material );
+			self.snowball.castShadow = true;
+			self.snowball.receiveShadow = true;
 		},
 
 		throwSnowball: function( source ) {
@@ -503,8 +491,9 @@ RPYeti.game = (function() {
 
 $(function() {
 
-	//TODO: wait for preloader finished event
-	RPYeti.game.init();
-	RPYeti.game.animate();
+	$(document).on('rpyeti.loader.complete', function(){
+		RPYeti.game.init();
+		RPYeti.game.animate();
+	});
 
 });

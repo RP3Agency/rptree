@@ -110,7 +110,7 @@ RPYeti.game = (function() {
 					self.health = 100;
 				}
 
-				self.updateHealth(self.health);
+				self.updateReticle(self.health);
 				setTimeout(upd, 100);
 			}
 			upd();
@@ -152,7 +152,7 @@ RPYeti.game = (function() {
 
 		render: function(dt) {
 			if( RPYeti.config.stereo ) {
-				self.updateHud();
+				self.updateReticleFocus();
 				self.stereo.render( self.scene, self.camera, self.offset );
 			} else {
 				self.renderer.render( self.scene, self.camera );
@@ -337,7 +337,7 @@ RPYeti.game = (function() {
 			self.hudTexture = new THREE.Texture( hudCanvas );
 
 			// draw reticle
-			self.updateHealth(self.health);
+			self.updateReticle(self.health);
 
 			var material = new THREE.MeshBasicMaterial({ map: self.hudTexture });
 			material.transparent = true;
@@ -361,28 +361,30 @@ RPYeti.game = (function() {
 			}
 		},
 
-		updateHealth: function (percent) {
+		updateReticle: function (healthPercent) {
 			var width = RPYeti.config.hud.canvasWidth,
-				height = RPYeti.config.hud.canvasHeight;
+				height = RPYeti.config.hud.canvasHeight,
+				arcInitial = (1 * Math.PI),
+				arcFull = (2 * Math.PI);
 
-			if (percent > 100) {
-				percent = 100;
-			} else if (percent < 0) {
-				percent = 0;
+			if (healthPercent > 100) {
+				healthPercent = 100;
+			} else if (healthPercent < 0) {
+				healthPercent = 0;
 			}
 
-			percent = (100 - percent) / 100 * (2 * Math.PI) + (1 * Math.PI);
+			healthPercent = (100 - healthPercent) / 100 * arcFull + arcInitial;
 
 			self.hud.clearRect(0, 0, width, height);
 
 			self.hud.beginPath();
-			self.hud.arc( width/2, height/2, RPYeti.config.hud.size, 0, 2 * Math.PI, false );
+			self.hud.arc( width/2, height/2, RPYeti.config.hud.size, 0, arcFull, false );
 			self.hud.lineWidth = 10;
 			self.hud.strokeStyle = 'rgba(0,174,239,0.50)';
 			self.hud.stroke();
 
 			self.hud.beginPath();
-			self.hud.arc( width/2, height/2, RPYeti.config.hud.size, 1 * Math.PI, percent, false );
+			self.hud.arc( width/2, height/2, RPYeti.config.hud.size, arcInitial, healthPercent, false );
 			self.hud.lineWidth = 10;
 			self.hud.strokeStyle = 'rgba(255,0,0,1)';
 			self.hud.stroke();
@@ -390,7 +392,7 @@ RPYeti.game = (function() {
 			self.hudTexture.needsUpdate = true;
 		},
 
-		updateHud: function () {
+		updateReticleFocus: function () {
 			var points = self.getClosestFocalPoints(),
 				diff = (Math.abs(points[0].x) + Math.abs(points[1].x)) / 2.0;
 

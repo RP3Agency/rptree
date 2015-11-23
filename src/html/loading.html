@@ -13,23 +13,32 @@
 
 	<main id="content" class="site-content">
 
-
-		<!-- <div id="place" class="place">Place your phone inside the viewer…</div> -->
-
-		<!-- <div id="loading" class="loading">You are now entering our virtual world…</div> -->
+		<div id="place" class="place">
+			<span>Place your phone<br/>
+			inside the viewer…</span>
+		</div>
 
 		<div id="ornaments" class="ornaments">
 
-			<div class="ornament">
-				<div class="hook"></div>
+			<div id="loading" class="loading">
+				You are now entering<br/>
+				our virtual world…
 			</div>
 
-			<div class="ornament">
-				<div class="hook"></div>
-			</div>
+			<div class="ornaments--inner">
 
-			<div class="ornament">
-				<div class="hook"></div>
+				<div class="ornament">
+					<div class="hook"></div>
+				</div>
+
+				<div class="ornament">
+					<div class="hook"></div>
+				</div>
+
+				<div class="ornament">
+					<div class="hook"></div>
+				</div>
+
 			</div>
 
 		</div>
@@ -37,5 +46,22 @@
 	</main>
 	<!-- // #content -->
 
+	<script>
+	var place = document.querySelector('#place'),
+		x = document.querySelector('body'),
+		y = document.querySelector('#content'),
+		z, hash = location.hash;
+
+	if ( '#desktop' === hash ) {
+		place.style.display = 'none';
+	} else {
+		z = y.cloneNode( true );
+		x.appendChild(z);
+	}
+
+	setTimeout( function() {
+		location.href = location.hostname + '/rpyeti/' + hash;
+	}, 10000 );
+	</script>
 </body>
 </html>

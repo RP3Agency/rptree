@@ -9,26 +9,69 @@
 	"settings";
 
 body {
+	align-items: center;
 	background-color: get-color( "blue--brand" );
 	color: get-color( "white" );
+	display: flex;
+	font-family: sans-serif;
+	font-weight: 700;
 	height: 100vh;
+	line-height: 1.5;
 	margin: 0;
 	overflow: hidden;
-	position: relative;
 	width: 100vw;
 	text-align: center;
+	text-transform: uppercase;
+}
+
+main {
+	flex: 1;
+	height: 100vh;
+	position: relative;
+	width: 100vw;
+}
+
+/**
+ * Place your phone inside the viewer
+ */
+.place {
+	animation: place 1s 5s 1 forwards;
+	background-color: get-color( "blue--brand" );
+	bottom: 0;
+	left: 0;
+	position: absolute;
+	right: 0;
+	top: 0;
+	z-index: 10;
+
+	span {
+		left: 50%;
+		position: absolute;
+		top: 50%;
+		transform: translate( -50%, -50% );
+	}
 }
 
 /**
  * Ornaments
  */
+.loading {
+	margin: 0 auto;
+	padding-bottom: 2em;
+	width: 75%;
+}
+
 .ornaments {
 	display: flex;
+	flex-direction: column;
+	height: 100vh;
 	justify-content: center;
-	left: 50%;
-	position: absolute;
-	top: 50%;
-	transform: translate( -50%, -50% );
+}
+
+.ornaments--inner {
+	align-items: center;
+	display: flex;
+	justify-content: center;
 }
 
 .ornament {
@@ -99,4 +142,9 @@ body {
 	0% { opacity: 0.5; }
 	33% { opacity: 1; }
 	67% { opacity: 0.5; }
+}
+
+@keyframes place {
+	0% { opacity: 1; }
+	100% { opacity: 0; }
 }

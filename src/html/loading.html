@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Now Loading…</title>
+	<style>
+	<% include ../../dist/css/loading.min.css %>
+	</style>
+	<% include _templates/google-analytics.html %>
+</head>
+<body class="page">
+
+	<main id="content" class="site-content">
+
+		<div id="place" class="place">
+			<span>Place your phone<br/>
+			inside the viewer…</span>
+		</div>
+
+		<div id="ornaments" class="ornaments">
+
+			<div id="loading" class="loading">
+				You are now entering<br/>
+				our virtual world…
+			</div>
+
+			<div class="ornaments--inner">
+
+				<div class="ornament">
+					<div class="hook"></div>
+				</div>
+
+				<div class="ornament">
+					<div class="hook"></div>
+				</div>
+
+				<div class="ornament">
+					<div class="hook"></div>
+				</div>
+
+			</div>
+
+		</div>
+
+	</main>
+	<!-- // #content -->
+
+	<script>
+	var place = document.querySelector('#place'),
+		x = document.querySelector('body'),
+		y = document.querySelector('#content'),
+		z, hash = location.hash;
+
+	if ( '#desktop' === hash ) {
+		place.style.display = 'none';
+	} else {
+		z = y.cloneNode( true );
+		x.appendChild(z);
+	}
+
+	setTimeout( function() {
+		location.href = '/rpyeti/' + hash;
+	}, 10000 );
+	</script>
+</body>
+</html>

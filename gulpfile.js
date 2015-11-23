@@ -17,6 +17,7 @@ var gulp			= require('gulp'),
 	// HTML preprocessors
 	extender		= require('gulp-html-extend'),
 	ejs				= require('gulp-ejs'),
+	htmlminify		= require('gulp-html-minify'),
 
 	// File operations
 	concat			= require('gulp-concat'),
@@ -27,6 +28,7 @@ var gulp			= require('gulp'),
 	livereload		= require('gulp-livereload'),
 	express			= require('express'),
 	server			= express(),
+	compress		= require( 'compression' ),
 
 	// Deployment
 	aws_s3			= require('gulp-s3-upload')({
@@ -91,7 +93,7 @@ gulp.task('scripts', [ 'scripts-bower' ], function() {
 });
 
 // Process html files
-gulp.task('html', function(){
+gulp.task('html', [ 'styles' ], function(){
 	return gulp.src([ __dirname + '/src/html/**/*.html', '!' + __dirname + '/src/html/_templates/**', '!' + __dirname + '/src/html/**/_*.html' ])
 	.pipe( plumber(logError) )
 	.pipe( extender({
@@ -100,6 +102,7 @@ gulp.task('html', function(){
 		root: './src/html',
 	}) )
 	.pipe( ejs() )
+	.pipe( htmlminify() )
 	.pipe( gulp.dest(__dirname + '/dist') )
 	.pipe( notify({ message: 'HTML task complete', onLast: true }) )
 	.pipe( livereload() );
@@ -147,6 +150,7 @@ gulp.task('rebuild', [ 'clean' ], function() {
 
 // Static file server with livereload
 gulp.task('serve', function() {
+	server.use( compress() );
 	server.use( express.static(__dirname + '/dist') );
 	server.listen(8080);
 	gutil.log('Started development static server on localhost:8080');

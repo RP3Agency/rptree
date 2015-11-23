@@ -39,6 +39,7 @@
   "license": "MIT",
   "private": true,
   "devDependencies": {
+    "compression": "^1.6.0",
     "connect-livereload": "^0.5.3",
     "del": "^2.0.2",
     "express": "^4.13.3",
@@ -47,6 +48,7 @@
     "gulp-concat": "^2.6.0",
     "gulp-ejs": "^1.2.1",
     "gulp-html-extend": "^1.1.6",
+    "gulp-html-minify": "0.0.12",
     "gulp-jshint": "^1.11.2",
     "gulp-livereload": "^3.8.1",
     "gulp-minify-css": "^1.2.1",

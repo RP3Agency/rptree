@@ -44,7 +44,9 @@ RPYeti.config = {
 		canvasHeight: 1024,
 		size: 30,
 		easing: TWEEN.Easing.Quintic.Out,
-		easeDuration: 200
+		easeDuration: 200,
+		baseColor: 'rgba(0,174,239,0.50)',
+		damageColor: 'rgba(255,0,0,1)'
 	},
 
 	/** Debug Settings **/

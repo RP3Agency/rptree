@@ -380,13 +380,13 @@ RPYeti.game = (function() {
 			self.hud.beginPath();
 			self.hud.arc( width/2, height/2, RPYeti.config.hud.size, 0, arcFull, false );
 			self.hud.lineWidth = 10;
-			self.hud.strokeStyle = 'rgba(0,174,239,0.50)';
+			self.hud.strokeStyle = RPYeti.config.hud.baseColor;
 			self.hud.stroke();
 
 			self.hud.beginPath();
 			self.hud.arc( width/2, height/2, RPYeti.config.hud.size, arcInitial, healthPercent, false );
 			self.hud.lineWidth = 10;
-			self.hud.strokeStyle = 'rgba(255,0,0,1)';
+			self.hud.strokeStyle = RPYeti.config.hud.damageColor;
 			self.hud.stroke();
 
 			self.hudTexture.needsUpdate = true;

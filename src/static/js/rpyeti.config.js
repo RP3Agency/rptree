@@ -45,6 +45,7 @@ RPYeti.config = {
 		size: 30,
 		easing: TWEEN.Easing.Quintic.Out,
 		easeDuration: 200,
+		innerFocalMax: 0.05,
 		baseColor: 'rgba(0,174,239,0.50)',
 		damageColor: 'rgba(255,0,0,1)'
 	},

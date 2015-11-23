@@ -396,10 +396,14 @@ RPYeti.game = (function() {
 			var points = self.getClosestFocalPoints(),
 				diff = (Math.abs(points[0].x) + Math.abs(points[1].x)) / 2.0;
 
+			if (diff > RPYeti.config.hud.innerFocalMax) {
+				diff = RPYeti.config.hud.innerFocalMax;
+			}
+
 			if (self.focalTween.end != diff) {
 				self.focalTween.stop();
 				self.focalTween.end = diff;
-				self.focalTween.to({ x: diff, y: 0 }, RPYeti.config.easeDuration).start();
+				self.focalTween.to({ x: diff, y: 0 }, RPYeti.config.hud.easeDuration).start();
 			}
 		},
 
@@ -446,12 +450,12 @@ RPYeti.game = (function() {
 		throwSnowball: function( source ) {
 			if( ! self.snowball ) return;
 
-			if( ! source ) {
-				source = new THREE.Vector3( 0, 10, 0 );
-			}
-
 			var raycaster = new THREE.Raycaster();
-			raycaster.set( self.camera.getWorldPosition(), self.camera.getWorldDirection() );
+			if( source ) {
+				raycaster.set( source, self.camera.getWorldPosition().sub(source).normalize() );
+			} else {
+				raycaster.set( self.camera.getWorldPosition(), self.camera.getWorldDirection() );
+			}
 
 			var snowball = self.snowball.clone();
 			snowball.ray = raycaster.ray;

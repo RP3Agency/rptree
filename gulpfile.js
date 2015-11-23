@@ -102,7 +102,7 @@ gulp.task('html', [ 'styles' ], function(){
 		root: './src/html',
 	}) )
 	.pipe( ejs() )
-	.pipe( htmlminify() )
+	// .pipe( htmlminify() )
 	.pipe( gulp.dest(__dirname + '/dist') )
 	.pipe( notify({ message: 'HTML task complete', onLast: true }) )
 	.pipe( livereload() );

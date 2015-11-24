@@ -75,7 +75,7 @@ RPYeti.config = {
 
 		// models
 		{ type: 'Model', name: 'tree', mesh: 'tree-snow.obj', skin: 'tree-snow.mtl' },
-		{ type: 'Model', name: 'yeti', mesh: 'yeti.obj', skin: 'yeti.mtl' }
+		{ type: 'Model', name: 'yeti', mesh: 'yeti.obj', skin: 'yeti.mtl' },
 
 		// sounds
 		{ type: 'Sound', name: 'throw', file: 'throw.wav' },

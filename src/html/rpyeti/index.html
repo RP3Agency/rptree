@@ -69,6 +69,10 @@
 		r = n.find('#ready'),
 		hash = location.hash;
 
+		n.on( 'touchstart', function(e) {
+			e.preventDefault();
+		});
+
 		if ( '#desktop' !== hash ) {
 			r.find('p').css('display', 'block');
 		}

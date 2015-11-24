@@ -1,8 +1,11 @@
 .experience-selector {
+	align-items: center;
 	display: flex;
+	justify-contents: space-between;
+	margin: 0 auto;
+	max-width: rem(1200px);
 
 	> a {
-		width: 50%;
 
 		@include hover-state {
 			text-decoration: none;

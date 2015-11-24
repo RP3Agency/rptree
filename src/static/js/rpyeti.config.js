@@ -61,6 +61,7 @@ RPYeti.config = {
 		{ type: 'Model', name: 'tree', mesh: 'tree-snow.obj', skin: 'tree-snow.mtl' },
 		// sounds
 		{ type: 'Sound', name: 'throw', file: 'throw.wav' },
+		{ type: 'Sound', name: 'oof', file: 'oof.mp3' },
 	],
 
 	/** Debug Settings **/

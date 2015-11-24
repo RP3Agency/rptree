@@ -334,6 +334,7 @@ RPYeti.game = (function() {
 			// snowball throw sound
 			self.sounds.throw = new THREE.Audio( self.listener );
 			self.sounds.throw.setBuffer( RPYeti.loader.sounds.throw );
+			self.sounds.throw.setVolume( 0.2 );
 			self.listener.add( self.sounds.throw );
 
 		},
@@ -508,8 +509,17 @@ RPYeti.game = (function() {
 		},
 
 		removeSnowball: function( snowball ) {
+			// hide snowball
 			snowball.visible = false;
 			//TODO: make particle explosion at impact
+
+			// play impact sound
+			var impact = new THREE.PositionalAudio( self.listener );
+			impact.setBuffer( RPYeti.loader.sounds.oof );
+			snowball.add( impact );
+			impact.play();
+
+			// get rid of snowball after delay
 			setTimeout( function() {
 				self.snowballs.remove( snowball );
 			}, 500 );

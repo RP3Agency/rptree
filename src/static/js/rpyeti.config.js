@@ -58,6 +58,21 @@ RPYeti.config = {
 		damageColor: 'rgba(255,0,0,1)'
 	},
 
+	character: {
+		minX: 250,
+		maxX: -250,
+		minZ: 250,
+		maxZ: -250,
+		yeti: {
+			appearEasing: TWEEN.Easing.Circular.In,
+			appearDuration: 1500,
+			disappearEasing: TWEEN.Easing.Circular.Out,
+			disappearDuration: 500,
+			defeatEasing: TWEEN.Easing.Bounce.Out,
+			defeatDuration: 2000
+		}
+	},
+
 	/** Game Assets **/
 
 	assets: [
@@ -65,10 +80,13 @@ RPYeti.config = {
 		{ type: 'Texture', name: 'snow', file: 'patterns/snow-tile.jpg' },
 		{ type: 'Texture', name: 'stars', file: 'patterns/starfield.png' },
 		{ type: 'Texture', name: 'snowball', file: 'patterns/snow-ground.jpg' },
+
 		// models
 		{ type: 'Model', name: 'tree', mesh: 'tree-snow.obj', skin: 'tree-snow.mtl' },
 		{ type: 'Model', name: 'rock', mesh: 'rock1.obj', skin: 'rock1.mtl' },
 		{ type: 'Model', name: 'snowyrock', mesh: 'rock1snow.obj', skin: 'rock1snow.mtl' },
+		{ type: 'Model', name: 'yeti', mesh: 'yeti.obj', skin: 'yeti.mtl' },
+
 		// sounds
 		{ type: 'Sound', name: 'throw', file: 'throw.wav' },
 		{ type: 'Sound', name: 'oof', file: 'oof.mp3' },

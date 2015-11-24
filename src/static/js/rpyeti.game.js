@@ -535,7 +535,7 @@ $(function() {
 		if( RPYeti.config.stereo ) {
 			//TODO: display touch to start message
 			var init;
-			$(document).on('touchend', function(e) {
+			$(document).on('mouseup touchend', function(e) {
 				if( ! init ) {
 					init = true;
 					RPYeti.game.init();

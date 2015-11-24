@@ -92,6 +92,7 @@ RPYeti.config = {
 		{ type: 'Sound', name: 'oof', file: 'oof.mp3' },
 		{ type: 'Sound', name: 'tink', file: 'tink.mp3' },
 		{ type: 'Sound', name: 'whack', file: 'whack.mp3' },
+		{ type: 'Sound', name: 'splat', file: 'splat.mp3' },
 	],
 
 	/** Debug Settings **/

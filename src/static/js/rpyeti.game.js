@@ -556,9 +556,9 @@ RPYeti.game = (function() {
 							self.removeSnowball( snowball );
 						}
 						var raycaster = new THREE.Raycaster( snowball.position, dir );
-						var collisions = raycaster.intersectObjects( [ self.snow, self.trees, self.rocks ], true );
+						var collisions = raycaster.intersectObjects( [ self.snow, self.snowballs, self.trees, self.rocks ], true );
 						for( var i = 0; i < collisions.length; i++ ) {
-							if( collisions[i].distance <= ( RPYeti.config.snowball.size * 4 ) ) {
+							if( collisions[i].object != snowball && collisions[i].distance <= ( RPYeti.config.snowball.size * 4 ) ) {
 								self.removeSnowball( snowball, collisions[i].object );
 							}
 						}
@@ -577,6 +577,9 @@ RPYeti.game = (function() {
 				var effect;
 				if ( target == self.snow ) {
 					effect = RPYeti.loader.sounds.tink;
+				} else if( self.snowballs.getObjectById( target.id ) ) {
+					self.removeSnowball( target );
+					effect = RPYeti.loader.sounds.splat;
 				} else if( self.trees.getObjectById( target.id ) ) {
 					effect = RPYeti.loader.sounds.oof;
 				} else if ( self.rocks.getObjectById( target.id ) ) {

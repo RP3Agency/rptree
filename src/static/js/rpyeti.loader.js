@@ -3,6 +3,9 @@ var RPYeti = RPYeti || {};
 RPYeti.loader = (function() {
 	var self;
 
+	// throw-away audio context for preloading
+	var audio = new THREE.AudioListener();
+
 	return {
 
 		loading: 0,
@@ -63,9 +66,15 @@ RPYeti.loader = (function() {
 		},
 
 		loadSound: function( asset ) {
-
-			//TODO: audio loading
-
+			self.loading++;
+			var sound = asset,
+				buffer = new THREE.AudioBuffer( audio.context );
+			buffer.load( '../sounds/' + sound.file );
+			buffer.onReady(function() {
+				self.sounds[ sound.name ] = buffer;
+				self.loaded++;
+				self.publisher.trigger( 'rpyeti.loader.progress' );
+			});
 		},
 
 		onProgress: function() {

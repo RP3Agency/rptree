@@ -29,6 +29,10 @@ RPYeti.game = (function() {
 			this.camera.position.set( 0, 10, 0 );
 			this.scene.add( this.camera );
 
+			// create audio listener
+			this.listener = new THREE.AudioListener();
+			this.camera.add( this.listener );
+
 			// create user controls
 			this.controls = new THREE.OrbitControls( this.camera, this.renderer.domElement );
 			this.controls.target.set(
@@ -83,6 +87,11 @@ RPYeti.game = (function() {
 			// add game HUD
 			this.addHUD();
 
+			// add sound effects
+			this.addSounds();
+
+			// add tweening and focal adjustment for HUD
+			//TODO: move to function and do conditional on config.stereo flag
 			this.focalRaycaster = new THREE.Raycaster();
 			this.focalPoint = new THREE.Vector2(0, 0);
 			this.focalTween = new TWEEN.Tween({ x: 0, y: 0 })
@@ -130,6 +139,7 @@ RPYeti.game = (function() {
 
 			if( self.isFiring ) {
 				if( ( t - self.lastFire ) >= RPYeti.config.snowball.rate ) {
+					self.playSound( self.sounds.throw );
 					self.throwSnowball();
 					self.lastFire = t;
 				}
@@ -316,6 +326,26 @@ RPYeti.game = (function() {
 			//TODO: add yeti holes, hidden if possible
 		},
 
+		/** Sounds **/
+
+		addSounds: function() {
+			self.sounds = {};
+
+			// snowball throw sound
+			self.sounds.throw = new THREE.Audio( self.listener );
+			self.sounds.throw.setBuffer( RPYeti.loader.sounds.throw );
+			self.listener.add( self.sounds.throw );
+
+		},
+
+		playSound: function( sound ) {
+			if( sound.isPlaying ) {
+				sound.stop();
+				sound.isPlaying = false;
+			}
+			sound.play();
+		},
+
 		/** Game interface (HUD) **/
 
 		addHUD: function() {
@@ -492,8 +522,20 @@ RPYeti.game = (function() {
 $(function() {
 
 	$(document).on('rpyeti.loader.complete', function(){
-		RPYeti.game.init();
-		RPYeti.game.animate();
+		if( RPYeti.config.stereo ) {
+			//TODO: display touch to start message
+			var init;
+			$(document).on('touchend', function(e) {
+				if( ! init ) {
+					init = true;
+					RPYeti.game.init();
+					RPYeti.game.animate();
+				}
+			});
+		} else {
+			RPYeti.game.init();
+			RPYeti.game.animate();
+		}
 	});
 
 });

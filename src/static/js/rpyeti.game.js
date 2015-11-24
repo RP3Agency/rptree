@@ -103,7 +103,9 @@ RPYeti.game = (function() {
 				}, 200);
 			}
 
+
 			/** SAMPLE HEALTH METER **/
+			/*
 			function upd() {
 				self.health--;
 				if (self.health < 0) {
@@ -114,6 +116,57 @@ RPYeti.game = (function() {
 				setTimeout(upd, 100);
 			}
 			upd();
+			*/
+			/** END SAMPLE HEALTH METER **/
+
+			/** SAMPLE YETI SPAWNER **/
+			self.yetis = new THREE.Group();
+			self.characters = { yetis: [] };
+			self.scene.add( self.yetis );
+			function upd() {
+				if (self.characters.yetis.length < 20) {
+					var yeti = new RPYeti.character.yeti(self.yetis),
+						x = Math.random() * (RPYeti.config.character.maxX - RPYeti.config.character.minX + 1) + RPYeti.config.character.minX ,
+						z = Math.random() * (RPYeti.config.character.maxZ - RPYeti.config.character.minZ + 1) + RPYeti.config.character.minZ;
+
+					yeti.position(x, z, 4, self.camera.getWorldPosition());
+
+					yeti.setAction(function (context) {
+						var pos = context.pivot.position.clone();
+						pos.y = 10;
+
+						self.throwSnowball(pos);
+					});
+
+					yeti.on('appear', function (context) {
+						setTimeout(function () {
+							context.action();
+						}, 500);
+					});
+
+					yeti.on('action', function (context) {
+						setTimeout(function () {
+							context.defeat();
+						}, 1500);
+					});
+
+					yeti.on('defeat', function (context) {
+						setTimeout(function () {
+							context.hide();
+						}, 500);
+					});
+
+					self.characters.yetis.push(yeti);
+				}
+
+				for (var i in self.characters.yetis) {
+					self.characters.yetis[i].appear();
+				}
+
+				setTimeout(upd, 8000);
+			}
+			upd();
+			/** END SAMPLE YETI SPAWNER **/
 
 			// set resize event
 			$(window).on('resize', this.resize);

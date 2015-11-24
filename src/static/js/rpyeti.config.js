@@ -50,6 +50,21 @@ RPYeti.config = {
 		damageColor: 'rgba(255,0,0,1)'
 	},
 
+	character: {
+		minX: 250,
+		maxX: -250,
+		minZ: 250,
+		maxZ: -250,
+		yeti: {
+			appearEasing: TWEEN.Easing.Circular.In,
+			appearDuration: 1500,
+			disappearEasing: TWEEN.Easing.Circular.Out,
+			disappearDuration: 500,
+			defeatEasing: TWEEN.Easing.Bounce.Out,
+			defeatDuration: 2000
+		}
+	},
+
 	/** Game Assets **/
 
 	assets: [
@@ -59,6 +74,7 @@ RPYeti.config = {
 		{ type: 'Texture', name: 'snowball', file: 'patterns/snow-ground.jpg' },
 
 		{ type: 'Model', name: 'tree', mesh: 'tree-snow.obj', skin: 'tree-snow.mtl' },
+		{ type: 'Model', name: 'yeti', mesh: 'yeti.obj', skin: 'yeti.mtl' }
 
 	],
 

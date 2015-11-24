@@ -59,6 +59,13 @@ RPYeti.loader = (function() {
 				loader = new THREE.OBJMTLLoader();
 
 			loader.load('../models/' + model.mesh, '../textures/' + model.skin, function(object) {
+				object.traverse(function(child) {
+					if( child instanceof THREE.Mesh ) {
+						child.material.side = THREE.DoubleSide;
+						child.castShadow = true;
+						child.receiveShadow = true;
+					}
+				});
 				self.models[ model.name ] = object;
 				self.loaded++;
 				self.publisher.trigger( 'rpyeti.loader.progress' );

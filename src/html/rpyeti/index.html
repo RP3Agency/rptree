@@ -6,14 +6,77 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 	<meta name="mobile-web-app-capable" content="yes">
+	<style>
+	<% include ../../../dist/css/loading.min.css %>
+	</style>
 	<link rel="stylesheet" type="text/css" href="../css/rpyeti.css">
 	<% include ../_templates/google-analytics.html %>
 </head>
 
 <body>
+
+	<div id="now-loading" class="now-loading">
+
+		<div id="ornaments" class="ornaments">
+
+			<div id="loading" class="loading">
+				Now loading our<br/>
+				virtual world…
+			</div>
+
+			<div class="ornaments--inner">
+
+				<div class="ornament">
+					<div class="hook"></div>
+				</div>
+
+				<div class="ornament">
+					<div class="hook"></div>
+				</div>
+
+				<div class="ornament">
+					<div class="hook"></div>
+				</div>
+
+				<div class="ornament">
+					<div class="hook"></div>
+				</div>
+
+			</div>
+
+			<div id="ready" class="ready">
+
+				<h2>Ready!</h2>
+
+				<p>
+					Place your phone inside the viewer<br/>
+					and press the trigger to begin.
+				</p>
+
+			</div>
+
+		</div>
+
+	</div>
+
+
 	<div id="rpyeti" class="rpyeti"></div>
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+	<script>
+	var n = $('#now-loading'),
+		r = n.find('#ready'),
+		hash = location.hash;
+
+		n.on( 'touchstart', function(e) {
+			e.preventDefault();
+		});
+
+		if ( '#desktop' !== hash ) {
+			r.find('p').css('display', 'block');
+		}
+	</script>
 
 	<script src="../js/third-party/threejs/Detector.js"></script>
 	<script src="../js/third-party/threejs/stats.min.js"></script>
@@ -23,6 +86,10 @@
 	<script src="../js/third-party/threejs/OrbitControls.js"></script>
 	<script src="../js/third-party/threejs/MTLLoader.js"></script>
 	<script src="../js/third-party/threejs/OBJMTLLoader.js"></script>
+	<script src="../js/third-party/threejs/audio/Audio.js"></script>
+	<script src="../js/third-party/threejs/audio/AudioBuffer.js"></script>
+	<script src="../js/third-party/threejs/audio/AudioListener.js"></script>
+	<script src="../js/third-party/threejs/audio/PositionalAudio.js"></script>
 
 	<script src="../js/scripts-bower.min.js"></script>
 
@@ -30,6 +97,39 @@
 	<script src="../js/rpyeti.loader.js"></script>
 	<script src="../js/rpyeti.character.yeti.js"></script>
 	<script src="../js/rpyeti.game.js"></script>
-</body>
 
+	<script>
+	$(document).on('rpyeti.loader.complete', function() {
+		r.addClass('visible');
+
+		if ( '#desktop' === hash ) {
+			setTimeout( function() {
+				n.fadeOut( 500, function() {
+					$(this).remove();
+				} );
+			}, 2000 );
+		} else {
+			n.one( 'click touchend', function() {
+				$(this).fadeOut( 500, function() {
+					$(this).remove();
+				});
+			});
+		}
+	})
+	.on('rpyeti.loader.progress', function() {
+		// calculate percent complete
+		var percent = (RPYeti.loader.loaded / RPYeti.loader.loading ) * 100.0;
+		if ( 100 <= percent ) {
+			n.addClass('complete');
+		} else if ( 75 <= percent ) {
+			n.addClass('seventy-five');
+		} else if ( 50 <= percent ) {
+			n.addClass('fifty');
+		} else if ( 25 <= percent ) {
+			n.addClass('twenty-five');
+		}
+	});
+	</script>
+
+</body>
 </html>

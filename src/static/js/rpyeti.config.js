@@ -68,14 +68,18 @@ RPYeti.config = {
 	/** Game Assets **/
 
 	assets: [
-
+		// textures
 		{ type: 'Texture', name: 'snow', file: 'patterns/snow-tile.jpg' },
 		{ type: 'Texture', name: 'stars', file: 'patterns/starfield.png' },
 		{ type: 'Texture', name: 'snowball', file: 'patterns/snow-ground.jpg' },
 
+		// models
 		{ type: 'Model', name: 'tree', mesh: 'tree-snow.obj', skin: 'tree-snow.mtl' },
 		{ type: 'Model', name: 'yeti', mesh: 'yeti.obj', skin: 'yeti.mtl' }
 
+		// sounds
+		{ type: 'Sound', name: 'throw', file: 'throw.wav' },
+		{ type: 'Sound', name: 'oof', file: 'oof.mp3' },
 	],
 
 	/** Debug Settings **/

@@ -28,7 +28,7 @@ RPYeti.loader = (function() {
 			}
 
 			// set listener for asset loaded event
-			this.publisher.on('rpyeti.loader.asset', this.onAssetLoaded.bind( this) )
+			this.publisher.on('rpyeti.loader.progress', this.onProgress.bind( this) )
 
 			// step through configured assets and start loading
 			this.assets = RPYeti.config.assets;
@@ -46,7 +46,7 @@ RPYeti.loader = (function() {
 			loader.load('../textures/' + texture.file, function(object) {
 				self.textures[ texture.name ] = object;
 				self.loaded++;
-				self.publisher.trigger( 'rpyeti.loader.asset' );
+				self.publisher.trigger( 'rpyeti.loader.progress' );
 			});
 		},
 
@@ -58,7 +58,7 @@ RPYeti.loader = (function() {
 			loader.load('../models/' + model.mesh, '../textures/' + model.skin, function(object) {
 				self.models[ model.name ] = object;
 				self.loaded++;
-				self.publisher.trigger( 'rpyeti.loader.asset' );
+				self.publisher.trigger( 'rpyeti.loader.progress' );
 			});
 		},
 
@@ -68,7 +68,7 @@ RPYeti.loader = (function() {
 
 		},
 
-		onAssetLoaded: function() {
+		onProgress: function() {
 			if( self.loaded === self.loading ) {
 				this.publisher.trigger( 'rpyeti.loader.complete' );
 			}

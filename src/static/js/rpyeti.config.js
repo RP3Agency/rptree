@@ -62,7 +62,10 @@ RPYeti.config = {
 		easeDuration: 200,
 		innerFocalMax: 0.05,
 		baseColor: 'rgba(0,174,239,0.50)',
-		damageColor: 'rgba(255,0,0,1)'
+		damageColor: 'rgba(255,0,0,1)',
+		textPos: -350,
+		textSize: 40,
+		textStyle: 'rgba(0,174,239,1)'
 	},
 
 	character: {

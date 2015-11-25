@@ -66,7 +66,7 @@ gulp.task('styles', function() {
 		suffix: '.min'
 	}) )
 	.pipe( gulp.dest( __dirname + '/dist/css') )
-	// .pipe( notify({ message: 'Styles task complete', onLast: true }) )
+	.pipe( notify({ message: 'Styles task complete', onLast: true }) )
 	.pipe( livereload() );
 });
 

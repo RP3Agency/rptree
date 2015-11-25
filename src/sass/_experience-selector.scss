@@ -1,47 +1,150 @@
+.page {
+	background: get-color( "gray" ) url("../images/rptree-bg.jpg") no-repeat center;
+	background-size: cover;
+	color: get-color( "white" );
+}
+
 .experience-selector {
+	align-items: center;
 	display: flex;
+	flex-wrap: wrap;
+	justify-contents: space-between;
+	margin: 0 auto;
+	max-width: rem(1200px);
+	position: relative;
+	width: 100%;
 
-	> a {
-		width: 50%;
+	@media (orientation: landscape) {
+		flex-wrap: nowrap;
+	}
 
-		@include hover-state {
-			text-decoration: none;
+	&__logo {
+		margin: 0 auto;
+		position: relative;
+		width: 90%;
 
-			.experience-selector__image__container::before {
-				background-color: rgba( 255, 255, 255, 0.4 );
+		&::after {
+			background-color: transparentize( mix( white, get-color( "black" ), 20% ), 0.9 );
+			border-radius: 50%;
+			bottom: -4rem;
+			content: "";
+			display: block;
+			filter: blur( 5px );
+			height: 2rem;
+			left: 50%;
+			position: absolute;
+			transform: translate( -50%, 0 );
+			width: 80%;
+		}
+
+		.snowflake {
+			position: absolute;
+
+			height: 16px;
+			width: 16px;
+
+			@media ( min-width: 640px ) {
+				height: 32px;
+				width: 32px;
+			}
+
+			svg {
+				display: block;
+				height: 100%;
+				width: 100%;
+			}
+
+			$containerWidth: 568px;
+			$containerHeight: 663px;
+
+			&.snowflake--1 {
+				left: floor( percentage( 30px / $containerWidth ) );
+				bottom: floor( percentage( 241px / $containerHeight ) );
+			}
+
+			&.snowflake--2 {
+				left: floor( percentage( 65px / $containerWidth ) );
+				top: floor( percentage( 236px / $containerHeight ) );
+			}
+
+			&.snowflake--3 {
+				left: floor( percentage( 130px / $containerWidth ) );
+				top: floor( percentage( 58px / $containerHeight ) );
+			}
+
+			&.snowflake--4 {
+				right: floor( percentage( 187px / $containerWidth ) );
+				top: floor( percentage( 25px / $containerHeight ) );
+			}
+
+			&.snowflake--5 {
+				right: floor( percentage( 131px / $containerWidth ) );
+				top: floor( percentage( 166px / $containerHeight ) );
+			}
+
+			&.snowflake--6 {
+				right: floor( percentage( 35px / $containerWidth ) );
+				bottom: floor( percentage( 184px / $containerHeight ) );
 			}
 		}
 	}
 
-	&__image {
-		@include aspect-ratio();
+	&__desktop,
+	&__vr {
+		color: get-color( "white" );
+		text-transform: uppercase;
+		width: 50%;
+		@include aspect-ratio(1, 1);
 
-		img {
-			width: 100%;
+		span {
+			align-items: center;
+			display: flex;
+			justify-content: center;
+
+			a {
+				color: get-color( "white" );
+				font-weight: 700;
+				height: 50%;
+				letter-spacing: 1px;
+				line-height: 1.1;
+				text: {
+					align: center;
+				}
+				white-space: nowrap;
+				width: 50%;
+				// @include highlight;
+
+				.experience-selector__svg {
+					align-items: center;
+					background-color: transparentize( get-color( "white" ), 0.9 );
+					border: 4px solid get-color( "blue--brand" );
+					border-radius: 50%;
+					display: flex;
+					height: 100%;
+					justify-content: center;
+					margin-bottom: 1em;
+					transition: background-color 100ms ease-in;
+					width: 100%;
+				}
+
+				svg {
+					width: 75%;
+				}
+
+				@include hover-state {
+					text-decoration: none;
+
+					.experience-selector__svg {
+						background-color: transparentize( get-color( "white" ), 0.3 );
+					}
+				}
+			}
 		}
 	}
 
-	&__image__container {
-		display: flex;
-
-		&::before {
-			bottom: 0;
-			content: "";
-			display: block;
-			left: 0;
-			position: absolute;
-			right: 0;
-			top: 0;
-			transition: background-color 0.2s;
-			z-index: 1;
-		}
-	}
-
-	.experience-selector__image--vr {
-
-		img {
-			display: block;
-			width: 50%;
+	@media (orientation: landscape) {
+		&__desktop {
+			order: -1;
 		}
 	}
 

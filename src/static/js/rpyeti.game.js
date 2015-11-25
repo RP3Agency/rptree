@@ -92,18 +92,6 @@ RPYeti.game = (function() {
 			// add sound effects
 			this.addSounds();
 
-			// add tweening and focal adjustment for HUD
-			//TODO: move to function and do conditional on config.stereo flag
-			this.focalRaycaster = new THREE.Raycaster();
-			this.focalPoint = new THREE.Vector2(0, 0);
-			this.focalTween = new TWEEN.Tween({ x: 0, y: 0 })
-				.easing(RPYeti.config.hud.easing)
-				.onUpdate(function () {
-					self.hudPlaneL.position.x = this.x;
-					self.hudPlaneR.position.x = -(this.x);
-				});
-			this.focalTween.end = 0;
-
 			if( RPYeti.config.wireframe ) {
 				setTimeout(function() {
 					self.scene.traverse(function(child) {
@@ -190,7 +178,7 @@ RPYeti.game = (function() {
 					self.characters.yetis.objs[i].appear();
 				}
 
-				setTimeout(upd, 20000);
+				setTimeout(upd, 15000);
 			}
 			upd();
 			/** END SAMPLE YETI SPAWNER **/
@@ -461,6 +449,17 @@ RPYeti.game = (function() {
 
 				this.stereo.right.add( plane2 );
 				self.hudPlaneR = plane2;
+
+				// add tweening and focal adjustment for HUD
+				this.focalRaycaster = new THREE.Raycaster();
+				this.focalPoint = new THREE.Vector2(0, 0);
+				this.focalTween = new TWEEN.Tween({ x: 0, y: 0 })
+					.easing(RPYeti.config.hud.easing)
+					.onUpdate(function () {
+						self.hudPlaneL.position.x = this.x;
+						self.hudPlaneR.position.x = -(this.x);
+					});
+				this.focalTween.end = 0;
 			} else {
 				self.camera.add( plane );
 			}

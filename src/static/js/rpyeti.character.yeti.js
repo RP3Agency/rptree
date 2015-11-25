@@ -113,6 +113,7 @@ RPYeti.character.yeti = function(group) {
 		},
 
 		defeat: function () {
+			self.trigger('defeat');
 			if (!self.isDefeated) {
 				self.isDefeated = true;
 
@@ -122,7 +123,7 @@ RPYeti.character.yeti = function(group) {
 						self.model.rotation.x = this.rx;
 						self.pivot.position.y = this.py;
 					}).onComplete(function () {
-						self.trigger('defeat');
+						self.trigger('defeated');
 					});
 
 				positionTween.to({ rx: "-" + Math.PI/2, py: 0 }, RPYeti.config.character.yeti.defeatDuration).start();

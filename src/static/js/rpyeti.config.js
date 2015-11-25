@@ -40,9 +40,16 @@ RPYeti.config = {
 	],
 
 	rocks: [
-		[ 'rock',       60, -20 ],
-		[ 'snowyrock',  80,  15 ],
-		[ 'rock',      100,  -7 ],
+		[ 'rock',      60, -20 ],
+		[ 'snowyrock', 80,  15 ],
+		[ 'rock',       2, 100 ],
+	],
+
+	mounds: [
+		[ 100,  -7 ],
+		[  -2, -90 ],
+		[ -30, -40 ],
+		[   0,   0 ],
 	],
 
 	/** HUD configuration **/
@@ -78,6 +85,7 @@ RPYeti.config = {
 	assets: [
 		// textures
 		{ type: 'Texture', name: 'snow', file: 'patterns/snow-tile.jpg' },
+		{ type: 'Texture', name: 'snowmound', file: 'patterns/snow-tile.jpg' },
 		{ type: 'Texture', name: 'stars', file: 'patterns/starfield.png' },
 		{ type: 'Texture', name: 'snowball', file: 'patterns/snow-ground.jpg' },
 
@@ -85,6 +93,7 @@ RPYeti.config = {
 		{ type: 'Model', name: 'tree', mesh: 'tree-snow.obj', skin: 'tree-snow.mtl' },
 		{ type: 'Model', name: 'rock', mesh: 'rock1.obj', skin: 'rock1.mtl' },
 		{ type: 'Model', name: 'snowyrock', mesh: 'rock1snow.obj', skin: 'rock1snow.mtl' },
+		{ type: 'Model', name: 'mound', mesh: 'mound.obj', skin: 'mound.mtl' },
 		{ type: 'Model', name: 'yeti', mesh: 'yeti.obj', skin: 'yeti.mtl' },
 
 		// sounds

@@ -482,13 +482,13 @@ RPYeti.game = (function() {
 			}
 
 			if (self.stereo) {
-				textPos *= 1.2;
-				textSize *= 2;
+				textPos *= 1.15;
+				textSize *= 1.25;
 			}
 
 			self.updateReticle();
 
-			self.hud.font = 'Normal ' + textSize + 'px Arial';
+			self.hud.font = 'Bold ' + textSize + 'px Arial';
 			self.hud.textAlign = 'center';
 			self.hud.fillStyle = RPYeti.config.hud.textStyle;
 			self.hud.fillText(text, RPYeti.config.hud.canvasWidth / 2, RPYeti.config.hud.canvasHeight / 2 + textPos);

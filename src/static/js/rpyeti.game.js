@@ -471,16 +471,24 @@ RPYeti.game = (function() {
 		},
 
 		addHudText: function (text) {
+			var textPos = RPYeti.config.hud.textPos,
+				textSize = RPYeti.config.hud.textSize;
+
 			if (self.hudTextClear) {
 				clearTimeout(self.hudTextClear);
 			}
 
+			if (self.stereo) {
+				textPos *= 1.2;
+				textSize *= 2;
+			}
+
 			self.updateReticle();
 
-			self.hud.font = "Normal 80px Arial";
+			self.hud.font = 'Normal ' + textSize + 'px Arial';
 			self.hud.textAlign = 'center';
-			self.hud.fillStyle = "rgba(245,245,245,1)";
-			self.hud.fillText(text, RPYeti.config.hud.canvasWidth / 2, 80);
+			self.hud.fillStyle = RPYeti.config.hud.textStyle;
+			self.hud.fillText(text, RPYeti.config.hud.canvasWidth / 2, RPYeti.config.hud.canvasHeight / 2 + textPos);
 
 			self.hudTextClear = setTimeout(function () {
 				self.addHudText('');

@@ -157,11 +157,10 @@ RPYeti.game = (function() {
 
 					yeti.on('action', function (context) {
 						setTimeout(function () {
-							console.log(context.fireCount);
 							if (context.fireCount < 2) {
 								context.action();
 							} else {
-								context.defeat();
+								context.disappear();
 							}
 							context.fireCount++;
 						}, 3000);
@@ -169,7 +168,7 @@ RPYeti.game = (function() {
 
 					yeti.on('defeat', function (context) {
 						setTimeout(function () {
-							context.hide();
+							context.remove();
 						}, 500);
 					});
 

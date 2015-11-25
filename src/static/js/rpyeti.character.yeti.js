@@ -13,20 +13,13 @@ RPYeti.character.yeti = function(group) {
 		init: function() {
 			self = this;
 
-			var model = RPYeti.loader.models.yeti;
-			model.traverse(function(child) {
-				if( child instanceof THREE.Mesh ) {
-					child.material.side = THREE.DoubleSide;
-					child.castShadow = true;
-					child.receiveShadow = true;
-				}
-			});
 
-			self.model = model.clone();
+			self.model = RPYeti.loader.models.yeti;
+			self.model.characer = self;
 
-			this.pivot = new THREE.Object3D();
-			this.pivot.add(self.model);
-			group.add(this.pivot);
+			self.pivot = new THREE.Object3D();
+			self.pivot.add(self.model);
+			group.add(self.pivot);
 
 			return self;
 		},
@@ -103,6 +96,11 @@ RPYeti.character.yeti = function(group) {
 				});
 
 			self.positionTween.to({ y: -Math.abs(self.bounds.max.y) }, RPYeti.config.character.yeti.disappearDuration).start();
+		},
+
+		hit: function () {
+			self.trigger('hit');
+			self.defeat();
 		},
 
 		defeat: function () {

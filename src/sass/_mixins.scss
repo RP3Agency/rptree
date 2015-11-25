@@ -41,3 +41,7 @@
 @function rem( $target ) {
 	@return $target / 16px * 1rem;
 }
+
+@mixin highlight( $offset: 0deg ) {
+	background-color: adjust-hue( rgba( 255, 0, 255, 0.2 ), $offset );
+}

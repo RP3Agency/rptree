@@ -28,16 +28,24 @@ RPYeti.config = {
 	/** Model Positioning **/
 
 	trees: [
-		[300, -125],
-		[300, 115],
-		[100, -20],
-		[100, 10],
-		[50, -30],
-		[70, 100],
-		[50, 30],
-		[-30, 0],
-		[800, 0],
+		[ 300, -125 ],
+		[ 300,  115 ],
+		[ 100,  -20 ],
+		[ 100,   10 ],
+		[  50,  -30 ],
+		[  70,  100 ],
+		[  50,   30 ],
+		[ -30,    0 ],
+		[ 800,    0 ],
 	],
+
+	rocks: [
+		[ 'rock',       60, -20 ],
+		[ 'snowyrock',  80,  15 ],
+		[ 'rock',      100,  -7 ],
+	],
+
+	/** HUD configuration **/
 
 	hud: {
 		canvasWidth: 1024,
@@ -75,11 +83,16 @@ RPYeti.config = {
 
 		// models
 		{ type: 'Model', name: 'tree', mesh: 'tree-snow.obj', skin: 'tree-snow.mtl' },
+		{ type: 'Model', name: 'rock', mesh: 'rock1.obj', skin: 'rock1.mtl' },
+		{ type: 'Model', name: 'snowyrock', mesh: 'rock1snow.obj', skin: 'rock1snow.mtl' },
 		{ type: 'Model', name: 'yeti', mesh: 'yeti.obj', skin: 'yeti.mtl' },
 
 		// sounds
 		{ type: 'Sound', name: 'throw', file: 'throw.wav' },
 		{ type: 'Sound', name: 'oof', file: 'oof.mp3' },
+		{ type: 'Sound', name: 'tink', file: 'tink.mp3' },
+		{ type: 'Sound', name: 'whack', file: 'whack.mp3' },
+		{ type: 'Sound', name: 'splat', file: 'splat.mp3' },
 	],
 
 	/** Debug Settings **/

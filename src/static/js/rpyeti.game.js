@@ -82,6 +82,7 @@ RPYeti.game = (function() {
 
 			// add static models
 			this.addTrees();
+			this.addRocks();
 			this.addSnowball();
 
 			// add game HUD
@@ -361,24 +362,29 @@ RPYeti.game = (function() {
 		/** Models **/
 
 		addTrees: function() {
-			//TODO: move asynchronous model loader to preloader
 			var model = RPYeti.loader.models.tree,
 				trees = RPYeti.config.trees;
 			self.trees = new THREE.Group();
 			self.scene.add( self.trees );
-			model.traverse(function(child) {
-				if( child instanceof THREE.Mesh ) {
-					child.material.side = THREE.DoubleSide;
-					child.castShadow = true;
-					child.receiveShadow = true;
-				}
-			});
 			for (var i = 0; i < trees.length; i++) {
 				var tree = model.clone();
 				tree.translateX( trees[i][0] );
 				tree.translateZ( trees[i][1] );
 				tree.scale.set( 4, 4, 4 );
 				self.trees.add( tree );
+			}
+		},
+
+		addRocks: function() {
+			var rocks = RPYeti.config.rocks;
+			self.rocks = new THREE.Group();
+			self.scene.add( self.rocks );
+			for (var i = 0; i < rocks.length; i++) {
+				var rock = RPYeti.loader.models[ rocks[i][0] ].clone();
+				rock.translateX( rocks[i][1] );
+				rock.translateZ( rocks[i][2] );
+				rock.scale.set( 4, 4, 4 );
+				self.rocks.add( rock );
 			}
 		},
 
@@ -557,10 +563,10 @@ RPYeti.game = (function() {
 							self.removeSnowball( snowball );
 						}
 						var raycaster = new THREE.Raycaster( snowball.position, dir );
-						var collisions = raycaster.intersectObjects( [ self.snow, self.trees ], true );
+						var collisions = raycaster.intersectObjects( [ self.snow, self.snowballs, self.trees, self.rocks ], true );
 						for( var i = 0; i < collisions.length; i++ ) {
-							if( collisions[i].distance <= ( RPYeti.config.snowball.size * 4 ) ) {
-								self.removeSnowball( snowball );
+							if( collisions[i].object != snowball && collisions[i].distance <= ( RPYeti.config.snowball.size * 4 ) ) {
+								self.removeSnowball( snowball, collisions[i].object );
 							}
 						}
 					}
@@ -568,16 +574,31 @@ RPYeti.game = (function() {
 			}
 		},
 
-		removeSnowball: function( snowball ) {
+		removeSnowball: function( snowball, target ) {
 			// hide snowball
 			snowball.visible = false;
 			//TODO: make particle explosion at impact
 
-			// play impact sound
-			var impact = new THREE.PositionalAudio( self.listener );
-			impact.setBuffer( RPYeti.loader.sounds.oof );
-			snowball.add( impact );
-			impact.play();
+			// play impact sound depending on object struck
+			if( target ) {
+				var effect;
+				if ( target == self.snow ) {
+					effect = RPYeti.loader.sounds.tink;
+				} else if( self.snowballs.getObjectById( target.id ) ) {
+					self.removeSnowball( target );
+					effect = RPYeti.loader.sounds.splat;
+				} else if( self.trees.getObjectById( target.id ) ) {
+					effect = RPYeti.loader.sounds.oof;
+				} else if ( self.rocks.getObjectById( target.id ) ) {
+					effect = RPYeti.loader.sounds.whack;
+				}
+				if( effect ) {
+					var impact = new THREE.PositionalAudio( self.listener );
+					impact.setBuffer( effect );
+					snowball.add( impact );
+					impact.play();
+				}
+			}
 
 			// get rid of snowball after delay
 			setTimeout( function() {

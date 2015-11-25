@@ -113,9 +113,15 @@ RPYeti.game = (function() {
 				}, 200);
 			}
 
+			self.sampleYetiSpawner();
 
+			// set resize event
+			$(window).on('resize', this.resize);
+			setTimeout(this.resize, 1);
+		},
+
+		sampleHealthMeter: function () {
 			/** SAMPLE HEALTH METER **/
-			/*
 			function upd() {
 				self.health--;
 				if (self.health < 0) {
@@ -126,15 +132,16 @@ RPYeti.game = (function() {
 				setTimeout(upd, 100);
 			}
 			upd();
-			*/
 			/** END SAMPLE HEALTH METER **/
+		},
 
+		sampleYetiSpawner: function () {
 			/** SAMPLE YETI SPAWNER **/
 			self.yetis = new THREE.Group();
-			self.characters = { yetis: [] };
+			self.characters = { yetis: { count: 0, objs: {} } };
 			self.scene.add( self.yetis );
 			function upd() {
-				if (self.characters.yetis.length < 20) {
+				if (self.characters.yetis.count < 20) {
 					var yeti = new RPYeti.character.yeti(self.yetis),
 						x = Math.random() * (RPYeti.config.character.maxX - RPYeti.config.character.minX + 1) + RPYeti.config.character.minX ,
 						z = Math.random() * (RPYeti.config.character.maxZ - RPYeti.config.character.minZ + 1) + RPYeti.config.character.minZ;
@@ -167,26 +174,25 @@ RPYeti.game = (function() {
 					});
 
 					yeti.on('defeat', function (context) {
+						delete self.characters.yetis.objs[context.model.id];
+						self.characters.yetis.count--;
 						setTimeout(function () {
 							context.remove();
 						}, 500);
 					});
 
-					self.characters.yetis.push(yeti);
+					self.characters.yetis.objs[yeti.model.id] = yeti;
+					self.characters.yetis.count++;
 				}
 
-				for (var i in self.characters.yetis) {
-					self.characters.yetis[i].appear();
+				for (var i in self.characters.yetis.objs) {
+					self.characters.yetis.objs[i].appear();
 				}
 
 				setTimeout(upd, 20000);
 			}
 			upd();
 			/** END SAMPLE YETI SPAWNER **/
-
-			// set resize event
-			$(window).on('resize', this.resize);
-			setTimeout(this.resize, 1);
 		},
 
 		/** Methods / Callbacks **/
@@ -599,6 +605,10 @@ RPYeti.game = (function() {
 					impact.setBuffer( effect );
 					snowball.add( impact );
 					impact.play();
+				}
+
+				if (target.userData.character) {
+					target.userData.character.hit();
 				}
 			}
 

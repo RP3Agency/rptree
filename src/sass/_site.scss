@@ -1,3 +1,7 @@
+*, *::after, *::before {
+	box-sizing: border-box;
+}
+
 /**
  * Sticky footer via flexbox (http://philipwalton.github.io/solved-by-flexbox/demos/sticky-footer/)
  */

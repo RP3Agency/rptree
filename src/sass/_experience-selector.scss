@@ -19,21 +19,31 @@
 	}
 
 	&__logo {
-		margin: 0 auto;
+		height: 70vh;
+		margin: 10vh auto 0;
 		position: relative;
-		width: 90%;
 
 		@include breakpoint( orientation landscape ) {
-			height: 100vh;
-			padding-top: 10vh;
-			width: auto;
-
-			img {
-				height: 100%;
-				max-width: none;
-				width: auto;
-			}
+			height: 80vh;
 		}
+
+		img {
+			display: block;
+			height: 100%;
+			position: relative;
+		}
+
+		// @include breakpoint( orientation landscape ) {
+		// 	height: 100vh;
+		// 	padding-top: 10vh;
+		// 	width: auto;
+
+		// 	img {
+		// 		height: 100%;
+		// 		max-width: none;
+		// 		width: auto;
+		// 	}
+		// }
 
 		&::after {
 			background-color: transparentize( mix( white, get-color( "black" ), 20% ), 0.9 );
@@ -107,6 +117,14 @@
 		text-transform: uppercase;
 		width: 50%;
 		@include aspect-ratio(1, 1);
+
+		@include breakpoint( orientation landscape ) {
+			width: 25%;
+
+			&::after {
+				display: none;
+			}
+		}
 
 		span {
 			align-items: center;

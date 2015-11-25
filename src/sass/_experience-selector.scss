@@ -32,25 +32,20 @@
 		img {
 			display: block;
 			height: 100%;
+			margin: 0 auto;
 			position: relative;
 		}
 
-		// @include breakpoint( orientation landscape ) {
-		// 	height: 100vh;
-		// 	padding-top: 10vh;
-		// 	width: auto;
-
-		// 	img {
-		// 		height: 100%;
-		// 		max-width: none;
-		// 		width: auto;
-		// 	}
-		// }
+		@include breakpoint( orientation landscape ) {
+			height: 80vh;
+			padding-top: 10vh;
+			width: auto;
+		}
 
 		&::after {
 			background-color: transparentize( mix( white, get-color( "black" ), 20% ), 0.9 );
 			border-radius: 50%;
-			bottom: -4rem;
+			bottom: -3rem;
 			content: "";
 			display: block;
 			filter: blur( 5px );
@@ -67,10 +62,10 @@
 			height: 16px;
 			width: 16px;
 
-			@media ( min-width: 640px ) {
-				height: 32px;
-				width: 32px;
-			}
+			// @media ( min-width: 640px ) and ( min-aspect-ratio: 1/1 ) {
+			// 	height: 32px;
+			// 	width: 32px;
+			// }
 
 			svg {
 				display: block;
@@ -81,34 +76,39 @@
 			$containerWidth: 568px;
 			$containerHeight: 663px;
 
-			&.snowflake--1 {
-				left: floor( percentage( 30px / $containerWidth ) );
-				bottom: floor( percentage( 241px / $containerHeight ) );
-			}
+			$snowflake-positioning: (
+				"left" 30px "bottom" 241px,
+				"left" 65px "top" 236px,
+				"left" 130px "top" 58px,
+				"right" 187px "top" 25px,
+				"right" 131px "top" 166px,
+				"right" 35px "bottom" 184px
+			);
 
-			&.snowflake--2 {
-				left: floor( percentage( 65px / $containerWidth ) );
-				top: floor( percentage( 236px / $containerHeight ) );
-			}
+			@for $i from 1 through 6 {
 
-			&.snowflake--3 {
-				left: floor( percentage( 130px / $containerWidth ) );
-				top: floor( percentage( 58px / $containerHeight ) );
-			}
+				$horizontalDirection: nth( nth( $snowflake-positioning, $i ), 1 );
+				$horizontalValue:     floor( percentage( nth( nth( $snowflake-positioning, $i ), 2 ) / $containerWidth ) );
 
-			&.snowflake--4 {
-				right: floor( percentage( 187px / $containerWidth ) );
-				top: floor( percentage( 25px / $containerHeight ) );
-			}
+				$verticalDirection:   nth( nth( $snowflake-positioning, $i ), 3 );
+				$verticalValue:       floor( percentage( nth( nth( $snowflake-positioning, $i ), 4 ) / $containerHeight ) );
 
-			&.snowflake--5 {
-				right: floor( percentage( 131px / $containerWidth ) );
-				top: floor( percentage( 166px / $containerHeight ) );
-			}
+				&.snowflake--#{$i} {
+					#{$horizontalDirection}: $horizontalValue;
+					#{$verticalDirection}: $verticalValue;
 
-			&.snowflake--6 {
-				right: floor( percentage( 35px / $containerWidth ) );
-				bottom: floor( percentage( 184px / $containerHeight ) );
+					@include breakpoint( orientation landscape ) {
+
+						@if $verticalDirection == "bottom" {
+
+							#{$verticalDirection}: calc( #{$verticalValue} - 10vh );
+
+						} @else {
+
+							#{$verticalDirection}: calc( #{$verticalValue} + 10vh );
+						}
+					}
+				}
 			}
 		}
 	}
@@ -121,6 +121,7 @@
 		@include aspect-ratio(1, 1);
 
 		@include breakpoint( orientation landscape ) {
+			max-width: 128px;
 			width: 15%;
 
 			&::after {
@@ -146,8 +147,6 @@
 			transform: translate( -50%, -50% );
 
 			@include breakpoint( orientation landscape ) {
-				position: static;
-				transform: none;
 				width: 100%;
 				height: 100%;
 			}
@@ -156,11 +155,6 @@
 				color: get-color( "white" );
 				height: 50%;
 				width: 50%;
-
-				@include breakpoint( orientation landscape ) {
-					width: 100%;
-					height: 100%;
-				}
 
 				.experience-selector__svg {
 					align-items: center;

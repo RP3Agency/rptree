@@ -148,7 +148,7 @@ RPYeti.game = (function() {
 						context.fireCount = 0;
 						setTimeout(function () {
 							context.action();
-						}, 500);
+						}, 2000);
 					});
 
 					yeti.on('action', function (context) {
@@ -172,7 +172,7 @@ RPYeti.game = (function() {
 
 						setTimeout(function () {
 							context.remove();
-						}, 500);
+						}, 1000);
 					});
 
 					self.characters.yetis.objs[yeti.model.id] = yeti;
@@ -183,7 +183,7 @@ RPYeti.game = (function() {
 					self.characters.yetis.objs[i].appear();
 				}
 
-				setTimeout(upd, 15000);
+				setTimeout(upd, 17000);
 			}
 			upd();
 			/** END SAMPLE YETI SPAWNER **/

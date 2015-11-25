@@ -142,12 +142,13 @@ RPYeti.game = (function() {
 
 					yeti.setAction(function (context) {
 						var pos = context.pivot.position.clone();
-						pos.y = 10;
+						pos.y = 15;
 
 						self.throwSnowball(pos);
 					});
 
 					yeti.on('appear', function (context) {
+						context.fireCount = 0;
 						setTimeout(function () {
 							context.action();
 						}, 500);
@@ -155,8 +156,14 @@ RPYeti.game = (function() {
 
 					yeti.on('action', function (context) {
 						setTimeout(function () {
-							context.defeat();
-						}, 1500);
+							console.log(context.fireCount);
+							if (context.fireCount < 2) {
+								context.action();
+							} else {
+								context.defeat();
+							}
+							context.fireCount++;
+						}, 3000);
 					});
 
 					yeti.on('defeat', function (context) {
@@ -172,7 +179,7 @@ RPYeti.game = (function() {
 					self.characters.yetis[i].appear();
 				}
 
-				setTimeout(upd, 8000);
+				setTimeout(upd, 20000);
 			}
 			upd();
 			/** END SAMPLE YETI SPAWNER **/

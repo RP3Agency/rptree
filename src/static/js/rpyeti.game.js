@@ -163,8 +163,13 @@ RPYeti.game = (function() {
 					});
 
 					yeti.on('defeat', function (context) {
+						self.addHudText('Confirmed Kill');
+					});
+
+					yeti.on('defeated', function (context) {
 						delete self.characters.yetis.objs[context.model.id];
 						self.characters.yetis.count--;
+
 						setTimeout(function () {
 							context.remove();
 						}, 500);
@@ -463,6 +468,23 @@ RPYeti.game = (function() {
 			} else {
 				self.camera.add( plane );
 			}
+		},
+
+		addHudText: function (text) {
+			if (self.hudTextClear) {
+				clearTimeout(self.hudTextClear);
+			}
+
+			self.updateReticle();
+
+			self.hud.font = "Normal 80px Arial";
+			self.hud.textAlign = 'center';
+			self.hud.fillStyle = "rgba(245,245,245,1)";
+			self.hud.fillText(text, RPYeti.config.hud.canvasWidth / 2, 80);
+
+			self.hudTextClear = setTimeout(function () {
+				self.addHudText('');
+			}, 5000);
 		},
 
 		updateReticle: function (healthPercent) {

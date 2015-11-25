@@ -83,6 +83,7 @@ RPYeti.game = (function() {
 			// add static models
 			this.addTrees();
 			this.addRocks();
+			this.addMounds();
 			this.addSnowball();
 
 			// add game HUD
@@ -387,8 +388,19 @@ RPYeti.game = (function() {
 			}
 		},
 
-		addHoles: function() {
-			//TODO: add yeti holes, hidden if possible
+		addMounds: function() {
+			var model = RPYeti.loader.models.mound,
+				mounds = RPYeti.config.mounds;
+
+			self.mounds = new THREE.Group();
+			self.scene.add( self.mounds );
+			for (var i = 0; i < mounds.length; i++) {
+				var mound = model.clone();
+				mound.translateX( mounds[i][0] );
+				mound.translateZ( mounds[i][1] );
+				mound.scale.set( 8, 8, 8 );
+				self.mounds.add( mound );
+			}
 		},
 
 		/** Sounds **/
@@ -562,7 +574,7 @@ RPYeti.game = (function() {
 							self.removeSnowball( snowball );
 						}
 						var raycaster = new THREE.Raycaster( snowball.position, dir );
-						var collisions = raycaster.intersectObjects( [ self.snow, self.snowballs, self.trees, self.rocks, self.yetis ], true );
+						var collisions = raycaster.intersectObjects( [ self.snow, self.snowballs, self.trees, self.rocks, self.mounds, self.yetis ], true );
 						for( var i = 0; i < collisions.length; i++ ) {
 							if( collisions[i].object != snowball && collisions[i].distance <= ( RPYeti.config.snowball.size * 4 ) ) {
 								self.removeSnowball( snowball, collisions[i].object );
@@ -593,6 +605,8 @@ RPYeti.game = (function() {
 					effect = RPYeti.loader.sounds.thump;
 				} else if ( self.rocks.getObjectById( target.id ) ) {
 					effect = RPYeti.loader.sounds.whack;
+				} else if( self.mounds.getObjectById( target.id ) ) {
+					effect = RPYeti.loader.sounds.tink;
 				}
 				if( effect ) {
 					var impact = new THREE.PositionalAudio( self.listener );

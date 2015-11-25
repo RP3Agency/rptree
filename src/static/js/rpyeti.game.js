@@ -386,6 +386,9 @@ RPYeti.game = (function() {
 			var model = RPYeti.loader.models.mound,
 				mounds = RPYeti.config.mounds;
 
+			// texture tiling tweak
+			model.children[0].children[1].material.map.repeat.set(3, 3);
+
 			self.mounds = new THREE.Group();
 			self.scene.add( self.mounds );
 			for (var i = 0; i < mounds.length; i++) {

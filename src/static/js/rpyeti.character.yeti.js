@@ -9,23 +9,30 @@ RPYeti.character.yeti = function(group) {
 
 		group: group,
 		events: [],
+		isDefeated: false,
 
 		init: function() {
 			self = this;
 
+			self.model = RPYeti.loader.models.yeti.clone();
+			self.model.userData.character = self;
+			self.model.name = "yeti"
 
-			self.model = RPYeti.loader.models.yeti;
-			self.model.characer = self;
+			self.model.traverse(function(child) {
+				child.userData.character = self;
+			});
 
 			self.pivot = new THREE.Object3D();
+			self.pivot.name = "yeti pivot"
 			self.pivot.add(self.model);
+
 			group.add(self.pivot);
 
 			return self;
 		},
 
 		remove: function () {
-			group.remove(self.model);
+			group.remove(self.pivot);
 		},
 
 		on: function (evt, action) {
@@ -41,11 +48,13 @@ RPYeti.character.yeti = function(group) {
 		},
 
 		action: function () {
-			if (typeof self.act === 'function') {
-				self.act(self);
-			}
+			if (!self.isDefeated) {
+				if (typeof self.act === 'function') {
+					self.act(self);
+				}
 
-			self.trigger('action');
+				self.trigger('action');
+			}
 		},
 
 		setAction: function (act) {
@@ -75,7 +84,7 @@ RPYeti.character.yeti = function(group) {
 		hide: function () {
 			self.model.rotation.set(0, 0, 0);
 			self.bounds = new THREE.Box3().setFromObject(self.model);
-			self.pivot.translateY(-(Math.abs(self.bounds.max.y)));
+			self.pivot.translateY(-(Math.abs(self.bounds.max.y) + Math.abs(self.bounds.min.y)));
 		},
 
 		appear: function () {
@@ -104,16 +113,20 @@ RPYeti.character.yeti = function(group) {
 		},
 
 		defeat: function () {
-			var positionTween = new TWEEN.Tween({ rx: self.model.rotation.x, py: self.pivot.position.y })
-				.easing(RPYeti.config.character.yeti.defeatEasing)
-				.onUpdate(function () {
-					self.model.rotation.x = this.rx;
-					self.pivot.position.y = this.py;
-				}).onComplete(function () {
-					self.trigger('defeat');
-				});
+			if (!self.isDefeated) {
+				self.isDefeated = true;
 
-			positionTween.to({ rx: "-" + Math.PI/2, py: 0 }, RPYeti.config.character.yeti.defeatDuration).start();
+				var positionTween = new TWEEN.Tween({ rx: self.model.rotation.x, py: self.pivot.position.y })
+					.easing(RPYeti.config.character.yeti.defeatEasing)
+					.onUpdate(function () {
+						self.model.rotation.x = this.rx;
+						self.pivot.position.y = this.py;
+					}).onComplete(function () {
+						self.trigger('defeat');
+					});
+
+				positionTween.to({ rx: "-" + Math.PI/2, py: 0 }, RPYeti.config.character.yeti.defeatDuration).start();
+			}
 		}
 
 	}).init();

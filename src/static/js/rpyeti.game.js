@@ -83,6 +83,7 @@ RPYeti.game = (function() {
 			// add static models
 			this.addTrees();
 			this.addRocks();
+			this.addMounds();
 			this.addSnowball();
 
 			// add game HUD
@@ -113,9 +114,15 @@ RPYeti.game = (function() {
 				}, 200);
 			}
 
+			self.sampleYetiSpawner();
 
+			// set resize event
+			$(window).on('resize', this.resize);
+			setTimeout(this.resize, 1);
+		},
+
+		sampleHealthMeter: function () {
 			/** SAMPLE HEALTH METER **/
-			/*
 			function upd() {
 				self.health--;
 				if (self.health < 0) {
@@ -126,15 +133,16 @@ RPYeti.game = (function() {
 				setTimeout(upd, 100);
 			}
 			upd();
-			*/
 			/** END SAMPLE HEALTH METER **/
+		},
 
+		sampleYetiSpawner: function () {
 			/** SAMPLE YETI SPAWNER **/
 			self.yetis = new THREE.Group();
-			self.characters = { yetis: [] };
+			self.characters = { yetis: { count: 0, objs: {} } };
 			self.scene.add( self.yetis );
 			function upd() {
-				if (self.characters.yetis.length < 20) {
+				if (self.characters.yetis.count < 20) {
 					var yeti = new RPYeti.character.yeti(self.yetis),
 						x = Math.random() * (RPYeti.config.character.maxX - RPYeti.config.character.minX + 1) + RPYeti.config.character.minX ,
 						z = Math.random() * (RPYeti.config.character.maxZ - RPYeti.config.character.minZ + 1) + RPYeti.config.character.minZ;
@@ -167,26 +175,25 @@ RPYeti.game = (function() {
 					});
 
 					yeti.on('defeat', function (context) {
+						delete self.characters.yetis.objs[context.model.id];
+						self.characters.yetis.count--;
 						setTimeout(function () {
 							context.remove();
 						}, 500);
 					});
 
-					self.characters.yetis.push(yeti);
+					self.characters.yetis.objs[yeti.model.id] = yeti;
+					self.characters.yetis.count++;
 				}
 
-				for (var i in self.characters.yetis) {
-					self.characters.yetis[i].appear();
+				for (var i in self.characters.yetis.objs) {
+					self.characters.yetis.objs[i].appear();
 				}
 
 				setTimeout(upd, 20000);
 			}
 			upd();
 			/** END SAMPLE YETI SPAWNER **/
-
-			// set resize event
-			$(window).on('resize', this.resize);
-			setTimeout(this.resize, 1);
 		},
 
 		/** Methods / Callbacks **/
@@ -387,8 +394,19 @@ RPYeti.game = (function() {
 			}
 		},
 
-		addHoles: function() {
-			//TODO: add yeti holes, hidden if possible
+		addMounds: function() {
+			var model = RPYeti.loader.models.mound,
+				mounds = RPYeti.config.mounds;
+
+			self.mounds = new THREE.Group();
+			self.scene.add( self.mounds );
+			for (var i = 0; i < mounds.length; i++) {
+				var mound = model.clone();
+				mound.translateX( mounds[i][0] );
+				mound.translateZ( mounds[i][1] );
+				mound.scale.set( 8, 8, 8 );
+				self.mounds.add( mound );
+			}
 		},
 
 		/** Sounds **/
@@ -562,7 +580,7 @@ RPYeti.game = (function() {
 							self.removeSnowball( snowball );
 						}
 						var raycaster = new THREE.Raycaster( snowball.position, dir );
-						var collisions = raycaster.intersectObjects( [ self.snow, self.snowballs, self.trees, self.rocks, self.yetis ], true );
+						var collisions = raycaster.intersectObjects( [ self.snow, self.snowballs, self.trees, self.rocks, self.mounds, self.yetis ], true );
 						for( var i = 0; i < collisions.length; i++ ) {
 							if( collisions[i].object != snowball && collisions[i].distance <= ( RPYeti.config.snowball.size * 4 ) ) {
 								self.removeSnowball( snowball, collisions[i].object );
@@ -593,12 +611,18 @@ RPYeti.game = (function() {
 					effect = RPYeti.loader.sounds.thump;
 				} else if ( self.rocks.getObjectById( target.id ) ) {
 					effect = RPYeti.loader.sounds.whack;
+				} else if( self.mounds.getObjectById( target.id ) ) {
+					effect = RPYeti.loader.sounds.tink;
 				}
 				if( effect ) {
 					var impact = new THREE.PositionalAudio( self.listener );
 					impact.setBuffer( effect );
 					snowball.add( impact );
 					impact.play();
+				}
+
+				if (target.userData.character) {
+					target.userData.character.hit();
 				}
 			}
 

@@ -14,7 +14,7 @@
 	position: relative;
 	width: 100%;
 
-	@media (orientation: landscape) {
+	@include breakpoint( orientation landscape ) {
 		flex-wrap: nowrap;
 	}
 
@@ -22,6 +22,18 @@
 		margin: 0 auto;
 		position: relative;
 		width: 90%;
+
+		@include breakpoint( orientation landscape ) {
+			height: 100vh;
+			padding-top: 10vh;
+			width: auto;
+
+			img {
+				height: 100%;
+				max-width: none;
+				width: auto;
+			}
+		}
 
 		&::after {
 			background-color: transparentize( mix( white, get-color( "black" ), 20% ), 0.9 );

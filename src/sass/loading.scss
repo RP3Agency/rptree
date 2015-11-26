@@ -9,8 +9,7 @@
 	"settings";
 
 .loading {
-	margin: 0 auto;
-	padding-bottom: 2em;
+	margin: 0 auto 2em;
 	width: 75%;
 }
 
@@ -94,6 +93,19 @@
 	}
 }
 
+.howto {
+	margin: 0 0 1em 0;
+
+	svg {
+		height: 24px;
+		margin: {
+			left: 0.5em;
+			right: 0.5em;
+		}
+		width: auto;
+	}
+}
+
 .now-loading {
 	align-items: center;
 	background-color: get-color( "blue--brand" );
@@ -142,6 +154,7 @@
 }
 
 .ready {
+	margin-top: 2em;
 	opacity: 0;
 	transition: opacity 500ms ease-in;
 
@@ -150,6 +163,8 @@
 	}
 
 	p {
+		align-items: center;
 		display: none;
+		justify-content: center;
 	}
 }

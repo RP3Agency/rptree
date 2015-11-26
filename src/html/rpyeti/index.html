@@ -19,10 +19,7 @@
 
 		<div id="ornaments" class="ornaments">
 
-			<div id="loading" class="loading">
-				Now loading our<br/>
-				virtual world…
-			</div>
+			<div id="loading" class="loading">Now loading…</div>
 
 			<div class="ornaments--inner">
 
@@ -46,12 +43,17 @@
 
 			<div id="ready" class="ready">
 
-				<h2>Ready!</h2>
+				<p class="howto">
 
-				<p>
-					Place your phone inside the viewer<br/>
-					and press the trigger to begin.
+					<% include ../../static/images/phone.svg %> <span>+</span>
+
+					<% include ../../static/images/cardboard.svg %> <span>+</span>
+
+					<% include ../../static/images/headphones.svg %>
+
 				</p>
+
+				<p>Press trigger to enter</p>
 
 			</div>
 
@@ -74,7 +76,7 @@
 		});
 
 		if ( '#desktop' !== hash ) {
-			r.find('p').css('display', 'block');
+			r.find('p').css('display', 'flex');
 		}
 	</script>
 
@@ -100,6 +102,11 @@
 
 	<script>
 	$(document).on('rpyeti.loader.complete', function() {
+
+		$('#loading').fadeOut( 200, function() {
+			$(this).text( 'Ready!' ).fadeIn( 200 );
+		});
+
 		r.addClass('visible');
 
 		if ( '#desktop' === hash ) {
@@ -109,8 +116,9 @@
 				} );
 			}, 2000 );
 		} else {
-			n.one( 'click touchend', function() {
-				$(this).fadeOut( 500, function() {
+
+			n.on( 'click touchend', function() {
+				$(this).fadeOut( 200, function() {
 					$(this).remove();
 				});
 			});

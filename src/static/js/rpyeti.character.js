@@ -33,7 +33,6 @@ RPYeti.Character.prototype = {
 	},
 
 	trigger: function (evt, param) {
-		console.log('trigger ' + this.id + ' ' + evt);
 		if (this.events[evt] !== undefined && typeof this.events[evt] === 'function') {
 			this.events[evt](this, param);
 		}

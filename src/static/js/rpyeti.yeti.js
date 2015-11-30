@@ -53,15 +53,17 @@ RPYeti.Yeti.prototype.appear = function () {
 };
 
 RPYeti.Yeti.prototype.disappear = function () {
-	(function (self) {
-		self.positionTween = new TWEEN.Tween(self.pivot.position)
-			.easing(RPYeti.config.character.yeti.disappearEasing)
-			.onComplete(function () {
-				RPYeti.Character.prototype.disappear.call( self );
-			});
+	if (!self.isDefeated) {
+		(function (self) {
+			self.positionTween = new TWEEN.Tween(self.pivot.position)
+				.easing(RPYeti.config.character.yeti.disappearEasing)
+				.onComplete(function () {
+					RPYeti.Character.prototype.disappear.call( self );
+				});
 
-		self.positionTween.to({ y: -Math.abs(self.bounds.max.y) }, RPYeti.config.character.yeti.disappearDuration).start();
-	})(this);
+			self.positionTween.to({ y: -Math.abs(self.bounds.max.y) }, RPYeti.config.character.yeti.disappearDuration).start();
+		})(this);
+	}
 };
 
 RPYeti.Yeti.prototype.hit = function (byObject) {

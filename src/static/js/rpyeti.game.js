@@ -8,7 +8,6 @@ RPYeti.game = (function() {
 		/** Public Properties **/
 		isFiring: false,
 		lastFire: 0,
-		health: 100,
 
 		/** Constructor **/
 
@@ -106,21 +105,6 @@ RPYeti.game = (function() {
 			setTimeout(this.resize, 1);
 		},
 
-		sampleHealthMeter: function () {
-			/** SAMPLE HEALTH METER **/
-			function upd() {
-				self.health--;
-				if (self.health < 0) {
-					self.health = 100;
-				}
-
-				self.updateReticle();
-				setTimeout(upd, 100);
-			}
-			upd();
-			/** END SAMPLE HEALTH METER **/
-		},
-
 		sampleYetiSpawner: function () {
 			/** SAMPLE YETI SPAWNER **/
 			self.yetis = new THREE.Group();
@@ -190,7 +174,7 @@ RPYeti.game = (function() {
 
 						setTimeout(function () {
 							context.remove();
-						}, 1000);
+						}, 1500);
 					});
 
 					self.characters.yetis.objs[yeti.model.id] = yeti;
@@ -215,7 +199,7 @@ RPYeti.game = (function() {
 			window.requestAnimationFrame( self.animate );
 			self.update( delta );
 
-			if( self.isFiring && self.health > 0 ) {
+			if( self.isFiring && self.player.health > 0 ) {
 				if( ( t - self.lastFire ) >= RPYeti.config.snowball.rate ) {
 					self.playSound( self.sounds.throw );
 					self.throwSnowball(undefined, self.player);
@@ -522,7 +506,7 @@ RPYeti.game = (function() {
 				arcInitial = (1 * Math.PI),
 				arcFull = (2 * Math.PI);
 
-			healthPercent = Math.min( Math.max( self.health / RPYeti.config.player.health, 0.0), 1.0 );
+			healthPercent = Math.min( Math.max( self.player.health / RPYeti.config.player.health, 0.0), 1.0 );
 			healthPercent = (1.0 - healthPercent) * arcFull + arcInitial;
 
 			self.hud.clearRect(0, 0, width, height);
@@ -606,6 +590,7 @@ RPYeti.game = (function() {
 
 			var snowball = self.snowball.clone();
 			snowball.userData.initiator = character;
+			snowball.userData.damage = RPYeti.config.snowball.damage;
 			snowball.ray = raycaster.ray;
 			snowball.ray.at( 5.0, snowball.position );
 			self.snowballs.add( snowball );
@@ -624,7 +609,7 @@ RPYeti.game = (function() {
 							self.removeSnowball( snowball );
 						}
 						if( snowball.ray.origin != self.camera.getWorldPosition() && snowball.position.distanceTo( self.camera.getWorldPosition() ) <= RPYeti.config.player.hitbox ) {
-							self.removeSnowball( snowball, self.camera );
+							self.removeSnowball( snowball, self.player );
 						}
 						var raycaster = new THREE.Raycaster( snowball.position, dir );
 						var collisions = raycaster.intersectObjects( [ self.snow, self.snowballs, self.trees, self.rocks, self.mounds, self.yetis ], true );
@@ -646,16 +631,8 @@ RPYeti.game = (function() {
 			// play impact sound depending on object struck
 			if( target ) {
 				var effect;
-				if ( target == self.camera ) {
+				if ( target instanceof RPYeti.Player ) {
 					effect = RPYeti.loader.sounds.smack;
-					if( self.health > 0 ) {
-						self.health -= RPYeti.config.snowball.damage;
-						self.updateReticle();
-						if( self.health <= 0 ) {
-							//TODO: trigger GAME OVER
-							self.addHudText('GAME OVER', 0);
-						}
-					}
 				} else if ( target == self.snow ) {
 					effect = RPYeti.loader.sounds.tink;
 				} else if( self.yetis.getObjectById( target.id ) ) {
@@ -678,7 +655,17 @@ RPYeti.game = (function() {
 					impact.play();
 				}
 
-				if (target.userData.character) {
+				if (target == self.player) {
+					target.hit(snowball);
+
+					self.updateReticle();
+					if( self.player.health <= 0 ) {
+						//TODO: trigger GAME OVER
+						self.addHudText('GAME OVER', 0);
+					}
+				} else if (target instanceof RPYeti.Character) {
+					target.hit(snowball);
+				} else if (target.userData && target.userData.character) {
 					target.userData.character.hit(snowball);
 				}
 			}

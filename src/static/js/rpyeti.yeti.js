@@ -33,7 +33,8 @@ RPYeti.Yeti.prototype.position = function (x, z, scale, lookAtPos) {
 
 RPYeti.Yeti.prototype.hide = function () {
 	this.model.rotation.set(0, 0, 0);
-	this.model.position.y = 8.5 ;
+	this.model.position.y = 8.5;
+	this.model.position.x = -2;
 
 	this.bounds = new THREE.Box3().setFromObject(this.model);
 	this.pivot.translateY(-(Math.abs(this.bounds.max.y) + Math.abs(this.bounds.min.y)));

@@ -128,7 +128,7 @@ RPYeti.game = (function() {
 
 					yeti.setAction(function (context) {
 						var pos = context.pivot.position.clone();
-						pos.y = 15;
+						pos.y = 14;
 
 						self.throwSnowball(pos, context);
 					});

@@ -43,6 +43,8 @@ RPYeti.game = (function() {
 			this.controls.enableZoom = false;
 			this.controls.enablePan = false;
 
+			this.player = new RPYeti.Player();
+
 			//TODO: use or make key controls library instead of hardcoding
 			$(document).on('keydown', function(e) {
 				var prevent = true;
@@ -131,7 +133,7 @@ RPYeti.game = (function() {
 			self.scene.add( self.yetis );
 			function upd() {
 				if (self.characters.yetis.count < 20) {
-					var yeti = new RPYeti.character.yeti(self.yetis),
+					var yeti = new RPYeti.Yeti(self.yetis),
 						x = Math.random() * (RPYeti.config.character.maxX - RPYeti.config.character.minX + 1) + RPYeti.config.character.minX ,
 						z = Math.random() * (RPYeti.config.character.maxZ - RPYeti.config.character.minZ + 1) + RPYeti.config.character.minZ;
 
@@ -141,7 +143,7 @@ RPYeti.game = (function() {
 						var pos = context.pivot.position.clone();
 						pos.y = 15;
 
-						self.throwSnowball(pos);
+						self.throwSnowball(pos, context);
 					});
 
 					yeti.on('appear', function (context) {
@@ -162,8 +164,15 @@ RPYeti.game = (function() {
 						}, 3000);
 					});
 
-					yeti.on('defeat', function (context) {
-						self.addHudText('Confirmed Kill');
+					yeti.on('defeat', function (context, param) {
+						if (param !== undefined
+							&& param.userData.initiator !== undefined
+							&& param.userData.initiator instanceof RPYeti.Yeti) {
+
+							self.addHudText('Yeti-on-yeti Violence');
+						} else {
+							self.addHudText('Confirmed Kill');
+						}
 					});
 
 					yeti.on('defeated', function (context) {
@@ -200,7 +209,7 @@ RPYeti.game = (function() {
 			if( self.isFiring ) {
 				if( ( t - self.lastFire ) >= RPYeti.config.snowball.rate ) {
 					self.playSound( self.sounds.throw );
-					self.throwSnowball();
+					self.throwSnowball(undefined, self.player);
 					self.lastFire = t;
 				}
 			}
@@ -581,7 +590,7 @@ RPYeti.game = (function() {
 			self.snowball.receiveShadow = true;
 		},
 
-		throwSnowball: function( source ) {
+		throwSnowball: function( source, character ) {
 			if( ! self.snowball ) return;
 
 			var raycaster = new THREE.Raycaster();
@@ -592,6 +601,7 @@ RPYeti.game = (function() {
 			}
 
 			var snowball = self.snowball.clone();
+			snowball.userData.initiator = character;
 			snowball.ray = raycaster.ray;
 			snowball.ray.at( 5.0, snowball.position );
 			self.snowballs.add( snowball );
@@ -654,7 +664,7 @@ RPYeti.game = (function() {
 				}
 
 				if (target.userData.character) {
-					target.userData.character.hit();
+					target.userData.character.hit(snowball);
 				}
 			}
 

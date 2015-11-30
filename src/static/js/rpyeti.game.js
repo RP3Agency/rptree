@@ -44,6 +44,14 @@ RPYeti.game = (function() {
 
 			this.player = new RPYeti.Player();
 
+			this.player.on('defeated', function (context) {
+				self.addHudText('GAME OVER', 0);
+			});
+
+			this.player.on('hit', function (context) {
+				self.updateReticle();
+			});
+
 			//TODO: use or make key controls library instead of hardcoding
 			$(document).on('keydown', function(e) {
 				var prevent = true;
@@ -116,7 +124,7 @@ RPYeti.game = (function() {
 						x = Math.random() * (RPYeti.config.character.maxX - RPYeti.config.character.minX + 1) + RPYeti.config.character.minX ,
 						z = Math.random() * (RPYeti.config.character.maxZ - RPYeti.config.character.minZ + 1) + RPYeti.config.character.minZ;
 
-					yeti.position(x, z, 4, self.camera.getWorldPosition());
+					yeti.position(x, z, 100, self.camera.getWorldPosition());
 
 					yeti.setAction(function (context) {
 						var pos = context.pivot.position.clone();
@@ -163,8 +171,10 @@ RPYeti.game = (function() {
 							&& param.userData.initiator instanceof RPYeti.Yeti) {
 
 							self.addHudText('Yeti-on-yeti Violence');
+						} else if (param.userData.initiator == self.player) {
+							self.addHudText('Yeti Down!');
 						} else {
-							self.addHudText('Confirmed Kill');
+							self.addHudText('Something Else Did It');
 						}
 					});
 
@@ -608,7 +618,7 @@ RPYeti.game = (function() {
 						if( snowball.ray.origin.distanceTo( snowball.position ) >= RPYeti.config.snowball.range ) {
 							self.removeSnowball( snowball );
 						}
-						if( snowball.ray.origin != self.camera.getWorldPosition() && snowball.position.distanceTo( self.camera.getWorldPosition() ) <= RPYeti.config.player.hitbox ) {
+						if( snowball.userData.initiator != self.player && snowball.position.distanceTo( self.camera.getWorldPosition() ) <= RPYeti.config.player.hitbox ) {
 							self.removeSnowball( snowball, self.player );
 						}
 						var raycaster = new THREE.Raycaster( snowball.position, dir );
@@ -624,56 +634,51 @@ RPYeti.game = (function() {
 		},
 
 		removeSnowball: function( snowball, target ) {
-			// hide snowball
-			snowball.visible = false;
-			//TODO: make particle explosion at impact
+			// avoid duplicate hits
+			if (snowball.visible) {
+				// hide snowball
+				snowball.visible = false;
+				//TODO: make particle explosion at impact
 
-			// play impact sound depending on object struck
-			if( target ) {
-				var effect;
-				if ( target instanceof RPYeti.Player ) {
-					effect = RPYeti.loader.sounds.smack;
-				} else if ( target == self.snow ) {
-					effect = RPYeti.loader.sounds.tink;
-				} else if( self.yetis.getObjectById( target.id ) ) {
-					effect = RPYeti.loader.sounds.oof;
-					//target.trigger('impact');   <-- TODO: make yeti do something when hit
-				} else if( self.snowballs.getObjectById( target.id ) ) {
-					self.removeSnowball( target );
-					effect = RPYeti.loader.sounds.splat;
-				} else if( self.trees.getObjectById( target.id ) ) {
-					effect = RPYeti.loader.sounds.thump;
-				} else if ( self.rocks.getObjectById( target.id ) ) {
-					effect = RPYeti.loader.sounds.whack;
-				} else if( self.mounds.getObjectById( target.id ) ) {
-					effect = RPYeti.loader.sounds.tink;
-				}
-				if( effect ) {
-					var impact = new THREE.PositionalAudio( self.listener );
-					impact.setBuffer( effect );
-					snowball.add( impact );
-					impact.play();
-				}
-
-				if (target == self.player) {
-					target.hit(snowball);
-
-					self.updateReticle();
-					if( self.player.health <= 0 ) {
-						//TODO: trigger GAME OVER
-						self.addHudText('GAME OVER', 0);
+				// play impact sound depending on object struck
+				if( target ) {
+					var effect;
+					if ( target instanceof RPYeti.Player ) {
+						effect = RPYeti.loader.sounds.smack;
+					} else if ( target == self.snow ) {
+						effect = RPYeti.loader.sounds.tink;
+					} else if( self.yetis.getObjectById( target.id ) ) {
+						effect = RPYeti.loader.sounds.oof;
+						//target.trigger('impact');   <-- TODO: make yeti do something when hit
+					} else if( self.snowballs.getObjectById( target.id ) ) {
+						self.removeSnowball( target );
+						effect = RPYeti.loader.sounds.splat;
+					} else if( self.trees.getObjectById( target.id ) ) {
+						effect = RPYeti.loader.sounds.thump;
+					} else if ( self.rocks.getObjectById( target.id ) ) {
+						effect = RPYeti.loader.sounds.whack;
+					} else if( self.mounds.getObjectById( target.id ) ) {
+						effect = RPYeti.loader.sounds.tink;
 					}
-				} else if (target instanceof RPYeti.Character) {
-					target.hit(snowball);
-				} else if (target.userData && target.userData.character) {
-					target.userData.character.hit(snowball);
-				}
-			}
+					if( effect ) {
+						var impact = new THREE.PositionalAudio( self.listener );
+						impact.setBuffer( effect );
+						snowball.add( impact );
+						impact.play();
+					}
 
-			// get rid of snowball after delay
-			setTimeout( function() {
-				self.snowballs.remove( snowball );
-			}, 500 );
+					if (target instanceof RPYeti.Character) {
+						target.hit(snowball);
+					} else if (target.userData && target.userData.character) {
+						target.userData.character.hit(snowball);
+					}
+				}
+
+				// get rid of snowball after delay
+				setTimeout( function() {
+					self.snowballs.remove( snowball );
+				}, 500 );
+			}
 		},
 
 		debug: function() {

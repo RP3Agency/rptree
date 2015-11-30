@@ -13,6 +13,7 @@ RPYeti.Character = function () {
 
 	this.isDefeated = false;
 	this.events = {};
+	this.health = 0;
 };
 
 
@@ -85,7 +86,15 @@ RPYeti.Character.prototype = {
 	},
 
 	hit: function (byObject) {
-		this.trigger('hit', byObject);
+		if (this.health > 0 && byObject && byObject.userData && byObject.userData.damage) {
+			this.health -= byObject.userData.damage;
+		}
+
+		if (this.health <= 0) {
+			this.defeat(byObject);
+		} else {
+			this.trigger('hit', byObject);
+		}
 	},
 
 	defeat: function (byObject) {

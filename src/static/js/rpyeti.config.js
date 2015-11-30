@@ -75,11 +75,12 @@ RPYeti.config = {
 	},
 
 	character: {
-		minX: 250,
-		maxX: -250,
-		minZ: 250,
-		maxZ: -250,
+		minX: 150,
+		maxX: -150,
+		minZ: 150,
+		maxZ: -150,
 		yeti: {
+			health: 10,
 			appearEasing: TWEEN.Easing.Circular.In,
 			appearDuration: 1500,
 			disappearEasing: TWEEN.Easing.Circular.Out,

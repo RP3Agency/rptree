@@ -17,43 +17,47 @@
 
 	<div id="now-loading" class="now-loading">
 
-		<div id="ornaments" class="ornaments">
+		<div id="now-loading__inner" class="now-loading__inner">
 
-			<div id="loading" class="loading">Now loading…</div>
+			<div id="ornaments" class="ornaments">
 
-			<div class="ornaments--inner">
+				<div id="loading" class="loading">Now loading…</div>
 
-				<div class="ornament">
-					<div class="hook"></div>
+				<div class="ornaments--inner">
+
+					<div class="ornament">
+						<div class="hook"></div>
+					</div>
+
+					<div class="ornament">
+						<div class="hook"></div>
+					</div>
+
+					<div class="ornament">
+						<div class="hook"></div>
+					</div>
+
+					<div class="ornament">
+						<div class="hook"></div>
+					</div>
+
 				</div>
 
-				<div class="ornament">
-					<div class="hook"></div>
+				<div id="ready" class="ready">
+
+					<p class="howto">
+
+						<% include ../../static/images/phone.svg %> <span>+</span>
+
+						<% include ../../static/images/cardboard.svg %> <span>+</span>
+
+						<% include ../../static/images/headphones.svg %>
+
+					</p>
+
+					<p>Press trigger to enter</p>
+
 				</div>
-
-				<div class="ornament">
-					<div class="hook"></div>
-				</div>
-
-				<div class="ornament">
-					<div class="hook"></div>
-				</div>
-
-			</div>
-
-			<div id="ready" class="ready">
-
-				<p class="howto">
-
-					<% include ../../static/images/phone.svg %> <span>+</span>
-
-					<% include ../../static/images/cardboard.svg %> <span>+</span>
-
-					<% include ../../static/images/headphones.svg %>
-
-				</p>
-
-				<p>Press trigger to enter</p>
 
 			</div>
 
@@ -68,16 +72,29 @@
 
 	<script>
 	var n = $('#now-loading'),
+		o,
 		r = n.find('#ready'),
 		hash = location.hash;
 
-		n.on( 'touchstart', function(e) {
-			e.preventDefault();
-		});
+	n.on( 'touchstart', function(e) {
+		e.preventDefault();
+	});
 
-		if ( '#desktop' !== hash ) {
-			r.find('p').css('display', 'flex');
-		}
+	if ( '#desktop' !== hash ) {
+		r.find('p').css('display', 'flex');
+
+		window.addEventListener( "orientationchange", function() {
+
+			if ( 90 === Math.abs( window.orientation ) ) {
+
+				o = n.find('.now-loading__inner');
+
+				if ( 2 > o.length ) {
+					o.clone().prependTo( n );
+				}
+			}
+		}, false );
+	}
 	</script>
 
 	<script src="../js/third-party/threejs/Detector.js"></script>

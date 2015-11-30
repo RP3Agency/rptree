@@ -21,7 +21,7 @@
 	flex-direction: column;
 	height: 100vh;
 	justify-content: center;
-	width: 100vw;
+	width: 100%;
 
 	&--inner {
 		align-items: center;
@@ -150,6 +150,11 @@
 		.ornament:nth-of-type(4) {
 			opacity: 1;
 		}
+	}
+
+	&__inner {
+		flex: 1;
+		position: relative;
 	}
 }
 

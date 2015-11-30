@@ -94,16 +94,11 @@ RPYeti.game = (function() {
 			// add sound effects
 			this.addSounds();
 
-			if( RPYeti.config.wireframe ) {
-				setTimeout(function() {
-					self.scene.traverse(function(child) {
-						if ( child instanceof THREE.Mesh ) {
-							child.material.wireframe = true;
-						}
-					});
-				}, 200);
-			}
+			// do debug setup
+			this.debug();
 
+			//TODO: make game state handler
+			//TODO: initial game state - select a tree
 			self.sampleYetiSpawner();
 
 			// set resize event
@@ -119,7 +114,7 @@ RPYeti.game = (function() {
 					self.health = 100;
 				}
 
-				self.updateReticle(self.health);
+				self.updateReticle();
 				setTimeout(upd, 100);
 			}
 			upd();
@@ -147,6 +142,20 @@ RPYeti.game = (function() {
 					});
 
 					yeti.on('appear', function (context) {
+						if( context.roar ) {
+							context.roar.stop();
+							context.roar.isPlaying = false;
+						} else {
+							context.roar = new THREE.PositionalAudio( self.listener );
+							context.roar.setBuffer( RPYeti.loader.sounds.roar );
+							context.pivot.add( context.roar );
+						}
+						// delay roar by random amount to distinguish different yetis
+						setTimeout(function() {
+							context.roar.play();
+						}, Math.floor((Math.random() * 300)) );
+
+
 						context.fireCount = 0;
 						setTimeout(function () {
 							context.action();
@@ -206,7 +215,7 @@ RPYeti.game = (function() {
 			window.requestAnimationFrame( self.animate );
 			self.update( delta );
 
-			if( self.isFiring ) {
+			if( self.isFiring && self.health > 0 ) {
 				if( ( t - self.lastFire ) >= RPYeti.config.snowball.rate ) {
 					self.playSound( self.sounds.throw );
 					self.throwSnowball(undefined, self.player);
@@ -214,10 +223,7 @@ RPYeti.game = (function() {
 				}
 			}
 			self.updateSnowballs( delta );
-
-			if( self.stats ) {
-				self.stats.update();
-			}
+			$(self.container).trigger('rpyeti.game.update', delta);
 
 			self.render( delta );
 		},
@@ -298,10 +304,6 @@ RPYeti.game = (function() {
 				this.stereo = new THREE.StereoEffect( this.renderer );
 				this.stereo.focalLength = RPYeti.config.cardboard.focalLength;
 				this.stereo.eyeSeparation = RPYeti.config.cardboard.eyeSeparation;
-			} else if( RPYeti.config.fps ) {
-				this.stats = new Stats();
-				$(this.stats.domElement).css({ position: 'absolute', top: '0px' });
-				$(this.container).append( this.stats.domElement );
 			}
 		},
 
@@ -447,7 +449,7 @@ RPYeti.game = (function() {
 			self.hudTexture = new THREE.Texture( hudCanvas );
 
 			// draw reticle
-			self.updateReticle(self.health);
+			self.updateReticle();
 
 			var material = new THREE.MeshBasicMaterial({ map: self.hudTexture });
 			material.transparent = true;
@@ -482,9 +484,13 @@ RPYeti.game = (function() {
 			}
 		},
 
-		addHudText: function (text) {
+		addHudText: function (text, duration) {
 			var textPos = RPYeti.config.hud.textPos,
 				textSize = RPYeti.config.hud.textSize;
+
+			if( typeof duration == "undefined" ) {
+				duration = 5000;
+			}
 
 			if (self.hudTextClear) {
 				clearTimeout(self.hudTextClear);
@@ -502,24 +508,22 @@ RPYeti.game = (function() {
 			self.hud.fillStyle = RPYeti.config.hud.textStyle;
 			self.hud.fillText(text, RPYeti.config.hud.canvasWidth / 2, RPYeti.config.hud.canvasHeight / 2 + textPos);
 
-			self.hudTextClear = setTimeout(function () {
-				self.addHudText('');
-			}, 5000);
+			if( duration > 0 ) {
+				self.hudTextClear = setTimeout(function () {
+					self.addHudText('');
+				}, duration);
+			}
 		},
 
-		updateReticle: function (healthPercent) {
-			var width = RPYeti.config.hud.canvasWidth,
+		updateReticle: function() {
+			var healthPercent = 0.0,
+				width = RPYeti.config.hud.canvasWidth,
 				height = RPYeti.config.hud.canvasHeight,
 				arcInitial = (1 * Math.PI),
 				arcFull = (2 * Math.PI);
 
-			if (healthPercent > 100) {
-				healthPercent = 100;
-			} else if (healthPercent < 0) {
-				healthPercent = 0;
-			}
-
-			healthPercent = (100 - healthPercent) / 100 * arcFull + arcInitial;
+			healthPercent = Math.min( Math.max( self.health / RPYeti.config.player.health, 0.0), 1.0 );
+			healthPercent = (1.0 - healthPercent) * arcFull + arcInitial;
 
 			self.hud.clearRect(0, 0, width, height);
 
@@ -605,8 +609,6 @@ RPYeti.game = (function() {
 			snowball.ray = raycaster.ray;
 			snowball.ray.at( 5.0, snowball.position );
 			self.snowballs.add( snowball );
-			//debug
-			//console.log( raycaster.intersectObjects( self.scene.children, true ) );
 		},
 
 		updateSnowballs: function( delta ) {
@@ -620,6 +622,9 @@ RPYeti.game = (function() {
 						snowball.translateZ( speed * dir.z );
 						if( snowball.ray.origin.distanceTo( snowball.position ) >= RPYeti.config.snowball.range ) {
 							self.removeSnowball( snowball );
+						}
+						if( snowball.ray.origin != self.camera.getWorldPosition() && snowball.position.distanceTo( self.camera.getWorldPosition() ) <= RPYeti.config.player.hitbox ) {
+							self.removeSnowball( snowball, self.camera );
 						}
 						var raycaster = new THREE.Raycaster( snowball.position, dir );
 						var collisions = raycaster.intersectObjects( [ self.snow, self.snowballs, self.trees, self.rocks, self.mounds, self.yetis ], true );
@@ -641,7 +646,17 @@ RPYeti.game = (function() {
 			// play impact sound depending on object struck
 			if( target ) {
 				var effect;
-				if ( target == self.snow ) {
+				if ( target == self.camera ) {
+					effect = RPYeti.loader.sounds.smack;
+					if( self.health > 0 ) {
+						self.health -= RPYeti.config.snowball.damage;
+						self.updateReticle();
+						if( self.health <= 0 ) {
+							//TODO: trigger GAME OVER
+							self.addHudText('GAME OVER', 0);
+						}
+					}
+				} else if ( target == self.snow ) {
 					effect = RPYeti.loader.sounds.tink;
 				} else if( self.yetis.getObjectById( target.id ) ) {
 					effect = RPYeti.loader.sounds.oof;
@@ -672,6 +687,26 @@ RPYeti.game = (function() {
 			setTimeout( function() {
 				self.snowballs.remove( snowball );
 			}, 500 );
+		},
+
+		debug: function() {
+			if( RPYeti.config.wireframe ) {
+				setTimeout(function() {
+					self.scene.traverse(function(child) {
+						if ( child instanceof THREE.Mesh ) {
+							child.material.wireframe = true;
+						}
+					});
+				}, 200);
+			}
+			if( RPYeti.config.fps ) {
+				this.stats = new Stats();
+				$(this.stats.domElement).css({ position: 'absolute', top: '0px' });
+				$(this.container).append( this.stats.domElement );
+				$(this.container).on('rpyeti.game.update', function() {
+					self.stats.update();
+				});
+			}
 		},
 
 	};

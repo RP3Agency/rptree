@@ -1,7 +1,6 @@
 /** Libraries */
 
 @import
-	"../../bower_components/bootstrap/scss/bootstrap",
 	"../../bower_components/compass-breakpoint/stylesheets/breakpoint",
 	"../../bower_components/font-awesome/scss/font-awesome";
 
@@ -10,5 +9,6 @@
 @import
 	"settings",
 	"mixins",
+	"typography",
 	"teaser",
 	"site";

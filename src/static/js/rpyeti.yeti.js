@@ -7,6 +7,7 @@ RPYeti.Yeti = function (group) {
 	this.type = 'Yeti';
 
 	this.health = RPYeti.config.character.yeti.health;
+	this.group = group;
 
 	this.model = RPYeti.loader.models.yeti.clone();
 	this.model.userData.character = this;
@@ -20,7 +21,6 @@ RPYeti.Yeti = function (group) {
 		});
 	})(this);
 
-	this.group = group;
 	group.add(this.pivot);
 };
 
@@ -53,7 +53,7 @@ RPYeti.Yeti.prototype.appear = function () {
 };
 
 RPYeti.Yeti.prototype.disappear = function () {
-	if (!self.isDefeated) {
+	if (!this.isDefeated) {
 		(function (self) {
 			self.positionTween = new TWEEN.Tween(self.pivot.position)
 				.easing(RPYeti.config.character.yeti.disappearEasing)
@@ -71,10 +71,10 @@ RPYeti.Yeti.prototype.hit = function (byObject) {
 };
 
 RPYeti.Yeti.prototype.defeat = function (byObject) {
-	(function (self) {
-		if (!self.isDefeated) {
-			RPYeti.Character.prototype.defeat.call( self, byObject );
+	if (!this.isDefeated) {
+		RPYeti.Character.prototype.defeat.call( this, byObject );
 
+		(function (self) {
 			var positionTween = new TWEEN.Tween({ rx: self.model.rotation.x, my: self.model.position.y, py: self.pivot.position.y })
 				.easing(RPYeti.config.character.yeti.defeatEasing)
 				.onUpdate(function () {
@@ -86,6 +86,6 @@ RPYeti.Yeti.prototype.defeat = function (byObject) {
 				});
 
 			positionTween.to({ rx: "-" + Math.PI/2, my: 0, py: 1 }, RPYeti.config.character.yeti.defeatDuration).start();
-		}
-	})(this);
+		})(this);
+	}
 };

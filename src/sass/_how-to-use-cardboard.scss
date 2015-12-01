@@ -1,7 +1,9 @@
-.cardboard-instructions {
-	// @include make-col-span(12);
-}
+.cardboard {
+	background-color: get-color( "blue--brand" );
+	padding: 2rem 0;
+	text-align: center;
 
-.how-to-use-cardboard {
-	display: none;
+	ol {
+		text-align: left;
+	}
 }

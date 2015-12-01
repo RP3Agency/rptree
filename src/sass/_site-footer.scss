@@ -1,5 +1,9 @@
 .site-footer {
+	background-color: get-color( "gray--lightest" );
+	box-shadow: inset 0 6px 12px -6px transparentize( #222, 0.2 );
+	color: get-color( "gray--dark" );
 	padding: 2em 0;
+	text-align: center;
 
 	&__logo {
 		margin-top: 0.5em;

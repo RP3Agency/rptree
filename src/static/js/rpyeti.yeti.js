@@ -69,7 +69,7 @@ RPYeti.Yeti.prototype.position = function (x, z, scale, lookAtPos) {
 
 RPYeti.Yeti.prototype.hide = function () {
 	var xoffset = 5,
-		yoffset = 0;
+		yoffset = -0.5;
 
 	this.model.rotation.set(0, 0, 0);
 	this.model.position.x = xoffset;
@@ -137,7 +137,7 @@ RPYeti.Yeti.prototype.defeat = function (byObject) {
 					self.trigger('defeated', byObject);
 				});
 
-			positionTween.to({ rx: "-" + Math.PI/2, my: 0, py: 1 }, RPYeti.config.character.yeti.defeatDuration).start();
+			positionTween.to({ rx: "-" + Math.PI/2, py: 0.5 }, RPYeti.config.character.yeti.defeatDuration).start();
 		})(this);
 	}
 };

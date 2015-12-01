@@ -124,7 +124,7 @@ RPYeti.game = (function() {
 						x = Math.random() * (RPYeti.config.character.maxX - RPYeti.config.character.minX + 1) + RPYeti.config.character.minX ,
 						z = Math.random() * (RPYeti.config.character.maxZ - RPYeti.config.character.minZ + 1) + RPYeti.config.character.minZ;
 
-					yeti.position(x, z, 100, self.camera.getWorldPosition());
+					yeti.position(x, z, 1, self.camera.getWorldPosition());
 
 					yeti.setAction(function (context) {
 						var pos = context.pivot.position.clone();

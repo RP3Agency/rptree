@@ -22,22 +22,11 @@
 		margin-bottom: 2rem;
 		position: relative;
 
-		// @include breakpoint( orientation landscape ) {
-		// 	height: 80vh;
-		// 	margin: 0;
-		// }
-
 		img {
 			display: block;
 			margin: 0 auto;
 			position: relative;
 		}
-
-		// @include breakpoint( orientation landscape ) {
-		// 	height: 80vh;
-		// 	padding-top: 10vh;
-		// 	width: auto;
-		// }
 
 		&::after {
 			background-color: transparentize( mix( white, get-color( "black" ), 20% ), 0.9 );
@@ -58,11 +47,6 @@
 
 			height: 16px;
 			width: 16px;
-
-			// @media ( min-width: 640px ) and ( min-aspect-ratio: 1/1 ) {
-			// 	height: 32px;
-			// 	width: 32px;
-			// }
 
 			svg {
 				display: block;
@@ -93,18 +77,6 @@
 				&.snowflake--#{$i} {
 					#{$horizontalDirection}: $horizontalValue;
 					#{$verticalDirection}: $verticalValue;
-
-					// @include breakpoint( orientation landscape ) {
-
-					// 	@if $verticalDirection == "bottom" {
-
-					// 		#{$verticalDirection}: calc( #{$verticalValue} - 10vh );
-
-					// 	} @else {
-
-					// 		#{$verticalDirection}: calc( #{$verticalValue} + 10vh );
-					// 	}
-					// }
 				}
 			}
 		}
@@ -119,15 +91,6 @@
 		text-transform: uppercase;
 		width: 50%;
 		@include aspect-ratio(1, 1);
-
-		// @include breakpoint( orientation landscape ) {
-		// 	max-width: 128px;
-		// 	width: 15%;
-
-		// 	&::after {
-		// 		display: none;
-		// 	}
-		// }
 
 		.experience-selector--desktop,
 		.experience-selector--vr {

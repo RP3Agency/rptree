@@ -3,8 +3,6 @@ var RPYeti = RPYeti || {};
 RPYeti.Character = function () {
 	Object.defineProperty( this, 'id', { value: RPYeti.CharacterCount++ } );
 
-	RPYeti.Characters.push(this);
-
 	this.name = '';
 	this.type = 'Character';
 
@@ -13,9 +11,9 @@ RPYeti.Character = function () {
 
 	this.isDefeated = false;
 	this.events = {};
+	this.timers = [];
 	this.health = 0;
 };
-
 
 RPYeti.Character.prototype = {
 
@@ -74,14 +72,17 @@ RPYeti.Character.prototype = {
 	},
 
 	hide: function () {
+		this.pivot.visible = false;
 		this.trigger('hide');
 	},
 
 	appear: function () {
+		this.pivot.visible = true;
 		this.trigger('appear');
 	},
 
 	disappear: function () {
+		this.pivot.visible = false;
 		this.trigger('disappear');
 	},
 
@@ -99,10 +100,49 @@ RPYeti.Character.prototype = {
 
 	defeat: function (byObject) {
 		this.isDefeated = true;
+		this.clearTimers();
 		this.trigger('defeat', byObject);
+	},
+
+	setTimeout: function (action, delay) {
+		if (delay > 0 && typeof action === 'function') {
+			var timer = { action: action, delay: delay / 1000, object: this };
+
+			RPYeti.Character.timers.push(timer);
+			this.timers.push(timer);
+		}
+	},
+
+	clearTimers: function () {
+		while (this.timers.length > 0) {
+			timer = this.timers.pop();
+			for (var i in RPYeti.Character.timers) {
+				if (RPYeti.Character.timers[i] == timer) {
+					delete RPYeti.Character.timers[i];
+					break;
+				}
+			}
+		}
 	}
 
 };
 
 RPYeti.CharacterCount = 0;
-RPYeti.Characters = [];
+
+RPYeti.Character.timers = [];
+
+RPYeti.Character.update = function (delta) {
+	for (var i = RPYeti.Character.timers.length - 1; i >= 0; i--) {
+		var context = RPYeti.Character.timers[i];
+		if (context === undefined) {
+			RPYeti.Character.timers.splice(i, 1);
+			continue;
+		}
+
+		context.delay -= delta;
+		if (context.delay <= 0) {
+			context.action.call( context.object );
+			RPYeti.Character.timers.splice(i, 1);
+		}
+	}
+}

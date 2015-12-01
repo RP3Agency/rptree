@@ -42,6 +42,8 @@ RPYeti.Yeti.prototype.hide = function () {
 
 RPYeti.Yeti.prototype.appear = function () {
 	(function (self) {
+		self.pivot.visible = true;
+
 		self.positionTween = new TWEEN.Tween(self.pivot.position)
 			.easing(RPYeti.config.character.yeti.appearEasing)
 			.onComplete(function () {

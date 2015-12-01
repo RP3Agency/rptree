@@ -13,6 +13,10 @@
 		justify-content: space-between;
 		text-align: left;
 
+		@include breakpoint( 640px ) {
+			flex-wrap: nowrap;
+		}
+
 		li {
 			margin-bottom: 2em;
 			text-align: center;

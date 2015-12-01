@@ -28,6 +28,21 @@
 			position: relative;
 		}
 
+		&::before {
+			background-color: #000;
+			border-radius: 50%;
+			content: "";
+			display: block;
+			position: absolute;
+			height: 75%;
+			opacity: 0.2;
+			filter: blur(7px);
+			width: 75%;
+			left: 50%;
+			top: 50%;
+			transform: translate( -50%, -50% );
+		}
+
 		&::after {
 			background-color: transparentize( mix( white, get-color( "black" ), 20% ), 0.9 );
 			border-radius: 50%;

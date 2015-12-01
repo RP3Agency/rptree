@@ -1,5 +1,22 @@
 .site-footer {
+	background-color: get-color( "gray--lightest" );
+	box-shadow: inset 0 6px 12px -6px transparentize( #222, 0.2 );
+	color: get-color( "gray--dark" );
 	padding: 2em 0;
+	text-align: center;
+
+	.brought {
+		border: 1px solid {
+			width: 1px 0;
+		}
+		display: inline-block;
+		font-size: rem(12px);
+		font-weight: 500;
+		line-height: 1;
+		margin-bottom: 0.5rem;
+		padding: 2px 0;
+		text-transform: uppercase;
+	}
 
 	&__logo {
 		margin-top: 0.5em;

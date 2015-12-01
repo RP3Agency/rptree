@@ -124,7 +124,7 @@ RPYeti.game = (function() {
 						x = Math.random() * (RPYeti.config.character.maxX - RPYeti.config.character.minX + 1) + RPYeti.config.character.minX ,
 						z = Math.random() * (RPYeti.config.character.maxZ - RPYeti.config.character.minZ + 1) + RPYeti.config.character.minZ;
 
-					yeti.position(x, z, 100, self.camera.getWorldPosition());
+					yeti.position(x, z, 1, self.camera.getWorldPosition());
 
 					yeti.setAction(function (context) {
 						var pos = context.pivot.position.clone();
@@ -149,13 +149,15 @@ RPYeti.game = (function() {
 
 
 						context.fireCount = 0;
-						setTimeout(function () {
-							context.action();
-						}, 2000);
+						context.setTimeout(context.action, 2000);
+					});
+
+					yeti.on('disappear', function (context) {
+						context.setTimeout(context.appear, 5000);
 					});
 
 					yeti.on('action', function (context) {
-						setTimeout(function () {
+						context.setTimeout(function () {
 							if (context.fireCount < 2) {
 								context.action();
 							} else {
@@ -182,17 +184,13 @@ RPYeti.game = (function() {
 						delete self.characters.yetis.objs[context.model.id];
 						self.characters.yetis.count--;
 
-						setTimeout(function () {
-							context.remove();
-						}, 1500);
+						context.setTimeout(context.remove, 1500);
 					});
+
+					yeti.appear();
 
 					self.characters.yetis.objs[yeti.model.id] = yeti;
 					self.characters.yetis.count++;
-				}
-
-				for (var i in self.characters.yetis.objs) {
-					self.characters.yetis.objs[i].appear();
 				}
 
 				setTimeout(upd, 17000);
@@ -227,6 +225,7 @@ RPYeti.game = (function() {
 			self.controls.update(dt);
 
 			TWEEN.update();
+			RPYeti.Character.update(dt);
 		},
 
 		render: function(dt) {

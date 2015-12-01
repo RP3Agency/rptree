@@ -32,6 +32,9 @@ RPYeti.Yeti = function (group) {
 		self.prethrow.traverse(function(child) {
 			child.userData.character = self;
 		});
+		self.throw.traverse(function(child) {
+			child.userData.character = self;
+		});
 	})(this);
 
 	group.add(this.pivot);

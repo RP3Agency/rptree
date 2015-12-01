@@ -128,7 +128,7 @@ RPYeti.game = (function() {
 
 					yeti.setAction(function (context) {
 						var pos = context.pivot.position.clone();
-						pos.y = 14;
+						pos.y = 12;
 
 						self.throwSnowball(pos, context);
 					});
@@ -193,7 +193,7 @@ RPYeti.game = (function() {
 					self.characters.yetis.count++;
 				}
 
-				setTimeout(upd, 17000);
+				setTimeout(upd, 10000);
 			}
 			upd();
 			/** END SAMPLE YETI SPAWNER **/

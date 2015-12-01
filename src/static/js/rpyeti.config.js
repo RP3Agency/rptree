@@ -105,6 +105,8 @@ RPYeti.config = {
 		{ type: 'Model', name: 'snowyrock', mesh: 'rock1snow.obj', skin: 'rock1snow.mtl' },
 		{ type: 'Model', name: 'mound', mesh: 'mound.obj', skin: 'mound.mtl' },
 		{ type: 'Model', name: 'yeti', mesh: 'yeti.obj', skin: 'yeti.mtl' },
+		{ type: 'Model', name: 'yeti_prethrow', mesh: 'yeti-prethrow.obj', skin: 'yeti-prethrow.mtl' },
+		{ type: 'Model', name: 'yeti_throw', mesh: 'yeti-throw.obj', skin: 'yeti-throw.mtl' },
 
 		// sounds
 		{ type: 'Sound', name: 'throw', file: 'throw.wav' },

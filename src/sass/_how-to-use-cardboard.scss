@@ -1,9 +1,38 @@
 .cardboard {
 	background-color: get-color( "blue--brand" );
+	font-family: "Roboto Condensed", sans-serif;
 	padding: 2rem 0;
 	text-align: center;
 
 	ol {
+		display: flex;
+		flex-wrap: wrap;
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+		justify-content: space-between;
 		text-align: left;
+
+		li {
+			margin-bottom: 2em;
+			text-align: center;
+			width: span(4 of 12);
+
+			&:nth-of-type(3n) {
+				margin-right: 0;
+			}
+		}
+
+		svg {
+			display: block;
+			margin: 0 auto 1rem;
+			max-height: 48px;
+			max-width: 48px;
+		}
+
+		span {
+			display: block;
+			margin-bottom: 1rem;
+		}
 	}
 }

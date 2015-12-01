@@ -193,7 +193,7 @@ RPYeti.game = (function() {
 					self.characters.yetis.count++;
 				}
 
-				setTimeout(upd, 17000);
+				setTimeout(upd, 5000);
 			}
 			upd();
 			/** END SAMPLE YETI SPAWNER **/

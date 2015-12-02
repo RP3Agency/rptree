@@ -8,6 +8,9 @@ $colors: (
 	"blue--dark":		#061a25,
 	"blue--brand":		#00aeef,
 	"gray":				#babebd,
+	"gray--dark":		mix( black, #babebd, 20% ),
+	"gray--light":		#818a91,
+	"gray--lightest":	#f7f7f9,
 	"white":			#fff
 );
 

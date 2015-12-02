@@ -1,8 +1,8 @@
 /** Libraries */
 
 @import
-	"../../bower_components/bootstrap/scss/bootstrap",
 	"../../bower_components/compass-breakpoint/stylesheets/breakpoint",
+	"../../bower_components/susy/sass/susy",
 	"../../bower_components/font-awesome/scss/font-awesome";
 
 /** Custom Code */
@@ -10,5 +10,18 @@
 @import
 	"settings",
 	"mixins",
+	"typography",
 	"teaser",
 	"site";
+
+.list-inline {
+	padding-left: 0;
+	margin-left: -5px;
+	list-style: none;
+
+	> li {
+		display: inline-block;
+		padding-right: 5px;
+		padding-left: 5px;
+	}
+}

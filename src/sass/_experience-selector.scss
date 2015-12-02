@@ -1,45 +1,46 @@
 .page {
-	background: get-color( "gray" ) url("../images/rptree-bg.jpg") no-repeat center;
-	background-size: cover;
 	color: get-color( "white" );
 }
 
 .experience-selector {
-	align-items: center;
-	display: flex;
-	flex-wrap: wrap;
-	justify-contents: space-between;
+	background: get-color( "gray" ) url("../images/rptree-bg.jpg") no-repeat center;
+	background-size: cover;
 	margin: 0 auto;
 	max-width: rem(1200px);
+	padding-top: 1rem;
+	padding-bottom: 2rem;
 	position: relative;
+	text-align: center;
 	width: 100%;
 
-	@include breakpoint( orientation landscape ) {
-		flex-wrap: nowrap;
-		justify-content: space-around;
+	@include breakpoint( 640px ) {
+		background: none;
+		padding-top: 1rem;
 	}
 
 	&__logo {
-		height: 70vh;
-		margin: 10vh auto 0;
+		margin-bottom: 2rem;
 		position: relative;
-
-		@include breakpoint( orientation landscape ) {
-			height: 80vh;
-			margin: 0;
-		}
 
 		img {
 			display: block;
-			height: 100%;
 			margin: 0 auto;
 			position: relative;
 		}
 
-		@include breakpoint( orientation landscape ) {
-			height: 80vh;
-			padding-top: 10vh;
-			width: auto;
+		&::before {
+			background-color: #000;
+			border-radius: 50%;
+			content: "";
+			display: block;
+			position: absolute;
+			height: 75%;
+			opacity: 0.2;
+			filter: blur(7px);
+			width: 75%;
+			left: 50%;
+			top: 50%;
+			transform: translate( -50%, -50% );
 		}
 
 		&::after {
@@ -61,11 +62,6 @@
 
 			height: 16px;
 			width: 16px;
-
-			// @media ( min-width: 640px ) and ( min-aspect-ratio: 1/1 ) {
-			// 	height: 32px;
-			// 	width: 32px;
-			// }
 
 			svg {
 				display: block;
@@ -96,55 +92,33 @@
 				&.snowflake--#{$i} {
 					#{$horizontalDirection}: $horizontalValue;
 					#{$verticalDirection}: $verticalValue;
-
-					@include breakpoint( orientation landscape ) {
-
-						@if $verticalDirection == "bottom" {
-
-							#{$verticalDirection}: calc( #{$verticalValue} - 10vh );
-
-						} @else {
-
-							#{$verticalDirection}: calc( #{$verticalValue} + 10vh );
-						}
-					}
 				}
 			}
 		}
 	}
 
+	&__icons {
+		display: flex;
+	}
+
 	&__desktop,
 	&__vr {
-		color: get-color( "white" );
 		text-transform: uppercase;
 		width: 50%;
 		@include aspect-ratio(1, 1);
 
-		@include breakpoint( orientation landscape ) {
-			max-width: 128px;
-			width: 15%;
-
-			&::after {
-				display: none;
-			}
-		}
-
 		.experience-selector--desktop,
 		.experience-selector--vr {
-			align-items: center;
 			display: block;
 			font-size: 14px;
 			font-weight: 700;
-			height: 50%;
+			height: 100%;
 			letter-spacing: 1px;
 			line-height: 1.1;
+			margin-top: 1rem;
 			text-align: center;
 			white-space: nowrap;
-			width: 50%;
-			position: absolute;
-			left: 50%;
-			top: 50%;
-			transform: translate( -50%, -50% );
+			width: 100%;
 
 			@include breakpoint( orientation landscape ) {
 				width: 100%;
@@ -152,9 +126,20 @@
 			}
 
 			a {
-				color: get-color( "white" );
-				height: 50%;
-				width: 50%;
+				align-items: center;
+				color: get-color( "gray--dark" );
+				display: flex;
+				flex-direction: column;
+				font-family: "Roboto Condensed", sans-serif;
+				height: 100%;
+				justify-content: flex-start;
+				position: relative;
+				text-decoration: none;
+				width: 100%;
+
+				@include breakpoint( 640px ) {
+					color: get-color( "white" );
+				}
 
 				.experience-selector__svg {
 					align-items: center;
@@ -162,11 +147,11 @@
 					border: 4px solid get-color( "blue--brand" );
 					border-radius: 50%;
 					display: flex;
-					height: 100%;
+					height: 50%;
 					justify-content: center;
 					margin-bottom: 1em;
 					transition: background-color 100ms ease-in;
-					width: 100%;
+					width: 50%;
 				}
 
 				svg {
@@ -184,18 +169,61 @@
 		}
 	}
 
-	@media (orientation: landscape) {
-		&__desktop {
-			order: -1;
-		}
-	}
-
 	&__text {
-		background-color: $gray-lightest; // bootstrap color variable
-		border: 1px solid $gray-light; // bootstrap color variable
+		background-color: get-color( "gray--lightest" ); // bootstrap color variable
+		border: 1px solid get-color( "gray--light" ); // bootstrap color variable
 		font-size: 0.8em;
 		padding: 3px;
 		text-transform: uppercase;
 		white-space: nowrap;
+	}
+
+	&--white {
+		background-color: get-color( "gray--lightest" );
+		background-image: none;
+		box-shadow: inset 0 6px 12px -6px transparentize( #222, 0.2 ),
+			 inset 0 -6px 12px -6px transparentize( #222, 0.2 );
+		color: get-color( "gray--dark" );
+		line-height: 1.5;
+		padding: 1rem 0;
+
+		@include breakpoint( 640px ) {
+			background-color: transparent;
+			box-shadow: none;
+			color: get-color( "white" );
+		}
+
+		p {
+			font-family: "Roboto Condensed", sans-serif;
+
+			.blue {
+				color: get-color( "blue--brand" );
+				font-weight: 500;
+
+				@include breakpoint( 640px ) {
+					color: mix( white, get-color( "blue--brand" ), 75% );
+				}
+			}
+		}
+	}
+
+	.vrp3 {
+		border: solid get-color( "white" ) {
+			width: 1px 0;
+		}
+		display: inline-block;
+		font-size: rem( 12px );
+		font-weight: 500;
+		text-transform: uppercase;
+	}
+}
+
+.page .intro {
+
+	@include breakpoint(640px) {
+		background: get-color( "gray" ) url("../images/rptree-bg.jpg") no-repeat center;
+		background-size: cover;
+		display: flex;
+		padding-top: 1rem;
 	}
 }

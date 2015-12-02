@@ -367,10 +367,14 @@ RPYeti.game = (function() {
 
 		addObjects: function(arr, baseModel, density, group) {
 			for (var i = 0; i < arr.length; i++) {
-				if (arr[i][0] != 0 && arr[i][1] != 0) {
-					var model = baseModel.clone();
-					model.translateX( arr[i][0] * density);
-					model.translateZ( arr[i][1] * density);
+				if (arr[i][0] + arr[i][1] != 0) {
+					var model = baseModel.clone(),
+						x = arr[i][0],
+						y = arr[i][1],
+						distance = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+
+					model.translateX( x * (density + distance / 10) );
+					model.translateZ( y * (density + distance / 10) );
 					model.scale.set( 4, 4, 4 );
 					group.add( model );
 				}

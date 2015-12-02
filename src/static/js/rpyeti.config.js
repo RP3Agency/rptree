@@ -71,7 +71,7 @@ RPYeti.config = {
 
 	assets: [
 		// maps
-		{ type: 'Map', name: 'main', density: 18, file: 'main.json' },
+		{ type: 'Map', name: 'main', density: 16, file: 'main.json' },
 
 		// textures
 		{ type: 'Texture', name: 'snow', file: 'patterns/snow-tile.jpg' },

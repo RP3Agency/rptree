@@ -100,6 +100,9 @@ RPYeti.config = {
 		{ type: 'Sound', name: 'splat', file: 'splat.mp3' },	// placeholder
 		{ type: 'Sound', name: 'thump', file: 'thump.mp3' },	// placeholder
 		{ type: 'Sound', name: 'smack', file: 'smack.mp3' },	// placeholder
+
+		// fonts
+		{ type: 'Font', name: 'GameFont', file: '8bit.ttf' },
 	],
 
 	/** Debug Settings **/

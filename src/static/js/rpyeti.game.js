@@ -99,6 +99,7 @@ RPYeti.game = (function() {
 
 			// add game HUD
 			this.addHUD();
+			this.addHudText('');
 
 			// add sound effects
 			this.addSounds();
@@ -509,7 +510,7 @@ RPYeti.game = (function() {
 
 			self.updateReticle();
 
-			self.hud.font = 'Bold ' + textSize + 'px Arial';
+			self.hud.font = 'normal ' + textSize + 'px GameFont';
 			self.hud.textAlign = 'center';
 			self.hud.fillStyle = RPYeti.config.hud.textStyle;
 			self.hud.fillText(text, RPYeti.config.hud.canvasWidth / 2, RPYeti.config.hud.canvasHeight / 2 + textPos);

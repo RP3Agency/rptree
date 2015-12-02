@@ -24,7 +24,7 @@ RPYeti.game = (function() {
 
 			// create perspective camera
 			var fov = ( RPYeti.config.stereo ) ? RPYeti.config.cardboard.fov : RPYeti.config.desktop.fov;
-			this.camera = new THREE.PerspectiveCamera( fov, self.container.offsetWidth / self.container.offsetHeight, 0.1, 1000 );
+			this.camera = new THREE.PerspectiveCamera( fov, self.container.offsetWidth / self.container.offsetHeight, 0.1, 450 );
 			this.camera.position.set( 0, 10, 0 );
 			this.scene.add( this.camera );
 
@@ -322,7 +322,7 @@ RPYeti.game = (function() {
 				map: texture,
 			});
 
-			var geometry = new THREE.PlaneGeometry(2000, 2000);
+			var geometry = new THREE.PlaneGeometry(900, 900);
 
 			var mesh = new THREE.Mesh( geometry, material );
 			mesh.rotation.x = -Math.PI / 2;
@@ -332,7 +332,7 @@ RPYeti.game = (function() {
 		},
 
 		addSky: function() {
-			var geometry = new THREE.SphereGeometry(1000, 32, 32),
+			var geometry = new THREE.SphereGeometry(450, 32, 32),
 				material = new THREE.MeshBasicMaterial({
 					map: RPYeti.loader.textures.stars,
 					side: THREE.BackSide
@@ -364,7 +364,7 @@ RPYeti.game = (function() {
 
 		/** Models **/
 
-		addObjects: function(arr, baseModel, density, group) {
+		addObjects: function(arr, baseModel, density, group, rotation) {
 			for (var i = 0; i < arr.length; i++) {
 				var model = baseModel.clone(),
 					x = arr[i][0],
@@ -374,6 +374,11 @@ RPYeti.game = (function() {
 				model.translateX( x * density );
 				model.translateZ( z * density );
 				model.scale.set( 4, 4, 4 );
+
+				if (rotation) {
+					model.rotateY(Math.random() * Math.PI * 2);
+				}
+
 				group.add( model );
 			}
 		},
@@ -385,7 +390,7 @@ RPYeti.game = (function() {
 			self.trees = new THREE.Group();
 			self.scene.add( self.trees );
 
-			self.addObjects(trees, model, density, self.trees);
+			self.addObjects(trees, model, density, self.trees, true);
 		},
 
 		addRocks: function() {
@@ -395,8 +400,8 @@ RPYeti.game = (function() {
 			self.rocks = new THREE.Group();
 			self.scene.add( self.rocks );
 
-			self.addObjects(rocks, RPYeti.loader.models[ 'rock' ], density, self.rocks);
-			self.addObjects(srocks, RPYeti.loader.models[ 'snowyrock' ], density, self.rocks);
+			self.addObjects(rocks, RPYeti.loader.models[ 'rock' ], density, self.rocks, true);
+			self.addObjects(srocks, RPYeti.loader.models[ 'snowyrock' ], density, self.rocks, true);
 		},
 
 		addMounds: function() {

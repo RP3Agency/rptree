@@ -121,8 +121,8 @@ RPYeti.game = (function() {
 			function upd() {
 				if (self.characters.yetis.count < 20) {
 					var yeti = new RPYeti.Yeti(self.yetis),
-						x = Math.random() * (RPYeti.config.character.maxX - RPYeti.config.character.minX + 1) + RPYeti.config.character.minX ,
-						z = Math.random() * (RPYeti.config.character.maxZ - RPYeti.config.character.minZ + 1) + RPYeti.config.character.minZ;
+						x = Math.floor(Math.random() * (RPYeti.config.character.maxX - RPYeti.config.character.minX + 1) + RPYeti.config.character.minX),
+						z = Math.floor(Math.random() * (RPYeti.config.character.maxZ - RPYeti.config.character.minZ + 1) + RPYeti.config.character.minZ);
 
 					yeti.position(x, z, 1, self.camera.getWorldPosition());
 
@@ -364,31 +364,37 @@ RPYeti.game = (function() {
 
 		/** Models **/
 
-		addTrees: function() {
-			var model = RPYeti.loader.models.tree,
-				trees = RPYeti.config.trees;
-			self.trees = new THREE.Group();
-			self.scene.add( self.trees );
-			for (var i = 0; i < trees.length; i++) {
-				var tree = model.clone();
-				tree.translateX( trees[i][0] );
-				tree.translateZ( trees[i][1] );
-				tree.scale.set( 4, 4, 4 );
-				self.trees.add( tree );
+		addObjects: function(arr, baseModel, density, group) {
+			for (var i = 0; i < arr.length; i++) {
+				if (arr[i][0] != 0 && arr[i][1] != 0) {
+					var model = baseModel.clone();
+					model.translateX( arr[i][0] * density);
+					model.translateZ( arr[i][1] * density);
+					model.scale.set( 4, 4, 4 );
+					group.add( model );
+				}
 			}
 		},
 
+		addTrees: function() {
+			var model = RPYeti.loader.models.tree,
+				trees = RPYeti.loader.maps.main.trees,
+				density = RPYeti.loader.maps.main.density;
+			self.trees = new THREE.Group();
+			self.scene.add( self.trees );
+
+			self.addObjects(trees, model, density, self.trees);
+		},
+
 		addRocks: function() {
-			var rocks = RPYeti.config.rocks;
+			var rocks =  RPYeti.loader.maps.main.rocks,
+				srocks = RPYeti.loader.maps.main.srocks,
+				density = RPYeti.loader.maps.main.density;
 			self.rocks = new THREE.Group();
 			self.scene.add( self.rocks );
-			for (var i = 0; i < rocks.length; i++) {
-				var rock = RPYeti.loader.models[ rocks[i][0] ].clone();
-				rock.translateX( rocks[i][1] );
-				rock.translateZ( rocks[i][2] );
-				rock.scale.set( 4, 4, 4 );
-				self.rocks.add( rock );
-			}
+
+			self.addObjects(rocks, RPYeti.loader.models[ 'rock' ], density, self.rocks);
+			self.addObjects(srocks, RPYeti.loader.models[ 'snowyrock' ], density, self.rocks);
 		},
 
 		addMounds: function() {

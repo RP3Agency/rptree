@@ -13,6 +13,7 @@ RPYeti.loader = (function() {
 
 		assets: [],
 
+		maps: {},
 		textures: {},
 		models: {},
 		sounds: {},
@@ -79,6 +80,19 @@ RPYeti.loader = (function() {
 			buffer.load( '../sounds/' + sound.file );
 			buffer.onReady(function() {
 				self.sounds[ sound.name ] = buffer;
+				self.loaded++;
+				self.publisher.trigger( 'rpyeti.loader.progress' );
+			});
+		},
+
+		loadMap: function ( asset ) {
+			self.loading++;
+			var map = asset,
+				loader = new THREE.JSONLoader();
+
+			jQuery.getJSON('../maps/' + map.file, function (object) {
+				object.density = map.density;
+				self.maps[ map.name ] = object;
 				self.loaded++;
 				self.publisher.trigger( 'rpyeti.loader.progress' );
 			});

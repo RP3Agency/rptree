@@ -7,7 +7,7 @@ RPYeti.config = {
 	stereo: false,
 	cardboard: {
 		fov: 75,
-		focalLength: 600,
+		focalLength: 450,
 		eyeSeparation: 1,
 		pupillaryBaseline: 750
 	},
@@ -33,30 +33,7 @@ RPYeti.config = {
 
 	/** Model Positioning **/
 
-	trees: [
-		[ 300, -125 ],
-		[ 300,  115 ],
-		[ 100,  -20 ],
-		[ 100,   10 ],
-		[  50,  -30 ],
-		[  70,  100 ],
-		[  50,   30 ],
-		[ -30,    0 ],
-		[ 800,    0 ],
-	],
-
-	rocks: [
-		[ 'rock',      60, -20 ],
-		[ 'snowyrock', 80,  15 ],
-		[ 'rock',       2, 100 ],
-	],
-
-	mounds: [
-		[ 100,  -7 ],
-		[  -2, -90 ],
-		[ -30, -40 ],
-		[   0,   0 ],
-	],
+	mounds: [],
 
 	/** HUD configuration **/
 
@@ -93,6 +70,9 @@ RPYeti.config = {
 	/** Game Assets **/
 
 	assets: [
+		// maps
+		{ type: 'Map', name: 'main', density: 18, file: 'main.json' },
+
 		// textures
 		{ type: 'Texture', name: 'snow', file: 'patterns/snow-tile.jpg' },
 		{ type: 'Texture', name: 'snowmound', file: 'patterns/snow-tile.jpg' },

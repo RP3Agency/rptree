@@ -84,7 +84,7 @@ RPYeti.Yeti.prototype.hide = function () {
 	this.resetModel();
 
 	this.bounds = new THREE.Box3().setFromObject(this.model);
-	this.pivot.translateY(-(Math.abs(this.bounds.max.y) + Math.abs(this.bounds.min.y)));
+	this.pivot.translateY(-(Math.abs(this.bounds.max.y) + Math.abs(this.bounds.min.y) + 2));
 };
 
 RPYeti.Yeti.prototype.appear = function () {

@@ -24,7 +24,7 @@ RPYeti.game = (function() {
 
 			// create perspective camera
 			var fov = ( RPYeti.config.stereo ) ? RPYeti.config.cardboard.fov : RPYeti.config.desktop.fov;
-			this.camera = new THREE.PerspectiveCamera( fov, self.container.offsetWidth / self.container.offsetHeight, 0.1, 450 );
+			this.camera = new THREE.PerspectiveCamera( fov, self.container.offsetWidth / self.container.offsetHeight, 0.1, 500 );
 			this.camera.position.set( 0, 10, 0 );
 			this.scene.add( this.camera );
 
@@ -122,14 +122,25 @@ RPYeti.game = (function() {
 			function upd() {
 				if (self.characters.yetis.count < 20) {
 					var yeti = new RPYeti.Yeti(self.yetis),
-						x = Math.floor(Math.random() * (RPYeti.config.character.maxX - RPYeti.config.character.minX + 1) + RPYeti.config.character.minX),
-						z = Math.floor(Math.random() * (RPYeti.config.character.maxZ - RPYeti.config.character.minZ + 1) + RPYeti.config.character.minZ);
+						cameraPos = self.camera.getWorldPosition(),
+						blockers = [ self.trees, self.rocks, self.mounds, self.yetis ],
+						tries = 100;
 
-					yeti.position(x, z, 1, self.camera.getWorldPosition());
+					while (tries-- > 0) {
+						var x = Math.floor(Math.random() * (RPYeti.config.character.maxX - RPYeti.config.character.minX + 1) + RPYeti.config.character.minX),
+							z = Math.floor(Math.random() * (RPYeti.config.character.maxZ - RPYeti.config.character.minZ + 1) + RPYeti.config.character.minZ);
+
+						yeti.position(x, z, 1, cameraPos);
+						if (!yeti.isBlocked(cameraPos, blockers) && yeti.pivot.position.distanceTo(cameraPos) > 40) {
+							break;
+						}
+					}
+
+					yeti.hide();
 
 					yeti.setAction(function (context) {
 						var pos = context.pivot.position.clone();
-						pos.y = 12;
+						pos.y = context.handHeight;
 
 						self.throwSnowball(pos, context);
 					});
@@ -355,9 +366,9 @@ RPYeti.game = (function() {
 			directional.castShadow = true;
 			directional.shadowMapWidth = 512;
 			directional.shadowMapHeight = 512;
-			directional.shadowCameraNear = 200;
+			directional.shadowCameraNear = 50;
 			directional.shadowCameraFar = 1000;
-			directional.shadowCameraFov = 90;
+			//directional.shadowCameraFov = 90;
 			self.scene.add( directional );
 
 		},
@@ -573,6 +584,8 @@ RPYeti.game = (function() {
 				if (intersects[i].object.name != 'HUD' && intersects[i].distance < self.stereo.focalLength) {
 					closest = intersects[i];
 					break;
+				} else if (intersects[i].distance > self.stereo.focalLength) {
+					break;
 				}
 			}
 
@@ -598,6 +611,7 @@ RPYeti.game = (function() {
 			self.snowball = new THREE.Mesh( geometry, material );
 			self.snowball.castShadow = true;
 			self.snowball.receiveShadow = true;
+			self.snowball.name = 'snowball';
 		},
 
 		throwSnowball: function( source, character ) {

@@ -21,7 +21,7 @@ RPYeti.config = {
 		size: 1,
 		lod: 8,
 		speed: 70,
-		range: 500,
+		range: 450,
 		rate: 200,
 		damage: 5,
 	},

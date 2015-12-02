@@ -1,3 +1,71 @@
 .leaderboard {
+	padding-bottom : 7em;
 	text-align: center;
+
+	h1, h2, p, a, span {
+		font-family: eightBit;
+	}
+
+	&__stats {
+		@extend %eight-bit-border;
+		margin: auto;
+		max-width: 900px;
+		width: 90%;
+
+		@include breakpoint( 640px ) {
+			min-height: 450px;
+		}
+
+		&--banner {
+			background: url("../images/game_over.png") no-repeat center;
+			background-size: contain;
+			font-size: 1.6em;
+			text-shadow: 2px 2px black;
+			height: 57px;
+			line-height: 2;
+			margin: auto;
+			margin-top: -30px;
+			width: 100%;
+			max-width: 340px;
+		}
+	}
+}
+
+.leaderboard__stats-banner {
+	background: url("../images/game_over.png") no-repeat center;
+	background-size: contain;
+	font-size: 1.6em;
+	text-shadow: 2px 2px black;
+	height: 57px;
+	line-height: 2;
+	margin: auto;
+	margin-top: -30px;
+	width: 100%;
+	max-width: 340px;
+}
+
+.facebook-share,
+.twitter-share {
+	@extend %eight-bit-border;
+	display: inline-block;
+	height: 37px;
+	width: 37px;
+}
+
+.twitter-share {
+	background-image: url(../images/twitter.png);
+	background-size: 35%;
+	background-repeat: no-repeat;
+	background-position: center;
+
+	&::before {
+		border-left: none;
+	}
+}
+
+.facebook-share {
+	background-image: url(../images/facebook.png);
+	background-size: 30%;
+	background-repeat: no-repeat;
+	background-position: center;
 }

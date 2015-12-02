@@ -1,0 +1,61 @@
+.leaderboard__stats-container {
+	margin: auto;
+	right: 20px;
+	top: 60px;
+
+	@include breakpoint( 640px ) {
+		position: absolute;
+		width: span(6 of 12);
+	}
+
+	.gray-panel,
+	.player-score,
+	.high-scores {
+		max-width: 320px;
+	}
+
+	.gray-panel {
+		@extend %eight-bit-border;
+		background-color: rgba( get-color( "gray--lightest" ) , 0.8);
+		color: get-color( "blue--brand" );
+		margin: 40px auto 20px;
+		padding: 10px 0;
+		font-size: .8rem;
+	}
+
+	.player-score {
+		font-size: .7rem;
+		margin: 0px auto 10px;
+		max-width: 215px;
+		text-align: left;
+
+		span {
+			float: right;
+		}
+	}
+
+	.high-scores {
+		display: flex;
+		margin: auto;
+	}
+
+	.new-game {
+		@extend %eight-bit-border;
+		color: white;
+		text-decoration: none;
+		    width: 150px;
+		display: block;
+	    font-size: .8rem;
+	    padding: 7px 20px;
+	    margin: 30px 20px 30px 0;
+	}
+	.new-game,
+	.sharing {
+		display: inline-block;
+		vertical-align: top;
+	}
+
+	.sharing {
+		margin-top: 30px;
+	}
+}

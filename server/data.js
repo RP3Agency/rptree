@@ -1,7 +1,7 @@
 /**
 * RPTree 2015 Server: Data module
 */
-
+/*
 // Get link to main module
 app = require.main.exports;
 
@@ -62,3 +62,4 @@ var data = {
 
 // Export data module
 module.exports = data;
+*/

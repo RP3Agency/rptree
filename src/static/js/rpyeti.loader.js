@@ -17,6 +17,7 @@ RPYeti.loader = (function() {
 		textures: {},
 		models: {},
 		sounds: {},
+		fonts: {},
 
 		init: function() {
 			// save singleton context
@@ -96,6 +97,18 @@ RPYeti.loader = (function() {
 				self.loaded++;
 				self.publisher.trigger( 'rpyeti.loader.progress' );
 			});
+		},
+
+		loadFont: function( asset ) {
+			self.loading++;
+			var font = asset,
+				loader = new Font();
+			loader.src = '../fonts/' + asset.file;
+			loader.onload = function() {
+				self.fonts[ font.name ] = loader;
+  				self.loaded++;
+				self.publisher.trigger( 'rpyeti.loader.progress' );
+			}
 		},
 
 		onProgress: function() {

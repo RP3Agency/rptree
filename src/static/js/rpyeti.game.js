@@ -52,6 +52,8 @@ RPYeti.game = (function() {
 				self.updateReticle();
 			});
 
+			self.yetis = new THREE.Group();
+
 			//TODO: use or make key controls library instead of hardcoding
 			$(document).on('keydown', function(e) {
 				var prevent = true;
@@ -115,7 +117,6 @@ RPYeti.game = (function() {
 
 		sampleYetiSpawner: function () {
 			/** SAMPLE YETI SPAWNER **/
-			self.yetis = new THREE.Group();
 			self.characters = { yetis: { count: 0, objs: {} } };
 			self.scene.add( self.yetis );
 			function upd() {

@@ -1,0 +1,44 @@
+
+%eight-bit-border {
+	border: {
+		top: 4px solid white;
+		bottom: 4px solid white;
+	}
+	position: relative;
+
+	&::before, &::after {
+		border-left: 4px solid white;
+		content:'';
+		height: 100%;
+		position: absolute;
+		top: 0;
+	}
+	&::before {
+		left: 0;
+		margin-left: -4px;
+	}
+	&::after {
+		margin-right: -4px;
+		right: 0;
+	}
+}
+
+.leaderboard__yeti-angel {
+	background: url("../images/yeti_angel.png") no-repeat center;
+	background-size: contain;
+	height: 200px;
+	width: 100%;
+	margin: 25px auto;
+
+	@include breakpoint( 640px ) {
+		margin: initial;
+	}
+}
+
+.yeti-container {
+	margin-top: 60px;
+
+	@include breakpoint( 640px ) {
+		width: span(6 of 12);
+	}
+}

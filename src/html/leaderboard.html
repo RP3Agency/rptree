@@ -34,22 +34,43 @@
 
 
 	<main id="content" class="site-content">
-		<div class="leaderboard">
-			<h1>Leaderboard</h1>
-			<p>You defeated x Yetis!</P><!-- x needs to be replaced -->
-			<p>Your best score is x Yetis defeated</P><!-- x needs to be replaced -->
-			<p>The high score to date is x Yetis defeated</P><!-- x needs to be replaced -->
-			<p>Collectively, we've defeated x Yetis.</P><!-- x needs to be replaced -->
-			<img src="https://placekitten.com/g/150/150">
+		<div class="leaderboard intro">
+			<!-- Snowflakes -->
+			<span class="snowflake"></span>
 
-			<a href="https://twitter.com/share" class="twitter-share-button"{count} data-url="http://rptree.com/" data-text="I defeated x Yetis and supported the foundation! Join the fight!" data-hashtags="rptree">Tweet</a>
-			<a id="facebook-share" href="#!">Post Your Score to Facebook</a>
-			<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
-			</script><!-- The x and the foundation have to be changed out here-->
+			<div class="leaderboard__stats">
+				<h1 class="leaderboard__stats-banner">Game Over</h1>
 
-		<p class="leaderboard__thankyou">Thank you for supporting the Washington Area Women's Foundation!</p>
-		<a href="#!">Play Again?</a>
+				<div class="yeti-container">
+					<div class="leaderboard__yeti-angel"></div>
+					<p class="downed-yetis">19 Downed Yetis</p>
+				</div>
 
+				<div class="leaderboard__stats-container">
+					<p class="gray-panel">Your Scores</p>
+
+					<p class="player-score">This Round <span>88276</span></p>
+					<p class="player-score">High Round <span>88653</span></p>
+
+					<p class="gray-panel">High Scores</p>
+
+					<div class="high-scores">
+						<span class="player-score">1.24948</span>
+						<span class="player-score">2.34948</span>
+						<span class="player-score">3.44948</span>
+					</div>
+					<a class="new-game" href="#!">New Game</a>
+					<div class="sharing">
+						<a href="#!" d="facebook-share" class="facebook-share"></a>
+						<a class="twitter-share"></a>
+					</div>
+				</div>
+				<!--<a href="https://twitter.com/share" class="twitter-share-button"{count} data-url="http://rptree.com/" data-text="I defeated x Yetis and supported the foundation! Join the fight!" data-hashtags="rptree">Tweet</a>
+				<a id="facebook-share" href="#!">Post Your Score to Facebook</a>
+				<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+				</script>-->   <!-- The x and the foundation have to be changed out here-->
+
+			</div>
 		</div>
 	</main>
 	<!-- // #content -->

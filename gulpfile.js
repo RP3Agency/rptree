@@ -117,15 +117,6 @@ gulp.task('static', function() {
 	.pipe( livereload() );
 });
 
-// Process the cardboard proof of concept
-gulp.task( 'cardboard', function() {
-	return gulp.src( __dirname + '/src/cardboard/**' )
-		.pipe( plumber( logError ) )
-		.pipe( gulp.dest( __dirname + '/dist/cardboard' ) )
-		.pipe( notify( { message: 'Cardboard task complete', onLast: true } ) )
-		.pipe( livereload() );
-});
-
 // Process Font Awesome fonts from bower_components
 gulp.task( 'font-awesome', function() {
 	return gulp.src( __dirname + '/bower_components/font-awesome/fonts/**' )
@@ -141,7 +132,7 @@ gulp.task('clean', function() {
 });
 
 // Build task
-gulp.task('build', [ 'static', 'html', 'styles', 'scripts', 'cardboard', 'font-awesome' ]);
+gulp.task('build', [ 'static', 'html', 'styles', 'scripts', 'font-awesome' ]);
 
 // Rebuild task
 gulp.task('rebuild', [ 'clean' ], function() {
@@ -165,12 +156,14 @@ gulp.task('watch', function() {
 	gulp.watch( __dirname + '/src/js/**/*.js',			['scripts'] );
 	gulp.watch( __dirname + '/src/html/**/*.html',		['html'] );
 	gulp.watch( __dirname + '/src/static/**/*.*',		['static'] );
-	gulp.watch( __dirname + '/src/cardboard/**/*.*',	['cardboard'] )
 
 });
 
 // Default task
-gulp.task('default', [ 'build', 'serve', 'watch' ]);
+gulp.task('default', [ 'build', 'watch' ]);
+
+// Develop task
+gulp.task('develop', [ 'build', 'serve', 'watch' ]);
 
 // Deploy task
 gulp.task('deploy', function() {

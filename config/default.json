@@ -1,20 +1,10 @@
 {
 	"debug": true,
-	"server": {
-		"options": {
-			"name": "RPTree 2.0.0 Server"
-		},
-		"port": 3000
-	},
-	"snowball" : {
-		"port": 9001,
-		"host": "rptree.com"
+	"express": {
+		"address": "0.0.0.0",
+		"port": 8080
 	},
 	"db": "localhost/rptree",
-	"tree": {
-		"address": "rptree.local",
-		"port": 5001
-	},
 	"feed": {
 		"pagesize": 10
 	},

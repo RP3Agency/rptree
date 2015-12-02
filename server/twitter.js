@@ -1,7 +1,7 @@
 /**
 * RPTree 2015 Server: Twitter stream scanner
 */
-
+/*
 // Get link to main module
 app = require.main.exports;
 
@@ -115,3 +115,4 @@ var Scanner = _.bindAll({
 
 // Export scanner module
 module.exports = Scanner.initialize();
+*/

@@ -64,6 +64,7 @@ function flip(arr, axis) {
 		mounds = [],
 		logs = [],
 		signs = [],
+		intro = [],
 		row = 0,
 		cols = 0;
 
@@ -100,6 +101,8 @@ function flip(arr, axis) {
 						case 7:
 							signs.push(coords);
 							break;
+						case 8:
+							intro.push(coords);
 					}
 				})(row, col);
 			}
@@ -125,6 +128,7 @@ function flip(arr, axis) {
 		offset(trees, xoff, yoff);
 		offset(logs, xoff, yoff);
 		offset(signs, xoff, yoff);
+		offset(intro, xoff, yoff);
 
 		flip(strees, 0);
 		flip(srocks, 0);
@@ -133,6 +137,7 @@ function flip(arr, axis) {
 		flip(trees, 0);
 		flip(logs, 0);
 		flip(signs, 0);
+		flip(intro, 0);
 
 		var obj = {
 			strees: strees,
@@ -141,7 +146,8 @@ function flip(arr, axis) {
 			rocks: rocks,
 			mounds: mounds,
 			logs: logs,
-			signs: signs
+			signs: signs,
+			intro: intro
 		}
 
 		fs.writeFile(outFile, JSON.stringify(obj));

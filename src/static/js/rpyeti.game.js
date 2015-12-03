@@ -8,6 +8,8 @@ RPYeti.game = (function() {
 		/** Public Properties **/
 		isFiring: false,
 		lastFire: 0,
+		level: 0,
+		snowballBlockers: [],
 
 		/** Constructor **/
 
@@ -53,6 +55,8 @@ RPYeti.game = (function() {
 			});
 
 			self.yetis = new THREE.Group();
+			self.scene.add( self.yetis );
+			self.characters = { yetis: { count: 0, objs: {} } };
 
 			//TODO: use or make key controls library instead of hardcoding
 			$(document).on('keydown', function(e) {
@@ -99,6 +103,8 @@ RPYeti.game = (function() {
 			this.addSigns();
 			this.addSnowball();
 
+			self.snowballBlockers = [ self.snow, self.snowballs, self.trees, self.rocks, self.mounds, self.yetis, self.logs, self.signs ]
+
 			// add game HUD
 			this.addHUD();
 			this.addHudText('');
@@ -109,37 +115,157 @@ RPYeti.game = (function() {
 			// do debug setup
 			this.debug();
 
-			//TODO: make game state handler
-			//TODO: initial game state - select a tree
-			self.sampleYetiSpawner();
-
 			// set resize event
 			$(window).on('resize', this.resize);
 			setTimeout(this.resize, 1);
+
+			this.start(0);
+		},
+
+		start: function (level) {
+			self.level = level;
+
+			if (level == 0) {
+				self.startIntro();
+			} else {
+				self.levelBegin(level);
+			}
+		},
+
+		levelBegin: function (level) {
+			self.addHudText('Level ' + level);
+
+			self.sampleYetiSpawner();
+		},
+
+		startIntro: function () {
+			var introPoints = RPYeti.loader.maps.main.intro,
+					treeModel = RPYeti.loader.models.tree,
+					signModel = RPYeti.loader.models.sign,
+					scale = 4,
+					density = RPYeti.loader.maps.main.density,
+					cameraPos = self.camera.getWorldPosition();
+
+				if (self.intro !== undefined) {
+					self.scene.remove(self.intro);
+					while (self.intro.children.length) { self.intro.children.pop(); }
+				}
+
+				self.intro = new THREE.Group();
+				cameraPos.y = signModel.position.y;
+
+				for (var i = 0; i < introPoints.length; i++) {
+					var tree = treeModel.clone(),
+						sign = signModel.clone(),
+						x = introPoints[i][0],
+						z = introPoints[i][1];
+
+					tree.userData = { introObj: 'tree', introNumber: i };
+					tree.translateX( x * density + 10);
+					tree.translateZ( z * density );
+					tree.scale.set( scale, scale, scale );
+
+					self.intro.add( tree );
+
+					sign.userData = { introObj: 'sign', introNumber: i };
+					sign.translateX( x * density );
+					sign.translateZ( z * density );
+					sign.scale.set( scale, scale, scale );
+
+					sign.lookAt(cameraPos);
+
+					self.intro.add( sign );
+				}
+
+				self.scene.add(self.intro);
+				self.snowballBlockers.push(self.intro);
+
+				self.player.on('intro.select', function (context, number) {
+					context.selected = number;
+
+					// TODO: Something with selection
+
+					self.endIntro(number);
+				});
+		},
+
+		endIntro: function (number) {
+			self.player.on('intro.select', function () {});
+
+			for (var i in self.intro.children) {
+				if (self.intro.children[i].userData && self.intro.children[i].userData.introObj == 'tree') {
+					var position = self.intro.children[i].position.clone();
+					position.x += 10;
+					position.z -= 5;
+
+					var yeti = self.spawnYeti(self.intro, position, 1.25);
+					yeti.on('appear', function (context) {
+						context.roar = new THREE.PositionalAudio( self.listener );
+						context.roar.setBuffer( RPYeti.loader.sounds.roar );
+						context.pivot.add( context.roar );
+
+						var bounds = new THREE.Box3().setFromObject(self.intro);
+
+						context.setTimeout(function () {
+							var positionTween = new TWEEN.Tween(self.intro.position)
+								.easing(RPYeti.config.character.yeti.disappearEasing)
+								.onComplete(function () {
+									// Cleanup
+									if (self.intro !== undefined) {
+										self.scene.remove(self.intro);
+										while (self.intro.children.length) { self.intro.children.pop(); }
+										for (var i = self.snowballBlockers.length + 1; i > 0; i--) {
+											if (self.snowballBlockers[i] == self.intro) {
+												self.snowballBlockers.splice(i, 1);
+												break;
+											}
+										}
+										self.intro = undefined;
+									}
+
+									// Start level 1!
+									self.start(1);
+								});
+
+							positionTween.to({ y: -Math.abs(bounds.max.y) }, RPYeti.config.character.yeti.disappearDuration).start();
+						}, 2000);
+					});
+
+					yeti.appear();
+				}
+			}
+		},
+
+		spawnYeti: function (group, position, scale) {
+			var yeti = new RPYeti.Yeti(group),
+				cameraPos = self.camera.getWorldPosition(),
+				blockers = [ self.trees, self.yetis ],
+				tries = 100;
+
+			if (position === undefined) {
+				while (tries-- > 0) {
+					var x = Math.floor(Math.random() * (RPYeti.config.character.maxX - RPYeti.config.character.minX + 1) + RPYeti.config.character.minX),
+						z = Math.floor(Math.random() * (RPYeti.config.character.maxZ - RPYeti.config.character.minZ + 1) + RPYeti.config.character.minZ);
+
+					yeti.position(x, z, scale, cameraPos);
+					if (!yeti.isBlocked(cameraPos, blockers) && yeti.pivot.position.distanceTo(cameraPos) > 40) {
+						break;
+					}
+				}
+			} else {
+				yeti.position(position.x, position.z, scale, cameraPos);
+			}
+
+			yeti.hide();
+
+			return yeti;
 		},
 
 		sampleYetiSpawner: function () {
 			/** SAMPLE YETI SPAWNER **/
-			self.characters = { yetis: { count: 0, objs: {} } };
-			self.scene.add( self.yetis );
 			function upd() {
 				if (self.characters.yetis.count < 20) {
-					var yeti = new RPYeti.Yeti(self.yetis),
-						cameraPos = self.camera.getWorldPosition(),
-						blockers = [ self.trees, self.yetis ],
-						tries = 100;
-
-					while (tries-- > 0) {
-						var x = Math.floor(Math.random() * (RPYeti.config.character.maxX - RPYeti.config.character.minX + 1) + RPYeti.config.character.minX),
-							z = Math.floor(Math.random() * (RPYeti.config.character.maxZ - RPYeti.config.character.minZ + 1) + RPYeti.config.character.minZ);
-
-						yeti.position(x, z, 1, cameraPos);
-						if (!yeti.isBlocked(cameraPos, blockers) && yeti.pivot.position.distanceTo(cameraPos) > 40) {
-							break;
-						}
-					}
-
-					yeti.hide();
+					var yeti = self.spawnYeti(self.yetis);
 
 					yeti.setAction(function (context) {
 						var pos = context.pivot.position.clone();
@@ -457,12 +583,14 @@ RPYeti.game = (function() {
 			self.signs = new THREE.Group();
 			self.scene.add( self.signs );
 
-			self.addObjects(signs, model, density, self.signs, false);
+			if (self.signs.children.length > 0) {
+				self.addObjects(signs, model, density, self.signs, false);
 
-			cameraPos.y = self.signs.children[0].position.y;
-			for (var i in self.signs.children) {
-				self.signs.children[i].lookAt(cameraPos);
-			};
+				cameraPos.y = self.signs.children[0].position.y;
+				for (var i in self.signs.children) {
+					self.signs.children[i].lookAt(cameraPos);
+				};
+			}
 		},
 
 		/** Sounds **/
@@ -680,7 +808,7 @@ RPYeti.game = (function() {
 							self.removeSnowball( snowball, self.player );
 						}
 						var raycaster = new THREE.Raycaster( snowball.position, dir );
-						var collisions = raycaster.intersectObjects( [ self.snow, self.snowballs, self.trees, self.rocks, self.mounds, self.yetis, self.logs, self.signs ], true );
+						var collisions = raycaster.intersectObjects( self.snowballBlockers, true );
 						for( var i = 0; i < collisions.length; i++ ) {
 							if( collisions[i].object != snowball && collisions[i].distance <= ( RPYeti.config.snowball.size * 4 ) ) {
 								self.removeSnowball( snowball, collisions[i].object );
@@ -717,6 +845,15 @@ RPYeti.game = (function() {
 						effect = RPYeti.loader.sounds.whack;
 					} else if( self.mounds.getObjectById( target.id ) ) {
 						effect = RPYeti.loader.sounds.tink;
+					} else if( self.intro && self.intro.getObjectById( target.id ) ) {
+						var t = target;
+						while (t.parent !== null) {
+							if (t.userData.introObj !== undefined) {
+								break;
+							}
+							t = t.parent;
+						}
+						self.player.trigger('intro.select', t.userData.introNumber);
 					}
 					if( effect ) {
 						var impact = new THREE.PositionalAudio( self.listener );

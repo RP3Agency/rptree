@@ -8,6 +8,9 @@ RPYeti.Yeti = function (group) {
 
 	this.health = RPYeti.config.character.yeti.health;
 	this.group = group;
+	this.handHeight = 12;
+	this.xoffset = 5;
+	this.yoffset = -0.5;
 
 	this.model = RPYeti.loader.models.yeti.clone();
 	this.model.userData.character = this;
@@ -65,26 +68,18 @@ RPYeti.Yeti.prototype.action = function () {
 
 RPYeti.Yeti.prototype.position = function (x, z, scale, lookAtPos) {
 	RPYeti.Character.prototype.position.call( this, x, z, scale, lookAtPos );
+
+	this.prethrow.position.x = this.xoffset;
+	this.prethrow.position.y = this.yoffset;
+
+	this.throw.position.x = this.xoffset;
+	this.throw.position.y = this.yoffset;
+
+	this.resetModel();
 };
 
 RPYeti.Yeti.prototype.hide = function () {
-	var xoffset = 5,
-		yoffset = -0.5;
-
-	this.model.rotation.set(0, 0, 0);
-	this.model.position.x = xoffset;
-	this.model.position.y = yoffset;
-
-	this.prethrow.position.x = xoffset;
-	this.prethrow.position.y = yoffset;
-
-	this.throw.position.x = xoffset;
-	this.throw.position.y = yoffset;
-
-	this.resetModel();
-
-	this.bounds = new THREE.Box3().setFromObject(this.model);
-	this.pivot.translateY(-(Math.abs(this.bounds.max.y) + Math.abs(this.bounds.min.y) + 2));
+	RPYeti.Character.prototype.hide.call( this );
 };
 
 RPYeti.Yeti.prototype.appear = function () {

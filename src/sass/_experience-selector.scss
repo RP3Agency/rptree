@@ -226,4 +226,14 @@
 		display: flex;
 		padding-top: 1rem;
 	}
+
+	&.leaderboard {
+		background: get-color( "gray" ) url("../images/rptree-bg.jpg") no-repeat center;
+		background-size: cover;
+		padding-top: 4rem;
+
+		@include breakpoint(640px) {
+			display: block;
+		}
+	}
 }

@@ -11,6 +11,7 @@ $colors: (
 	"gray--dark":		mix( black, #babebd, 20% ),
 	"gray--light":		#818a91,
 	"gray--lightest":	#f7f7f9,
+	"gray--panels":		#DADADC,
 	"white":			#fff
 );
 
@@ -40,3 +41,12 @@ $enable-flex: true;
  */
 
 $fa-font-path:   "../font";
+
+/**
+* 8Bit font setup
+*/
+
+@font-face {
+	font-family: eightBit;
+	src: url(../fonts/8bit.ttf);
+}

@@ -13,6 +13,9 @@ RPYeti.Character = function () {
 	this.events = {};
 	this.timers = [];
 	this.health = 0;
+	this.handHeight = 0;
+	this.xoffset = 0;
+	this.yoffset = 0;
 };
 
 RPYeti.Character.prototype = {
@@ -60,18 +63,58 @@ RPYeti.Character.prototype = {
 			this.model.scale.set( scale, scale, scale );
 		}
 
-		this.pivot.translateX( x );
-		this.pivot.translateY( 10 );
-		this.pivot.translateZ( z );
+		this.pivot.position.x = x;
+		this.pivot.position.y = 10;
+		this.pivot.position.z = z;
 
 		if (lookAtPos instanceof THREE.Vector3) {
 			this.pivot.lookAt(lookAtPos);
 		}
 
-		this.hide();
+		if (this.model !== undefined) {
+			this.model.rotation.set(0, 0, 0);
+			this.model.position.x = this.xoffset;
+			this.model.position.y = this.yoffset;
+
+			if (this.bounds === undefined) {
+				this.bounds = new THREE.Box3().setFromObject(this.model);
+			}
+
+			this.pivot.position.y = Math.abs(this.bounds.max.y);
+		}
+	},
+
+	isBlocked: function (target, objects) {
+		this.pivot.updateMatrixWorld();
+
+		var sources = [ this.pivot.getWorldPosition() ];
+		if (this.model !== undefined) {
+			this.model.updateMatrixWorld();
+			sources.push(this.model.getWorldPosition());
+		}
+
+		for (var s = 0; s < sources.length; s++) {
+			var raycaster = new THREE.Raycaster(),
+				distance = sources[s].distanceTo(target);
+
+			raycaster.set(sources[s], target.clone().sub(sources[s]).normalize());
+			raycaster.ray.at(1, sources[s]);
+
+			var collisions = raycaster.intersectObjects(objects, true);
+			for (var i = 0; i < collisions.length; i++) {
+				if (collisions[i].object.userData.character != this && collisions[i].distance <= distance) {
+					return true;
+				} else if (collisions[i].distance > distance) {
+					break;
+				}
+			}
+		}
+
+		return false;
 	},
 
 	hide: function () {
+		this.pivot.translateY(-(Math.abs(this.bounds.max.y) + Math.abs(this.bounds.min.y) + 2));
 		this.pivot.visible = false;
 		this.trigger('hide');
 	},

@@ -24,7 +24,7 @@ RPYeti.game = (function() {
 
 			// create perspective camera
 			var fov = ( RPYeti.config.stereo ) ? RPYeti.config.cardboard.fov : RPYeti.config.desktop.fov;
-			this.camera = new THREE.PerspectiveCamera( fov, self.container.offsetWidth / self.container.offsetHeight, 0.1, 1000 );
+			this.camera = new THREE.PerspectiveCamera( fov, self.container.offsetWidth / self.container.offsetHeight, 0.1, 500 );
 			this.camera.position.set( 0, 10, 0 );
 			this.scene.add( this.camera );
 
@@ -99,6 +99,7 @@ RPYeti.game = (function() {
 
 			// add game HUD
 			this.addHUD();
+			this.addHudText('');
 
 			// add sound effects
 			this.addSounds();
@@ -122,14 +123,25 @@ RPYeti.game = (function() {
 			function upd() {
 				if (self.characters.yetis.count < 20) {
 					var yeti = new RPYeti.Yeti(self.yetis),
-						x = Math.floor(Math.random() * (RPYeti.config.character.maxX - RPYeti.config.character.minX + 1) + RPYeti.config.character.minX),
-						z = Math.floor(Math.random() * (RPYeti.config.character.maxZ - RPYeti.config.character.minZ + 1) + RPYeti.config.character.minZ);
+						cameraPos = self.camera.getWorldPosition(),
+						blockers = [ self.trees, self.rocks, self.mounds, self.yetis ],
+						tries = 100;
 
-					yeti.position(x, z, 1, self.camera.getWorldPosition());
+					while (tries-- > 0) {
+						var x = Math.floor(Math.random() * (RPYeti.config.character.maxX - RPYeti.config.character.minX + 1) + RPYeti.config.character.minX),
+							z = Math.floor(Math.random() * (RPYeti.config.character.maxZ - RPYeti.config.character.minZ + 1) + RPYeti.config.character.minZ);
+
+						yeti.position(x, z, 1, cameraPos);
+						if (!yeti.isBlocked(cameraPos, blockers) && yeti.pivot.position.distanceTo(cameraPos) > 40) {
+							break;
+						}
+					}
+
+					yeti.hide();
 
 					yeti.setAction(function (context) {
 						var pos = context.pivot.position.clone();
-						pos.y = 12;
+						pos.y = context.handHeight;
 
 						self.throwSnowball(pos, context);
 					});
@@ -322,7 +334,7 @@ RPYeti.game = (function() {
 				map: texture,
 			});
 
-			var geometry = new THREE.PlaneGeometry(2000, 2000);
+			var geometry = new THREE.PlaneGeometry(900, 900);
 
 			var mesh = new THREE.Mesh( geometry, material );
 			mesh.rotation.x = -Math.PI / 2;
@@ -332,7 +344,7 @@ RPYeti.game = (function() {
 		},
 
 		addSky: function() {
-			var geometry = new THREE.SphereGeometry(1000, 32, 32),
+			var geometry = new THREE.SphereGeometry(450, 32, 32),
 				material = new THREE.MeshBasicMaterial({
 					map: RPYeti.loader.textures.stars,
 					side: THREE.BackSide
@@ -355,16 +367,16 @@ RPYeti.game = (function() {
 			directional.castShadow = true;
 			directional.shadowMapWidth = 512;
 			directional.shadowMapHeight = 512;
-			directional.shadowCameraNear = 200;
+			directional.shadowCameraNear = 50;
 			directional.shadowCameraFar = 1000;
-			directional.shadowCameraFov = 90;
+			//directional.shadowCameraFov = 90;
 			self.scene.add( directional );
 
 		},
 
 		/** Models **/
 
-		addObjects: function(arr, baseModel, density, group) {
+		addObjects: function(arr, baseModel, density, group, rotation) {
 			for (var i = 0; i < arr.length; i++) {
 				var model = baseModel.clone(),
 					x = arr[i][0],
@@ -374,6 +386,11 @@ RPYeti.game = (function() {
 				model.translateX( x * density );
 				model.translateZ( z * density );
 				model.scale.set( 4, 4, 4 );
+
+				if (rotation) {
+					model.rotateY(Math.random() * Math.PI * 2);
+				}
+
 				group.add( model );
 			}
 		},
@@ -385,7 +402,7 @@ RPYeti.game = (function() {
 			self.trees = new THREE.Group();
 			self.scene.add( self.trees );
 
-			self.addObjects(trees, model, density, self.trees);
+			self.addObjects(trees, model, density, self.trees, true);
 		},
 
 		addRocks: function() {
@@ -395,8 +412,8 @@ RPYeti.game = (function() {
 			self.rocks = new THREE.Group();
 			self.scene.add( self.rocks );
 
-			self.addObjects(rocks, RPYeti.loader.models[ 'rock' ], density, self.rocks);
-			self.addObjects(srocks, RPYeti.loader.models[ 'snowyrock' ], density, self.rocks);
+			self.addObjects(rocks, RPYeti.loader.models[ 'rock' ], density, self.rocks, true);
+			self.addObjects(srocks, RPYeti.loader.models[ 'snowyrock' ], density, self.rocks, true);
 		},
 
 		addMounds: function() {
@@ -504,7 +521,7 @@ RPYeti.game = (function() {
 
 			self.updateReticle();
 
-			self.hud.font = 'Bold ' + textSize + 'px Arial';
+			self.hud.font = 'normal ' + textSize + 'px GameFont';
 			self.hud.textAlign = 'center';
 			self.hud.fillStyle = RPYeti.config.hud.textStyle;
 			self.hud.fillText(text, RPYeti.config.hud.canvasWidth / 2, RPYeti.config.hud.canvasHeight / 2 + textPos);
@@ -568,6 +585,8 @@ RPYeti.game = (function() {
 				if (intersects[i].object.name != 'HUD' && intersects[i].distance < self.stereo.focalLength) {
 					closest = intersects[i];
 					break;
+				} else if (intersects[i].distance > self.stereo.focalLength) {
+					break;
 				}
 			}
 
@@ -593,6 +612,7 @@ RPYeti.game = (function() {
 			self.snowball = new THREE.Mesh( geometry, material );
 			self.snowball.castShadow = true;
 			self.snowball.receiveShadow = true;
+			self.snowball.name = 'snowball';
 		},
 
 		throwSnowball: function( source, character ) {

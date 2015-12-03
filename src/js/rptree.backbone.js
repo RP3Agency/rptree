@@ -1,7 +1,7 @@
-/* global rptree:true */
+// * global rptree:true */
 
 // Define our "rptree" object, if not already defined
-if ( rptree === undefined ) { var rptree = {}; }
+//if ( rptree === undefined ) { var rptree = {}; }
 
 /**
  * rptree.backbone

@@ -17,6 +17,7 @@ RPYeti.loader = (function() {
 		textures: {},
 		models: {},
 		sounds: {},
+		fonts: {},
 
 		init: function() {
 			// save singleton context
@@ -62,9 +63,14 @@ RPYeti.loader = (function() {
 			loader.load('../models/' + model.mesh, '../textures/' + model.skin, function(object) {
 				object.traverse(function(child) {
 					if( child instanceof THREE.Mesh ) {
-						child.material.side = THREE.DoubleSide;
 						child.castShadow = true;
 						child.receiveShadow = true;
+						child.material.side = THREE.DoubleSide;
+						if( child.material.map ) {
+							child.material.map.anisotropy = RPYeti.config.maxAnisotropy;
+							child.material.map.magFilter = THREE.NearestMipMapLinearFilter;
+							child.material.map.minFilter = THREE.NearestFilter;
+						}
 					}
 				});
 				self.models[ model.name ] = object;
@@ -96,6 +102,18 @@ RPYeti.loader = (function() {
 				self.loaded++;
 				self.publisher.trigger( 'rpyeti.loader.progress' );
 			});
+		},
+
+		loadFont: function( asset ) {
+			self.loading++;
+			var font = asset,
+				loader = new Font();
+			loader.src = '../fonts/' + asset.file;
+			loader.onload = function() {
+				self.fonts[ font.name ] = loader;
+  				self.loaded++;
+				self.publisher.trigger( 'rpyeti.loader.progress' );
+			}
 		},
 
 		onProgress: function() {

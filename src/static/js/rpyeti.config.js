@@ -7,7 +7,7 @@ RPYeti.config = {
 	stereo: false,
 	cardboard: {
 		fov: 75,
-		focalLength: 450,
+		focalLength: 350,
 		eyeSeparation: 1,
 		pupillaryBaseline: 750
 	},
@@ -21,7 +21,7 @@ RPYeti.config = {
 		size: 1,
 		lod: 8,
 		speed: 70,
-		range: 500,
+		range: 450,
 		rate: 200,
 		damage: 5,
 	},
@@ -100,6 +100,9 @@ RPYeti.config = {
 		{ type: 'Sound', name: 'splat', file: 'splat.mp3' },	// placeholder
 		{ type: 'Sound', name: 'thump', file: 'thump.mp3' },	// Tree Hit
 		{ type: 'Sound', name: 'smack', file: 'smack.mp3' },	// placeholder
+
+		// fonts
+		{ type: 'Font', name: 'GameFont', file: '8bit.ttf' },
 	],
 
 	/** Debug Settings **/
@@ -116,6 +119,10 @@ RPYeti.config = {
 
 		// Detect stereo request
 		this.stereo = ( window.location.hash != '#desktop' );
+
+		// Detect max anisotropy
+		var renderer = new THREE.WebGLRenderer();
+		this.maxAnisotropy = renderer.getMaxAnisotropy();
 
 	},
 };

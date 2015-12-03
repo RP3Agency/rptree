@@ -95,6 +95,8 @@ RPYeti.game = (function() {
 			this.addTrees();
 			this.addRocks();
 			this.addMounds();
+			this.addLogs();
+			this.addSigns();
 			this.addSnowball();
 
 			// add game HUD
@@ -124,7 +126,7 @@ RPYeti.game = (function() {
 				if (self.characters.yetis.count < 20) {
 					var yeti = new RPYeti.Yeti(self.yetis),
 						cameraPos = self.camera.getWorldPosition(),
-						blockers = [ self.trees, self.rocks, self.mounds, self.yetis ],
+						blockers = [ self.trees, self.yetis ],
 						tries = 100;
 
 					while (tries-- > 0) {
@@ -376,7 +378,10 @@ RPYeti.game = (function() {
 
 		/** Models **/
 
-		addObjects: function(arr, baseModel, density, group, rotation) {
+		addObjects: function(arr, baseModel, density, group, rotation, scale) {
+			rotation = rotation || false;
+			scale = scale || 4;
+
 			for (var i = 0; i < arr.length; i++) {
 				var model = baseModel.clone(),
 					x = arr[i][0],
@@ -385,7 +390,7 @@ RPYeti.game = (function() {
 
 				model.translateX( x * density );
 				model.translateZ( z * density );
-				model.scale.set( 4, 4, 4 );
+				model.scale.set( scale, scale, scale );
 
 				if (rotation) {
 					model.rotateY(Math.random() * Math.PI * 2);
@@ -396,19 +401,21 @@ RPYeti.game = (function() {
 		},
 
 		addTrees: function() {
-			var model = RPYeti.loader.models.tree,
-				trees = RPYeti.loader.maps.main.trees,
+			var trees = RPYeti.loader.maps.main.trees,
+				strees = RPYeti.loader.maps.main.strees
 				density = RPYeti.loader.maps.main.density;
 			self.trees = new THREE.Group();
 			self.scene.add( self.trees );
 
-			self.addObjects(trees, model, density, self.trees, true);
+			self.addObjects(trees, RPYeti.loader.models[ 'tree' ], density, self.trees, true);
+			self.addObjects(strees, RPYeti.loader.models[ 'snowytree' ], density, self.trees, true);
 		},
 
 		addRocks: function() {
 			var rocks =  RPYeti.loader.maps.main.rocks,
 				srocks = RPYeti.loader.maps.main.srocks,
 				density = RPYeti.loader.maps.main.density;
+
 			self.rocks = new THREE.Group();
 			self.scene.add( self.rocks );
 
@@ -418,20 +425,46 @@ RPYeti.game = (function() {
 
 		addMounds: function() {
 			var model = RPYeti.loader.models.mound,
-				mounds = RPYeti.config.mounds;
+				mounds = RPYeti.loader.maps.main.mounds,
+				density = RPYeti.loader.maps.main.density;
 
 			// texture tiling tweak
 			model.children[0].children[1].material.map.repeat.set(3, 3);
 
 			self.mounds = new THREE.Group();
 			self.scene.add( self.mounds );
-			for (var i = 0; i < mounds.length; i++) {
-				var mound = model.clone();
-				mound.translateX( mounds[i][0] );
-				mound.translateZ( mounds[i][1] );
-				mound.scale.set( 8, 8, 8 );
-				self.mounds.add( mound );
-			}
+
+			self.addObjects(mounds, model, density, self.mounds, false, 8);
+		},
+
+		addLogs: function () {
+			var model = RPYeti.loader.models.log,
+				logs = RPYeti.loader.maps.main.logs,
+				density = RPYeti.loader.maps.main.density;
+
+			self.logs = new THREE.Group();
+			self.scene.add( self.logs );
+
+			self.addObjects(logs, model, density, self.logs, true, 6);
+		},
+
+		addSigns: function () {
+			var model = RPYeti.loader.models.sign,
+				signs = RPYeti.loader.maps.main.signs,
+				density = RPYeti.loader.maps.main.density,
+				cameraPos = self.camera.getWorldPosition();
+
+			self.signs = new THREE.Group();
+			self.scene.add( self.signs );
+
+			self.addObjects(signs, model, density, self.signs, false);
+
+			//self.camera.updateMatrixWorld();
+			self.signs.traverseVisible(function (sign) {
+				//sign.up = new THREE.Vector3(1, 0, 0);
+				//sign.updateMatrixWorld();
+				//sign.lookAt(cameraPos);
+			});
 		},
 
 		/** Sounds **/
@@ -649,7 +682,7 @@ RPYeti.game = (function() {
 							self.removeSnowball( snowball, self.player );
 						}
 						var raycaster = new THREE.Raycaster( snowball.position, dir );
-						var collisions = raycaster.intersectObjects( [ self.snow, self.snowballs, self.trees, self.rocks, self.mounds, self.yetis ], true );
+						var collisions = raycaster.intersectObjects( [ self.snow, self.snowballs, self.trees, self.rocks, self.mounds, self.yetis, self.logs, self.signs ], true );
 						for( var i = 0; i < collisions.length; i++ ) {
 							if( collisions[i].object != snowball && collisions[i].distance <= ( RPYeti.config.snowball.size * 4 ) ) {
 								self.removeSnowball( snowball, collisions[i].object );

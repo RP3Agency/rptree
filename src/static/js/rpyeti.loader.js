@@ -68,7 +68,6 @@ RPYeti.loader = (function() {
 						child.material.side = THREE.DoubleSide;
 						if( child.material.map ) {
 							child.material.map.anisotropy = RPYeti.config.maxAnisotropy;
-							child.material.map.magFilter = THREE.NearestMipMapLinearFilter;
 							child.material.map.minFilter = THREE.NearestFilter;
 						}
 					}

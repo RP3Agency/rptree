@@ -1,5 +1,5 @@
 /**
-* RPTree 2015 Server: Twitter stream scanner
+* RPTree 2015: Twitter Stream Scanner
 */
 /*
 // Get link to main module

@@ -63,9 +63,14 @@ RPYeti.loader = (function() {
 			loader.load('../models/' + model.mesh, '../textures/' + model.skin, function(object) {
 				object.traverse(function(child) {
 					if( child instanceof THREE.Mesh ) {
-						child.material.side = THREE.DoubleSide;
 						child.castShadow = true;
 						child.receiveShadow = true;
+						child.material.side = THREE.DoubleSide;
+						if( child.material.map ) {
+							child.material.map.anisotropy = RPYeti.config.maxAnisotropy;
+							child.material.map.magFilter = THREE.NearestMipMapLinearFilter;
+							child.material.map.minFilter = THREE.NearestFilter;
+						}
 					}
 				});
 				self.models[ model.name ] = object;

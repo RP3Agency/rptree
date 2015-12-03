@@ -120,6 +120,10 @@ RPYeti.config = {
 		// Detect stereo request
 		this.stereo = ( window.location.hash != '#desktop' );
 
+		// Detect max anisotropy
+		var renderer = new THREE.WebGLRenderer();
+		this.maxAnisotropy = renderer.getMaxAnisotropy();
+
 	},
 };
 

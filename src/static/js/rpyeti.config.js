@@ -96,9 +96,9 @@ RPYeti.config = {
 		{ type: 'Sound', name: 'roar', file: 'roar.mp3' },
 		{ type: 'Sound', name: 'oof', file: 'oof.mp3' },
 		{ type: 'Sound', name: 'tink', file: 'tink.mp3' },      // placeholder
-		{ type: 'Sound', name: 'whack', file: 'whack.mp3' },	// placeholder
+		{ type: 'Sound', name: 'whack', file: 'whack.mp3' },	// Rock Hit
 		{ type: 'Sound', name: 'splat', file: 'splat.mp3' },	// placeholder
-		{ type: 'Sound', name: 'thump', file: 'thump.mp3' },	// placeholder
+		{ type: 'Sound', name: 'thump', file: 'thump.mp3' },	// Tree Hit
 		{ type: 'Sound', name: 'smack', file: 'smack.mp3' },	// placeholder
 	],
 

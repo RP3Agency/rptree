@@ -12,7 +12,7 @@ RPYeti.config = {
 		pupillaryBaseline: 750
 	},
 	desktop: {
-		fov: 45,
+		fov: 55,
 	},
 
 	/** Game Mechanics **/
@@ -58,6 +58,7 @@ RPYeti.config = {
 		maxZ: -150,
 		yeti: {
 			health: 10,
+			points: 1,
 			appearEasing: TWEEN.Easing.Circular.In,
 			appearDuration: 1500,
 			disappearEasing: TWEEN.Easing.Circular.Out,

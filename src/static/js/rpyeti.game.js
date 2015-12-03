@@ -47,11 +47,15 @@ RPYeti.game = (function() {
 			this.player = new RPYeti.Player();
 
 			this.player.on('defeated', function (context) {
-				self.addHudText('GAME OVER', 0);
+				self.hud.addText('GAME OVER', 0);
 			});
 
 			this.player.on('hit', function (context) {
-				self.updateReticle();
+				self.hud.updateReticle();
+			});
+
+			this.player.on('yeti.defeat', function (context, yeti) {
+				context.points += yeti.points;
 			});
 
 			self.yetis = new THREE.Group();
@@ -106,8 +110,11 @@ RPYeti.game = (function() {
 			self.snowballBlockers = [ self.snow, self.snowballs, self.trees, self.rocks, self.mounds, self.yetis, self.logs, self.signs ]
 
 			// add game HUD
-			this.addHUD();
-			this.addHudText('');
+			if (RPYeti.config.stereo) {
+				this.hud = new RPYeti.HUD(this.player, this.camera, this.stereo);
+			} else {
+				this.hud = new RPYeti.HUD(this.player, this.camera);
+			}
 
 			// add sound effects
 			this.addSounds();
@@ -119,11 +126,15 @@ RPYeti.game = (function() {
 			$(window).on('resize', this.resize);
 			setTimeout(this.resize, 1);
 
-			this.start(0);
+			this.start(0, true);
 		},
 
-		start: function (level) {
+		start: function (level, reset) {
 			self.level = level;
+
+			if (reset) {
+				self.player.points = 0;
+			}
 
 			if (level == 0) {
 				self.startIntro();
@@ -133,7 +144,7 @@ RPYeti.game = (function() {
 		},
 
 		levelBegin: function (level) {
-			self.addHudText('Level ' + level);
+			self.hud.addText('Level ' + level);
 
 			self.sampleYetiSpawner();
 		},
@@ -198,7 +209,7 @@ RPYeti.game = (function() {
 					position.x += 10;
 					position.z -= 5;
 
-					var yeti = self.spawnYeti(self.intro, position, 1.25);
+					var yeti = self.spawnYeti(self.intro, position, 1.35);
 					yeti.on('appear', function (context) {
 						context.roar = new THREE.PositionalAudio( self.listener );
 						context.roar.setBuffer( RPYeti.loader.sounds.roar );
@@ -312,11 +323,12 @@ RPYeti.game = (function() {
 							&& param.userData.initiator !== undefined
 							&& param.userData.initiator instanceof RPYeti.Yeti) {
 
-							self.addHudText('Yeti-on-yeti Violence');
+							self.hud.addText('Yeti-on-yeti Violence');
 						} else if (param.userData.initiator == self.player) {
-							self.addHudText('Yeti Down!');
+							self.player.trigger('yeti.defeat', context);
+							self.hud.addText('Yeti Down! ' + self.player.points);
 						} else {
-							self.addHudText('Something Else Did It');
+							self.hud.addText('Something Else Did It');
 						}
 					});
 
@@ -370,7 +382,7 @@ RPYeti.game = (function() {
 
 		render: function(dt) {
 			if( RPYeti.config.stereo ) {
-				self.updateReticleFocus();
+				self.hud.updateReticleFocus(self.scene);
 				self.stereo.render( self.scene, self.camera, self.offset );
 			} else {
 				self.renderer.render( self.scene, self.camera );
@@ -612,153 +624,6 @@ RPYeti.game = (function() {
 				sound.isPlaying = false;
 			}
 			sound.play();
-		},
-
-		/** Game interface (HUD) **/
-
-		addHUD: function() {
-			var hudCanvas = document.createElement('canvas');
-			hudCanvas.width = RPYeti.config.hud.canvasWidth;
-			hudCanvas.height = RPYeti.config.hud.canvasHeight;
-
-			// save context
-			self.hud = hudCanvas.getContext('2d');
-			self.hudTexture = new THREE.Texture( hudCanvas );
-
-			// draw reticle
-			self.updateReticle();
-
-			var material = new THREE.MeshBasicMaterial({ map: self.hudTexture });
-			material.transparent = true;
-
-			var planeGeometry = new THREE.PlaneGeometry( 1, 1 );
-			var plane = new THREE.Mesh( planeGeometry, material );
-
-			plane.name = 'HUD';
-			plane.position.set( 0, 0, -1 );
-
-			if( RPYeti.config.stereo ) {
-				var plane2 = plane.clone();
-
-				this.stereo.left.add( plane );
-				self.hudPlaneL = plane;
-
-				this.stereo.right.add( plane2 );
-				self.hudPlaneR = plane2;
-
-				// add tweening and focal adjustment for HUD
-				this.focalRaycaster = new THREE.Raycaster();
-				this.focalPoint = new THREE.Vector2(0, 0);
-				this.focalTween = new TWEEN.Tween({ x: 0, y: 0 })
-					.easing(RPYeti.config.hud.easing)
-					.onUpdate(function () {
-						self.hudPlaneL.position.x = this.x;
-						self.hudPlaneR.position.x = -(this.x);
-					});
-				this.focalTween.end = 0;
-			} else {
-				self.camera.add( plane );
-			}
-		},
-
-		addHudText: function (text, duration) {
-			var textPos = RPYeti.config.hud.textPos,
-				textSize = RPYeti.config.hud.textSize;
-
-			if( typeof duration == "undefined" ) {
-				duration = 5000;
-			}
-
-			if (self.hudTextClear) {
-				clearTimeout(self.hudTextClear);
-			}
-
-			if (self.stereo) {
-				textPos *= 1.15;
-				textSize *= 1.25;
-			}
-
-			self.updateReticle();
-
-			self.hud.font = 'normal ' + textSize + 'px GameFont';
-			self.hud.textAlign = 'center';
-			self.hud.fillStyle = RPYeti.config.hud.textStyle;
-			self.hud.fillText(text, RPYeti.config.hud.canvasWidth / 2, RPYeti.config.hud.canvasHeight / 2 + textPos);
-
-			if( duration > 0 ) {
-				self.hudTextClear = setTimeout(function () {
-					self.addHudText('');
-				}, duration);
-			}
-		},
-
-		updateReticle: function() {
-			var healthPercent = 0.0,
-				width = RPYeti.config.hud.canvasWidth,
-				height = RPYeti.config.hud.canvasHeight,
-				arcInitial = (1 * Math.PI),
-				arcFull = (2 * Math.PI);
-
-			healthPercent = Math.min( Math.max( self.player.health / RPYeti.config.player.health, 0.0), 1.0 );
-			healthPercent = (1.0 - healthPercent) * arcFull + arcInitial;
-
-			self.hud.clearRect(0, 0, width, height);
-
-			self.hud.beginPath();
-			self.hud.arc( width/2, height/2, RPYeti.config.hud.size, 0, arcFull, false );
-			self.hud.lineWidth = 10;
-			self.hud.strokeStyle = RPYeti.config.hud.baseColor;
-			self.hud.stroke();
-
-			self.hud.beginPath();
-			self.hud.arc( width/2, height/2, RPYeti.config.hud.size, arcInitial, healthPercent, false );
-			self.hud.lineWidth = 10;
-			self.hud.strokeStyle = RPYeti.config.hud.damageColor;
-			self.hud.stroke();
-
-			self.hudTexture.needsUpdate = true;
-		},
-
-		updateReticleFocus: function () {
-			var points = self.getClosestFocalPoints(),
-				diff = (Math.abs(points[0].x) + Math.abs(points[1].x)) / 2.0;
-
-			if (diff > RPYeti.config.hud.innerFocalMax) {
-				diff = RPYeti.config.hud.innerFocalMax;
-			}
-
-			if (self.focalTween.end != diff) {
-				self.focalTween.stop();
-				self.focalTween.end = diff;
-				self.focalTween.to({ x: diff, y: 0 }, RPYeti.config.hud.easeDuration).start();
-			}
-		},
-
-		getClosestFocalPoints: function() {
-			self.focalRaycaster.setFromCamera( self.focalPoint, self.camera );
-
-			var intersects = self.focalRaycaster.intersectObjects( self.scene.children, true ),
-				closest = null;
-
-			for (var i in intersects) {
-				if (intersects[i].object.name != 'HUD' && intersects[i].distance < self.stereo.focalLength) {
-					closest = intersects[i];
-					break;
-				} else if (intersects[i].distance > self.stereo.focalLength) {
-					break;
-				}
-			}
-
-			if (closest != null) {
-				var p = closest.point,
-					p2 = p.clone(),
-					v = p.project(self.stereo.left),
-					v2 = p2.project(self.stereo.right);
-
-				return [ v, v2 ];
-			} else {
-				return [ new THREE.Vector3(), new THREE.Vector3() ];
-			}
 		},
 
 		/** Projectiles **/

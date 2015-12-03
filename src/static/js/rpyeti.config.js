@@ -80,7 +80,8 @@ RPYeti.config = {
 		{ type: 'Texture', name: 'snowball', file: 'patterns/snow-ground.jpg' },
 
 		// models
-		{ type: 'Model', name: 'tree', mesh: 'tree-snow.obj', skin: 'tree-snow.mtl' },
+		{ type: 'Model', name: 'tree', mesh: 'tree.obj', skin: 'tree.mtl' },
+		{ type: 'Model', name: 'snowytree', mesh: 'tree-snow.obj', skin: 'tree-snow.mtl' },
 		{ type: 'Model', name: 'rock', mesh: 'rock1.obj', skin: 'rock1.mtl' },
 		{ type: 'Model', name: 'snowyrock', mesh: 'rock1snow.obj', skin: 'rock1snow.mtl' },
 		{ type: 'Model', name: 'log', mesh: 'log.obj', skin: 'log.mtl' },

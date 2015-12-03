@@ -59,13 +59,17 @@
 	background-position: center;
 
 	&::before {
-		border-left: none;
+		margin-left: -2px !important;
 	}
 }
 
 .facebook-share {
 	background-image: url(../images/facebook.png);
-	background-size: 30%;
+	background-size: 28%;
 	background-repeat: no-repeat;
 	background-position: center;
+
+	&::after {
+		margin-right: -2px !important;
+	}
 }

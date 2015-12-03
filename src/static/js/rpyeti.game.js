@@ -54,6 +54,10 @@ RPYeti.game = (function() {
 				self.updateReticle();
 			});
 
+			this.player.on('yeti.defeat', function (context, yeti) {
+				context.points += yeti.points;
+			});
+
 			self.yetis = new THREE.Group();
 			self.scene.add( self.yetis );
 			self.characters = { yetis: { count: 0, objs: {} } };
@@ -119,11 +123,15 @@ RPYeti.game = (function() {
 			$(window).on('resize', this.resize);
 			setTimeout(this.resize, 1);
 
-			this.start(0);
+			this.start(0, true);
 		},
 
-		start: function (level) {
+		start: function (level, reset) {
 			self.level = level;
+
+			if (reset) {
+				self.player.points = 0;
+			}
 
 			if (level == 0) {
 				self.startIntro();
@@ -198,7 +206,7 @@ RPYeti.game = (function() {
 					position.x += 10;
 					position.z -= 5;
 
-					var yeti = self.spawnYeti(self.intro, position, 1.25);
+					var yeti = self.spawnYeti(self.intro, position, 1.35);
 					yeti.on('appear', function (context) {
 						context.roar = new THREE.PositionalAudio( self.listener );
 						context.roar.setBuffer( RPYeti.loader.sounds.roar );
@@ -314,7 +322,8 @@ RPYeti.game = (function() {
 
 							self.addHudText('Yeti-on-yeti Violence');
 						} else if (param.userData.initiator == self.player) {
-							self.addHudText('Yeti Down!');
+							self.player.trigger('yeti.defeat', context);
+							self.addHudText('Yeti Down! ' + self.player.points);
 						} else {
 							self.addHudText('Something Else Did It');
 						}

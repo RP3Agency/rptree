@@ -13,6 +13,7 @@ RPYeti.Character = function () {
 	this.events = {};
 	this.timers = [];
 	this.health = 0;
+	this.points = 0;
 	this.handHeight = 0;
 	this.xoffset = 0;
 	this.yoffset = 0;

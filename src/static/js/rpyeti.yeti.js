@@ -7,6 +7,7 @@ RPYeti.Yeti = function (group) {
 	this.type = 'Yeti';
 
 	this.health = RPYeti.config.character.yeti.health;
+	this.points = RPYeti.config.character.yeti.points;
 	this.group = group;
 	this.handHeight = 12;
 	this.xoffset = 5;

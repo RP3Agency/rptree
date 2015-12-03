@@ -459,12 +459,10 @@ RPYeti.game = (function() {
 
 			self.addObjects(signs, model, density, self.signs, false);
 
-			//self.camera.updateMatrixWorld();
-			self.signs.traverseVisible(function (sign) {
-				//sign.up = new THREE.Vector3(1, 0, 0);
-				//sign.updateMatrixWorld();
-				//sign.lookAt(cameraPos);
-			});
+			cameraPos.y = self.signs.children[0].position.y;
+			for (var i in self.signs.children) {
+				self.signs.children[i].lookAt(cameraPos);
+			};
 		},
 
 		/** Sounds **/

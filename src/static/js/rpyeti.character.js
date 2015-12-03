@@ -64,10 +64,10 @@ RPYeti.Character.prototype = {
 		}
 
 		this.pivot.position.x = x;
-		this.pivot.position.y = 10;
 		this.pivot.position.z = z;
 
 		if (lookAtPos instanceof THREE.Vector3) {
+			this.pivot.position.y = lookAtPos.y;
 			this.pivot.lookAt(lookAtPos);
 		}
 

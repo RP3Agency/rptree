@@ -13,6 +13,8 @@ RPYeti.Yeti = function (group) {
 	this.xoffset = 5;
 	this.yoffset = -0.5;
 
+	this.pivot.userData.character = this;
+
 	this.model = RPYeti.loader.models.yeti.clone();
 	this.model.userData.character = this;
 	this.model.name = 'yeti model';
@@ -30,13 +32,13 @@ RPYeti.Yeti = function (group) {
 	this.pivot.add(this.throw);
 
 	(function (self) {
-		self.model.traverse(function(child) {
+		self.model.traverse(function (child) {
 			child.userData.character = self;
 		});
-		self.prethrow.traverse(function(child) {
+		self.prethrow.traverse(function (child) {
 			child.userData.character = self;
 		});
-		self.throw.traverse(function(child) {
+		self.throw.traverse(function (child) {
 			child.userData.character = self;
 		});
 	})(this);

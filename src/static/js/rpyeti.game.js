@@ -26,7 +26,7 @@ RPYeti.game = (function() {
 
 			// create perspective camera
 			var fov = ( RPYeti.config.stereo ) ? RPYeti.config.cardboard.fov : RPYeti.config.desktop.fov;
-			this.camera = new THREE.PerspectiveCamera( fov, self.container.offsetWidth / self.container.offsetHeight, 0.1, 500 );
+			this.camera = new THREE.PerspectiveCamera( fov, self.container.offsetWidth / self.container.offsetHeight, 0.1, 350 );
 			this.camera.position.set( 0, 10, 0 );
 			this.scene.add( this.camera );
 
@@ -45,7 +45,7 @@ RPYeti.game = (function() {
 			this.controls.enablePan = false;
 
 			this.player = new RPYeti.Player();
-			this.gameplay = new RPYeti.Gameplay(this);
+			this.gameplay = new RPYeti.Gameplay(this, this.player, this.camera, this.scene);
 
 			//TODO: use or make key controls library instead of hardcoding
 			$(document).on('keydown', function(e) {
@@ -237,7 +237,7 @@ RPYeti.game = (function() {
 				map: texture,
 			});
 
-			var geometry = new THREE.PlaneGeometry(900, 900);
+			var geometry = new THREE.PlaneGeometry(700, 700);
 
 			var mesh = new THREE.Mesh( geometry, material );
 			mesh.rotation.x = -Math.PI / 2;
@@ -247,7 +247,7 @@ RPYeti.game = (function() {
 		},
 
 		addSky: function() {
-			var geometry = new THREE.SphereGeometry(450, 32, 32),
+			var geometry = new THREE.SphereGeometry(350, 32, 32),
 				material = new THREE.MeshBasicMaterial({
 					map: RPYeti.loader.textures.stars,
 					side: THREE.BackSide
@@ -270,8 +270,8 @@ RPYeti.game = (function() {
 			directional.castShadow = true;
 			directional.shadowMapWidth = 512;
 			directional.shadowMapHeight = 512;
-			directional.shadowCameraNear = 50;
-			directional.shadowCameraFar = 1000;
+			//directional.shadowCameraNear = 50;
+			//directional.shadowCameraFar = 500;
 			//directional.shadowCameraFov = 90;
 			self.scene.add( directional );
 
@@ -285,19 +285,21 @@ RPYeti.game = (function() {
 
 			for (var i = 0; i < arr.length; i++) {
 				var model = baseModel.clone(),
-					x = arr[i][0],
-					z = arr[i][1];
-					//distance = Math.sqrt(Math.pow(x, 2) + Math.pow(z, 2));
+					x = arr[i][0] * density,
+					z = arr[i][1] * density;
+					distance = Math.sqrt(Math.pow(x, 2) + Math.pow(z, 2));
 
-				model.translateX( x * density );
-				model.translateZ( z * density );
-				model.scale.set( scale, scale, scale );
+				if (distance < self.camera.far) {
+					model.translateX( x );
+					model.translateZ( z );
+					model.scale.set( scale, scale, scale );
 
-				if (rotation) {
-					model.rotateY(Math.random() * Math.PI * 2);
+					if (rotation) {
+						model.rotateY(Math.random() * Math.PI * 2);
+					}
+
+					group.add( model );
 				}
-
-				group.add( model );
 			}
 		},
 
@@ -473,15 +475,11 @@ RPYeti.game = (function() {
 					} else if( self.mounds.getObjectById( target.id ) ) {
 						effect = RPYeti.loader.sounds.tink;
 					} else if( self.gameplay.intro && self.gameplay.intro.getObjectById( target.id ) ) {
-						var t = target;
-						while (t.parent !== null) {
-							if (t.userData.introObj !== undefined) {
-								break;
-							}
-							t = t.parent;
-						}
-						self.player.trigger('intro.select', t.userData.introNumber);
+						setTimeout(function () {
+							self.player.trigger('intro.select', target.userData.introNumber);
+						}, 10);
 					}
+
 					if( effect ) {
 						var impact = new THREE.PositionalAudio( self.listener );
 						impact.setBuffer( effect );

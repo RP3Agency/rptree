@@ -101,9 +101,9 @@ RPYeti.Gameplay.prototype.levelComplete = function () {
 
 RPYeti.Gameplay.prototype.startIntro = function () {
 	var introPoints = RPYeti.loader.maps.main.intro,
-		treeModel = RPYeti.loader.models.tree,
+		treeModel = RPYeti.loader.models.decoratedtree,
 		signModel = RPYeti.loader.models.sign,
-		scale = 4,
+		scale = 5.5,
 		density = RPYeti.loader.maps.main.density,
 		cameraPos = this.camera.getWorldPosition();
 
@@ -117,17 +117,19 @@ RPYeti.Gameplay.prototype.startIntro = function () {
 
 		for (var i = 0; i < introPoints.length; i++) {
 			var tree = treeModel.clone(),
-				sign = signModel.clone(),
+				//sign = signModel.clone(),
 				x = introPoints[i][0],
 				z = introPoints[i][1];
 
 			tree.userData = { introObj: 'tree', introNumber: i };
-			tree.translateX( x * density + 10);
+			tree.translateX( x * density );
 			tree.translateZ( z * density );
 			tree.scale.set( scale, scale, scale );
 
+			tree.lookAt(cameraPos);
 			this.intro.add( tree );
 
+			/*
 			sign.userData = { introObj: 'sign', introNumber: i };
 			sign.translateX( x * density );
 			sign.translateZ( z * density );
@@ -145,12 +147,12 @@ RPYeti.Gameplay.prototype.startIntro = function () {
 			})(tree, sign);
 
 			this.intro.add( sign );
-
+*/
 			var position = tree.position.clone();
 			position.x += 10;
-			position.z -= 5;
+			position.z -= 15;
 
-			yeti = this.spawnYeti(this.intro, position, 1.35, 9001, 0);
+			yeti = this.spawnYeti(this.intro, position, 1.65, 9001, 0);
 		}
 
 		this.scene.add(this.intro);

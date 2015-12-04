@@ -103,11 +103,11 @@ RPYeti.config = {
 					max: function (level) { return -(level * 5); }
 				},
 				throwCount: {
-					min: function (level) { return Math.floor(level * 0.05); },
+					min: function (level) { return Math.floor(level * 0.01); },
 					max: function (level) { return Math.floor(level * 0.1); }
 				},
 				throwDelay: {
-					min: function (level) { return -(level * 40); },
+					min: function (level) { return -(level * 50); },
 					max: function (level) { return -(level * 20); }
 				},
 				health: function (level) { return Math.floor(level * 0.30); },
@@ -132,6 +132,7 @@ RPYeti.config = {
 		// models
 		{ type: 'Model', name: 'tree', mesh: 'tree.obj', skin: 'tree.mtl' },
 		{ type: 'Model', name: 'snowytree', mesh: 'tree-snow.obj', skin: 'tree-snow.mtl' },
+		{ type: 'Model', name: 'decoratedtree', mesh: 'decoratedtree.obj', skin: 'decoratedtree.mtl' },
 		{ type: 'Model', name: 'rock', mesh: 'rock1.obj', skin: 'rock1.mtl' },
 		{ type: 'Model', name: 'snowyrock', mesh: 'rock1snow.obj', skin: 'rock1snow.mtl' },
 		{ type: 'Model', name: 'log', mesh: 'log.obj', skin: 'log.mtl' },

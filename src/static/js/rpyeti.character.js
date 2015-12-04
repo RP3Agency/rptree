@@ -149,7 +149,7 @@ RPYeti.Character.prototype = {
 	},
 
 	setTimeout: function (action, delay) {
-		if (delay > 0 && typeof action === 'function') {
+		if (delay >= 0 && typeof action === 'function') {
 			var timer = { action: action, delay: delay / 1000, object: this, expired: false };
 
 			RPYeti.Character.timers.push(timer);

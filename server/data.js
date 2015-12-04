@@ -1,24 +1,34 @@
 /**
 * RPTree 2015 Server: Data module
 */
-/*
-// Get link to main module
-app = require.main.exports;
 
-app.config.debug && console.log('<DB> Loading data module');
+// Get link to main module
+var app = require.main.exports;
 
 // Load required modules
-var _ = require('lodash'),
-	Promise = require('bluebird'),
-	db = require('monk')(app.config.db);
+var _			= require('lodash'),
+	Promise		= require('bluebird'),
+	db			= require('monk')( app.config.db );
 
-// Ensure indexes
-var tweets = db.get('tweets');
-tweets.index({ 'id': -1 }, { unique: true });
-tweets.index({ 'timestamp': -1 });
+var data = _.bindAll({
 
-// Create database singleton
-var data = {
+	init: function() {
+
+		this.defineTweets();
+
+		app.emit( 'data:ready' );
+		console.log('Data initialized');
+	},
+
+	defineTweets: function() {
+		// Set up tweets collection
+		this.tweets = db.get('tweets');
+
+		// Ensure indexes
+		this.tweets.index({ 'id': -1 }, { unique: true });
+		this.tweets.index({ 'timestamp': -1 });
+	},
+
 	listTweets: function(params) {
 		var opts = {
 			skip: _.parseInt(params.skip) || 0,
@@ -41,25 +51,28 @@ var data = {
 			_.assign(query, { id: { $lt: params.priorTo } });
 		}
 
-		var result = tweets.find(query, opts)
+		var result = this.tweets.find(query, opts)
 		.error(function(err) {
-			console.log('<DB> !!! ERRROR: ', err);
+			console.log('## Data error: ', err);
 		});
 		return Promise.cast(result);
 	},
+
 	saveTweet: function(tweet) {
-		var result = tweets.findAndModify(
+		var result = this.tweets.findAndModify(
 			{ id: tweet.id },
 			{ $set: tweet },
 			{ upsert: true, new: true }
 		)
 		.error(function(err) {
-			console.log('<DB> !!! ERRROR: ', err);
+			console.log('## Data error: ', err);
 		});
 		return Promise.cast(result);
 	},
-};
 
-// Export data module
+});
+
+app.on( 'application:start', data.init );
+
+// Set module export
 module.exports = data;
-*/

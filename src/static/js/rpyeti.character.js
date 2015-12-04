@@ -150,22 +150,49 @@ RPYeti.Character.prototype = {
 
 	setTimeout: function (action, delay) {
 		if (delay > 0 && typeof action === 'function') {
-			var timer = { action: action, delay: delay / 1000, object: this };
+			var timer = { action: action, delay: delay / 1000, object: this, expired: false };
 
 			RPYeti.Character.timers.push(timer);
 			this.timers.push(timer);
+
+			return timer;
 		}
 	},
 
-	clearTimers: function () {
-		while (this.timers.length > 0) {
-			timer = this.timers.pop();
+	cleanupTimers: function () {
+		for (var i = this.timers.length - 1; i >= 0; i--) {
+			if (this.timers[i] === undefined || this.timers[i].expired) {
+				RPYeti.Character.timers.splice(i, 1);
+			}
+		}
+	},
+
+	clearTimer: function (timer, thisObjClean) {
+		if (timer !== undefined) {
+			timer.expired = true;
+
+			if (!thisObjClean) {
+				for (var i in this.timers) {
+					if (this.timers[i] == timer) {
+						delete this.timers[i];
+						break;
+					}
+				}
+			}
+
 			for (var i in RPYeti.Character.timers) {
 				if (RPYeti.Character.timers[i] == timer) {
 					delete RPYeti.Character.timers[i];
 					break;
 				}
 			}
+		}
+	},
+
+	clearTimers: function () {
+		while (this.timers.length > 0) {
+			timer = this.timers.pop();
+			this.clearTimer(timer, true);
 		}
 	}
 
@@ -186,6 +213,7 @@ RPYeti.Character.update = function (delta) {
 		context.delay -= delta;
 		if (context.delay <= 0) {
 			context.action.call( context.object );
+			context.expired = true;
 			RPYeti.Character.timers.splice(i, 1);
 		}
 	}

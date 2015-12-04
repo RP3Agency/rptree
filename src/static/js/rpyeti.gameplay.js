@@ -24,6 +24,11 @@ RPYeti.Gameplay = function (game, player, camera, scene) {
 		self.player.on('yeti.defeat', function (context, yeti) {
 			context.points += yeti.points;
 		});
+
+		self.player.on('yeti.defeated', function (context, yeti) {
+			self.currentLevelDefeated++;
+			self.nextRound();
+		})
 	})(this);
 };
 
@@ -46,7 +51,72 @@ RPYeti.Gameplay.prototype.start = function (level, reset) {
 RPYeti.Gameplay.prototype.levelBegin = function (level) {
 	this.game.hud.addText('Level ' + level);
 
-	this.sampleYetiSpawner();
+	this.settings = {
+		popTimer: {
+			min: 5000,
+			max: 10000
+		},
+		yeti: {
+			appearDelay: {
+				min: 3000,
+				max: 5000
+			},
+			throwCount: {
+				min: 1,
+				max: 3
+			},
+			throwDelay: {
+				min: 3000,
+				max: 6000
+			},
+			health: RPYeti.config.character.yeti.health,
+			total: 10,
+			maxOnScreen: 3,
+		}
+	};
+
+	//console.log(this.settings);
+
+	this.currentLevelDefeated = 0;
+
+	this.nextRound();
+};
+
+RPYeti.Gameplay.prototype.setTimer = function () {
+	if (this.popTimer === undefined || this.popTimer.expired) {
+		(function (self) {
+			self.popTimer = self.player.setTimeout(function () {
+				delete self.popTimer;
+
+				self.yetiSpawner();
+				self.setTimer();
+			}, self.random(self.settings.popTimer));
+		})(this);
+	}
+}
+
+RPYeti.Gameplay.prototype.stopTimer = function () {
+	console.log('timer stopped');
+	this.player.clearTimer(this.popTimer);
+	delete this.popTimer;
+}
+
+RPYeti.Gameplay.prototype.nextRound = function () {
+	if (this.currentLevelDefeated >= this.settings.yeti.total) {
+		this.levelComplete();
+	} else {
+		this.setTimer();
+	}
+};
+
+RPYeti.Gameplay.prototype.levelComplete = function () {
+	this.game.hud.addText('Level Complete<br/>Score: ' + this.player.points);
+	(function (self) {
+		self.stopTimer();
+		self.player.setTimeout(function () {
+			self.start(self.level + 1);
+		}, 5000);
+	})(this);
 };
 
 RPYeti.Gameplay.prototype.startIntro = function () {
@@ -177,8 +247,8 @@ RPYeti.Gameplay.prototype.spawnYeti = function (group, position, scale) {
 
 	if (position === undefined) {
 		while (tries-- > 0) {
-			var x = Math.floor(Math.random() * (RPYeti.config.character.maxX - RPYeti.config.character.minX + 1) + RPYeti.config.character.minX),
-				z = Math.floor(Math.random() * (RPYeti.config.character.maxZ - RPYeti.config.character.minZ + 1) + RPYeti.config.character.minZ);
+			var x = this.random(RPYeti.config.character.maxX, RPYeti.config.character.minX),
+				z = this.random(RPYeti.config.character.maxZ, RPYeti.config.character.minZ);
 
 			yeti.position(x, z, scale, cameraPos);
 			if (!yeti.isBlocked(cameraPos, blockers) && yeti.pivot.position.distanceTo(cameraPos) > 40) {
@@ -194,50 +264,52 @@ RPYeti.Gameplay.prototype.spawnYeti = function (group, position, scale) {
 	return yeti;
 };
 
-RPYeti.Gameplay.prototype.sampleYetiSpawner = function () {
-	/** SAMPLE YETI SPAWNER **/
-	function upd(gp) {
-		if (gp.characters.yetis.count < 20) {
-			var yeti = gp.spawnYeti(gp.yetis);
+RPYeti.Gameplay.prototype.yetiSpawner = function () {
+	if (this.characters.yetis.count < this.settings.yeti.maxOnScreen && (this.currentLevelDefeated + this.characters.yetis.count) < this.settings.yeti.total) {
+		var yeti = this.spawnYeti(this.yetis);
 
+		yeti.health = this.settings.yeti.health;
+
+		this.characters.yetis.objs[yeti.model.id] = yeti;
+		this.characters.yetis.count++;
+
+		(function (self, yeti) {
 			yeti.setAction(function (context) {
 				var pos = context.pivot.position.clone();
 				pos.y = context.handHeight;
 
-				gp.game.throwSnowball(pos, context);
+				self.game.throwSnowball(pos, context);
 			});
 
 			yeti.on('appear', function (context) {
-				if( context.roar ) {
+				if (context.roar) {
 					context.roar.stop();
 					context.roar.isPlaying = false;
 				} else {
-					context.roar = new THREE.PositionalAudio( gp.game.listener );
+					context.roar = new THREE.PositionalAudio( self.game.listener );
 					context.roar.setBuffer( RPYeti.loader.sounds.roar );
 					context.pivot.add( context.roar );
 				}
-				// delay roar by random amount to distinguish different yetis
-				setTimeout(function() {
-					context.roar.play();
-				}, Math.floor((Math.random() * 300)) );
 
-				context.fireCount = 0;
-				context.setTimeout(context.action, 2000);
+				context.roar.play();
+
+				context.throwCount = self.random(self.settings.yeti.throwCount);
+				context.setTimeout(context.action, self.random(self.settings.yeti.throwDelay));
 			});
 
 			yeti.on('disappear', function (context) {
-				context.setTimeout(context.appear, 5000);
+				context.setTimeout(context.appear, self.random(self.settings.yeti.appearDelay));
 			});
 
 			yeti.on('action', function (context) {
+				context.throwCount--;
 				context.setTimeout(function () {
-					if (context.fireCount < 2) {
+					if (context.throwCount > 0) {
 						context.action();
 					} else {
 						context.disappear();
 					}
-					context.fireCount++;
-				}, 3000);
+				}, self.random(self.settings.yeti.throwDelay));
 			});
 
 			yeti.on('defeat', function (context, param) {
@@ -245,32 +317,33 @@ RPYeti.Gameplay.prototype.sampleYetiSpawner = function () {
 					&& param.userData.initiator !== undefined
 					&& param.userData.initiator instanceof RPYeti.Yeti) {
 
-					gp.game.hud.addText('Yeti Crossfire');
-				} else if (param.userData.initiator == gp.player) {
-					gp.player.trigger('yeti.defeat', context);
-					gp.game.hud.addText('Yeti Down! ' + gp.player.points);
+					self.game.hud.addText('Yeti Crossfire');
+				} else if (param.userData.initiator == self.player) {
+					self.player.trigger('yeti.defeat', context);
+					self.game.hud.addText('Yeti Down! ' + self.player.points);
 				} else {
-					gp.game.hud.addText('Something Else Did It');
+					self.game.hud.addText('Something Else Did It');
 				}
 			});
 
 			yeti.on('defeated', function (context) {
-				delete gp.characters.yetis.objs[context.model.id];
-				gp.characters.yetis.count--;
+				delete self.characters.yetis.objs[context.model.id];
+				self.characters.yetis.count--;
+
+				self.player.trigger('yeti.defeated');
 
 				context.setTimeout(context.remove, 1500);
 			});
 
 			yeti.appear();
-
-			gp.characters.yetis.objs[yeti.model.id] = yeti;
-			gp.characters.yetis.count++;
-		}
-
-		setTimeout(function () {
-			upd(gp);
-		}, 10000);
+		})(this, yeti);
 	}
-	upd(this);
-	/** END SAMPLE YETI SPAWNER **/
+};
+
+RPYeti.Gameplay.prototype.random = function (min, max) {
+	if (typeof min == 'object') {
+		max = min.max;
+		min = min.min;
+	}
+	return Math.floor(Math.random() * (max - min + 1) + min);
 };

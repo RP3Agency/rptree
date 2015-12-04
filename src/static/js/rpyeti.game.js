@@ -477,7 +477,7 @@ RPYeti.game = (function() {
 					} else if( self.gameplay.intro && self.gameplay.intro.getObjectById( target.id ) ) {
 						setTimeout(function () {
 							self.player.trigger('intro.select', target.userData.introNumber);
-						}, 10);
+						}, 100);
 					}
 
 					if( effect ) {

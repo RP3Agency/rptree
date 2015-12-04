@@ -57,7 +57,7 @@ RPYeti.config = {
 		minZ: 150,
 		maxZ: -150,
 		yeti: {
-			health: 10,
+			health: 5,
 			points: 1,
 			appearEasing: TWEEN.Easing.Circular.In,
 			appearDuration: 1500,

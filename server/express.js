@@ -33,7 +33,8 @@ app.on('application:start', function() {
 
 		// set up HTTP redirect to HTTPS
 		http.createServer(function (req, res) {
-    		res.writeHead(301, { "Location": util.format( app.config.express.ssl.http.redirect, req.headers['host'] ) + req.url });
+			var hostname = req.headers['host'].replace( /^([^:]*):?\d*$/, '$1' );
+    		res.writeHead(302, { "Location": util.format( app.config.express.ssl.http.redirect, hostname ) + req.url });
     		res.end();
 		}).listen( app.config.express.ssl.http.port );
 	} else {

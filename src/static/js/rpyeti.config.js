@@ -7,7 +7,7 @@ RPYeti.config = {
 	stereo: false,
 	cardboard: {
 		fov: 75,
-		focalLength: 350,
+		focalLength: 250,
 		eyeSeparation: 1,
 		pupillaryBaseline: 750
 	},
@@ -57,7 +57,7 @@ RPYeti.config = {
 		minZ: 150,
 		maxZ: -150,
 		yeti: {
-			health: 10,
+			health: 5,
 			points: 1,
 			appearEasing: TWEEN.Easing.Circular.In,
 			appearDuration: 1500,

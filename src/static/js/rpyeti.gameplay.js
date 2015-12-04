@@ -226,7 +226,7 @@ RPYeti.Gameplay.prototype.sampleYetiSpawner = function () {
 					&& param.userData.initiator !== undefined
 					&& param.userData.initiator instanceof RPYeti.Yeti) {
 
-					gp.game.hud.addText('Yeti-on-yeti Violence');
+					gp.game.hud.addText('Yeti Crossfire');
 				} else if (param.userData.initiator == gp.game.player) {
 					gp.game.player.trigger('yeti.defeat', context);
 					gp.game.hud.addText('Yeti Down! ' + gp.game.player.points);

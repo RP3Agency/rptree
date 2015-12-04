@@ -1,24 +1,27 @@
 var RPYeti = RPYeti || {};
 
-RPYeti.Gameplay = function (game) {
+RPYeti.Gameplay = function (game, player, camera, scene) {
 	this.game = game;
+	this.player = player;
+	this.camera = camera;
+	this.scene = scene;
 	this.level = 0;
 
 	this.characters = { yetis: { count: 0, objs: {} } };
 
 	this.yetis = new THREE.Group();
-	this.game.scene.add( this.yetis );
+	this.scene.add( this.yetis );
 
 	(function (self) {
-		self.game.player.on('defeated', function (context) {
+		self.player.on('defeated', function (context) {
 			self.game.hud.addText('GAME OVER', 0);
 		});
 
-		self.game.player.on('hit', function (context) {
+		self.player.on('hit', function (context) {
 			self.game.hud.updateReticle();
 		});
 
-		self.game.player.on('yeti.defeat', function (context, yeti) {
+		self.player.on('yeti.defeat', function (context, yeti) {
 			context.points += yeti.points;
 		});
 	})(this);
@@ -30,7 +33,7 @@ RPYeti.Gameplay.prototype.start = function (level, reset) {
 	this.level = level;
 
 	if (reset) {
-		this.game.player.points = 0;
+		this.player.points = 0;
 	}
 
 	if (level == 0) {
@@ -52,10 +55,10 @@ RPYeti.Gameplay.prototype.startIntro = function () {
 		signModel = RPYeti.loader.models.sign,
 		scale = 4,
 		density = RPYeti.loader.maps.main.density,
-		cameraPos = this.game.camera.getWorldPosition();
+		cameraPos = this.camera.getWorldPosition();
 
 		if (this.intro !== undefined) {
-			this.game.scene.remove(this.intro);
+			this.scene.remove(this.intro);
 			while (this.intro.children.length) { this.intro.children.pop(); }
 		}
 
@@ -82,17 +85,33 @@ RPYeti.Gameplay.prototype.startIntro = function () {
 
 			sign.lookAt(cameraPos);
 
+			(function (tree, sign) {
+				tree.traverse(function (child) {
+					child.userData = tree.userData;
+				});
+				sign.traverse(function (child) {
+					child.userData = sign.userData;
+				});
+			})(tree, sign);
+
 			this.intro.add( sign );
+
+			var position = tree.position.clone();
+			position.x += 10;
+			position.z -= 5;
+
+			yeti = this.spawnYeti(this.intro, position, 1.35);
 		}
 
-		this.game.scene.add(this.intro);
+		this.scene.add(this.intro);
 		this.game.snowballBlockers.push(this.intro);
 
 		(function (self) {
-			self.game.player.on('intro.select', function (context, number) {
+			self.player.on('intro.select', function (context, number) {
 				context.selected = number;
 
 				// TODO: Something with selection
+				console.log('selected ' + number);
 
 				self.endIntro(number);
 			});
@@ -102,17 +121,17 @@ RPYeti.Gameplay.prototype.startIntro = function () {
 RPYeti.Gameplay.prototype.endIntro = function (number) {
 	var yeti = null;
 
-	this.game.player.on('intro.select', function () {});
+	this.player.on('intro.select', function () {});
 
 	for (var i in this.intro.children) {
-		if (this.intro.children[i].userData && this.intro.children[i].userData.introObj == 'tree') {
-			var position = this.intro.children[i].position.clone();
-			position.x += 10;
-			position.z -= 5;
-
-			yeti = this.spawnYeti(this.intro, position, 1.35);
+		if (this.intro.children[i].userData && this.intro.children[i].userData.character instanceof RPYeti.Yeti) {
+			yeti = this.intro.children[i].userData.character;
 			yeti.appear();
 		}
+	}
+
+	if (yeti === null) {
+		return;
 	}
 
 	// Attach to last yeti instance only
@@ -129,7 +148,7 @@ RPYeti.Gameplay.prototype.endIntro = function (number) {
 					.onComplete(function () {
 						// Cleanup
 						if (self.intro !== undefined) {
-							self.game.scene.remove(self.intro);
+							self.scene.remove(self.intro);
 							while (self.intro.children.length) { self.intro.children.pop(); }
 							for (var i = self.game.snowballBlockers.length + 1; i > 0; i--) {
 								if (self.game.snowballBlockers[i] == self.intro) {
@@ -152,7 +171,7 @@ RPYeti.Gameplay.prototype.endIntro = function (number) {
 
 RPYeti.Gameplay.prototype.spawnYeti = function (group, position, scale) {
 	var yeti = new RPYeti.Yeti(group),
-		cameraPos = this.game.camera.getWorldPosition(),
+		cameraPos = this.camera.getWorldPosition(),
 		blockers = [ this.game.trees, this.yetis ],
 		tries = 100;
 
@@ -226,10 +245,10 @@ RPYeti.Gameplay.prototype.sampleYetiSpawner = function () {
 					&& param.userData.initiator !== undefined
 					&& param.userData.initiator instanceof RPYeti.Yeti) {
 
-					gp.game.hud.addText('Yeti-on-yeti Violence');
-				} else if (param.userData.initiator == gp.game.player) {
-					gp.game.player.trigger('yeti.defeat', context);
-					gp.game.hud.addText('Yeti Down! ' + gp.game.player.points);
+					gp.game.hud.addText('Yeti Crossfire');
+				} else if (param.userData.initiator == gp.player) {
+					gp.player.trigger('yeti.defeat', context);
+					gp.game.hud.addText('Yeti Down! ' + gp.player.points);
 				} else {
 					gp.game.hud.addText('Something Else Did It');
 				}

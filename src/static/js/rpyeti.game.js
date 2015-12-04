@@ -476,7 +476,13 @@ RPYeti.game = (function() {
 						effect = RPYeti.loader.sounds.tink;
 					} else if( self.gameplay.intro && self.gameplay.intro.getObjectById( target.id ) ) {
 						setTimeout(function () {
-							self.player.trigger('intro.select', target.userData.introNumber);
+							var t = target;
+							while (t.type != 'Object3D' && t.parent != null) {
+								t = t.parent;
+							}
+							if (t.name.match(/Sphere/i)) {
+								self.player.trigger('intro.select', t.name);
+							}
 						}, 100);
 					}
 

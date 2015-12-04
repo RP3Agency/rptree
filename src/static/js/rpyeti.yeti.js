@@ -1,13 +1,13 @@
 var RPYeti = RPYeti || {};
 
-RPYeti.Yeti = function (group) {
+RPYeti.Yeti = function (group, health, points) {
 	RPYeti.Character.call( this );
 
 	this.name = '';
 	this.type = 'Yeti';
 
-	this.health = RPYeti.config.character.yeti.health;
-	this.points = RPYeti.config.character.yeti.points;
+	this.health = health || 0;
+	this.points = points || 0;
 	this.group = group;
 	this.handHeight = 12;
 	this.xoffset = 5;

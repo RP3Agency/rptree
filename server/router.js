@@ -27,17 +27,14 @@ var router = _.bindAll({
 	// Define REST route to retrieve tweets
 	getFeed: function(req, res) {
 		app.config.debug && console.log('Router: feed request, params = ' + JSON.stringify(req.params));
-		// app.data.listTweets(req.params)
-		// .then(function(tweets) {
-		// 	res.json(tweets);
-		// })
-		// .catch(function(err) {
-		// 	app.config.debug && console.log('## Router error: ', err);
-		// 	res.status(500);
-		// });
-
-		//TODO debug statement below
-		res.json({});
+		app.data.listTweets(req.params)
+		.then(function(tweets) {
+		 	res.json(tweets);
+		})
+		.catch(function(err) {
+			app.config.debug && console.log('## Router error: ', err);
+			res.status(500);
+		});
 	},
 
 });

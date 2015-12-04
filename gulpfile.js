@@ -29,6 +29,7 @@ var gulp			= require('gulp'),
 	express			= require('express'),
 	server			= express(),
 	compress		= require( 'compression' ),
+	nodemon			= require('gulp-nodemon'),
 
 	// Deployment
 	aws_s3			= require('gulp-s3-upload')({
@@ -149,6 +150,22 @@ gulp.task('serve', function() {
 	gutil.log('LiveReload server activated');
 });
 
+// Run server app in watch mode with livereload
+gulp.task('launch', function (cb) {
+    nodemon({
+        script:	'server/index.js',
+        watch:	[ 'server/', 'config/' ],
+		ext:	'js json',
+		env:	{ 'NODE_ENV': 'staging' },
+    }).on('start', function() {
+		gutil.log('Launched application server in live development mode');
+		livereload.listen();
+		gutil.log('LiveReload server activated');
+    }).on('restart', function() {
+		gutil.log('Restarted application server');
+	});
+});
+
 // Watch task
 gulp.task('watch', function() {
 
@@ -160,10 +177,10 @@ gulp.task('watch', function() {
 });
 
 // Default task
-gulp.task('default', [ 'build', 'watch' ]);
+gulp.task('default', [ 'build', 'serve', 'watch' ]);
 
 // Develop task
-gulp.task('develop', [ 'build', 'serve', 'watch' ]);
+gulp.task('develop', [ 'build', 'launch', 'watch' ]);
 
 // Deploy task
 gulp.task('deploy', function() {

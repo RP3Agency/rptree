@@ -113,7 +113,11 @@ RPYeti.HUD.prototype.updateReticle = function() {
 		this.hud.font = 'normal ' + textSize + 'px GameFont';
 		this.hud.textAlign = 'center';
 		this.hud.fillStyle = RPYeti.config.hud.textStyle;
-		this.hud.fillText(this.text, RPYeti.config.hud.canvasWidth / 2, RPYeti.config.hud.canvasHeight / 2 + textPos);
+
+		var parts = this.text.split('\n');
+		for (var i in parts) {
+			this.hud.fillText(parts[i], RPYeti.config.hud.canvasWidth / 2, RPYeti.config.hud.canvasHeight / 2 + textPos + (i * textSize));
+		}
 	}
 
 	this.hudTexture.needsUpdate = true;

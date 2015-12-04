@@ -21,7 +21,7 @@ RPYeti.config = {
 		size: 1,
 		lod: 8,
 		speed: 70,
-		range: 450,
+		range: 250,
 		rate: 200,
 		damage: 5,
 	},
@@ -57,14 +57,63 @@ RPYeti.config = {
 		minZ: 150,
 		maxZ: -150,
 		yeti: {
-			health: 5,
-			points: 1,
 			appearEasing: TWEEN.Easing.Circular.In,
 			appearDuration: 1500,
 			disappearEasing: TWEEN.Easing.Circular.Out,
 			disappearDuration: 500,
 			defeatEasing: TWEEN.Easing.Bounce.Out,
 			defeatDuration: 2000
+		}
+	},
+
+	gameplay: {
+		baseline: {
+			popTimer: {
+				min: 5000,
+				max: 10000
+			},
+			yeti: {
+				appearDelay: {
+					min: 3000,
+					max: 5000
+				},
+				throwCount: {
+					min: 1,
+					max: 2
+				},
+				throwDelay: {
+					min: 4000,
+					max: 6000
+				},
+				health: 5,
+				points: 1,
+				total: 10,
+				maxOnScreen: 3,
+			}
+		},
+
+		modifiers: {
+			popTimer: {
+				min: function (level) { return -(level * 80); },
+				max: function (level) { return -(level * 60); }
+			},
+			yeti: {
+				appearDelay: {
+					min: function (level) { return -(level * 15); },
+					max: function (level) { return -(level * 5); }
+				},
+				throwCount: {
+					min: function (level) { return Math.floor(level * 0.05); },
+					max: function (level) { return Math.floor(level * 0.1); }
+				},
+				throwDelay: {
+					min: function (level) { return -(level * 40); },
+					max: function (level) { return -(level * 20); }
+				},
+				health: function (level) { return Math.floor(level * 0.30); },
+				total: function (level) { return Math.floor(level * 0.45); },
+				maxOnScreen: function (level) { return Math.floor(level * .08); },
+			}
 		}
 	},
 

@@ -152,7 +152,7 @@ RPYeti.Gameplay.prototype.startIntro = function () {
 			position.x += 10;
 			position.z -= 15;
 
-			yeti = this.spawnYeti(this.intro, position, 1.65, 9001, 0);
+			yeti = this.spawnYeti(this.intro, position, undefined, 1.85, 9001, 0);
 		}
 
 		this.scene.add(this.intro);
@@ -160,12 +160,14 @@ RPYeti.Gameplay.prototype.startIntro = function () {
 
 		(function (self) {
 			self.player.on('intro.select', function (context, number) {
-				context.selected = number;
+				if (number.match(/decoration\d/i)) {
+					context.selected = number;
 
-				// TODO: Something with selection
-				console.log('selected ' + number);
+					// TODO: Something with selection
+					console.log('selected ' + number);
 
-				self.endIntro(number);
+					self.endIntro(number);
+				}
 			});
 		})(this);
 };
@@ -221,9 +223,10 @@ RPYeti.Gameplay.prototype.endIntro = function (number) {
 	})(this);
 };
 
-RPYeti.Gameplay.prototype.spawnYeti = function (group, position, scale, health, points) {
+RPYeti.Gameplay.prototype.spawnYeti = function (group, position, lookAt, scale, health, points) {
 	var yeti = new RPYeti.Yeti(group, health, points),
 		cameraPos = this.camera.getWorldPosition(),
+		lookAt = lookAt || cameraPos,
 		blockers = [ this.game.trees, this.yetis ],
 		tries = 100;
 
@@ -232,13 +235,13 @@ RPYeti.Gameplay.prototype.spawnYeti = function (group, position, scale, health, 
 			var x = this.random(RPYeti.config.character.maxX, RPYeti.config.character.minX),
 				z = this.random(RPYeti.config.character.maxZ, RPYeti.config.character.minZ);
 
-			yeti.position(x, z, scale, cameraPos);
+			yeti.position(x, z, scale, lookAt);
 			if (!yeti.isBlocked(cameraPos, blockers) && yeti.pivot.position.distanceTo(cameraPos) > 40) {
 				break;
 			}
 		}
 	} else {
-		yeti.position(position.x, position.z, scale, cameraPos);
+		yeti.position(position.x, position.z, scale, lookAt);
 	}
 
 	yeti.hide();
@@ -248,7 +251,7 @@ RPYeti.Gameplay.prototype.spawnYeti = function (group, position, scale, health, 
 
 RPYeti.Gameplay.prototype.yetiSpawner = function () {
 	if (this.characters.yetis.count < this.settings.yeti.maxOnScreen && (this.currentLevelDefeated + this.characters.yetis.count) < this.settings.yeti.total) {
-		var yeti = this.spawnYeti(this.yetis, undefined, undefined, this.settings.yeti.health, this.settings.yeti.points);
+		var yeti = this.spawnYeti(this.yetis, undefined, undefined, undefined, this.settings.yeti.health, this.settings.yeti.points);
 
 		this.characters.yetis.objs[yeti.model.id] = yeti;
 		this.characters.yetis.count++;

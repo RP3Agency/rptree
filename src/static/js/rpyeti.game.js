@@ -260,16 +260,17 @@ RPYeti.game = (function() {
 			var ambient = new THREE.AmbientLight(0x888888);
 			self.scene.add( ambient );
 
-			var light = new THREE.HemisphereLight(0xffffff, 0x000000, 0.3);
+			var light = new THREE.HemisphereLight(0xffdddd, 0x333333, 0.3);
 			self.scene.add( light );
 
 			var directional = new THREE.DirectionalLight( 0xddeeff, 0.6 );
 			directional.position.x	= -600;
-			directional.position.y	= 400;
-			directional.position.z	= 20;
+			directional.position.y	= 600;
+			directional.position.z	= -400;
 			directional.castShadow = true;
 			directional.shadowMapWidth = 512;
 			directional.shadowMapHeight = 512;
+			directional.target = this.camera;
 			//directional.shadowCameraNear = 50;
 			//directional.shadowCameraFar = 500;
 			//directional.shadowCameraFov = 90;
@@ -480,9 +481,7 @@ RPYeti.game = (function() {
 							while (t.type != 'Object3D' && t.parent != null) {
 								t = t.parent;
 							}
-							if (t.name.match(/Sphere/i)) {
-								self.player.trigger('intro.select', t.name);
-							}
+							self.player.trigger('intro.select', t.name);
 						}, 100);
 					}
 

@@ -13,7 +13,7 @@
 		width: 90%;
 
 		@include breakpoint( 640px ) {
-			min-height: 450px;
+			min-height: 475px;
 		}
 
 		&--banner {
@@ -47,6 +47,7 @@
 .facebook-share,
 .twitter-share {
 	@extend %eight-bit-border;
+	background-color: rgba(9,9,9,0.1);
 	display: inline-block;
 	height: 37px;
 	width: 37px;

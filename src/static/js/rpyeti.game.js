@@ -468,7 +468,7 @@ RPYeti.game = (function() {
 						effect = RPYeti.loader.sounds.oof;
 					} else if( self.snowballs.getObjectById( target.id ) ) {
 						self.removeSnowball( target );
-						effect = RPYeti.loader.sounds.splat;
+						effect = RPYeti.loader.sounds.tink;
 					} else if( self.trees.getObjectById( target.id ) ) {
 						effect = RPYeti.loader.sounds.thump;
 					} else if ( self.rocks.getObjectById( target.id ) ) {

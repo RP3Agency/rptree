@@ -1,7 +1,7 @@
 # Blender MTL File: 'snowytree.blend'
 # Material Count: 5
 
-newmtl Bark
+newmtl Bark.001
 Ns 96.078431
 Ka 1.000000 1.000000 1.000000
 Kd 0.106293 0.057133 0.010026
@@ -11,7 +11,7 @@ Ni 1.000000
 d 1.000000
 illum 2
 
-newmtl Leaves
+newmtl Leaves.001
 Ns 96.078431
 Ka 1.000000 1.000000 1.000000
 Kd 0.080912 0.171230 0.013649
@@ -21,7 +21,7 @@ Ni 1.000000
 d 1.000000
 illum 2
 
-newmtl Sphere1_mat
+newmtl Material.001
 Ns 96.078431
 Ka 1.000000 1.000000 1.000000
 Kd 0.640000 0.640000 0.640000
@@ -31,7 +31,7 @@ Ni 1.000000
 d 1.000000
 illum 2
 
-newmtl Sphere2_mat
+newmtl charity-tex
 Ns 96.078431
 Ka 1.000000 1.000000 1.000000
 Kd 0.640000 0.640000 0.640000
@@ -40,11 +40,14 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 2
+map_Kd ../textures/patterns/charity_tex.png
+map_Ka ../textures/patterns/charity_tex.png
 
-newmtl Sphere3_mat
-Ns 96.078431
+
+newmtl rp3
+Ns 90.196078
 Ka 1.000000 1.000000 1.000000
-Kd 0.640000 0.640000 0.640000
+Kd 0.000000 0.262222 0.683994
 Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
 Ni 1.000000

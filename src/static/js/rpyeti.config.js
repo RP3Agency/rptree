@@ -144,7 +144,7 @@ RPYeti.config = {
 		{ type: 'Model', name: 'yeti_throw', mesh: 'yeti-throw.obj', skin: 'yeti-throw.mtl' },
 
 		// sounds
-		{ type: 'Sound', name: 'throw', file: 'throw.wav' },
+		{ type: 'Sound', name: 'throw', file: 'throw.mp3' },
 		{ type: 'Sound', name: 'roar', file: 'roar.mp3' },
 		{ type: 'Sound', name: 'oof', file: 'oof.mp3' },
 		{ type: 'Sound', name: 'tink', file: 'tink.mp3' },      // placeholder

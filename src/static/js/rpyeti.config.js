@@ -69,21 +69,21 @@ RPYeti.config = {
 	gameplay: {
 		baseline: {
 			popTimer: {
-				min: 5000,
-				max: 10000
+				min: 2000,
+				max: 7500
 			},
 			yeti: {
 				appearDelay: {
 					min: 3000,
-					max: 5000
+					max: 7000
 				},
 				throwCount: {
 					min: 1,
 					max: 2
 				},
 				throwDelay: {
-					min: 4000,
-					max: 6000
+					min: 2000,
+					max: 5000
 				},
 				health: 5,
 				points: 1,
@@ -94,25 +94,25 @@ RPYeti.config = {
 
 		modifiers: {
 			popTimer: {
-				min: function (level) { return -(level * 80); },
-				max: function (level) { return -(level * 60); }
+				min: function (level) { return -(level * 120); },
+				max: function (level) { return -(level * 65); }
 			},
 			yeti: {
 				appearDelay: {
-					min: function (level) { return -(level * 15); },
-					max: function (level) { return -(level * 5); }
+					min: function (level) { return -(level * 150); },
+					max: function (level) { return -(level * 25); }
 				},
 				throwCount: {
 					min: function (level) { return Math.floor(level * 0.01); },
-					max: function (level) { return Math.floor(level * 0.1); }
+					max: function (level) { return Math.floor(level * 0.15); }
 				},
 				throwDelay: {
-					min: function (level) { return -(level * 50); },
-					max: function (level) { return -(level * 20); }
+					min: function (level) { return -(level * 100); },
+					max: function (level) { return -(level * 55); }
 				},
-				health: function (level) { return Math.floor(level * 0.30); },
+				health: function (level) { return Math.floor(level * 0.5); },
 				total: function (level) { return Math.floor(level * 0.45); },
-				maxOnScreen: function (level) { return Math.floor(level * .08); },
+				maxOnScreen: function (level) { return Math.floor(level * .09); },
 			}
 		}
 	},

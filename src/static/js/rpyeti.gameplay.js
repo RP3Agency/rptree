@@ -61,6 +61,8 @@ RPYeti.Gameplay.prototype.levelBegin = function (level) {
 
 	this.modSettings(this.settings, RPYeti.config.gameplay.modifiers, (level - 1));
 	this.nextRound();
+
+	//console.log(this.settings);
 };
 
 RPYeti.Gameplay.prototype.setTimer = function () {

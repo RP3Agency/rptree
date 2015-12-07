@@ -204,7 +204,8 @@ gulp.task( 'scripts-bower', function() {
 			bower_dir + '/backbone/backbone.js',
 			bower_dir + '/masonry/dist/masonry.pkgd.js',
 			bower_dir + '/Font.js/Font.js',
-			bower_dir + '/tween.js/src/Tween.js'
+			bower_dir + '/tween.js/src/Tween.js',
+			bower_dir + '/js-cookie/src/js.cookie.js'
 		];
 
 	return gulp.src( bower_files )

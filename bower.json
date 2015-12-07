@@ -28,7 +28,8 @@
     "masonry": "~3.3.2",
     "backbone": "~1.2.3",
     "moment": "~2.10.6",
-    "susy": "~2.2.7"
+    "susy": "~2.2.7",
+    "waypoints": "~4.0.0"
   },
   "dependencies": {
     "tween.js": "tweenjs#~16.3.1",

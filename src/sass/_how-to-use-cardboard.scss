@@ -8,7 +8,7 @@
 		display: flex;
 		flex-wrap: wrap;
 		list-style-type: none;
-		margin: 0;
+		margin: 40px 0 0 0;
 		padding: 0;
 		justify-content: space-between;
 		text-align: left;
@@ -38,5 +38,18 @@
 			display: block;
 			margin-bottom: 1rem;
 		}
+	}
+
+	h2 {
+		text-shadow: 2px 1px #000;
+	}
+
+	&__tree-img {
+		background-image: url('../images/tree-snippet.png');
+		background-repeat: no-repeat;
+		background-size: contain;
+		height: rem(75px);
+		margin: 40px auto 30px;
+		width: rem(185px);
 	}
 }

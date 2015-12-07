@@ -66,9 +66,10 @@ RPYeti.loader = (function() {
 						child.castShadow = true;
 						child.receiveShadow = true;
 						child.material.side = THREE.DoubleSide;
-						if( child.material.map ) {
-							child.material.map.anisotropy = RPYeti.config.maxAnisotropy;
+						if( child.material.map && model.name.match(/yeti.*/)) {
 							child.material.map.minFilter = THREE.NearestFilter;
+						} else if (child.material.map && !(model.name == 'snowytree')) {
+							child.material.map.anisotropy = RPYeti.config.maxAnisotropy;
 						}
 					}
 				});

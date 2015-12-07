@@ -105,53 +105,37 @@ RPYeti.Gameplay.prototype.levelComplete = function () {
 
 RPYeti.Gameplay.prototype.startIntro = function () {
 	var introPoints = RPYeti.loader.maps.main.intro,
+		signs = [ RPYeti.loader.models.sign_cn, RPYeti.loader.models.sign_ja, RPYeti.loader.models.sign_wawf ],
 		treeModel = RPYeti.loader.models.decoratedtree,
-		signModel = RPYeti.loader.models.sign,
-		scale = 5.5,
+		treeScale = 5,
+		signScale = 4,
 		density = RPYeti.loader.maps.main.density,
-		cameraPos = this.camera.getWorldPosition();
+		cameraPos = this.camera.getWorldPosition(),
+		centerPos = null;
 
 		if (this.intro !== undefined) {
 			this.scene.remove(this.intro);
 			while (this.intro.children.length) { this.intro.children.pop(); }
 		}
 
-		this.intro = new THREE.Group();
-		cameraPos.y = signModel.position.y;
+		cameraPos.y = treeModel.position.y;
 
+		this.intro = new THREE.Group();
 		for (var i = 0; i < introPoints.length; i++) {
 			var tree = treeModel.clone(),
-				//sign = signModel.clone(),
-				x = introPoints[i][0],
-				z = introPoints[i][1];
+				x = introPoints[i][0] * density,
+				z = introPoints[i][1] * density;
 
 			tree.userData = { introObj: 'tree', introNumber: i };
-			tree.translateX( x * density );
-			tree.translateZ( z * density );
-			tree.scale.set( scale, scale, scale );
+			tree.translateX(x + 8);
+			tree.translateZ(z);
+			tree.scale.set(treeScale, treeScale, treeScale);
 
 			tree.lookAt(cameraPos);
-			this.intro.add( tree );
+			this.intro.add(tree);
 
-			/*
-			sign.userData = { introObj: 'sign', introNumber: i };
-			sign.translateX( x * density );
-			sign.translateZ( z * density );
-			sign.scale.set( scale, scale, scale );
+			centerPos = tree.position.clone();
 
-			sign.lookAt(cameraPos);
-
-			(function (tree, sign) {
-				tree.traverse(function (child) {
-					child.userData = tree.userData;
-				});
-				sign.traverse(function (child) {
-					child.userData = sign.userData;
-				});
-			})(tree, sign);
-
-			this.intro.add( sign );
-*/
 			var position = tree.position.clone();
 			position.x += 10;
 			position.z -= 15;
@@ -159,13 +143,34 @@ RPYeti.Gameplay.prototype.startIntro = function () {
 			yeti = this.spawnYeti(this.intro, position, undefined, 1.85, 9001, 0);
 		}
 
+		cameraPos.y = signs[0].position.y;
+		if (centerPos != null) {
+			var xOffset = 12;
+
+			centerPos.x -= 15;
+			centerPos.z -= xOffset * Math.floor(signs.length / 2);
+
+			for (var i = 0; i < signs.length; i++) {
+				signs[i].userData = { introObj: 'sign', introNumber: i };
+				signs[i].position.set(centerPos.x, centerPos.y, centerPos.z);
+				signs[i].scale.set(signScale, signScale, signScale);
+
+				signs[i].lookAt(cameraPos);
+
+				this.intro.add(signs[i]);
+
+				centerPos.z += xOffset;
+			}
+		}
+
 		this.scene.add(this.intro);
 		this.game.snowballBlockers.push(this.intro);
 
 		(function (self) {
 			self.player.on('intro.select', function (context, number) {
-				if (number.match(/decoration\d/i)) {
-					context.selected = number;
+				var pattern = /decoration_(.*)/i;
+				if (number.match(pattern)) {
+					context.selected = number.replace(pattern, '$1');
 
 					RPYeti.service.publisher.trigger('rpyeti.game.charity', context.selected);
 

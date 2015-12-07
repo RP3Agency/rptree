@@ -68,6 +68,23 @@ var data = _.bindAll({
 		return Promise.cast( result );
 	},
 
+	getHighestScore: function() {
+		var aggregate = Promise.promisify( this.players.col.aggregate, { context: this.players.col } );
+		return aggregate([
+  			{ $match : { highScore: { $exists: true } } },
+  			{ $group: {
+      			_id: 1,
+      			highestScore: { $max: "$highScore" },
+  			}}
+		]).then(function(result) {
+			if( result.length ) {
+				return _.pick( result[0], 'highestScore' );
+			} else {
+				return null;
+			}
+		});
+	},
+
 	saveTweet: function(tweet) {
 		var result = this.tweets.findAndModify(
 			{ id: tweet.id },

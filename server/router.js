@@ -21,6 +21,7 @@ var router = _.bindAll({
 			app.express.get( '/feed', self.getFeed );
 
 			app.express.all( '/api/player', self.savePlayer );
+			app.express.all( '/api/highest', self.getHighestScore );
 		});
 
 		console.log( 'Router initialized' );
@@ -39,11 +40,24 @@ var router = _.bindAll({
 		});
 	},
 
-	// Define REST route to retrieve player
+	// Define REST route to retrieve tweets
+	getHighestScore: function(req, res) {
+		app.config.debug && console.log( 'Router: get high score, params = ' + JSON.stringify( req.query ) );
+		app.data.getHighestScore()
+		.then(function(score) {
+		 	res.json( score );
+		})
+		.catch(function(err) {
+			app.config.debug && console.log( '## Router error: ', err );
+			res.status( 500 );
+		});
+	},
+
+	// Define REST route to retrieve save
 	savePlayer: function(req, res) {
 		app.config.debug && console.log( 'Router: save player, params = ' + JSON.stringify( req.query ) );
 		app.data.savePlayer( req.query )
-		.then(function( player ) {
+		.then(function(player) {
 		 	res.json( player );
 		})
 		.catch(function(err) {

@@ -111,7 +111,7 @@ RPYeti.game = (function() {
 			$(window).on('resize', this.resize);
 			setTimeout(this.resize, 1);
 
-			this.gameplay.start(0, true);
+			setTimeout(function () { self.gameplay.start(0, true); }, 1000)
 		},
 
 		/** Methods / Callbacks **/

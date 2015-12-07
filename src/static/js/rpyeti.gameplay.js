@@ -194,7 +194,7 @@ RPYeti.Gameplay.prototype.endIntro = function (number) {
 	(function (self) {
 		yeti.on('appear', function (context) {
 			context.roar = new THREE.PositionalAudio( self.game.listener );
-			context.roar.setBuffer( RPYeti.loader.sounds.roar );
+			context.roar.setBuffer( RPYeti.loader.sounds.yeti_roar );
 			context.pivot.add( context.roar );
 
 			var bounds = new THREE.Box3().setFromObject(self.intro);
@@ -272,7 +272,7 @@ RPYeti.Gameplay.prototype.yetiSpawner = function () {
 					context.roar.isPlaying = false;
 				} else {
 					context.roar = new THREE.PositionalAudio( self.game.listener );
-					context.roar.setBuffer( RPYeti.loader.sounds.roar );
+					context.roar.setBuffer( RPYeti.loader.sounds.yeti_roar );
 					context.pivot.add( context.roar );
 				}
 

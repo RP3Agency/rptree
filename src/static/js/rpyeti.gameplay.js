@@ -148,8 +148,6 @@ RPYeti.Gameplay.prototype.startIntro = function () {
 			centerPos.x -= 15;
 			centerPos.z -= xOffset * Math.floor(signs.length / 2);
 
-			console.log(centerPos);
-
 			for (var i = 0; i < signs.length; i++) {
 				signs[i].userData = { introObj: 'sign', introNumber: i };
 				signs[i].position.set(centerPos.x, centerPos.y, centerPos.z);

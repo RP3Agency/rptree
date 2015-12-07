@@ -85,6 +85,8 @@ var data = _.bindAll({
 			player.id = uuid.v1();
 		}
 		player = _.omit( player, '_id' );
+		player.highScore = parseInt( player.highScore );
+		player.lastScore = parseInt( player.lastScore );
 		var result = this.players.findAndModify(
 			{ id: player.id },
 			{ $set: player },

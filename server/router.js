@@ -16,28 +16,40 @@ var router = _.bindAll({
 
 		// subscribe to Express ready event
 		app.on('express:ready', function() {
-			console.log('Adding routes to Express');
+			console.log( 'Adding routes to Express' );
 
 			app.express.get( '/feed', self.getFeed );
+
+			app.express.all( '/api/player', self.savePlayer );
 		});
 
-		console.log('Router initialized');
+		console.log( 'Router initialized' );
 	},
 
 	// Define REST route to retrieve tweets
 	getFeed: function(req, res) {
-		app.config.debug && console.log('Router: feed request, params = ' + JSON.stringify(req.params));
-		// app.data.listTweets(req.params)
-		// .then(function(tweets) {
-		// 	res.json(tweets);
-		// })
-		// .catch(function(err) {
-		// 	app.config.debug && console.log('## Router error: ', err);
-		// 	res.status(500);
-		// });
+		app.config.debug && console.log( 'Router: feed request, params = ' + JSON.stringify( req.query ) );
+		app.data.listTweets( req.query )
+		.then(function(tweets) {
+		 	res.json( tweets );
+		})
+		.catch(function(err) {
+			app.config.debug && console.log( '## Router error: ', err );
+			res.status( 500 );
+		});
+	},
 
-		//TODO debug statement below
-		res.json({});
+	// Define REST route to retrieve player
+	savePlayer: function(req, res) {
+		app.config.debug && console.log( 'Router: save player, params = ' + JSON.stringify( req.query ) );
+		app.data.savePlayer( req.query )
+		.then(function( player ) {
+		 	res.json( player );
+		})
+		.catch(function(err) {
+			app.config.debug && console.log( '## Router error: ', err );
+			res.status(500);
+		});
 	},
 
 });

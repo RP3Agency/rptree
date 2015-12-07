@@ -21,7 +21,7 @@ RPYeti.config = {
 		size: 1,
 		lod: 8,
 		speed: 70,
-		range: 450,
+		range: 250,
 		rate: 200,
 		damage: 5,
 	},
@@ -57,14 +57,63 @@ RPYeti.config = {
 		minZ: 150,
 		maxZ: -150,
 		yeti: {
-			health: 5,
-			points: 1,
 			appearEasing: TWEEN.Easing.Circular.In,
 			appearDuration: 1500,
 			disappearEasing: TWEEN.Easing.Circular.Out,
 			disappearDuration: 500,
 			defeatEasing: TWEEN.Easing.Bounce.Out,
 			defeatDuration: 2000
+		}
+	},
+
+	gameplay: {
+		baseline: {
+			popTimer: {
+				min: 2000,
+				max: 7500
+			},
+			yeti: {
+				appearDelay: {
+					min: 3000,
+					max: 7000
+				},
+				throwCount: {
+					min: 1,
+					max: 2
+				},
+				throwDelay: {
+					min: 2000,
+					max: 5000
+				},
+				health: 5,
+				points: 1,
+				total: 10,
+				maxOnScreen: 3,
+			}
+		},
+
+		modifiers: {
+			popTimer: {
+				min: function (level) { return -(level * 120); },
+				max: function (level) { return -(level * 65); }
+			},
+			yeti: {
+				appearDelay: {
+					min: function (level) { return -(level * 150); },
+					max: function (level) { return -(level * 25); }
+				},
+				throwCount: {
+					min: function (level) { return Math.floor(level * 0.01); },
+					max: function (level) { return Math.floor(level * 0.15); }
+				},
+				throwDelay: {
+					min: function (level) { return -(level * 100); },
+					max: function (level) { return -(level * 55); }
+				},
+				health: function (level) { return Math.floor(level * 0.5); },
+				total: function (level) { return Math.floor(level * 0.45); },
+				maxOnScreen: function (level) { return Math.floor(level * .09); },
+			}
 		}
 	},
 
@@ -83,6 +132,7 @@ RPYeti.config = {
 		// models
 		{ type: 'Model', name: 'tree', mesh: 'tree.obj', skin: 'tree.mtl' },
 		{ type: 'Model', name: 'snowytree', mesh: 'tree-snow.obj', skin: 'tree-snow.mtl' },
+		{ type: 'Model', name: 'decoratedtree', mesh: 'decoratedtree.obj', skin: 'decoratedtree.mtl' },
 		{ type: 'Model', name: 'rock', mesh: 'rock1.obj', skin: 'rock1.mtl' },
 		{ type: 'Model', name: 'snowyrock', mesh: 'rock1snow.obj', skin: 'rock1snow.mtl' },
 		{ type: 'Model', name: 'log', mesh: 'log.obj', skin: 'log.mtl' },
@@ -94,7 +144,7 @@ RPYeti.config = {
 		{ type: 'Model', name: 'yeti_throw', mesh: 'yeti-throw.obj', skin: 'yeti-throw.mtl' },
 
 		// sounds
-		{ type: 'Sound', name: 'throw', file: 'throw.wav' },
+		{ type: 'Sound', name: 'throw', file: 'throw.mp3' },
 		{ type: 'Sound', name: 'roar', file: 'roar.mp3' },
 		{ type: 'Sound', name: 'oof', file: 'oof.mp3' },
 		{ type: 'Sound', name: 'tink', file: 'tink.mp3' },      // placeholder

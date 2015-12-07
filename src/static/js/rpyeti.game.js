@@ -260,16 +260,17 @@ RPYeti.game = (function() {
 			var ambient = new THREE.AmbientLight(0x888888);
 			self.scene.add( ambient );
 
-			var light = new THREE.HemisphereLight(0xffffff, 0x000000, 0.3);
+			var light = new THREE.HemisphereLight(0xffdddd, 0x333333, 0.3);
 			self.scene.add( light );
 
 			var directional = new THREE.DirectionalLight( 0xddeeff, 0.6 );
 			directional.position.x	= -600;
-			directional.position.y	= 400;
-			directional.position.z	= 20;
+			directional.position.y	= 600;
+			directional.position.z	= -400;
 			directional.castShadow = true;
 			directional.shadowMapWidth = 512;
 			directional.shadowMapHeight = 512;
+			directional.target = this.camera;
 			//directional.shadowCameraNear = 50;
 			//directional.shadowCameraFar = 500;
 			//directional.shadowCameraFov = 90;
@@ -467,7 +468,7 @@ RPYeti.game = (function() {
 						effect = RPYeti.loader.sounds.oof;
 					} else if( self.snowballs.getObjectById( target.id ) ) {
 						self.removeSnowball( target );
-						effect = RPYeti.loader.sounds.splat;
+						effect = RPYeti.loader.sounds.tink;
 					} else if( self.trees.getObjectById( target.id ) ) {
 						effect = RPYeti.loader.sounds.thump;
 					} else if ( self.rocks.getObjectById( target.id ) ) {
@@ -476,7 +477,11 @@ RPYeti.game = (function() {
 						effect = RPYeti.loader.sounds.tink;
 					} else if( self.gameplay.intro && self.gameplay.intro.getObjectById( target.id ) ) {
 						setTimeout(function () {
-							self.player.trigger('intro.select', target.userData.introNumber);
+							var t = target;
+							while (t.type != 'Object3D' && t.parent != null) {
+								t = t.parent;
+							}
+							self.player.trigger('intro.select', t.name);
 						}, 100);
 					}
 

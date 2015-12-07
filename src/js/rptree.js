@@ -9,20 +9,12 @@ var rptree = (function($) {
 
 	var
 
-	expandCardboardHowTo = function() {
+	scrollToInstructions = function() {
 
-		var $button		= $('#how-to-use-cardboard-button'),
-			$container	= $('#how-to-use-cardboard');
-
-		$button.on( 'click', function() {
-			$container.slideDown( 200, function() {
-				$button.off( 'click' ).attr('disabled', '').trigger('blur');
-			});
-		});
 	},
 
 	init = function() {
-		expandCardboardHowTo();
+		scrollToInstructions();
 	};
 
 	return {

@@ -84,6 +84,7 @@ var data = _.bindAll({
 		if( ! player.id ) {
 			player.id = uuid.v1();
 		}
+		player = _.omit( player, '_id' );
 		var result = this.players.findAndModify(
 			{ id: player.id },
 			{ $set: player },

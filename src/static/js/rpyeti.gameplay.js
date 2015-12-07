@@ -25,10 +25,10 @@ RPYeti.Gameplay = function (game, player, camera, scene) {
 
 		self.player.on('yeti.defeat', function (context, yeti) {
 			context.points += yeti.points;
+			self.currentLevelDefeated++;
 		});
 
 		self.player.on('yeti.defeated', function (context, yeti) {
-			self.currentLevelDefeated++;
 			self.nextRound();
 		})
 	})(this);
@@ -305,7 +305,7 @@ RPYeti.Gameplay.prototype.yetiSpawner = function () {
 					self.game.hud.addText('Yeti Crossfire');
 				} else if (param.userData.initiator == self.player) {
 					self.player.trigger('yeti.defeat', context);
-					self.game.hud.addText('Yeti Down! ' + self.player.points + '\n' + (self.settings.yeti.total - self.currentLevelDefeated - 1) + ' to go');
+					self.game.hud.addText('Yeti Down! ' + self.player.points + '\n' + (self.settings.yeti.total - self.currentLevelDefeated) + ' to go');
 				} else {
 					self.game.hud.addText('Something Else Did It');
 				}

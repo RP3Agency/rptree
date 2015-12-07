@@ -23,7 +23,8 @@
 
 		a {
 			color: get-color( "white" );
-			display: inline-block;
+			display: block;
+			margin: 0 auto;
 
 			@include hover-state {
 				text-decoration: none;
@@ -40,9 +41,5 @@
 				fill: get-color( "blue--brand" );
 			}
 		}
-	}
-
-	&__social-media {
-		margin-top: 1em;
 	}
 }

@@ -25,10 +25,12 @@ RPYeti.Gameplay = function (game, player, camera, scene) {
 
 		self.player.on('yeti.defeat', function (context, yeti) {
 			context.points += yeti.points;
+			self.currentLevelDefeated++;
+
+			RPYeti.service.publisher.trigger('rpyeti.game.score', context.points);
 		});
 
 		self.player.on('yeti.defeated', function (context, yeti) {
-			self.currentLevelDefeated++;
 			self.nextRound();
 		})
 	})(this);
@@ -165,8 +167,7 @@ RPYeti.Gameplay.prototype.startIntro = function () {
 				if (number.match(/decoration\d/i)) {
 					context.selected = number;
 
-					// TODO: Something with selection
-					console.log('selected ' + number);
+					RPYeti.service.publisher.trigger('rpyeti.game.charity', context.selected);
 
 					self.endIntro(number);
 				}
@@ -194,7 +195,7 @@ RPYeti.Gameplay.prototype.endIntro = function (number) {
 	(function (self) {
 		yeti.on('appear', function (context) {
 			context.roar = new THREE.PositionalAudio( self.game.listener );
-			context.roar.setBuffer( RPYeti.loader.sounds.roar );
+			context.roar.setBuffer( RPYeti.loader.sounds.yeti_roar );
 			context.pivot.add( context.roar );
 
 			var bounds = new THREE.Box3().setFromObject(self.intro);
@@ -272,7 +273,7 @@ RPYeti.Gameplay.prototype.yetiSpawner = function () {
 					context.roar.isPlaying = false;
 				} else {
 					context.roar = new THREE.PositionalAudio( self.game.listener );
-					context.roar.setBuffer( RPYeti.loader.sounds.roar );
+					context.roar.setBuffer( RPYeti.loader.sounds.yeti_roar );
 					context.pivot.add( context.roar );
 				}
 
@@ -305,7 +306,7 @@ RPYeti.Gameplay.prototype.yetiSpawner = function () {
 					self.game.hud.addText('Yeti Crossfire');
 				} else if (param.userData.initiator == self.player) {
 					self.player.trigger('yeti.defeat', context);
-					self.game.hud.addText('Yeti Down! ' + self.player.points);
+					self.game.hud.addText('Yeti Down! ' + self.player.points + '\n' + (self.settings.yeti.total - self.currentLevelDefeated) + ' to go');
 				} else {
 					self.game.hud.addText('Something Else Did It');
 				}

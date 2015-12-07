@@ -82,19 +82,19 @@ RPYeti.config = {
 					max: 2
 				},
 				throwDelay: {
-					min: 2000,
-					max: 5000
+					min: 1500,
+					max: 3000
 				},
 				health: 5,
 				points: 1,
 				total: 10,
-				maxOnScreen: 3,
+				maxOnScreen: 2,
 			}
 		},
 
 		modifiers: {
 			popTimer: {
-				min: function (level) { return -(level * 120); },
+				min: function (level) { return -(level * 150); },
 				max: function (level) { return -(level * 65); }
 			},
 			yeti: {
@@ -107,12 +107,12 @@ RPYeti.config = {
 					max: function (level) { return Math.floor(level * 0.15); }
 				},
 				throwDelay: {
-					min: function (level) { return -(level * 100); },
-					max: function (level) { return -(level * 55); }
+					min: function (level) { return -(level * 45); },
+					max: function (level) { return -(level * 30); }
 				},
 				health: function (level) { return Math.floor(level * 0.5); },
 				total: function (level) { return Math.floor(level * 0.45); },
-				maxOnScreen: function (level) { return Math.floor(level * .09); },
+				maxOnScreen: function (level) { return Math.floor(level * .2); },
 			}
 		}
 	},
@@ -144,14 +144,13 @@ RPYeti.config = {
 		{ type: 'Model', name: 'yeti_throw', mesh: 'yeti-throw.obj', skin: 'yeti-throw.mtl' },
 
 		// sounds
-		{ type: 'Sound', name: 'throw', file: 'throw.mp3' },
-		{ type: 'Sound', name: 'roar', file: 'roar.mp3' },
-		{ type: 'Sound', name: 'oof', file: 'oof.mp3' },
-		{ type: 'Sound', name: 'tink', file: 'tink.mp3' },      // placeholder
-		{ type: 'Sound', name: 'whack', file: 'whack.mp3' },	// Rock Hit
-		{ type: 'Sound', name: 'splat', file: 'splat.mp3' },	// placeholder
-		{ type: 'Sound', name: 'thump', file: 'thump.mp3' },	// Tree Hit
-		{ type: 'Sound', name: 'smack', file: 'smack.mp3' },	// placeholder
+		{ type: 'Sound', name: 'player_throw', file: 'throw.mp3' },
+		{ type: 'Sound', name: 'yeti_roar', file: 'roar.mp3' },
+		{ type: 'Sound', name: 'yeti_hit', file: 'oof.mp3' },
+		{ type: 'Sound', name: 'rock_hit', file: 'whack.mp3' },		// Rock Hit
+		{ type: 'Sound', name: 'tree_hit', file: 'thump.mp3' },		// Tree Hit
+		{ type: 'Sound', name: 'snow_hit', file: 'tink.mp3' },		// placeholder - snow on snow
+		{ type: 'Sound', name: 'player_hit', file: 'smack.mp3' },	// placeholder - player hit
 
 		// fonts
 		{ type: 'Font', name: 'GameFont', file: '8bit.ttf' },

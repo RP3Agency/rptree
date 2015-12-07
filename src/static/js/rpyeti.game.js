@@ -111,7 +111,7 @@ RPYeti.game = (function() {
 			$(window).on('resize', this.resize);
 			setTimeout(this.resize, 1);
 
-			this.gameplay.start(0, true);
+			setTimeout(function () { self.gameplay.start(0, true); }, 1000)
 		},
 
 		/** Methods / Callbacks **/
@@ -378,7 +378,7 @@ RPYeti.game = (function() {
 
 			// snowball throw sound
 			self.sounds.throw = new THREE.Audio( self.listener );
-			self.sounds.throw.setBuffer( RPYeti.loader.sounds.throw );
+			self.sounds.throw.setBuffer( RPYeti.loader.sounds.player_throw );
 			self.sounds.throw.setVolume( 0.2 );
 			self.listener.add( self.sounds.throw );
 
@@ -461,20 +461,20 @@ RPYeti.game = (function() {
 				if( target ) {
 					var effect;
 					if ( target instanceof RPYeti.Player ) {
-						effect = RPYeti.loader.sounds.smack;
+						effect = RPYeti.loader.sounds.player_hit;
 					} else if ( target == self.snow ) {
-						effect = RPYeti.loader.sounds.tink;
+						effect = RPYeti.loader.sounds.snow_hit;
 					} else if( self.gameplay.yetis.getObjectById( target.id ) ) {
-						effect = RPYeti.loader.sounds.oof;
+						effect = RPYeti.loader.sounds.yeti_hit;
 					} else if( self.snowballs.getObjectById( target.id ) ) {
 						self.removeSnowball( target );
-						effect = RPYeti.loader.sounds.tink;
+						effect = RPYeti.loader.sounds.snow_hit;
 					} else if( self.trees.getObjectById( target.id ) ) {
-						effect = RPYeti.loader.sounds.thump;
-					} else if ( self.rocks.getObjectById( target.id ) ) {
-						effect = RPYeti.loader.sounds.whack;
+						effect = RPYeti.loader.sounds.tree_hit;
+					} else if ( self.rocks.getObjectById( target.id ) || self.logs.getObjectById( target.id ) ) {
+						effect = RPYeti.loader.sounds.rock_hit;
 					} else if( self.mounds.getObjectById( target.id ) ) {
-						effect = RPYeti.loader.sounds.tink;
+						effect = RPYeti.loader.sounds.snow_hit;
 					} else if( self.gameplay.intro && self.gameplay.intro.getObjectById( target.id ) ) {
 						setTimeout(function () {
 							var t = target;

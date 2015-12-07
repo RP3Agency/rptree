@@ -1,14 +1,15 @@
 .cardboard {
 	background-color: get-color( "blue--brand" );
 	font-family: "Roboto Condensed", sans-serif;
-	padding: 2rem 0;
+	padding: 4rem 0;
 	text-align: center;
 
 	ol {
 		display: flex;
 		flex-wrap: wrap;
 		list-style-type: none;
-		margin: 0;
+		margin: 60px auto 0 ;
+		max-width: rem(1000px);
 		padding: 0;
 		justify-content: space-between;
 		text-align: left;
@@ -18,12 +19,27 @@
 		}
 
 		li {
+			flex-grow: 1;
+			height: rem(170px);
 			margin-bottom: 2em;
+			position: relative;
 			text-align: center;
 			width: span(4 of 12);
 
 			&:nth-of-type(3n) {
 				margin-right: 0;
+			}
+
+			&.step2, &.step3 {
+				svg {
+					max-width: 65px;
+				}
+			}
+
+			&.step1 {
+				svg {
+					max-width: 85px;
+				}
 			}
 		}
 
@@ -36,7 +52,30 @@
 
 		span {
 			display: block;
-			margin-bottom: 1rem;
+			font-family: eightBit;
+			margin-bottom: 0.75rem;
 		}
+
+		p {
+			bottom: 0;
+			font-family: Roboto Condensed;
+			font-weight: 300;
+			padding: 10px;
+			position: absolute;
+			width: 100%;
+		}
+	}
+
+	h2 {
+		text-shadow: 2px 1px #000;
+	}
+
+	&__tree-img {
+		background-image: url('../images/tree-snippet.png');
+		background-repeat: no-repeat;
+		background-size: contain;
+		height: rem(75px);
+		margin: 0 auto 30px;
+		width: rem(185px);
 	}
 }

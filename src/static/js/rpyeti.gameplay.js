@@ -26,6 +26,8 @@ RPYeti.Gameplay = function (game, player, camera, scene) {
 		self.player.on('yeti.defeat', function (context, yeti) {
 			context.points += yeti.points;
 			self.currentLevelDefeated++;
+
+			RPYeti.service.publisher.trigger('rpyeti.game.score', context.points);
 		});
 
 		self.player.on('yeti.defeated', function (context, yeti) {
@@ -165,8 +167,7 @@ RPYeti.Gameplay.prototype.startIntro = function () {
 				if (number.match(/decoration\d/i)) {
 					context.selected = number;
 
-					// TODO: Something with selection
-					console.log('selected ' + number);
+					RPYeti.service.publisher.trigger('rpyeti.game.charity', context.selected);
 
 					self.endIntro(number);
 				}

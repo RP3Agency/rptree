@@ -166,12 +166,12 @@ RPYeti.Gameplay.prototype.startIntro = function () {
 
 		(function (self) {
 			self.player.on('intro.select', function (context, number) {
-				var pattern = /decoration(.*)/i;
+				var pattern = /decoration_(.*)/i;
 				if (number.match(pattern)) {
 					context.selected = number.replace(pattern, '$1');
 
 					// TODO: Something with selection
-					console.log('selected ' + context.selected);
+
 
 					self.endIntro(number);
 				}

@@ -1,7 +1,7 @@
 # Blender v2.76 (sub 0) OBJ File: 'snowytree.blend'
 # www.blender.org
 mtllib sign-wawf.mtl
-o Decoration3
+o decoration_wawf
 v -1.013061 1.874335 0.048988
 v -1.013061 1.874335 0.053842
 v -1.008133 1.874061 0.048988

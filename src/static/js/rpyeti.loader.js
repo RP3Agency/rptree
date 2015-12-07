@@ -68,7 +68,7 @@ RPYeti.loader = (function() {
 						child.material.side = THREE.DoubleSide;
 						if( child.material.map && model.name.match(/yeti.*/)) {
 							child.material.map.minFilter = THREE.NearestFilter;
-						} else if (child.material.map) {
+						} else if (child.material.map && !(model.name == 'snowytree')) {
 							child.material.map.anisotropy = RPYeti.config.maxAnisotropy;
 						}
 					}

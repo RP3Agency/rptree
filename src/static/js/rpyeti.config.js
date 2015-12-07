@@ -6,13 +6,13 @@ RPYeti.config = {
 
 	stereo: false,
 	cardboard: {
-		fov: 75,
+		fov: 95,
 		focalLength: 250,
 		eyeSeparation: 1,
 		pupillaryBaseline: 750
 	},
 	desktop: {
-		fov: 55,
+		fov: 75,
 	},
 
 	/** Game Mechanics **/

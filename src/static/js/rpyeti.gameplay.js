@@ -305,7 +305,7 @@ RPYeti.Gameplay.prototype.yetiSpawner = function () {
 					self.game.hud.addText('Yeti Crossfire');
 				} else if (param.userData.initiator == self.player) {
 					self.player.trigger('yeti.defeat', context);
-					self.game.hud.addText('Yeti Down! ' + self.player.points);
+					self.game.hud.addText('Yeti Down! ' + self.player.points + '\n' + (self.settings.yeti.total - self.currentLevelDefeated - 1) + ' to go');
 				} else {
 					self.game.hud.addText('Something Else Did It');
 				}

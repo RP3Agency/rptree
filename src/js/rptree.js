@@ -1,6 +1,6 @@
 /* global rptree:true */
 
-// Define our "rptree" object, if not already defined
+Define our "rptree" object, if not already defined
 if ( rptree === undefined ) { var rptree = {}; }
 
 var rptree = (function($) {

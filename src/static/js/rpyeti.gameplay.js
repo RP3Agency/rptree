@@ -50,7 +50,9 @@ RPYeti.Gameplay.prototype.start = function (level, reset) {
 	if (level == 0) {
 		this.startIntro();
 	} else {
-		this.levelBegin(level);
+		(function (self, level) {
+			self.levelBegin(level);
+		})(this, level);
 	}
 };
 
@@ -126,7 +128,6 @@ RPYeti.Gameplay.prototype.startIntro = function () {
 				x = introPoints[i][0] * density,
 				z = introPoints[i][1] * density;
 
-			tree.userData = { introObj: 'tree', introNumber: i };
 			tree.translateX(x + 8);
 			tree.translateZ(z);
 			tree.scale.set(treeScale, treeScale, treeScale);
@@ -136,22 +137,24 @@ RPYeti.Gameplay.prototype.startIntro = function () {
 
 			centerPos = tree.position.clone();
 
-			var position = tree.position.clone();
-			position.x += 10;
-			position.z -= 15;
-
-			yeti = this.spawnYeti(this.intro, position, undefined, 1.85, 9001, 0);
+			(function (self, position) {
+				position.x += 10;
+				position.z -= 15;
+				setTimeout(function () {
+					self.spawnYeti(self.intro, position, undefined, 1.85, 9001, 0);
+				});
+			})(this, tree.position.clone());
 		}
 
-		cameraPos.y = signs[0].position.y;
-		if (centerPos != null) {
+		if (centerPos != null && signs.length > 0) {
 			var xOffset = 12;
+
+			cameraPos.y = signs[0].position.y;
 
 			centerPos.x -= 15;
 			centerPos.z -= xOffset * Math.floor(signs.length / 2);
 
 			for (var i = 0; i < signs.length; i++) {
-				signs[i].userData = { introObj: 'sign', introNumber: i };
 				signs[i].position.set(centerPos.x, centerPos.y, centerPos.z);
 				signs[i].scale.set(signScale, signScale, signScale);
 

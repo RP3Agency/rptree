@@ -111,7 +111,15 @@ RPYeti.game = (function() {
 			$(window).on('resize', this.resize);
 			setTimeout(this.resize, 1);
 
-			setTimeout(function () { self.gameplay.start(0, true); }, 5000);
+			var startLevel = 1;
+			if (startLevel > 0) {
+				// Need setTimout when starting in the game to avoid the HUD being distorted
+				setTimeout(function () {
+					self.gameplay.start(startLevel, true);
+				}, 1000);
+			} else {
+				self.gameplay.start(startLevel, true);
+			}
 		},
 
 		/** Methods / Callbacks **/
@@ -136,11 +144,9 @@ RPYeti.game = (function() {
 		},
 
 		update: function(dt) {
-			self.camera.updateProjectionMatrix();
 			self.controls.update(dt);
-
-			TWEEN.update();
 			RPYeti.Character.update(dt);
+			TWEEN.update();
 		},
 
 		render: function(dt) {
@@ -158,14 +164,15 @@ RPYeti.game = (function() {
 			if (!e.alpha) {
 				return;
 			}
+
+			window.removeEventListener('deviceorientation', self.setOrientationControls, true);
+
 			self.controls.dispose();
 			self.controls = new THREE.DeviceOrientationControls(self.camera, true);
 			self.controls.connect();
 			self.controls.update();
 
 			self.renderer.domElement.addEventListener('click', self.fullscreen, false);
-
-			window.removeEventListener('deviceorientation', self.setOrientationControls, true);
 		},
 
 		resize: function() {

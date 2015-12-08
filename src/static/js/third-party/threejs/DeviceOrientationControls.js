@@ -161,7 +161,7 @@ THREE.DeviceOrientationControls = function(object) {
 	this.align = function() {
 
 		tempVector3
-			.set(0, 0, -1)
+			.set(-1, 0, 0)
 			.applyQuaternion( tempQuaternion.copy(this.orientationQuaternion).inverse(), 'ZXY' );
 
 		tempEuler.setFromQuaternion(

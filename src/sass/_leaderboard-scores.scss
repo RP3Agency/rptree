@@ -24,7 +24,7 @@
 	}
 
 	.gray-panel {
-		background-color: rgba( get-color( "gray--lightest" ) , 0.8);
+		background-color: rgba( get-color( "white" ) , 0.9);
 		color: get-color( "blue--brand" );
 		margin: 40px auto 20px;
 		padding: 10px 0;
@@ -53,22 +53,22 @@
 
 	.new-game {
 		@extend %eight-bit-border;
-		background-color: rgba(9,9,9,0.1);
+		background-color: get-color("blue--brand");
 		color: white;
 		display: block;
 	    font-size: .8rem;
-	    margin: 30px auto 20px;
+	    margin: 30px 25px 20px 0;
 	    padding: 7px 20px;
 		text-decoration: none;
 		width: 150px;
 	}
 	.new-game,
 	.sharing {
-		display: block;
+		display: inline-block;
 		vertical-align: top;
 	}
 
 	.sharing {
-		margin: 10px auto;
+		margin: 30px auto 0;
 	}
 }

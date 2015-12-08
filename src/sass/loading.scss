@@ -8,6 +8,13 @@
 @import
 	"settings";
 
+.rpyeti-page {
+	margin: 0;
+	min-height: 200vh;
+	min-width: 101vw;
+	position: relative;
+}
+
 .loading {
 	margin: 0 auto 2em;
 	width: 75%;
@@ -109,19 +116,19 @@
 .now-loading {
 	align-items: center;
 	background-color: get-color( "blue--brand" );
-	bottom: 0;
 	color: get-color( "white" );
 	display: flex;
 	font-family: sans-serif;
 	font-weight: 700;
+	height: 51%;
 	left: 0;
 	line-height: 1.5;
 	position: absolute;
-	right: 0;
 	text-align: center;
 	text-transform: uppercase;
 	top: 0;
 	user-select: none;
+	width: 100%;
 	z-index: 1000;
 
 	&.twenty-five {

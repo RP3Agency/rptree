@@ -111,7 +111,7 @@ RPYeti.Gameplay.prototype.levelComplete = function () {
 		self.stopTimer();
 		self.player.setTimeout(function () {
 			self.start(self.level + 1);
-		}, 5000);
+		}, 9600);
 	})(this);
 };
 

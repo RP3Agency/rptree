@@ -13,6 +13,7 @@ RPYeti.HUD = function (player, camera, stereoCamera) {
 	this.camera = camera;
 	this.stereoCamera = stereoCamera;
 	this.text = '';
+	this.resetText = '';
 
 	// draw reticle
 	this.updateReticle();
@@ -57,7 +58,7 @@ RPYeti.HUD.prototype.constructor = RPYeti.HUD;
 RPYeti.HUD.prototype.addText = function (text, duration) {
 	this.text = text;
 
-	if( typeof duration == "undefined" ) {
+	if (typeof duration == 'undefined') {
 		duration = 5000;
 	}
 
@@ -67,13 +68,15 @@ RPYeti.HUD.prototype.addText = function (text, duration) {
 
 	this.updateReticle();
 
-	if( duration > 0 ) {
+	if (duration > 0) {
 		(function (self) {
 			self.textClear = setTimeout(function () {
-				self.text = '';
+				self.text = self.resetText;
 				self.updateReticle();
 			}, duration);
 		})(this);
+	} else {
+		this.resetText = text;
 	}
 };
 

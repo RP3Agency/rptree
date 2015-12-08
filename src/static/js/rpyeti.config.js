@@ -6,13 +6,13 @@ RPYeti.config = {
 
 	stereo: false,
 	cardboard: {
-		fov: 75,
+		fov: 95,
 		focalLength: 250,
 		eyeSeparation: 1,
 		pupillaryBaseline: 750
 	},
 	desktop: {
-		fov: 55,
+		fov: 75,
 	},
 
 	/** Game Mechanics **/
@@ -137,6 +137,9 @@ RPYeti.config = {
 		{ type: 'Model', name: 'snowyrock', mesh: 'rock1snow.obj', skin: 'rock1snow.mtl' },
 		{ type: 'Model', name: 'log', mesh: 'log.obj', skin: 'log.mtl' },
 		{ type: 'Model', name: 'sign', mesh: 'sign.obj', skin: 'sign.mtl' },
+		{ type: 'Model', name: 'sign_cn', mesh: 'sign-cn.obj', skin: 'sign-cn.mtl' },
+		{ type: 'Model', name: 'sign_ja', mesh: 'sign-ja.obj', skin: 'sign-ja.mtl' },
+		{ type: 'Model', name: 'sign_wawf', mesh: 'sign-wawf.obj', skin: 'sign-wawf.mtl' },
 		{ type: 'Model', name: 'ground', mesh: 'ground.obj', skin: 'ground.mtl' },
 		{ type: 'Model', name: 'mound', mesh: 'mound.obj', skin: 'mound.mtl' },
 		{ type: 'Model', name: 'yeti', mesh: 'yeti.obj', skin: 'yeti.mtl' },

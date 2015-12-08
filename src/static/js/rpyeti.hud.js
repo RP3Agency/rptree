@@ -89,6 +89,8 @@ RPYeti.HUD.prototype.updateReticle = function() {
 
 	this.hud.clearRect(0, 0, width, height);
 
+	this.hud.shadowBlur = 0;
+
 	this.hud.beginPath();
 	this.hud.arc( width/2, height/2, RPYeti.config.hud.size, 0, arcFull, false );
 	this.hud.lineWidth = 10;
@@ -111,6 +113,10 @@ RPYeti.HUD.prototype.updateReticle = function() {
 		}
 
 		this.hud.font = 'normal ' + textSize + 'px GameFont';
+		this.hud.shadowColor = 'black',
+		this.hud.shadowOffsetX = 0;
+		this.hud.shadowOffsetY = 0;
+		this.hud.shadowBlur = 10;
 		this.hud.textAlign = 'center';
 		this.hud.fillStyle = RPYeti.config.hud.textStyle;
 

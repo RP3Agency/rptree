@@ -16,10 +16,16 @@ RPYeti.Gameplay = function (game, player, camera, scene) {
 
 	(function (self) {
 		self.player.on('defeated', function (context) {
+			RPYeti.music.publisher.trigger('rpyeti.music.lose');
 			self.game.hud.addText('GAME OVER', 0);
 		});
 
 		self.player.on('hit', function (context) {
+			if (!context.lowHealthTrigger && context.health < RPYeti.config.player.lowHealth) {
+				context.lowHealthTrigger = true;
+				RPYeti.music.publisher.trigger('rpyeti.music.lowhealth');
+			}
+
 			self.game.hud.updateReticle();
 		});
 
@@ -46,13 +52,14 @@ RPYeti.Gameplay.prototype.start = function (level, reset) {
 	}
 
 	this.player.health = RPYeti.config.player.health;
+	this.player.lowHealthTrigger = false;
 
 	if (level == 0) {
+		RPYeti.music.publisher.trigger('rpyeti.music.selection');
 		this.startIntro();
 	} else {
-		(function (self, level) {
-			self.levelBegin(level);
-		})(this, level);
+		RPYeti.music.publisher.trigger('rpyeti.music.fight');
+		this.levelBegin(level);
 	}
 };
 
@@ -97,6 +104,9 @@ RPYeti.Gameplay.prototype.nextRound = function () {
 
 RPYeti.Gameplay.prototype.levelComplete = function () {
 	this.game.hud.addText('Level Complete\nScore: ' + this.player.points);
+
+	RPYeti.music.publisher.trigger('rpyeti.music.win');
+
 	(function (self) {
 		self.stopTimer();
 		self.player.setTimeout(function () {
@@ -170,6 +180,10 @@ RPYeti.Gameplay.prototype.startIntro = function () {
 		this.game.snowballBlockers.push(this.intro);
 
 		(function (self) {
+			self.player.setTimeout(function () {
+				self.game.hud.addText('Please Select', 0);
+			}, 1000);
+
 			self.player.on('intro.select', function (context, number) {
 				var pattern = /decoration_(.*)/i;
 				if (number.match(pattern)) {
@@ -206,6 +220,10 @@ RPYeti.Gameplay.prototype.endIntro = function (number) {
 			context.roar.setBuffer( RPYeti.loader.sounds.yeti_roar );
 			context.pivot.add( context.roar );
 
+			RPYeti.music.publisher.trigger('rpyeti.music.theft');
+			self.game.hud.addText('', 0);
+			self.game.hud.addText('Oh no!');
+
 			var bounds = new THREE.Box3().setFromObject(self.intro);
 			context.setTimeout(function () {
 				var positionTween = new TWEEN.Tween(self.intro.position)
@@ -224,8 +242,12 @@ RPYeti.Gameplay.prototype.endIntro = function (number) {
 							self.intro = undefined;
 						}
 
-						// Start level 1!
-						self.start(1);
+						// TODO: Move this to dialog
+						context.setTimeout(function () {
+							// Start level 1!
+							self.start(1);
+						}, 10000)
+						self.game.hud.addText('\nYour donation is safe\nbut the world\nstill needs RPTree\n\nSnowball fight!\nSave RPTree!', 10000);
 					});
 
 				positionTween.to({ y: -Math.abs(bounds.max.y) }, RPYeti.config.character.yeti.disappearDuration).start();

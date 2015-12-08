@@ -12,7 +12,7 @@ RPYeti.config = {
 		pupillaryBaseline: 750
 	},
 	desktop: {
-		fov: 75,
+		fov: 65,
 	},
 
 	/** Game Mechanics **/
@@ -29,6 +29,7 @@ RPYeti.config = {
 	player: {
 		hitbox: 5,
 		health: 100,
+		lowHealth: 35
 	},
 
 	/** Model Positioning **/

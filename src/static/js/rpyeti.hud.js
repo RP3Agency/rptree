@@ -13,6 +13,8 @@ RPYeti.HUD = function (player, camera, stereoCamera) {
 	this.camera = camera;
 	this.stereoCamera = stereoCamera;
 	this.text = '';
+	this.resetText = '';
+	this.visible = true;
 
 	// draw reticle
 	this.updateReticle();
@@ -57,7 +59,7 @@ RPYeti.HUD.prototype.constructor = RPYeti.HUD;
 RPYeti.HUD.prototype.addText = function (text, duration) {
 	this.text = text;
 
-	if( typeof duration == "undefined" ) {
+	if (typeof duration == 'undefined') {
 		duration = 5000;
 	}
 
@@ -65,19 +67,26 @@ RPYeti.HUD.prototype.addText = function (text, duration) {
 		clearTimeout(this.textClear);
 	}
 
-	this.updateReticle();
-
-	if( duration > 0 ) {
+	if (duration > 0) {
 		(function (self) {
 			self.textClear = setTimeout(function () {
-				self.text = '';
+				self.text = self.resetText;
 				self.updateReticle();
 			}, duration);
 		})(this);
+	} else {
+		this.resetText = text;
 	}
+
+	this.updateReticle();
 };
 
 RPYeti.HUD.prototype.updateReticle = function() {
+	if (!this.visible) {
+		this.hud.clearRect(0, 0, width, height);
+		return;
+	}
+
 	var healthPercent = 0.0,
 		width = RPYeti.config.hud.canvasWidth,
 		height = RPYeti.config.hud.canvasHeight,
@@ -87,9 +96,9 @@ RPYeti.HUD.prototype.updateReticle = function() {
 	healthPercent = Math.min( Math.max( this.player.health / RPYeti.config.player.health, 0.0), 1.0 );
 	healthPercent = (1.0 - healthPercent) * arcFull + arcInitial;
 
-	this.hud.clearRect(0, 0, width, height);
-
 	this.hud.shadowBlur = 0;
+
+	this.hud.clearRect(0, 0, width, height);
 
 	this.hud.beginPath();
 	this.hud.arc( width/2, height/2, RPYeti.config.hud.size, 0, arcFull, false );

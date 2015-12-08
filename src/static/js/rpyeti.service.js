@@ -37,11 +37,11 @@ RPYeti.service = (function() {
 		// save player object to server and store in cookie
 		savePlayer: function() {
 			// save player to cookie first
-			Cookies.set( 'rp3.rptree', { player: self.player }, { expires: 365, secure: true } );
+			Cookies.set( 'rp3.rptree', { player: self.player }, { expires: 365 } );
 
 			// send to server and store server modified player to cookie
 			$.getJSON( '/api/player', self.player, function( player ) {
-				Cookies.set( 'rp3.rptree', { player: player }, { expires: 365, secure: true } );
+				Cookies.set( 'rp3.rptree', { player: player }, { expires: 365 } );
 				self.player = player;
 			}).fail( jQuery.noop );
 		},

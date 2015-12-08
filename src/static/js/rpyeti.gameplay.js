@@ -182,7 +182,6 @@ RPYeti.Gameplay.prototype.startIntro = function () {
 		(function (self) {
 			self.player.setTimeout(function () {
 				self.game.hud.addText('Please Select', 0);
-				//self.game.hud.addText('\nYour donation is safe\nbut the world\nstill needs RPTree\n\nSnowball fight!\nSave RPTree!', 0);
 			}, 1000);
 
 			self.player.on('intro.select', function (context, number) {
@@ -243,8 +242,12 @@ RPYeti.Gameplay.prototype.endIntro = function (number) {
 							self.intro = undefined;
 						}
 
-						// Start level 1!
-						self.start(1);
+						// TODO: Move this to dialog
+						context.setTimeout(function () {
+							// Start level 1!
+							self.start(1);
+						}, 10000)
+						self.game.hud.addText('\nYour donation is safe\nbut the world\nstill needs RPTree\n\nSnowball fight!\nSave RPTree!', 10000);
 					});
 
 				positionTween.to({ y: -Math.abs(bounds.max.y) }, RPYeti.config.character.yeti.disappearDuration).start();

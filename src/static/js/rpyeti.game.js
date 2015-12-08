@@ -113,7 +113,7 @@ RPYeti.game = (function() {
 
 			var startLevel = 0;
 			if (startLevel > 0) {
-				setTimeout(function () {
+				self.player.setTimeout(function () {
 					self.gameplay.start(startLevel, true);
 				}, 1000);
 			} else {

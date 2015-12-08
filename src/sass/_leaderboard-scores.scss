@@ -70,8 +70,5 @@
 
 	.sharing {
 		margin: 10px auto;
-		@include breakpoint( 640px ) {
-			display: none;
-		}
 	}
 }

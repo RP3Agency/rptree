@@ -47,6 +47,8 @@ $fa-font-path:   "../font";
 */
 
 @font-face {
-	font-family: "eightBit";
-	src: url(../fonts/8bit.ttf);
+	font-family: 'eightBit';
+    src: url('/fonts/8bit.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
 }

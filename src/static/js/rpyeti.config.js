@@ -157,7 +157,7 @@ RPYeti.config = {
 		{ type: 'Sound', name: 'player_hit', file: 'smack.mp3' },	// placeholder - player hit
 
 		// fonts
-		{ type: 'Font', name: 'GameFont', file: '8bit.ttf' },
+		{ type: 'Font', name: 'eightBit', file: '8bit.ttf' },
 	],
 
 	/** Debug Settings **/

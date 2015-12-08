@@ -19,8 +19,18 @@ var rptree = (function($) {
 		});
 	},
 
+	desktopStyling = function() {
+
+		var hash = location.hash;
+
+		if ( -1 < hash.indexOf( 'desktop' ) ) {
+			$('body').addClass('desktop');
+		}
+	},
+
 	init = function() {
 		scrollToInstructions();
+		desktopStyling();
 	};
 
 	return {

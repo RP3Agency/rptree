@@ -50,14 +50,13 @@ RPYeti.game = (function() {
 			//TODO: use or make key controls library instead of hardcoding
 			$(document).on('keydown', function(e) {
 				var prevent = true;
-				// Update the state of the attached control to "false"
 				switch (e.keyCode) {
 					case 32: //SPACE
 						self.isFiring = true;
+						break;
 					default:
 						prevent = false;
 				}
-				// Avoid the browser to react unexpectedly
 				if (prevent) {
 					e.preventDefault();
 				}

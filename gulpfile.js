@@ -44,6 +44,11 @@ if( process.platform != 'darwin' ) {
 	});
 }
 
+// For gulp-nodemon, if interrupt (CTRL-C) is sent, exit
+process.once('SIGINT', function() {
+    process.exit(0);
+});
+
 // Define gulp-plumber error handler
 function logError(err) {
     gutil.log( gutil.colors.red('ERROR'), err);

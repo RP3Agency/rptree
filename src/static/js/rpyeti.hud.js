@@ -14,6 +14,7 @@ RPYeti.HUD = function (player, camera, stereoCamera) {
 	this.stereoCamera = stereoCamera;
 	this.text = '';
 	this.resetText = '';
+	this.visible = true;
 
 	// draw reticle
 	this.updateReticle();
@@ -81,6 +82,12 @@ RPYeti.HUD.prototype.addText = function (text, duration) {
 };
 
 RPYeti.HUD.prototype.updateReticle = function() {
+	this.hud.clearRect(0, 0, width, height);
+
+	if (!this.visible) {
+		return;
+	}
+
 	var healthPercent = 0.0,
 		width = RPYeti.config.hud.canvasWidth,
 		height = RPYeti.config.hud.canvasHeight,
@@ -89,8 +96,6 @@ RPYeti.HUD.prototype.updateReticle = function() {
 
 	healthPercent = Math.min( Math.max( this.player.health / RPYeti.config.player.health, 0.0), 1.0 );
 	healthPercent = (1.0 - healthPercent) * arcFull + arcInitial;
-
-	this.hud.clearRect(0, 0, width, height);
 
 	this.hud.shadowBlur = 0;
 

@@ -181,7 +181,7 @@ RPYeti.Gameplay.prototype.startIntro = function () {
 
 		(function (self) {
 			self.player.setTimeout(function () {
-				self.game.hud.addText('Please Select', 0);
+				self.game.hud.addText(RPYeti.config.dialogs.select, 0);
 			}, 1000);
 
 			self.player.on('intro.select', function (context, number) {
@@ -213,7 +213,6 @@ RPYeti.Gameplay.prototype.endIntro = function (number) {
 		return;
 	}
 
-	// Attach to last yeti instance only
 	(function (self) {
 		yeti.on('appear', function (context) {
 			context.roar = new THREE.PositionalAudio( self.game.listener );
@@ -231,15 +230,16 @@ RPYeti.Gameplay.prototype.endIntro = function (number) {
 					.onComplete(function () {
 						// Cleanup
 						if (self.intro !== undefined) {
+							self.intro.visible = false;
 							self.scene.remove(self.intro);
-							while (self.intro.children.length) { self.intro.children.pop(); }
 							for (var i = self.game.snowballBlockers.length + 1; i > 0; i--) {
 								if (self.game.snowballBlockers[i] == self.intro) {
 									self.game.snowballBlockers.splice(i, 1);
 									break;
 								}
 							}
-							self.intro = undefined;
+							while (self.intro.children.length) { self.intro.children.pop(); }
+							delete self.intro;
 						}
 
 						// TODO: Move this to dialog

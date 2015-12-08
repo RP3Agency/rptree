@@ -1,12 +1,17 @@
 @font-face {
-    font-family: 'GameFont', sans-serif;
-    src: url('../fonts/8bit.ttf') format('truetype');
+    font-family: 'eightBit';
+    src: url('/fonts/8bit.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
 
+canvas {
+    font-family: 'eightBit', sans-serif;
+    font-weight: normal;
+}
+
 .rpyeti {
-    font-family: 'GameFont', sans-serif;
+    font-family: 'eightBit', sans-serif;
 	bottom: 0;
 	left: 0;
 	margin: 0;

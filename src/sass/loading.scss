@@ -156,6 +156,15 @@
 		flex: 1;
 		position: relative;
 	}
+
+	// Phone SVG fix
+	.phone-st0 {
+		fill: get-color( "white" );
+	}
+
+	.phone-st1 {
+		fill: transparent;
+	}
 }
 
 .ready {

@@ -47,7 +47,7 @@
 .facebook-share,
 .twitter-share {
 	@extend %eight-bit-border;
-	background-color: rgba(9,9,9,0.1);
+	background-color: get-color("blue--brand");
 	display: inline-block;
 	height: 37px;
 	width: 37px;

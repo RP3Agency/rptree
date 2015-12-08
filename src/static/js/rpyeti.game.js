@@ -453,9 +453,9 @@ RPYeti.game = (function() {
 		removeSnowball: function( snowball, target ) {
 			// avoid duplicate hits
 			if (snowball.visible) {
+				self.explodeSnowball( snowball );
 				// hide snowball
 				snowball.visible = false;
-				//TODO: make particle explosion at impact
 
 				// play impact sound depending on object struck
 				if( target ) {
@@ -504,6 +504,26 @@ RPYeti.game = (function() {
 					self.snowballs.remove( snowball );
 				}, 500 );
 			}
+		},
+
+		explodeSnowball: function( snowball ) {
+			var explosion = self.snowball.clone();
+			explosion.position.copy( snowball.position );
+			explosion.material = new THREE.MeshPhongMaterial({ map: RPYeti.loader.textures.snowburst });
+			explosion.material.transparent = true;
+			explosion.castShadow = false;
+			explosion.receiveShadow = false;
+			explosion.name = 'explosion';
+			self.scene.add( explosion );
+			var explosionTween = new TWEEN.Tween({ scale: explosion.scale.x, opacity: explosion.material.opacity })
+				.easing( TWEEN.Easing.Quadratic.Out )
+				.onUpdate(function () {
+					explosion.scale.set( this.scale, this.scale, this.scale );
+					explosion.material.opacity = this.opacity;
+				}).onComplete(function () {
+					self.scene.remove( explosion );
+				});
+			explosionTween.to({ scale: 4, opacity: 0 }, 300 ).start();
 		},
 
 		debug: function() {

@@ -67,8 +67,6 @@ RPYeti.HUD.prototype.addText = function (text, duration) {
 		clearTimeout(this.textClear);
 	}
 
-	this.updateReticle();
-
 	if (duration > 0) {
 		(function (self) {
 			self.textClear = setTimeout(function () {
@@ -79,12 +77,13 @@ RPYeti.HUD.prototype.addText = function (text, duration) {
 	} else {
 		this.resetText = text;
 	}
+
+	this.updateReticle();
 };
 
 RPYeti.HUD.prototype.updateReticle = function() {
-	this.hud.clearRect(0, 0, width, height);
-
 	if (!this.visible) {
+		this.hud.clearRect(0, 0, width, height);
 		return;
 	}
 
@@ -98,6 +97,8 @@ RPYeti.HUD.prototype.updateReticle = function() {
 	healthPercent = (1.0 - healthPercent) * arcFull + arcInitial;
 
 	this.hud.shadowBlur = 0;
+
+	this.hud.clearRect(0, 0, width, height);
 
 	this.hud.beginPath();
 	this.hud.arc( width/2, height/2, RPYeti.config.hud.size, 0, arcFull, false );

@@ -180,6 +180,11 @@ RPYeti.Gameplay.prototype.startIntro = function () {
 		this.game.snowballBlockers.push(this.intro);
 
 		(function (self) {
+			self.player.setTimeout(function () {
+				self.game.hud.addText('Please Select', 0);
+				//self.game.hud.addText('\nYour donation is safe\nbut the world\nstill needs RPTree\n\nSnowball fight!\nSave RPTree!', 0);
+			}, 1000);
+
 			self.player.on('intro.select', function (context, number) {
 				var pattern = /decoration_(.*)/i;
 				if (number.match(pattern)) {
@@ -217,6 +222,8 @@ RPYeti.Gameplay.prototype.endIntro = function (number) {
 			context.pivot.add( context.roar );
 
 			RPYeti.music.publisher.trigger('rpyeti.music.theft');
+			self.game.hud.addText('', 0);
+			self.game.hud.addText('Oh no!');
 
 			var bounds = new THREE.Box3().setFromObject(self.intro);
 			context.setTimeout(function () {

@@ -103,12 +103,18 @@ RPYeti.HUD.prototype.updateReticle = function() {
 	this.hud.beginPath();
 	this.hud.arc( width/2, height/2, RPYeti.config.hud.size, 0, arcFull, false );
 	this.hud.lineWidth = 10;
+	this.hud.strokeStyle = RPYeti.config.hud.borderColor;
+	this.hud.stroke();
+
+	this.hud.beginPath();
+	this.hud.arc( width/2, height/2, RPYeti.config.hud.size, 0, arcFull, false );
+	this.hud.lineWidth = 8;
 	this.hud.strokeStyle = RPYeti.config.hud.baseColor;
 	this.hud.stroke();
 
 	this.hud.beginPath();
 	this.hud.arc( width/2, height/2, RPYeti.config.hud.size, arcInitial, healthPercent, false );
-	this.hud.lineWidth = 10;
+	this.hud.lineWidth = 8;
 	this.hud.strokeStyle = RPYeti.config.hud.damageColor;
 	this.hud.stroke();
 

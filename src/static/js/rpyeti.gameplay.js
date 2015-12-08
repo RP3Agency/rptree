@@ -105,7 +105,7 @@ RPYeti.Gameplay.prototype.nextRound = function () {
 RPYeti.Gameplay.prototype.levelComplete = function () {
 	this.game.hud.addText('Level Complete\nScore: ' + this.player.points);
 
-	RPYeti.music.publisher.trigger('rpyeti.music.win');
+	RPYeti.music.publisher.trigger('rpyeti.music.win', 9600);
 
 	(function (self) {
 		self.stopTimer();

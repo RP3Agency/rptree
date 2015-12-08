@@ -111,9 +111,8 @@ RPYeti.game = (function() {
 			$(window).on('resize', this.resize);
 			setTimeout(this.resize, 1);
 
-			var startLevel = 1;
+			var startLevel = 0;
 			if (startLevel > 0) {
-				// Need setTimout when starting in the game to avoid the HUD being distorted
 				setTimeout(function () {
 					self.gameplay.start(startLevel, true);
 				}, 1000);

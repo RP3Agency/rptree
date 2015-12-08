@@ -16,10 +16,16 @@ RPYeti.Gameplay = function (game, player, camera, scene) {
 
 	(function (self) {
 		self.player.on('defeated', function (context) {
+			RPYeti.music.publisher.trigger('rpyeti.music.lose');
 			self.game.hud.addText('GAME OVER', 0);
 		});
 
 		self.player.on('hit', function (context) {
+			if (!context.lowHealthTrigger && context.health < RPYeti.config.player.lowHealth) {
+				context.lowHealthTrigger = true;
+				RPYeti.music.publisher.trigger('rpyeti.music.lowhealth');
+			}
+
 			self.game.hud.updateReticle();
 		});
 
@@ -46,13 +52,14 @@ RPYeti.Gameplay.prototype.start = function (level, reset) {
 	}
 
 	this.player.health = RPYeti.config.player.health;
+	this.player.lowHealthTrigger = false;
 
 	if (level == 0) {
+		RPYeti.music.publisher.trigger('rpyeti.music.selection');
 		this.startIntro();
 	} else {
-		(function (self, level) {
-			self.levelBegin(level);
-		})(this, level);
+		RPYeti.music.publisher.trigger('rpyeti.music.fight');
+		this.levelBegin(level);
 	}
 };
 
@@ -97,6 +104,9 @@ RPYeti.Gameplay.prototype.nextRound = function () {
 
 RPYeti.Gameplay.prototype.levelComplete = function () {
 	this.game.hud.addText('Level Complete\nScore: ' + this.player.points);
+
+	RPYeti.music.publisher.trigger('rpyeti.music.win');
+
 	(function (self) {
 		self.stopTimer();
 		self.player.setTimeout(function () {
@@ -205,6 +215,8 @@ RPYeti.Gameplay.prototype.endIntro = function (number) {
 			context.roar = new THREE.PositionalAudio( self.game.listener );
 			context.roar.setBuffer( RPYeti.loader.sounds.yeti_roar );
 			context.pivot.add( context.roar );
+
+			RPYeti.music.publisher.trigger('rpyeti.music.theft');
 
 			var bounds = new THREE.Box3().setFromObject(self.intro);
 			context.setTimeout(function () {

@@ -48,7 +48,7 @@ RPYeti.loader = (function() {
 			var texture = asset,
 				loader = new THREE.TextureLoader();
 
-			loader.load('../textures/' + texture.file, function(object) {
+			loader.load('/textures/' + texture.file, function(object) {
 				self.textures[ texture.name ] = object;
 				self.loaded++;
 				self.publisher.trigger( 'rpyeti.loader.progress' );
@@ -60,7 +60,7 @@ RPYeti.loader = (function() {
 			var model = asset,
 				loader = new THREE.OBJMTLLoader();
 
-			loader.load('../models/' + model.mesh, '../textures/' + model.skin, function(object) {
+			loader.load('/models/' + model.mesh, '../textures/' + model.skin, function(object) {
 				object.traverse(function(child) {
 					if( child instanceof THREE.Mesh ) {
 						child.castShadow = true;
@@ -83,7 +83,7 @@ RPYeti.loader = (function() {
 			self.loading++;
 			var sound = asset,
 				buffer = new THREE.AudioBuffer( audio.context );
-			buffer.load( '../sounds/' + sound.file );
+			buffer.load( '/sounds/' + sound.file );
 			buffer.onReady(function() {
 				self.sounds[ sound.name ] = buffer;
 				self.loaded++;
@@ -96,7 +96,7 @@ RPYeti.loader = (function() {
 			var map = asset,
 				loader = new THREE.JSONLoader();
 
-			jQuery.getJSON('../maps/' + map.file, function (object) {
+			jQuery.getJSON('/maps/' + map.file, function (object) {
 				object.density = map.density;
 				self.maps[ map.name ] = object;
 				self.loaded++;
@@ -108,7 +108,7 @@ RPYeti.loader = (function() {
 			self.loading++;
 			var font = asset,
 				loader = new Font();
-			loader.src = '../fonts/' + asset.file;
+			loader.src = '/fonts/' + asset.file;
 			loader.onload = function() {
 				self.fonts[ font.name ] = loader;
   				self.loaded++;

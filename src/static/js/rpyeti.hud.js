@@ -112,7 +112,7 @@ RPYeti.HUD.prototype.updateReticle = function() {
 			textSize *= 1.25;
 		}
 
-		this.hud.font = 'normal ' + textSize + 'px GameFont';
+		this.hud.font = 'normal ' + textSize + 'px eightBit';
 		this.hud.shadowColor = 'black',
 		this.hud.shadowOffsetX = 0;
 		this.hud.shadowOffsetY = 0;

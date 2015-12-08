@@ -11,6 +11,12 @@ var rptree = (function($) {
 
 	scrollToInstructions = function() {
 
+		$('#instructions-arrow').on( 'click', function() {
+
+			$('html, body').animate({
+				scrollTop: $('#cardboard').offset().top
+			}, 1000);
+		});
 	},
 
 	init = function() {

@@ -17,7 +17,7 @@ RPYeti.Gameplay = function (game, player, camera, scene) {
 	(function (self) {
 		self.player.on('defeated', function (context) {
 			RPYeti.music.publisher.trigger('rpyeti.music.lose');
-			self.game.hud.addText('GAME OVER', 0);
+			self.game.hud.addText(RPYeti.config.dialogs.gameOver, 0);
 		});
 
 		self.player.on('hit', function (context) {
@@ -222,7 +222,7 @@ RPYeti.Gameplay.prototype.endIntro = function (number) {
 
 			RPYeti.music.publisher.trigger('rpyeti.music.theft');
 			self.game.hud.addText('', 0);
-			self.game.hud.addText('Oh no!');
+			self.game.hud.addText(RPYeti.config.dialogs.exclamation);
 
 			var bounds = new THREE.Box3().setFromObject(self.intro);
 			context.setTimeout(function () {
@@ -247,7 +247,7 @@ RPYeti.Gameplay.prototype.endIntro = function (number) {
 							// Start level 1!
 							self.start(1);
 						}, 10000)
-						self.game.hud.addText('\nYour donation is safe\nbut the world\nstill needs RPTree\n\nSnowball fight!\nSave RPTree!', 10000);
+						self.game.hud.addText(RPYeti.config.dialogs.introSeque, 10000);
 					});
 
 				positionTween.to({ y: -Math.abs(bounds.max.y) }, RPYeti.config.character.yeti.disappearDuration).start();
@@ -333,12 +333,12 @@ RPYeti.Gameplay.prototype.yetiSpawner = function () {
 					&& param.userData.initiator !== undefined
 					&& param.userData.initiator instanceof RPYeti.Yeti) {
 
-					self.game.hud.addText('Yeti Crossfire');
+					self.game.hud.addText(RPYeti.config.dialogs.yetiOnYeti);
 				} else if (param.userData.initiator == self.player) {
 					self.player.trigger('yeti.defeat', context);
-					self.game.hud.addText('Yeti Down! ' + self.player.points + '\n' + (self.settings.yeti.total - self.currentLevelDefeated) + ' to go');
-				} else {
-					self.game.hud.addText('Something Else Did It');
+					self.game.hud.addText(RPYeti.config.dialogs.yetiDowned
+						+ ' ' + self.player.points + '\n'
+						+ (self.settings.yeti.total - self.currentLevelDefeated) + ' ' + RPYeti.config.dialogs.remaining);
 				}
 			});
 

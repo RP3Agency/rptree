@@ -2,6 +2,10 @@
 	color: get-color( "white" );
 }
 
+.site-content {
+	z-index: 1;
+}
+
 .experience-selector {
 	background: get-color( "gray" ) url("../images/rptree-bg-v2.jpg") no-repeat center;
 	background-size: cover;
@@ -243,10 +247,12 @@
 	&.leaderboard {
 		background: get-color( "gray" ) url("../images/rptree-bg-v2.jpg") no-repeat center;
 		background-size: cover;
-		padding-top: 4rem;
+		padding-top: 5rem;
+		margin-bottom: -300px;
 
 		@include breakpoint(640px) {
 			display: block;
+			padding-top: 7.5rem;
 		}
 	}
 }

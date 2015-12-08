@@ -55,12 +55,4 @@
 			display: block;
 		}
 	}
-
-	.sharing {
-		display: none;
-
-		@include breakpoint( 640px ) {
-			display: block;
-		}
-	}
 }

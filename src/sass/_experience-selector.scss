@@ -137,13 +137,28 @@
 
 				svg {
 					width: 75%;
+
+					path {
+						transition: fill 100ms ease-in;
+					}
 				}
 
 				@include hover-state {
 					text-decoration: none;
 
 					.experience-selector__svg {
-						background-color: transparentize( get-color( "white" ), 0.3 );
+						background-color: get-color( "blue--brand" );
+					}
+
+					svg {
+
+						path {
+							fill: get-color( "white" );
+						}
+
+						[class$="-st1"] {
+							fill: transparent;
+						}
 					}
 				}
 			}
@@ -204,6 +219,7 @@
 	background-color: transparent;
 	border: none;
 	color: get-color("blue--brand");
+	cursor: pointer;
 	display: block;
 	line-height: 2;
 	margin: 0 auto;

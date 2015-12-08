@@ -15,6 +15,10 @@ RPYeti.config = {
 		fov: 65,
 	},
 
+	terrain: {
+		depth: 500
+	},
+
 	dialogs: {
 		introSeque: '\nYour donation is safe\nbut the world\nstill needs RPTree\n\nSnowball fight!\nSave RPTree!',
 		gameOver: 'GAME OVER',

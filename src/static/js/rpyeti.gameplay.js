@@ -246,12 +246,12 @@ RPYeti.Gameplay.prototype.endIntro = function (number) {
 						context.setTimeout(function () {
 							// Start level 1!
 							self.start(1);
-						}, 10000)
-						self.game.hud.addText(RPYeti.config.dialogs.introSeque, 10000);
+						}, 9600)
+						self.game.hud.addText(RPYeti.config.dialogs.introSeque, 9600);
 					});
 
 				positionTween.to({ y: -Math.abs(bounds.max.y) }, RPYeti.config.character.yeti.disappearDuration).start();
-			}, 2000);
+			}, 3000);
 		});
 	})(this);
 };

@@ -45,6 +45,8 @@
 
 				<div id="ready" class="ready">
 
+					<p>Press trigger to enter</p>
+
 					<p class="howto">
 
 						<% include ../../static/images/phone.svg %> <span>+</span>
@@ -55,7 +57,14 @@
 
 					</p>
 
-					<p>Press trigger to enter</p>
+					<ul id="hints" class="hints">
+
+						<li>Look out behind you!</li>
+						<li>Lorem ipsum dolor sit amet</li>
+						<li>Veni vidi vici</li>
+						<li>You like that!</li>
+
+					</ul>
 
 				</div>
 
@@ -102,8 +111,7 @@
 		return this.eq(Math.floor(Math.random() * this.length));
 	}
 
-	// hints.find('li').random().css('display', 'block');
-	console.log( hints.find('li').random() );
+	hints.find('li').random().css('display', 'block');
 	</script>
 
 	<script src="../js/third-party/threejs/Detector.js"></script>

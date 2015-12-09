@@ -186,7 +186,6 @@
 }
 
 .ready {
-	margin-top: 2em;
 	opacity: 0;
 	transition: opacity 500ms ease-in;
 
@@ -198,5 +197,16 @@
 		align-items: center;
 		display: none;
 		justify-content: center;
+	}
+}
+
+/** Helpful hints */
+.hints {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+
+	li {
+		display: none;
 	}
 }

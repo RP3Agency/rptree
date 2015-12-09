@@ -1,0 +1,16 @@
+{
+    "debug": false,
+    "express": {
+        "ssl": {
+            "key": "/srv/ssl/rptree.com.key",
+            "cert": "/srv/ssl/rptree.com.crt",
+            "ca": "/srv/ssl/rapidssl.com.ca",
+            "http": {
+                "redirect": "https://%s",
+                "port": 8080
+            }
+        },
+        "address": "0.0.0.0",
+        "port": 8443
+    }
+}

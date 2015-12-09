@@ -1,70 +1,84 @@
 {
   "name": "rptree",
-  "description": "RPTree 2014 - The Remix",
-  "title": "RPTree",
-  "url": "http://rptree.com",
+  "version": "3.0.0",
+  "description": "RPTree 2015: Revenge of RPYeti",
+  "main": "http://rptree.com/",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/RP3Agency/rptree.git"
+    "url": "git@github.com:RP3Agency/rptree.git"
   },
-  "keywords": [
-    "arduino",
-    "node",
-    "max/msp"
-  ],
-  "homepage": "https://github.com/RP3Agency/rptree",
-  "author": "Tracy Rotton, Kurt Roberts, Bryan Cox",
   "contributors": [
-    {
-      "name": "Tracy Rotton",
-      "email": "trotton@rp3agency.com"
-    },
-    {
-      "name": "Brian Watson"
-    },
     {
       "name": "Kurt Roberts",
       "email": "kroberts@rp3agency.com"
     },
     {
+      "name": "Jeremy Hilts",
+      "email": "jhilts@rp3agency.com"
+    },
+    {
+      "name": "Tracy Rotton",
+      "email": "trotton@rp3agency.com"
+    },
+    {
       "name": "Bryan Cox",
       "email": "bcox@rp3agency.com"
+    },
+    {
+      "name": "Deanna Steers",
+      "email": "dsteers@rp3agency.com"
+    },
+    {
+      "name": "Michael Kahane",
+      "email": "mkahane@rp3agency.com"
     }
   ],
-  "copyright": "2014",
-  "version": "2.0.0",
   "license": "MIT",
-  "scripts": {
-    "start": "node app",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "main": "app",
+  "private": true,
   "devDependencies": {
-    "del": "^1.0.0",
-    "gulp": "^3.8.10",
-    "gulp-autoprefixer": "^1.0.0",
-    "gulp-concat": "^2.4.2",
-    "gulp-jshint": "^1.8.4",
-    "gulp-minify-css": "^0.3.11",
-    "gulp-rename": "^1.2.0",
-    "gulp-ruby-sass": "^0.7.1",
-    "gulp-sourcemaps": "1.2.8",
-    "gulp-uglify": "^1.0.1",
-    "gulp-util": "^3.0.1",
-    "matchdep": "^0.3.0",
-    "gulp-minify-html": "^0.1.7"
+    "compression": "^1.6.0",
+    "connect-livereload": "^0.5.3",
+    "del": "^2.0.2",
+    "express": "^4.13.3",
+    "gulp": "^3.9.0",
+    "gulp-autoprefixer": "^3.0.2",
+    "gulp-concat": "^2.6.0",
+    "gulp-ejs": "^1.2.1",
+    "gulp-html-extend": "^1.1.6",
+    "gulp-html-minify": "0.0.12",
+    "gulp-jshint": "^1.11.2",
+    "gulp-livereload": "^3.8.1",
+    "gulp-minify-css": "^1.2.1",
+    "gulp-nodemon": "^2.0.4",
+    "gulp-notify": "^2.2.0",
+    "gulp-plumber": "^1.0.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-s3-upload": "^1.4.2",
+    "gulp-sass": "^2.0.4",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-uglify": "^1.4.1",
+    "gulp-util": "^3.0.6",
+    "matchdep": "^1.0.0",
+    "tiny-lr": "^0.2.0"
   },
   "dependencies": {
-    "bluebird": "~2.3.11",
-    "config": "~1.8.1",
+    "bluebird": "^3.0.0",
+    "body-parser": "^1.14.1",
+    "config": "^1.16.0",
+    "debug": "^2.2.0",
     "emoji": "^0.3.2",
-    "lodash": "~2.4.1",
-    "monk": "~0.9.1",
-    "node-osc": "~0.3.0",
-    "require-directory": "^2.0.0",
-    "restify": "~2.8.3",
-    "twitter": "~0.2.13",
-    "twitter-text": "~1.10.0",
-    "webpurify": "~0.8.3"
+    "express": "^4.13.3",
+    "lodash": "^3.10.1",
+    "mongodb": "^2.0.49",
+    "monk": "^1.0.1",
+    "node-uuid": "^1.4.7",
+    "require-directory": "^2.1.1",
+    "serve-static": "^1.10.0",
+    "twitter": "^1.2.5",
+    "twitter-text": "^1.13.2",
+    "webpurify": "^1.0.0"
   }
 }

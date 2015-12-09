@@ -1,0 +1,262 @@
+.page {
+	color: get-color( "white" );
+}
+
+.site-content {
+	z-index: 1;
+}
+
+.experience-selector {
+	background: get-color( "gray" ) url("../images/rptree-bg-v2.jpg") no-repeat center;
+	background-size: cover;
+	margin: 0 auto;
+	max-width: rem(680px);
+	padding-top: 6rem;
+	position: relative;
+	text-align: center;
+
+	@include breakpoint( 640px ) {
+		background: none;
+		max-width: rem(500px);
+		padding-top: 11rem;
+	}
+
+	&__logo {
+		position: relative;
+
+		img {
+			display: block;
+			margin: 0 auto;
+			max-width: rem(400px);
+			position: relative;
+			width: 100%;
+		}
+
+		&::before {
+			background: linear-gradient( get-color( "blue--brand" ), transparent 80%);
+			border-radius: 50%;
+			content: "";
+			display: block;
+			position: absolute;
+			height: 96%;
+			opacity: 0.3;
+			width: 100%;
+			left: 50%;
+			top: 40%;
+			transform: translate( -50%, -50% );
+		}
+
+		.snowflake {
+			position: absolute;
+
+			height: 16px;
+			width: 16px;
+
+			svg {
+				display: block;
+				height: 100%;
+				width: 100%;
+			}
+
+			$containerWidth: 568px;
+			$containerHeight: 663px;
+
+			$snowflake-positioning: (
+				"left" 30px "bottom" 241px,
+				"left" 65px "top" 236px,
+				"left" 130px "top" 58px,
+				"right" 187px "top" 25px,
+				"right" 131px "top" 166px,
+				"right" 35px "bottom" 184px
+			);
+
+			@for $i from 1 through 6 {
+
+				$horizontalDirection: nth( nth( $snowflake-positioning, $i ), 1 );
+				$horizontalValue:     floor( percentage( nth( nth( $snowflake-positioning, $i ), 2 ) / $containerWidth ) );
+
+				$verticalDirection:   nth( nth( $snowflake-positioning, $i ), 3 );
+				$verticalValue:       floor( percentage( nth( nth( $snowflake-positioning, $i ), 4 ) / $containerHeight ) );
+
+				&.snowflake--#{$i} {
+					#{$horizontalDirection}: $horizontalValue;
+					#{$verticalDirection}: $verticalValue;
+				}
+			}
+		}
+	}
+
+	&__icons {
+		display: flex;
+		margin-bottom: 1em;
+	}
+
+	&__desktop,
+	&__vr {
+		flex: 1;
+		text-transform: uppercase;
+
+		.experience-selector--desktop,
+		.experience-selector--vr {
+			display: block;
+			font-size: 14px;
+			font-weight: 700;
+			height: 100%;
+			letter-spacing: 1px;
+			line-height: 1.1;
+			text-align: center;
+			white-space: nowrap;
+			width: 100%;
+
+			@include breakpoint( orientation landscape ) {
+				width: 100%;
+				height: 100%;
+			}
+
+			a {
+				color: get-color( "blue--brand" );
+				display: block;
+				font-family: "Roboto Condensed", sans-serif;
+				height: 100%;
+				padding: 1em;
+				position: relative;
+				text-decoration: none;
+				width: 100%;
+
+				.experience-selector__svg {
+					background-color: transparentize( get-color( "white" ), 0.9 );
+					border: 4px solid get-color( "blue--brand" );
+					border-radius: 50%;
+					display: block;
+					height: 100px;
+					margin: 0 auto 1em;
+					position: relative;
+					text-align: center;
+					transition: background-color 100ms ease-in;
+					width: 100px;
+					@include aspect-ratio( 1, 1 );
+				}
+
+				svg {
+					left: 50% !important;
+					position: absolute;
+					top: 50% !important;
+					transform: translate( -50%, -50% );
+					width: 75%;
+
+					path {
+						transition: fill 100ms ease-in;
+					}
+				}
+
+				@include hover-state {
+					text-decoration: none;
+
+					.experience-selector__svg {
+						background-color: get-color( "blue--brand" );
+					}
+
+					svg {
+
+						path {
+							fill: get-color( "white" );
+						}
+
+						[class$="-st1"] {
+							fill: transparent;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	&__text {
+		background-color: get-color( "gray--lightest" ); // bootstrap color variable
+		border: 1px solid get-color( "gray--light" ); // bootstrap color variable
+		font-size: 0.8em;
+		padding: 3px;
+		text-transform: uppercase;
+		white-space: nowrap;
+	}
+
+	&--white {
+		background-color: get-color( "white" );
+		background-image: none;
+		color: get-color( "blue--brand" );
+		line-height: 1.5;
+		padding: 0;
+
+		@include breakpoint( 640px ) {
+			background-color: transparent;
+			box-shadow: none;
+		}
+
+		.container {
+			max-width: rem(305px);
+		}
+
+		p {
+			font-family: "Roboto Condensed", sans-serif;
+			font-size: 14px;
+			font-style: italic;
+
+			.blue {
+				display: block;
+				margin-top: 10px;
+			}
+		}
+	}
+
+	.vrp3 {
+		border: solid get-color( "white" ) {
+			width: 1px 0;
+		}
+		display: inline-block;
+		font-size: rem( 12px );
+		font-weight: 500;
+		text-transform: uppercase;
+	}
+}
+
+.instructions-arrow {
+	appearance: none;
+	background-color: transparent;
+	border: none;
+	color: get-color("blue--brand");
+	cursor: pointer;
+	display: block;
+	line-height: 2;
+	margin: 0 auto;
+	outline: none;
+	padding: 1em;
+	text-align: center;
+
+	i {
+		display: block;
+	}
+}
+
+.page .intro {
+	padding-bottom: 2rem;
+
+	@include breakpoint(640px) {
+		background: get-color( "gray" ) url("../images/rptree-bg-v2.jpg") no-repeat center;
+		background-size: cover;
+		padding-top: 1rem;
+	}
+
+	&.leaderboard {
+		background: get-color( "gray" ) url("../images/rptree-bg-v2.jpg") no-repeat center;
+		background-size: cover;
+		padding-bottom: 8rem;
+		padding-top: 5rem;
+		position: relative;
+		margin-bottom: -300px;
+
+		@include breakpoint(640px) {
+			display: block;
+			padding: 7.5rem 0 8rem;
+		}
+	}
+}

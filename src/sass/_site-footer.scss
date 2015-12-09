@@ -1,0 +1,66 @@
+.site-footer {
+	background: get-color( "gray--lightest" ) url( "../images/footer-home.png" ) no-repeat center bottom;
+	background-size: 180px auto;
+	box-shadow: inset 0 6px 12px -6px transparentize( #222, 0.2 );
+	color: get-color( "gray--dark" );
+	height: rem( 150px );
+	padding-top: 2rem;
+	text-align: center;
+
+	@include breakpoint( 640px ) {
+		background-size: 360px auto;
+		height: rem( 290px );
+		padding-top: rem( 72px );
+	}
+
+	.container {
+		align-items: center;
+		display: flex;
+		justify-content: center;
+
+		.brought {
+			color: get-color( "blue--brand" );
+			display: inline-block;
+			font-size: rem(11px);
+			line-height: rem( 30px );
+			margin-right: 0.25rem;
+			padding: 2px 0;
+
+			@include breakpoint( 640px ) {
+				font-size: 1rem;
+			}
+		}
+
+		.site-footer__logo {
+			display: inline-block;
+
+			a {
+				color: get-color( "white" );
+				display: inline-block;
+				margin: 0 auto;
+
+				@include hover-state {
+					text-decoration: none;
+				}
+			}
+
+			svg {
+				display: inline-block;
+				height: 32px;
+				margin: {
+					bottom: -0.5em;
+					left: 0.25em;
+				}
+				width: auto;
+
+				@include breakpoint( 640px ) {
+					height: rem( 48px );
+				}
+
+				path {
+					fill: get-color( "blue--brand" );
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,87 @@
+
+.snowflake {
+	width: 30px;
+	height: 30px;
+	display: inline-block;
+	float: left;
+	margin-top: 0px;
+	margin-left: 40px;
+}
+
+
+
+body { margin: 0; }
+
+#fall-container {
+	background-color: rgba(9,9,9,0.4);
+	height: 100%;
+	overflow: hidden;
+	position: absolute;
+	perspective-origin: center;
+	perspective: 1800px;
+	top: 0;
+	width: 100%;
+
+	.flake-wrap {
+		display: inline-block;
+		opacity: 1;
+		margin-top: 0px;
+		width: span(1 of 7);
+
+		&.falling {
+			opacity: 0;
+			margin-top: 1000px;
+			-webkit-transition: all 15s ease-in-out;
+			-moz-transition: all 15s ease-in-out;
+			-o-transition: all 15s ease-in-out;
+			transition: all 15s ease-in-out;
+		}
+	}
+
+	.flake {
+		height: 20px;
+		width: 20px;
+		background-size: contain;
+		background-repeat: no-repeat;
+		display: inline-block;
+
+		&.flake1{
+			background-image: url('../images/flakes/flake1.png');
+			-webkit-transition: all 1.5s ease-in-out;
+			-moz-transition: all 1.5s ease-in-out;
+			-o-transition: all 1.5s ease-in-out;
+			transition: all 1.5s ease-in-out;
+
+			&.right {
+				margin-right: 100px;
+				-webkit-transition: all 1.5s ease-in-out;
+				-moz-transition: all 1.5s ease-in-out;
+				-o-transition: all 1.5s ease-in-out;
+				transition: all 1.5s ease-in-out;
+			}
+		}
+		&.flake2{
+			background-image: url('../images/flakes/flake2.png');
+			margin-left: -30px;
+			-webkit-transition: all 2s ease-in-out;
+			-moz-transition: all 2s ease-in-out;
+			-o-transition: all 2s ease-in-out;
+			transition: all 2s ease-in-out;
+
+			&.right {
+				margin-left: 100px;
+				-webkit-transition: all 2s ease-in-out;
+				-moz-transition: all 2s ease-in-out;
+				-o-transition: all 2s ease-in-out;
+				transition: all 2s ease-in-out;
+			}
+		}
+		&.flake3{background-image: url('../images/flakes/flake3.png');}
+		&.flake4{background-image: url('../images/flakes/flake4.png');}
+		&.flake5{background-image: url('../images/flakes/flake5.png');}
+		&.flake6{background-image: url('../images/flakes/flake6.png');}
+		&.flake7{background-image: url('../images/flakes/flake1.png');}
+
+	}
+
+}

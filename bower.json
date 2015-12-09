@@ -1,0 +1,38 @@
+{
+  "name": "rptree",
+  "homepage": "http://rptree.com",
+  "authors": [
+    "Tracy Rotton <trotton@rp3agency.com>",
+    "Kurt Roberts <krobers@rp3agency.com>",
+    "Bryan Cox <bcox@rp3agency.com>",
+    "Jeremy Hilts <jhilts@rp3agency.com>",
+    "Michael Kahane <mkahane@rp3agency.com>",
+    "Deanna Steers <dsteers@rp3agency.com>"
+  ],
+  "description": "RPTree 2015: Rise of RPYeti",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "compass-breakpoint": "breakpoint-sass#~2.6.1",
+    "bootstrap": "4.0.0-alpha",
+    "font-awesome": "fontawesome#~4.4.0",
+    "masonry": "~3.3.2",
+    "backbone": "~1.2.3",
+    "moment": "~2.10.6",
+    "susy": "~2.2.7"
+  },
+  "dependencies": {
+    "tween.js": "tweenjs#~16.3.1",
+    "Font.js": "*",
+    "js-cookie": "~2.0.4"
+  }
+}

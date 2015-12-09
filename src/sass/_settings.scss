@@ -1,0 +1,54 @@
+/**
+ * Colors
+ */
+
+$colors: (
+	"black":			#000,
+	"blue--light":		#c0d1da,
+	"blue--dark":		#061a25,
+	"blue--brand":		#00aeef,
+	"gray":				#babebd,
+	"gray--dark":		mix( black, #babebd, 20% ),
+	"gray--light":		#818a91,
+	"gray--lightest":	#f7f7f9,
+	"gray--panels":		#DADADC,
+	"white":			#fff
+);
+
+@function get-color( $key ) {
+	@return map-get( $colors, $key );
+}
+
+
+/**
+ * Breakpoint
+ */
+
+@include breakpoint-set( 'to ems', true );
+
+$bp: 718px;
+
+
+/**
+ * Bootstrap Variables
+ */
+
+$enable-flex: true;
+
+
+/**
+ * Font Awesome Settings
+ */
+
+$fa-font-path:   "../font";
+
+/**
+* 8Bit font setup
+*/
+
+@font-face {
+	font-family: 'eightBit';
+    src: url('/fonts/8bit.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}

@@ -1,188 +1,222 @@
-/**
- * Establish our gulp/node plugins for this project.
- */
+// Load plugins
 var gulp			= require('gulp'),
+	gutil			= require('gulp-util'),
+	notify			= require('gulp-notify'),
+	plumber			= require('gulp-plumber'),
 
-	// Sass/Compass/related CSSy things
-	sass			= require('gulp-ruby-sass'),
+	// CSS preprocessors
+	sass			= require('gulp-sass'),
 	autoprefixer	= require('gulp-autoprefixer'),
 	minifycss		= require('gulp-minify-css'),
 	sourcemaps		= require('gulp-sourcemaps'),
 
-	// HTML
-	minifyhtml		= require('gulp-minify-html'),
-
-	// JavaScript
+	// JS preprocessors
 	jshint			= require('gulp-jshint'),
 	uglify			= require('gulp-uglify'),
 
-	// File system
+	// HTML preprocessors
+	extender		= require('gulp-html-extend'),
+	ejs				= require('gulp-ejs'),
+	htmlminify		= require('gulp-html-minify'),
+
+	// File operations
 	concat			= require('gulp-concat'),
 	rename			= require('gulp-rename'),
 	del				= require('del'),
 
-	// Notifications and error handling
-	gutil			= require('gulp-util');
+	// Development environment
+	livereload		= require('gulp-livereload'),
+	express			= require('express'),
+	server			= express(),
+	compress		= require( 'compression' ),
+	nodemon			= require('gulp-nodemon'),
 
-/**
- * Set our source and destination variables
- */
-var // Project
-	project			= 'rptree',	// a short code for establishing things like
-								// the resulting JavaScript file, etc.
+	// Deployment
+	aws_s3			= require('gulp-s3-upload')({
+		region: 'us-east-1'
+	});
 
-	// Source files
-	src				= __dirname + '/src',
-	src_js			= src + '/js',
-	src_js_vendor	= src_js + '/vendor',
-	src_js_plugins	= src_js + '/plugins',
-	src_sass		= src + '/sass',
-	src_html		= src + '/html',
-	src_images		= src + '/images',
-	src_fonts		= src + '/fonts',
+// Disable notify if not on Mac
+if( process.platform != 'darwin' ) {
+	notify = notify.withReporter( function(options, callback) {
+		console.log(options.message);
+		callback();
+	});
+}
 
-	// Destination files, WordPress
-	dest			= __dirname + '/www',
-	dest_js			= dest + '/js',
-	dest_css		= dest + '/css',
-	dest_images		= dest + '/images',
-	dest_fonts		= dest + '/fonts';
+// For gulp-nodemon, if interrupt (CTRL-C) is sent, exit
+process.once('SIGINT', function() {
+    process.exit(0);
+});
 
-/**
- * Now, let's do things.
- */
+// Define gulp-plumber error handler
+function logError(err) {
+    gutil.log( gutil.colors.red('ERROR'), err);
+	gutil.beep();
+    this.emit('end');
+}
 
-
-// Styles
+// Process sass files
 gulp.task('styles', function() {
-	console.log(src_sass + '/*.scss');
-	return gulp.src(src_sass + '/*.scss')
-		.pipe(sass({
-			bundleExec: true,
-			require: ['breakpoint', 'font-awesome-sass']
-		}))
-		.on( 'error', gutil.log )
-		.pipe(sourcemaps.init())
-		.pipe(autoprefixer({
-			browsers: ['last 2 versions', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4']
-		}))
-		.pipe(sourcemaps.write())
-		.pipe(gulp.dest(dest_css))
-		.pipe(rename({
-			suffix: '.min'
-		}))
-		.pipe(minifycss())
-		.pipe(gulp.dest(dest_css));
+  	return gulp.src( __dirname + '/src/sass/*.scss')
+	.pipe( plumber(logError) )
+	.pipe( sass({
+		errLogToConsole: true
+	}) )
+	.pipe( autoprefixer({
+		browsers: [ 'last 2 versions', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4' ]
+	}) )
+	.pipe( gulp.dest( __dirname + '/dist/css') )
+	.pipe( minifycss() )
+	.pipe( rename({
+		suffix: '.min'
+	}) )
+	.pipe( gulp.dest( __dirname + '/dist/css') )
+	.pipe( notify({ message: 'Styles task complete', onLast: true }) )
+	.pipe( livereload() );
 });
 
+// Process js files
+gulp.task('scripts', [ 'scripts-bower' ], function() {
 
-// Scripts task: JSHint & minify custom js
-gulp.task('scripts-custom', function() {
-	return gulp.src(src_js + '/*.js')
-		.pipe(jshint(__dirname + '/.jshintrc'))
-		.pipe(jshint.reporter('default'))
-		.pipe(concat(project + '.js'))
-		.pipe(rename({suffix: '.min'}))
-		.pipe(uglify())
-		.on('error', gutil.log)
-		.pipe(gulp.dest(dest_js));
+	var src_js_dir = __dirname + '/src/js',
+		src_js     = [
+			src_js_dir + '/rptree.js',
+			src_js_dir + '/rptree.backbone.js'
+		];
+
+	return gulp.src( src_js )
+	.pipe( plumber(logError) )
+	.pipe( jshint(__dirname + '/src/js/.jshintrc') )
+	.pipe( jshint.reporter('default') )
+	.pipe( concat('rptree.js') )
+	.pipe( gulp.dest(__dirname + '/dist/js') )
+	.pipe( rename({suffix: '.min'}) )
+	.pipe( uglify() )
+	.pipe( gulp.dest(__dirname + '/dist/js') )
+	.pipe( notify({ message: 'Scripts task complete', onLast: true }) )
+	.pipe( livereload() );
 });
 
-// Scripts task: Plugins
-gulp.task('scripts-plugins', function() {
-	return gulp.src(src_js_plugins + '/*.js')
-		.pipe(concat(project + '-plugins.js'))
-		.pipe(rename({suffix: '.min'}))
-		.pipe(uglify())
-		.on('error', gutil.log)
-		.pipe(gulp.dest(dest_js));
+// Process html files
+gulp.task('html', [ 'styles' ], function(){
+	return gulp.src([ __dirname + '/src/html/**/*.html', '!' + __dirname + '/src/html/_templates/**', '!' + __dirname + '/src/html/**/_*.html' ])
+	.pipe( plumber(logError) )
+	.pipe( extender({
+		annotations: false,
+		verbose: false,
+		root: './src/html',
+	}) )
+	.pipe( ejs() )
+	.pipe( htmlminify() )
+	.pipe( gulp.dest(__dirname + '/dist') )
+	.pipe( notify({ message: 'HTML task complete', onLast: true }) )
+	.pipe( livereload() );
 });
 
-// Scripts task: Vendor
-gulp.task('scripts-vendor', function() {
-	return gulp.src(src_js_vendor + '/*.js')
-		.pipe(concat(project + '-vendor.js'))
-		.pipe(rename({suffix: '.min'}))
-		.pipe(uglify())
-		.on('error', gutil.log)
-		.pipe(gulp.dest(dest_js));
+// Process static files
+gulp.task('static', function() {
+	return gulp.src(__dirname + '/src/static/**')
+	.pipe( plumber(logError) )
+	.pipe( gulp.dest(__dirname + '/dist') )
+	.pipe( notify({ message: 'Static task complete', onLast: true }) )
+	.pipe( livereload() );
 });
 
-// Scripts task: run the three other scripts tasks
-gulp.task('scripts', function() {
-	gulp.start('scripts-custom');
-	gulp.start('scripts-plugins');
-	gulp.start('scripts-vendor');
+// Process Font Awesome fonts from bower_components
+gulp.task( 'font-awesome', function() {
+	return gulp.src( __dirname + '/bower_components/font-awesome/fonts/**' )
+		.pipe( plumber( logError ) )
+		.pipe( gulp.dest( __dirname + '/dist/fonts' ) )
+		.pipe( notify( { message: 'Font Awesome task complete', onLast: true } ) )
+		.pipe( livereload() );
 });
 
-
-// Images: for now, just move them into /www/, but we really should be imageminning them
-gulp.task('images', function() {
-	var filesToMove = [ src_images + '/**/*.*' ];
-
-	return gulp.src(filesToMove)
-		.pipe(gulp.dest(dest_images));
-});
-
-// Fonts
-gulp.task('fonts', function() {
-	var filesToMove = [ src_fonts + '/**/*.*' ];
-
-	return gulp.src(filesToMove)
-		.pipe(gulp.dest(dest_fonts));
-});
-
-
-// Clean
+// Clean task
 gulp.task('clean', function() {
-	del( [dest + '/*'], function( err ) {
-		console.log( 'Web directory contents deleted.' );
+	return del([__dirname + '/dist/**']);
+});
+
+// Build task
+gulp.task('build', [ 'static', 'html', 'styles', 'scripts', 'font-awesome' ]);
+
+// Rebuild task
+gulp.task('rebuild', [ 'clean' ], function() {
+	gulp.start( 'build' );
+});
+
+// Static file server with livereload
+gulp.task('serve', function() {
+	server.use( compress() );
+	server.use( express.static(__dirname + '/dist') );
+	server.listen(8080);
+	gutil.log('Started development static server on localhost:8080');
+	livereload.listen();
+	gutil.log('LiveReload server activated');
+});
+
+// Run server app in watch mode with livereload
+gulp.task('launch', function (cb) {
+    nodemon({
+        script:	'server/index.js',
+        watch:	[ 'server/', 'config/' ],
+		ext:	'js json',
+		env:	{ 'NODE_ENV': 'staging' },
+    }).on('start', function() {
+		gutil.log('Launched application server in live development mode');
+		livereload.listen();
+		gutil.log('LiveReload server activated');
+    }).on('restart', function() {
+		gutil.log('Restarted application server');
 	});
 });
 
-
-// build-www: build web (html) files to the www directory
-gulp.task('build-www', function() {
-	var filesToMove = [
-		src_html + '/**/*.*',
-		src_html + '/**/.htaccess'
-	];
-
-	return gulp.src(filesToMove, { base: src_html })
-		.pipe(minifyhtml())
-		.pipe(gulp.dest(dest));
-});
-
-// build: run the build-www, CSS & JS processing tasks
-gulp.task('build', ['styles', 'scripts', 'images', 'fonts'], function() {
-	gulp.start('build-www');
-});
-
-
-// Dist: much like build, except clean our destination first.
-gulp.task('dist', ['clean'], function() {
-	gulp.start('build');
-});
-
-// Default: right now, just running build
-gulp.task('default', function() {
-	gulp.start('build');
-});
-
-
-// Watch: watch our files and do things when they change
+// Watch task
 gulp.task('watch', function() {
-	gulp.start('default');
 
-	// Watch .scss files
-	gulp.watch( src_sass + '/**/*.scss', ['styles'] );
+	gulp.watch( __dirname + '/src/sass/**/*.scss',		['styles'] );
+	gulp.watch( __dirname + '/src/js/**/*.js',			['scripts'] );
+	gulp.watch( __dirname + '/src/html/**/*.html',		['html'] );
+	gulp.watch( __dirname + '/src/static/**/*.*',		['static'] );
 
-	// Watch custom JavaScript files
-	gulp.watch( src_js + '/*.js', ['scripts-custom'] );
+});
 
-	// Watch HTML files
-	gulp.watch( src_html + '/**/*.*', ['build-www'] );
+// Default task
+gulp.task('default', [ 'build', 'serve', 'watch' ]);
 
-	// Watch image files
-	gulp.watch( src_images + '/**/*.*', ['images'] );
+// Develop task
+gulp.task('develop', [ 'build', 'launch', 'watch' ]);
+
+// Deploy task
+gulp.task('deploy', function() {
+	return gulp.src(__dirname + '/dist/**')
+	.pipe( aws_s3({
+		Bucket: 'rptree.com',
+		ACL:    'public-read'
+	}) );
+});
+
+// Scripts - Bower
+// Take all of the bower-managed JavaScript and merge them into a single, uglified file
+
+gulp.task( 'scripts-bower', function() {
+
+	var bower_dir = __dirname + '/bower_components',
+		bower_files = [
+			bower_dir + '/jquery/dist/jquery.js',
+			bower_dir + '/moment/min/moment-with-locales.js',
+			bower_dir + '/underscore/underscore.js',
+			bower_dir + '/backbone/backbone.js',
+			bower_dir + '/masonry/dist/masonry.pkgd.js',
+			bower_dir + '/Font.js/Font.js',
+			bower_dir + '/tween.js/src/Tween.js',
+			bower_dir + '/js-cookie/src/js.cookie.js'
+		];
+
+	return gulp.src( bower_files )
+		.pipe( concat( 'scripts-bower.js' ) )
+		.pipe( gulp.dest( __dirname + '/dist/js' ) )
+		.pipe( rename( { suffix: '.min' } ) )
+		.pipe( uglify() )
+		.pipe( gulp.dest( __dirname + '/dist/js' ) );
 });

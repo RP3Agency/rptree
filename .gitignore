@@ -1,8 +1,9 @@
-.sass-cache
-.vagrant
-app/config/*
-config/*
-!config/default.json
-node_modules
-www
 .DS_Store
+.sass-cache
+config/runtime.json
+config/local*.json
+dist
+node_modules
+bower_components
+app
+www

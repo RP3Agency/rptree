@@ -1,0 +1,19 @@
+@font-face {
+    font-family: 'eightBit';
+    src: url('/fonts/8bit.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.rpyeti {
+    font-family: 'eightBit', sans-serif;
+	left: 0;
+	margin: 0;
+	overflow: hidden;
+	position: absolute;
+	top: 0;
+	user-select: none;
+	background-color: #000000;
+	height: 100vh;
+	width: 100vw;
+}

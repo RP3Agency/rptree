@@ -1,62 +1,27 @@
-/** Breakpoint */
-@import "breakpoint";
-$breakpoint-to-ems: true;
-$hidpi: min-resolution 1.5dppx;
+/** Libraries */
 
-$breakpoint-sm:	600px;
-$breakpoint:	760px;
-$breakpoint-lg:	1120px;
+@import
+	"../../bower_components/compass-breakpoint/stylesheets/breakpoint",
+	"../../bower_components/susy/sass/susy",
+	"../../bower_components/font-awesome/scss/font-awesome";
 
-/** Eric Meyer Reset */
-@import "reset";
+/** Custom Code */
 
-/** Font Awesome */
-@import "font-awesome";
+@import
+	"settings",
+	"mixins",
+	"typography",
+	"teaser",
+	"site";
 
-/** Emoji */
-@import "emoji";
+.list-inline {
+	padding-left: 0;
+	margin-left: 0;
+	list-style: none;
 
-/** Variables */
-@import "variables";
-
-/** Extend (placeholder selectors) */
-@import "extend";
-
-/** Functions */
-@import "functions";
-
-/** Mixins */
-@import "mixins";
-
-/** Typography */
-@import "typography";
-
-/** Site Header */
-@import "site-header";
-
-/** Banner */
-@import "banner";
-
-/** Page */
-@import "page";
-
-/** Tweet */
-@import "tweet";
-
-/** Screen */
-@import "screen";
-
-/** A little "parallax" (but not really) */
-@import "parallax";
-
-body {
-	background-color: nth($grays, 3);
-}
-
-p {
-	margin: 0.5em 0;
-}
-
-a {
-	color: nth($blues, 1);
+	> li {
+		display: inline-block;
+		padding-right: 5px;
+		padding-left: 5px;
+	}
 }

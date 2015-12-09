@@ -1,0 +1,48 @@
+body.teaser {
+	background: get-color( "blue--dark" ) url("../images/rptree.jpg") center/auto 100vh no-repeat;
+	color: get-color( "blue--light" );
+	font-family: "Roboto", sans-serif;
+	font-weight: 500;
+	height: 100vh;
+	width: 100vw;
+
+	@include breakpoint( $bp ) {
+		background-position: right center;
+	}
+
+	.content {
+		font-size: 2rem;
+		margin: 0 auto;
+		width: 90%;
+		left: 50%;
+		position: absolute;
+		top: 50%;
+		transform: translate(-50%, -50%);
+
+		@include breakpoint( $bp ) {
+			width: auto;
+			left: 25%;
+			transform: translate(0, -50%);
+		}
+
+		svg {
+			display: block;
+			height: auto;
+			max-width: 220px;
+			width: 50%;
+
+			@include breakpoint( $bp ) {
+				width: 220px;
+			}
+		}
+
+		path {
+			fill: get_color( "blue--light" );
+		}
+
+		span {
+			display: inline-block;
+			text-indent: 4em;
+		}
+	}
+}

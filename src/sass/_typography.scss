@@ -1,67 +1,19 @@
-/** Load in Google fonts */
-@import url(http://fonts.googleapis.com/css?family=Roboto:500,300,400,700|Open+Sans:600);
+/**
+ * Typography
+ */
 
-/** Set our font sets as placeholder selectors to be @extend-ed */
-
-$font-family-roboto:		"Roboto", sans-serif;
-$font-family-opensans:		"Open Sans", sans-serif;
-
-$font-weight-light:			300;
-$font-weight-regular:		400;
-$font-weight-medium:		500;
-$font-weight-semibold:		600;
-$font-weight-bold:			700;
-
-%roboto-light {
-	font: {
-		family: $font-family-roboto;
-		weight: $font-weight-light;
-	}
-}
-
-%roboto-regular {
-	font: {
-		family: $font-family-roboto;
-		weight: $font-weight-regular;
-	}
-}
-
-%roboto-medium {
-	font: {
-		family: $font-family-roboto;
-		weight: $font-weight-medium;
-	}
-}
-
-%roboto-bold {
-	font: {
-		family: $font-family-roboto;
-		weight: $font-weight-bold;
-	}
-}
-
-%opensans-semibold {
-	font: {
-		family: $font-family-opensans;
-		weight: $font-weight-semibold;
-	}
-}
-
-
-/** Set base font styling */
-
-$default-font-size: 21px !default;
-
-html {
-	@extend %roboto-light;
-	font-size: percentage( $default-font-size / 16px );
-}
+@import url(https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300italic,300,400italic);
 
 body {
-	line-height: 1.3;
+	font-family: Roboto, sans-serif;
+}
+
+h2 {
+	font-family: "Roboto Condensed", sans-serif;
+	font-weight: 500;
+	text-transform: uppercase;
 }
 
 strong {
-	color: nth($blues, 1);
-	font-weight: $font-weight-medium;
+	font-weight: 500;
 }

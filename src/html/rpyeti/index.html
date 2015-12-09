@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>RPTree</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<meta name="mobile-web-app-capable" content="yes">
+	<style>
+	<% include ../../../dist/css/loading.min.css %>
+	</style>
+	<link rel="stylesheet" type="text/css" href="../css/rpyeti.css">
+	<% include ../_templates/google-analytics.html %>
+	<link rel="icon" type="image/png" href="/images/yeti-avatar.png">
+	<link rel="apple-touch-icon" href="/images/yeti-avatar.png">
+</head>
+
+<body class="rpyeti-page">
+
+	<div id="now-loading" class="now-loading">
+
+		<div id="now-loading__inner" class="now-loading__inner">
+
+			<div id="ornaments" class="ornaments">
+
+				<div id="loading" class="loading">Now loading…</div>
+
+				<div class="ornaments--inner">
+
+					<div class="ornament">
+						<div class="hook"></div>
+					</div>
+
+					<div class="ornament">
+						<div class="hook"></div>
+					</div>
+
+					<div class="ornament">
+						<div class="hook"></div>
+					</div>
+
+					<div class="ornament">
+						<div class="hook"></div>
+					</div>
+
+				</div>
+
+				<div id="ready" class="ready">
+
+					<p>Press trigger to enter</p>
+
+					<p class="howto howto--mobile">
+
+						<% include ../../static/images/phone.svg %> <span>+</span>
+
+						<% include ../../static/images/cardboard.svg %> <span>+</span>
+
+						<% include ../../static/images/headphones.svg %>
+
+					</p>
+
+					<p class="howto howto--desktop">
+
+						<% include ../../static/images/headphones.svg %> <span>or</span>
+
+						<% include ../../static/images/speaker.svg %>
+
+					</p>
+
+					<ul id="hints" class="hints">
+
+						<li>Look out behind you!</li>
+						<li>All your yeti are belong to us</li>
+						<li>Wear headphones for best experience</li>
+						<li>Snowballs block snowballs</li>
+						<li>Try the VR!</li>
+
+					</ul>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+
+	<div id="rpyeti" class="rpyeti"></div>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+	<script>
+	var n = $('#now-loading'),
+		o,
+		r = n.find('#ready'),
+		hash = location.hash,
+		hints = $('#hints');
+
+	n.on( 'touchstart', function(e) {
+		e.preventDefault();
+	});
+
+	if ( '#desktop' !== hash ) {
+		r.find('p:first-child').css('display', 'block');
+		r.find('.howto--mobile').css('display', 'flex');
+
+		window.addEventListener( "orientationchange", function() {
+
+			if ( 90 === Math.abs( window.orientation ) ) {
+
+				o = n.find('.now-loading__inner');
+
+				if ( 2 > o.length ) {
+					o.clone().prependTo( n );
+				}
+			} else if ( 0 === Math.abs( window.orientation ) ) {
+
+				n.find('.now-loading__inner').eq(1).remove();
+			}
+		}, false );
+	} else {
+		r.find('.howto--desktop').css('display', 'flex');
+	}
+
+	// Load a random hint
+	$.fn.random = function() {
+		return this.eq(Math.floor(Math.random() * this.length));
+	}
+
+	hints.find('li').random().css('display', 'block');
+	</script>
+
+	<script src="../js/third-party/threejs/Detector.js"></script>
+	<script src="../js/third-party/threejs/stats.min.js"></script>
+	<script src="../js/third-party/threejs/three.js"></script>
+	<script src="../js/third-party/threejs/StereoEffect.js"></script>
+	<script src="../js/third-party/threejs/DeviceOrientationControls.js"></script>
+	<script src="../js/third-party/threejs/OrbitControls.js"></script>
+	<script src="../js/third-party/threejs/MTLLoader.js"></script>
+	<script src="../js/third-party/threejs/OBJMTLLoader.js"></script>
+	<script src="../js/third-party/threejs/audio/Audio.js"></script>
+	<script src="../js/third-party/threejs/audio/AudioBuffer.js"></script>
+	<script src="../js/third-party/threejs/audio/AudioListener.js"></script>
+	<script src="../js/third-party/threejs/audio/PositionalAudio.js"></script>
+
+	<script src="../js/scripts-bower.min.js"></script>
+
+	<script src="../js/rptree.min.js"></script>
+	<script src="../js/rpyeti.config.js"></script>
+	<script src="../js/rpyeti.loader.js"></script>
+	<script src="../js/rpyeti.service.js"></script>
+	<script src="../js/rpyeti.music.js"></script>
+	<script src="../js/rpyeti.character.js"></script>
+	<script src="../js/rpyeti.player.js"></script>
+	<script src="../js/rpyeti.yeti.js"></script>
+	<script src="../js/rpyeti.hud.js"></script>
+	<script src="../js/rpyeti.gameplay.js"></script>
+	<script src="../js/rpyeti.game.js"></script>
+
+	<script>
+	$(document).on('rpyeti.loader.complete', function() {
+
+		$('#loading').fadeOut( 200, function() {
+			$(this).text( 'Ready!' ).fadeIn( 200 );
+		});
+
+		r.addClass('visible');
+
+		if ( '#desktop' === hash ) {
+			setTimeout( function() {
+				n.fadeOut( 500, function() {
+					$(this).remove();
+				} );
+			}, 4000 );
+		} else {
+
+			n.on( 'click touchend', function() {
+				$(this).fadeOut( 200, function() {
+					$(this).remove();
+				});
+			});
+		}
+	})
+	.on('rpyeti.loader.progress', function() {
+		// calculate percent complete
+		var percent = (RPYeti.loader.loaded / RPYeti.loader.loading ) * 100.0;
+		if ( 100 <= percent ) {
+			n.addClass('complete');
+		} else if ( 75 <= percent ) {
+			n.addClass('seventy-five');
+		} else if ( 50 <= percent ) {
+			n.addClass('fifty');
+		} else if ( 25 <= percent ) {
+			n.addClass('twenty-five');
+		}
+	});
+	</script>
+
+</body>
+</html>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="75" height="75" tilewidth="32" tileheight="32" backgroundcolor="#ffffff" nextobjectid="1">
+ <tileset firstgid="1" name="yeti" tilewidth="32" tileheight="32" tilecount="9">
+  <image source="yetitiles.png" trans="ff00ff" width="288" height="32"/>
+  <tile id="0" probability="0.9"/>
+  <tile id="1" probability="0.055"/>
+  <tile id="2" probability="0.1"/>
+  <tile id="3" probability="0.015"/>
+  <tile id="4" probability="0"/>
+  <tile id="5" probability="0"/>
+  <tile id="6" probability="0.05"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="75" height="75">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3W22oDMQxFUWUmUPr/P1wCEajqsey+BWkvMMz1wQfJthkAAAAAAAAAAAAA4NM9woAWM7qNzJQqoys9m+whRs7Ln03NLGfxtblXY4JdBlU9Tctr1WfVWNVZZz5nldXr3ZXeX/a7xibllfe43Xp+Um8dxV5SdaNqZNWLu/86WNWNX7tv8X3Op2tW1fkyjmf43t738d3q/07inFUvVnM+XcO6UD2U84t15fI3U/pQzTP2k9ea5xVzuq3Oq6OTPW2191Wjo2q+1Vqk9syuGbmTGtnlNqGmnMokrlX/6b/u8lnpNdQZQu2TOb8Jqgxu+5vbxJqKdmetal+c6uS8YDavlirVWQtazAsAAAAAAAAAAAAA8Pl+AHtY7Y7kVwAA
+  </data>
+ </layer>
+</map>

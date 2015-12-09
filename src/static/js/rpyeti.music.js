@@ -23,6 +23,9 @@ RPYeti.music = (function() {
 			this.publisher.on( 'rpyeti.music.lose', this.levelLose );
 			this.publisher.on( 'rpyeti.music.mute', this.muteAll );
 			
+			
+			//load all loops into audio objects, set them all to loop, mute them and start them playing
+			//as all loops are the same length, the trick then becomes cutting on a phrase, so the harmony makes sense
 			this.loops = {};
 			
 			this.publisher.on( 'rpyeti.loader.complete', function () {
@@ -42,61 +45,76 @@ RPYeti.music = (function() {
 					self.loops[i].setVolume(0);
 					self.listener.add( self.loops[i] );
 					self.loops[i].setLoop(true);
-					self.loops[i].play();
 				}
 				
 			});
 			
+			//establish an empty play queue
+			self.queuedForPlay = null;
+			
 		},
 
+
+		startAllTracks: function () {
+			self.phraseMonitor = window.setInterval(self.phraseSwitch, 9600);
+			for ( var i in self.loops ) {
+				self.loops[i].play();
+			}
+		},
+
+		//below, per track, schedule the crossfade...
+
 		treeSelection: function () {
-			console.log('Music queue: Tree Selection');
-			self.muteAll();
 			self.queuePlay(self.loops.treeSelection);
+			//this one is special, as it's the first track...
+			self.startAllTracks();
+			self.loops.treeSelection.setVolume(RPYeti.config.musicVolume);
 		},
 
 		treeTheft: function () {
-			console.log('Music queue: Theft');
-			self.muteAll();
 			self.queuePlay(self.loops.treeTheft);
 		},
 
 		snowballFight: function () {
-			console.log('Music queue: Fight');
-			self.muteAll();
 			self.queuePlay(self.loops.snowballFight);
 		},
 
 		snowballFightL: function () {
-			console.log('Music queue: Low Health');
-			self.muteAll();
 			self.queuePlay(self.loops.snowballFightL);
 		},
 
 		levelWin: function () {
-			console.log('Music queue: Win');
-			self.muteAll();
 			self.queuePlay(self.loops.levelWin);
 		},
 
 		levelLose: function () {
-			console.log('Music queue: Lose');
-			self.muteAll();
 			self.queuePlay(self.loops.levelLose);
 		},
 
+		//loop through the loops and mute all of them
 		muteAll: function () {
-			console.log('Music queue: Mute');
 			for (var i in self.loops) {
 				self.loops[i].setVolume(0);
 			}
 		},
 		
+		//queue crossfade for the next phrase start
+		//this all only works because all loops are 4 bars long at 100bpm, meaning 9600 ms per phrase (or loop)
 		queuePlay: function (loop) {
 			//todo - set loop to unmute at the next multiple of a loop (9.6 seconds), based on current time
-			loop.setVolume(RPYeti.config.musicVolume);
+			self.queuedForPlay = loop;
 		},
 		
+		phraseSwitch: function () {
+			if (self.queuedForPlay != null) {
+				
+				self.muteAll();
+				self.queuedForPlay.setVolume(RPYeti.config.musicVolume);
+
+				this.queuedForPlay = null;
+			}
+		},
+		//for future better sync'd timing
 		getCurrentTime: function () {
 			return self.listener.context.currentTime;
 		}

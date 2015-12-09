@@ -29,7 +29,7 @@ RPYeti.config = {
 		remaining: 'to go'
 	},
 
-	musicVolume: .1,
+	musicVolume: .05,
 
 	/** Game Mechanics **/
 

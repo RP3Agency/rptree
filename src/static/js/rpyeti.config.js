@@ -29,6 +29,8 @@ RPYeti.config = {
 		remaining: 'to go'
 	},
 
+	musicVolume: .1,
+
 	/** Game Mechanics **/
 
 	snowball: {

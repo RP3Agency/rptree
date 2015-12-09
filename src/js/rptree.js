@@ -72,17 +72,17 @@ var rptree = (function($) {
 		}
 	},
 
-	/*function getHighScore() {
+	getHighScore = function() {
 		$.getJSON("https://rptree.com/api/highest", function( data ) {
-			console.log(data);
+			$('#high-score').html(data.highestScore);
 		});
-	}*/
+	},
 
 	init = function() {
 		scrollToInstructions();
 		desktopStyling();
 		leaderboard();
-		//getHighScore();
+		getHighScore();
 	};
 
 	return {

@@ -14,6 +14,8 @@ RPYeti.music = (function() {
 			this.publisher = $(document);
 			this.listener = new THREE.AudioListener();
 
+			this.playing = false;
+
 			// add listeners to catch game events and report to server
 			this.publisher.on( 'rpyeti.music.selection', this.treeSelection );
 			this.publisher.on( 'rpyeti.music.theft', this.treeTheft );
@@ -22,6 +24,7 @@ RPYeti.music = (function() {
 			this.publisher.on( 'rpyeti.music.win', this.levelWin );
 			this.publisher.on( 'rpyeti.music.lose', this.levelLose );
 			this.publisher.on( 'rpyeti.music.mute', this.muteAll );
+			this.publisher.on( 'rpyeti.music.start', this.start );
 
 
 			//load all loops into audio objects, set them all to loop, mute them and start them playing
@@ -54,8 +57,16 @@ RPYeti.music = (function() {
 
 		},
 
+		start: function () {
+			if (!self.playing) {
+				self.phraseSwitch();
+				self.startAllTracks();
+			}
+		},
 
 		startAllTracks: function () {
+			self.playing = true;
+
 			self.phraseMonitor = window.setInterval(self.phraseSwitch, 9600);
 			for ( var i in self.loops ) {
 				self.loops[i].play();
@@ -66,9 +77,6 @@ RPYeti.music = (function() {
 
 		treeSelection: function (event, callback) {
 			self.queuePlay(self.loops.treeSelection, callback);
-			//this one is special, as it's the first track...
-			self.startAllTracks();
-			self.loops.treeSelection.setVolume(RPYeti.config.audio.musicVolume);
 		},
 
 		treeTheft: function (event, callback) {

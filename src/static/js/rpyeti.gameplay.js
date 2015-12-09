@@ -20,7 +20,7 @@ RPYeti.Gameplay = function (game, player, camera, scene) {
 			self.game.hud.addText(RPYeti.config.dialogs.gameOver, 0);
 
 			if (window) {
-				self.game.hud.startCountdown(10, function () {
+				self.game.hud.startCountdown(15, function () {
 					var l = RPYeti.config.urls.leaderBoard;
 					if (window.location.hash) {
 						l += window.location.hash;
@@ -71,6 +71,8 @@ RPYeti.Gameplay.prototype.start = function (level, reset) {
 		RPYeti.music.publisher.trigger('rpyeti.music.fight');
 		this.levelBegin(level);
 	}
+
+	RPYeti.music.publisher.trigger('rpyeti.music.start');
 };
 
 RPYeti.Gameplay.prototype.levelBegin = function (level) {
@@ -82,7 +84,6 @@ RPYeti.Gameplay.prototype.levelBegin = function (level) {
 
 	this.modSettings(this.settings, RPYeti.config.gameplay.modifiers, (level - 1));
 	this.nextRound();
-
 };
 
 RPYeti.Gameplay.prototype.setTimer = function () {
@@ -257,11 +258,11 @@ RPYeti.Gameplay.prototype.endIntro = function (number) {
 							context.setTimeout(function () {
 								// Start level 1!
 								self.start(1);
-							}, 9600)
-							self.game.hud.addText(RPYeti.config.dialogs.introSeque, 9600);
+							}, 12000)
+							self.game.hud.addText(RPYeti.config.dialogs.introSeque, 12000);
 						});
 
-					positionTween.to({ y: -Math.abs(bounds.max.y) }, RPYeti.config.character.yeti.disappearDuration * 2).start();
+					positionTween.to({ y: -Math.abs(bounds.max.y) }, RPYeti.config.character.yeti.disappearDuration * 1.5).start();
 				}, 3000);
 
 			});

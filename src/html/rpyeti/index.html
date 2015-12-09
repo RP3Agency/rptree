@@ -166,11 +166,11 @@
 		r.addClass('visible');
 
 		if ( '#desktop' === hash ) {
-			// setTimeout( function() {
-			// 	n.fadeOut( 500, function() {
-			// 		$(this).remove();
-			// 	} );
-			// }, 2000 );
+			setTimeout( function() {
+				n.fadeOut( 500, function() {
+					$(this).remove();
+				} );
+			}, 2000 );
 		} else {
 
 			n.on( 'click touchend', function() {

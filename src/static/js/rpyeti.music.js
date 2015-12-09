@@ -80,7 +80,7 @@ RPYeti.music = (function() {
 		},
 
 		snowballFightL: function () {
-			self.queuePlay(self.loops.snowballFightL);
+			self.playNow(self.loops.snowballFightL);
 		},
 
 		levelWin: function () {
@@ -101,8 +101,13 @@ RPYeti.music = (function() {
 		//queue crossfade for the next phrase start
 		//this all only works because all loops are 4 bars long at 100bpm, meaning 9600 ms per phrase (or loop)
 		queuePlay: function (loop) {
-			//todo - set loop to unmute at the next multiple of a loop (9.6 seconds), based on current time
 			self.queuedForPlay = loop;
+		},
+		
+		//fade without waiting - low health and regular theme are written to be crossfaded immediately
+		playNow: function (loop) {
+			self.muteAll();
+			loop.setVolume(RPYeti.config.musicVolume);
 		},
 		
 		phraseSwitch: function () {
@@ -111,7 +116,7 @@ RPYeti.music = (function() {
 				self.muteAll();
 				self.queuedForPlay.setVolume(RPYeti.config.musicVolume);
 
-				this.queuedForPlay = null;
+				self.queuedForPlay = null;
 			}
 		},
 		//for future better sync'd timing

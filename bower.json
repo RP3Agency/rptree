@@ -32,7 +32,6 @@
   },
   "dependencies": {
     "tween.js": "tweenjs#~16.3.1",
-    "Font.js": "*",
     "js-cookie": "~2.0.4"
   }
 }

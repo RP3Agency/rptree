@@ -104,18 +104,6 @@ RPYeti.loader = (function() {
 			});
 		},
 
-		loadFont: function( asset ) {
-			self.loading++;
-			var font = asset,
-				loader = new Font();
-			loader.src = '/fonts/' + asset.file;
-			loader.onload = function() {
-				self.fonts[ font.name ] = loader;
-  				self.loaded++;
-				self.publisher.trigger( 'rpyeti.loader.progress' );
-			}
-		},
-
 		onProgress: function() {
 			if( self.loaded === self.loading ) {
 				this.publisher.trigger( 'rpyeti.loader.complete' );

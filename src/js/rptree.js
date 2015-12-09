@@ -40,6 +40,22 @@ var rptree = (function($) {
 				var cookies = Cookies.getJSON('rp3.rptree');
 				if ( cookies.player.lastScore !== undefined ) {
 					$('.score').html(cookies.player.lastScore);
+					var childrens = '%40childrenshealth',
+					wawf = '%40TheWomensFndtn',
+					junior = '%40JA_GW',
+					chosen = '';
+
+					if ( cookies.player.charity == 'cn' ) {
+						chosen = childrens;
+					} else if ( cookies.player.charity == 'wawf' ) {
+						chosen = wawf;
+					} else {
+						chosen = junior;
+					}
+
+				var href= 'https://twitter.com/intent/tweet?text=I%20defeated%20'+cookies.player.lastScore+'%20yetis%20and%20supported%20'+chosen+'.%20Join%20the%20fight!%20%23rptree%20rptree.com';
+				$('#twitter-share').attr('href', href);
+
 				}
 				if ( cookies.player.highScore !== undefined ) {
 					$('#player-high').html(cookies.player.highScore);

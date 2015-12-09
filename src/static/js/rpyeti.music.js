@@ -14,8 +14,6 @@ RPYeti.music = (function() {
 			this.publisher = $(document);
 			this.listener = new THREE.AudioListener();
 
-			this.playing = false;
-
 			// add listeners to catch game events and report to server
 			this.publisher.on( 'rpyeti.music.selection', this.treeSelection );
 			this.publisher.on( 'rpyeti.music.theft', this.treeTheft );
@@ -58,15 +56,13 @@ RPYeti.music = (function() {
 		},
 
 		start: function () {
-			if (!self.playing) {
-				self.phraseSwitch();
+			if (self.phraseMonitor === undefined) {
 				self.startAllTracks();
+				self.phraseSwitch();
 			}
 		},
 
 		startAllTracks: function () {
-			self.playing = true;
-
 			self.phraseMonitor = window.setInterval(self.phraseSwitch, 9600);
 			for ( var i in self.loops ) {
 				self.loops[i].play();

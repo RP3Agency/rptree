@@ -8,7 +8,7 @@ RPYeti.game = (function() {
 		/** Public Properties **/
 		isFiring: false,
 		lastFire: 0,
-		level: 0,
+		startLevel: 0,
 		snowballBlockers: [],
 
 		/** Constructor **/
@@ -110,13 +110,12 @@ RPYeti.game = (function() {
 			$(window).on('resize', this.resize);
 			setTimeout(this.resize, 1);
 
-			var startLevel = 0;
-			if (startLevel > 0) {
+			if (self.startLevel > 0) {
 				self.player.setTimeout(function () {
-					self.gameplay.start(startLevel, true);
+					self.gameplay.start(self.startLevel, true);
 				}, 1000);
 			} else {
-				self.gameplay.start(startLevel, true);
+				self.gameplay.start(self.startLevel, true);
 			}
 		},
 

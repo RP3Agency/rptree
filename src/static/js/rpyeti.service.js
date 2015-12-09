@@ -16,6 +16,10 @@ RPYeti.service = (function() {
 			// get RPTree cookie
 			var cookie = Cookies.getJSON( 'rp3.rptree' );
 
+			if (cookie && cookie.player && !RPYeti.config.debug) {
+				RPYeti.game.startLevel = 1;
+			}
+
 			// if no cookie, generate UUID and set cookie
 			if( cookie && cookie.player && cookie.player.id ) {
 				self.player = cookie.player;

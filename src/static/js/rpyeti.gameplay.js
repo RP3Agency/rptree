@@ -117,10 +117,10 @@ RPYeti.Gameplay.prototype.levelComplete = function () {
 		self.stopTimer();
 
 		RPYeti.music.publisher.trigger('rpyeti.music.win', function () {
-			self.game.hud.addText('Level Complete\nScore: ' + self.player.points, 9500);
+			self.game.hud.addText('Level Complete\nScore: ' + self.player.points, 9600);
 			self.player.setTimeout(function () {
 				self.start(self.level + 1);
-			}, 9500);
+			}, 9000);
 		});
 	})(this);
 };

@@ -26,7 +26,7 @@ RPYeti.game = (function() {
 
 			// create perspective camera
 			var fov = ( RPYeti.config.stereo ) ? RPYeti.config.cardboard.fov : RPYeti.config.desktop.fov;
-			this.camera = new THREE.PerspectiveCamera( fov, self.container.offsetWidth / self.container.offsetHeight, 0.1, 350 );
+			this.camera = new THREE.PerspectiveCamera( fov, self.container.offsetWidth / self.container.offsetHeight, 0.1, RPYeti.config.terrain.depth );
 			this.camera.position.set( 0, 10, 0 );
 			this.scene.add( this.camera );
 
@@ -242,7 +242,8 @@ RPYeti.game = (function() {
 				map: texture,
 			});
 
-			var geometry = new THREE.PlaneGeometry(700, 700);
+			var size = RPYeti.config.terrain.depth * 2,
+				geometry = new THREE.PlaneGeometry(size, size);
 
 			var mesh = new THREE.Mesh( geometry, material );
 			mesh.rotation.x = -Math.PI / 2;
@@ -252,7 +253,7 @@ RPYeti.game = (function() {
 		},
 
 		addSky: function() {
-			var geometry = new THREE.SphereGeometry(350, 32, 32),
+			var geometry = new THREE.SphereGeometry(RPYeti.config.terrain.depth, 64, 64),
 				material = new THREE.MeshBasicMaterial({
 					map: RPYeti.loader.textures.stars,
 					side: THREE.BackSide

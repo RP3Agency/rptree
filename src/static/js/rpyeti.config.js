@@ -15,6 +15,20 @@ RPYeti.config = {
 		fov: 65,
 	},
 
+	terrain: {
+		depth: 500
+	},
+
+	dialogs: {
+		introSeque: '\nYour donation is safe\nbut the world\nstill needs RPTree\n\nSnowball fight!\nSave RPTree!',
+		gameOver: 'GAME OVER',
+		select: 'Please Select',
+		exclamation: 'Oh no!',
+		yetiDowned: 'Yeti Down!',
+		yetiOnYeti: 'Yeti Crossfire!',
+		remaining: 'to go'
+	},
+
 	/** Game Mechanics **/
 
 	snowball: {
@@ -45,7 +59,8 @@ RPYeti.config = {
 		easing: TWEEN.Easing.Quintic.Out,
 		easeDuration: 200,
 		innerFocalMax: 0.05,
-		baseColor: 'rgba(0,174,239,0.50)',
+		borderColor: 'rgba(0,0,0,0.25)',
+		baseColor: 'rgba(0,174,239,0.75)',
 		damageColor: 'rgba(255,0,0,1)',
 		textPos: -350,
 		textSize: 40,

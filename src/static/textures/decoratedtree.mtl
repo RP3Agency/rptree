@@ -1,5 +1,5 @@
 # Blender MTL File: 'snowytree.blend'
-# Material Count: 5
+# Material Count: 4
 
 newmtl Bark.001
 Ns 96.078431
@@ -21,18 +21,6 @@ Ni 1.000000
 d 1.000000
 illum 2
 
-newmtl Material
-Ns 96.078431
-Ka 1.000000 1.000000 1.000000
-Kd 0.640000 0.640000 0.640000
-Ks 0.500000 0.500000 0.500000
-Ke 0.000000 0.000000 0.000000
-Ni 1.000000
-d 1.000000
-illum 2
-map_Kd ../textures/patterns/yeti_still.png
-map_Ka ../textures/patterns/yeti_still.png
-
 newmtl Material.001
 Ns 96.078431
 Ka 1.000000 1.000000 1.000000
@@ -46,7 +34,7 @@ illum 2
 newmtl rp3
 Ns 90.196078
 Ka 1.000000 1.000000 1.000000
-Kd 0.000000 0.262222 0.683994
+Kd 0.000000 0.338614 0.690526
 Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
 Ni 1.000000

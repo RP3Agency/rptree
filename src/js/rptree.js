@@ -41,7 +41,6 @@ var rptree = (function($) {
 
 (function() {
 	'use strict';
-	rptree.init();
 
 	function leaderboardStats() {
 		var thankYou = 'Thank you for supporting ';
@@ -49,15 +48,28 @@ var rptree = (function($) {
 			charities['cn'] = "Children's National!";
 			charities['ja'] = "Junior Achievement!";
 			charities['wawf'] = "The Washington Area Women's Foundation!";
-		console.log(Cookies);
+
 		if ( Cookies != undefined) {
 			var cookies = Cookies.getJSON('rp3.rptree');
-			$('#this-round').html(cookies.player.lastScore);
-			$('#player-high').html(cookies.player.highScore);
-			if(cookies.player.charity != undefined) {
+			if ( cookies.player.lastScore != undefined ) {
+				$('#this-round').html(cookies.player.lastScore);
+			}
+			if ( cookies.player.highScore != undefined ) {
+				$('#player-high').html(cookies.player.highScore);
+			}
+			if ( cookies.player.charity != undefined ) {
 				$('#thank-you').html(thankYou + charities[cookies.player.charity]);
 			}
 		}
 	}
+
+	/*function getHighScore() {
+		$.getJSON("https://rptree.com/api/highest", function( data ) {
+			console.log(data);
+		});
+	}*/
+
+	rptree.init();
 	leaderboardStats();
+	//getHighScore();
 }());

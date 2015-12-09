@@ -181,7 +181,7 @@ RPYeti.Gameplay.prototype.startIntro = function () {
 		(function (self) {
 			self.player.setTimeout(function () {
 				self.game.hud.addText(RPYeti.config.dialogs.select, 0);
-			}, 1000);
+			}, 1500);
 
 			self.player.on('intro.select', function (context, number) {
 				var pattern = /decoration_(.*)/i;
@@ -217,39 +217,44 @@ RPYeti.Gameplay.prototype.endIntro = function (number) {
 			context.roar = self.game.createSoundEffect( RPYeti.loader.sounds.yeti_roar );
 			context.pivot.add( context.roar );
 
-			RPYeti.music.publisher.trigger('rpyeti.music.theft');
 			self.game.hud.addText('', 0);
-			self.game.hud.addText(RPYeti.config.dialogs.exclamation);
+			self.game.hud.addText('...?');
 
-			var bounds = new THREE.Box3().setFromObject(self.intro);
-			context.setTimeout(function () {
-				var positionTween = new TWEEN.Tween(self.intro.position)
-					.easing(RPYeti.config.character.yeti.disappearEasing)
-					.onComplete(function () {
-						// Cleanup
-						if (self.intro !== undefined) {
-							self.intro.visible = false;
-							self.scene.remove(self.intro);
-							for (var i = self.game.snowballBlockers.length + 1; i > 0; i--) {
-								if (self.game.snowballBlockers[i] == self.intro) {
-									self.game.snowballBlockers.splice(i, 1);
-									break;
+			RPYeti.music.publisher.trigger('rpyeti.music.theft', function () {
+				context.roar.play();
+				self.game.hud.addText(RPYeti.config.dialogs.exclamation);
+
+				var bounds = new THREE.Box3().setFromObject(self.intro);
+				context.setTimeout(function () {
+					var positionTween = new TWEEN.Tween(self.intro.position)
+						.easing(RPYeti.config.character.yeti.disappearEasing)
+						.onComplete(function () {
+							// Cleanup
+							if (self.intro !== undefined) {
+								self.intro.visible = false;
+								self.scene.remove(self.intro);
+								for (var i = self.game.snowballBlockers.length + 1; i > 0; i--) {
+									if (self.game.snowballBlockers[i] == self.intro) {
+										self.game.snowballBlockers.splice(i, 1);
+										break;
+									}
 								}
+								while (self.intro.children.length) { self.intro.children.pop(); }
+								delete self.intro;
 							}
-							while (self.intro.children.length) { self.intro.children.pop(); }
-							delete self.intro;
-						}
 
-						// TODO: Move this seque to dialog
-						context.setTimeout(function () {
-							// Start level 1!
-							self.start(1);
-						}, 9600)
-						self.game.hud.addText(RPYeti.config.dialogs.introSeque, 9600);
-					});
+							// TODO: Move this seque to dialog
+							context.setTimeout(function () {
+								// Start level 1!
+								self.start(1);
+							}, 9600)
+							self.game.hud.addText(RPYeti.config.dialogs.introSeque, 9600);
+						});
 
-				positionTween.to({ y: -Math.abs(bounds.max.y) }, RPYeti.config.character.yeti.disappearDuration).start();
-			}, 3000);
+					positionTween.to({ y: -Math.abs(bounds.max.y) }, RPYeti.config.character.yeti.disappearDuration * 2).start();
+				}, 3000);
+
+			});
 		});
 	})(this);
 };

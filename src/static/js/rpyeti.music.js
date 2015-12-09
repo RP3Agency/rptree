@@ -64,35 +64,35 @@ RPYeti.music = (function() {
 
 		//below, per track, schedule the crossfade...
 
-		treeSelection: function () {
-			self.queuePlay(self.loops.treeSelection);
+		treeSelection: function (event, callback) {
+			self.queuePlay(self.loops.treeSelection, callback);
 			//this one is special, as it's the first track...
 			self.startAllTracks();
 			self.loops.treeSelection.setVolume(RPYeti.config.audio.musicVolume);
 		},
 
-		treeTheft: function () {
-			self.queuePlay(self.loops.treeTheft);
+		treeTheft: function (event, callback) {
+			self.queuePlay(self.loops.treeTheft, callback);
 		},
 
-		snowballFight: function () {
-			self.queuePlay(self.loops.snowballFight);
+		snowballFight: function (event, callback) {
+			self.queuePlay(self.loops.snowballFight, callback);
 		},
 
-		snowballFightL: function () {
-			self.playNow(self.loops.snowballFightL);
+		snowballFightL: function (event, callback) {
+			self.playNow(self.loops.snowballFightL, callback);
 		},
 
-		levelWin: function () {
-			self.queuePlay(self.loops.levelWin);
+		levelWin: function (event, callback) {
+			self.queuePlay(self.loops.levelWin, callback);
 		},
 
-		levelLose: function () {
-			self.queuePlay(self.loops.levelLose);
+		levelLose: function (event, callback) {
+			self.queuePlay(self.loops.levelLose, callback);
 		},
 
 		//loop through the loops and mute all of them
-		muteAll: function () {
+		muteAll: function (event, callback) {
 			for (var i in self.loops) {
 				self.loops[i].setVolume(0);
 			}
@@ -100,8 +100,8 @@ RPYeti.music = (function() {
 
 		//queue crossfade for the next phrase start
 		//this all only works because all loops are 4 bars long at 100bpm, meaning 9600 ms per phrase (or loop)
-		queuePlay: function (loop) {
-			self.queuedForPlay = loop;
+		queuePlay: function (loop, callback) {
+			self.queuedForPlay = { loop: loop, callback: callback };
 		},
 
 		//fade without waiting - low health and regular theme are written to be crossfaded immediately
@@ -114,7 +114,11 @@ RPYeti.music = (function() {
 			if (self.queuedForPlay != null) {
 
 				self.muteAll();
-				self.queuedForPlay.setVolume(RPYeti.config.audio.musicVolume);
+				self.queuedForPlay.loop.setVolume(RPYeti.config.audio.musicVolume);
+
+				if (typeof self.queuedForPlay.callback === 'function') {
+					self.queuedForPlay.callback();
+				}
 
 				self.queuedForPlay = null;
 			}

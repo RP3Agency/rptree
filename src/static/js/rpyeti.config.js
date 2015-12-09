@@ -199,7 +199,7 @@ RPYeti.config = {
 	/** Debug Settings **/
 	debug: false,
 	wireframe: false,
-	fps: true,
+	fps: false,
 
 	/** Constructor **/
 

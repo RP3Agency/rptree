@@ -26,7 +26,7 @@ RPYeti.config = {
 	dialogs: {
 		introSeque: '\nYour donation is safe\nbut the world\nstill needs RPTree\n\nSnowball fight!\nSave RPTree!',
 		gameOver: 'GAME OVER',
-		select: 'Please Select',
+		select: 'Select your\nnonprofit',
 		exclamation: 'Oh no!',
 		yetiDowned: 'Yeti Down!',
 		yetiOnYeti: 'Yeti Crossfire!',
@@ -197,7 +197,7 @@ RPYeti.config = {
 	],
 
 	/** Debug Settings **/
-	debug: false,
+	debug: true,
 	wireframe: false,
 	fps: false,
 

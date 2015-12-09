@@ -26,7 +26,7 @@ RPYeti.config = {
 	dialogs: {
 		introSeque: '\nYour donation is safe\nbut the world\nstill needs RPTree\n\nSnowball fight!\nSave RPTree!',
 		gameOver: 'GAME OVER',
-		select: 'Please Select',
+		select: 'Select your\nnonprofit',
 		exclamation: 'Oh no!',
 		yetiDowned: 'Yeti Down!',
 		yetiOnYeti: 'Yeti Crossfire!',
@@ -191,13 +191,10 @@ RPYeti.config = {
 		{ type: 'Sound', name: 'music_snowball_fight_low_health', file: 'music-snowball-fight-low-health.mp3' },
 		{ type: 'Sound', name: 'music_level_lose', file: 'music-level-lose.mp3' },
 		{ type: 'Sound', name: 'music_level_win', file: 'music-level-win.mp3' },
-
-		// fonts
-		{ type: 'Font', name: 'eightBit', file: '8bit.ttf' },
 	],
 
 	/** Debug Settings **/
-	debug: false,
+	debug: true,
 	wireframe: false,
 	fps: false,
 

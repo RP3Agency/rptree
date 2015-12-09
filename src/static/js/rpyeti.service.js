@@ -16,14 +16,16 @@ RPYeti.service = (function() {
 			// get RPTree cookie
 			var cookie = Cookies.getJSON( 'rp3.rptree' );
 
-			if (cookie && cookie.player && !RPYeti.config.debug) {
-				RPYeti.game.startLevel = 1;
-			}
-
-			// if no cookie, generate UUID and set cookie
+			// check that cookie has server ID
 			if( cookie && cookie.player && cookie.player.id ) {
 				self.player = cookie.player;
+
+				// if player has chosen charity, start game
+				if ( cookie.player.charity && !RPYeti.config.debug ) {
+					RPYeti.game.startLevel = 1;
+				}
 			} else {
+				// if no cookie, get ID from server and set cookie
 				self.player = {
 					lastScore: 0,
 					highScore: 0,

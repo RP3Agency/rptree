@@ -22,14 +22,14 @@ RPYeti.music = (function() {
 			this.publisher.on( 'rpyeti.music.win', this.levelWin );
 			this.publisher.on( 'rpyeti.music.lose', this.levelLose );
 			this.publisher.on( 'rpyeti.music.mute', this.muteAll );
-			
-			
+
+
 			//load all loops into audio objects, set them all to loop, mute them and start them playing
 			//as all loops are the same length, the trick then becomes cutting on a phrase, so the harmony makes sense
 			this.loops = {};
-			
+
 			this.publisher.on( 'rpyeti.loader.complete', function () {
-				
+
 				var loopList = {
 					treeSelection: RPYeti.loader.sounds.music_tree_selection,
 					treeTheft: RPYeti.loader.sounds.music_tree_theft,
@@ -38,7 +38,7 @@ RPYeti.music = (function() {
 					levelWin: RPYeti.loader.sounds.music_level_win,
 					levelLose: RPYeti.loader.sounds.music_level_lose
 				};
-				
+
 				for ( var i in loopList ) {
 					self.loops[i] = new THREE.Audio( self.listener );
 					self.loops[i].setBuffer( loopList[i] );
@@ -46,12 +46,12 @@ RPYeti.music = (function() {
 					self.listener.add( self.loops[i] );
 					self.loops[i].setLoop(true);
 				}
-				
+
 			});
-			
+
 			//establish an empty play queue
 			self.queuedForPlay = null;
-			
+
 		},
 
 
@@ -68,7 +68,7 @@ RPYeti.music = (function() {
 			self.queuePlay(self.loops.treeSelection);
 			//this one is special, as it's the first track...
 			self.startAllTracks();
-			self.loops.treeSelection.setVolume(RPYeti.config.musicVolume);
+			self.loops.treeSelection.setVolume(RPYeti.config.audio.musicVolume);
 		},
 
 		treeTheft: function () {
@@ -97,24 +97,24 @@ RPYeti.music = (function() {
 				self.loops[i].setVolume(0);
 			}
 		},
-		
+
 		//queue crossfade for the next phrase start
 		//this all only works because all loops are 4 bars long at 100bpm, meaning 9600 ms per phrase (or loop)
 		queuePlay: function (loop) {
 			self.queuedForPlay = loop;
 		},
-		
+
 		//fade without waiting - low health and regular theme are written to be crossfaded immediately
 		playNow: function (loop) {
 			self.muteAll();
-			loop.setVolume(RPYeti.config.musicVolume);
+			loop.setVolume(RPYeti.config.audio.musicVolume);
 		},
-		
+
 		phraseSwitch: function () {
 			if (self.queuedForPlay != null) {
-				
+
 				self.muteAll();
-				self.queuedForPlay.setVolume(RPYeti.config.musicVolume);
+				self.queuedForPlay.setVolume(RPYeti.config.audio.musicVolume);
 
 				self.queuedForPlay = null;
 			}
@@ -123,7 +123,7 @@ RPYeti.music = (function() {
 		getCurrentTime: function () {
 			return self.listener.context.currentTime;
 		}
-		
+
 
 	};
 

@@ -385,7 +385,7 @@ RPYeti.game = (function() {
 			// snowball throw sound
 			self.sounds.throw = new THREE.Audio( self.listener );
 			self.sounds.throw.setBuffer( RPYeti.loader.sounds.player_throw );
-			self.sounds.throw.setVolume( 0.2 );
+			self.sounds.throw.setVolume( RPYeti.config.audio.pointblankVolume );
 			self.listener.add( self.sounds.throw );
 
 		},
@@ -396,6 +396,15 @@ RPYeti.game = (function() {
 				sound.isPlaying = false;
 			}
 			sound.play();
+		},
+
+		createSoundEffect: function( sound ) {
+			var effect = new THREE.PositionalAudio( self.listener );
+			effect.setBuffer( sound );
+			effect.setVolume( RPYeti.config.audio.effectVolume );
+			effect.setRolloffFactor( RPYeti.config.audio.effectRolloff );
+			effect.setMaxDistance( RPYeti.config.snowball.range );
+			return effect;
 		},
 
 		/** Projectiles **/
@@ -492,8 +501,7 @@ RPYeti.game = (function() {
 					}
 
 					if( effect ) {
-						var impact = new THREE.PositionalAudio( self.listener );
-						impact.setBuffer( effect );
+						var impact = self.createSoundEffect( effect );
 						snowball.add( impact );
 						impact.play();
 					}

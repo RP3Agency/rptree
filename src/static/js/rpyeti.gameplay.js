@@ -215,8 +215,7 @@ RPYeti.Gameplay.prototype.endIntro = function (number) {
 
 	(function (self) {
 		yeti.on('appear', function (context) {
-			context.roar = new THREE.PositionalAudio( self.game.listener );
-			context.roar.setBuffer( RPYeti.loader.sounds.yeti_roar );
+			context.roar = self.game.createSoundEffect( RPYeti.loader.sounds.yeti_roar );
 			context.pivot.add( context.roar );
 
 			RPYeti.music.publisher.trigger('rpyeti.music.theft');
@@ -302,8 +301,7 @@ RPYeti.Gameplay.prototype.yetiSpawner = function () {
 					context.roar.stop();
 					context.roar.isPlaying = false;
 				} else {
-					context.roar = new THREE.PositionalAudio( self.game.listener );
-					context.roar.setBuffer( RPYeti.loader.sounds.yeti_roar );
+					context.roar = self.game.createSoundEffect( RPYeti.loader.sounds.yeti_roar );
 					context.pivot.add( context.roar );
 				}
 

@@ -183,14 +183,13 @@
 	&--white {
 		background-color: get-color( "white" );
 		background-image: none;
-		color: get-color( "gray--dark" );
+		color: get-color( "blue--brand" );
 		line-height: 1.5;
 		padding: 0;
 
 		@include breakpoint( 640px ) {
 			background-color: transparent;
 			box-shadow: none;
-			color: get-color( "blue--brand" );
 		}
 
 		.container {

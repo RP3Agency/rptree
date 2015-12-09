@@ -47,13 +47,21 @@
 
 					<p>Press trigger to enter</p>
 
-					<p class="howto">
+					<p class="howto howto--mobile">
 
 						<% include ../../static/images/phone.svg %> <span>+</span>
 
 						<% include ../../static/images/cardboard.svg %> <span>+</span>
 
 						<% include ../../static/images/headphones.svg %>
+
+					</p>
+
+					<p class="howto howto--desktop">
+
+						<% include ../../static/images/headphones.svg %> <span>or</span>
+
+						<% include ../../static/images/speaker.svg %>
 
 					</p>
 
@@ -92,7 +100,8 @@
 	});
 
 	if ( '#desktop' !== hash ) {
-		r.find('p').css('display', 'flex');
+		r.find('p:first-child').css('display', 'block');
+		r.find('.howto--mobile').css('display', 'flex');
 
 		window.addEventListener( "orientationchange", function() {
 
@@ -108,6 +117,8 @@
 				n.find('.now-loading__inner').eq(1).remove();
 			}
 		}, false );
+	} else {
+		r.find('.howto--desktop').css('display', 'flex');
 	}
 
 	// Load a random hint
@@ -155,11 +166,11 @@
 		r.addClass('visible');
 
 		if ( '#desktop' === hash ) {
-			setTimeout( function() {
-				n.fadeOut( 500, function() {
-					$(this).remove();
-				} );
-			}, 2000 );
+			// setTimeout( function() {
+			// 	n.fadeOut( 500, function() {
+			// 		$(this).remove();
+			// 	} );
+			// }, 2000 );
 		} else {
 
 			n.on( 'click touchend', function() {

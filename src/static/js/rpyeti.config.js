@@ -149,7 +149,7 @@ RPYeti.config = {
 		// textures
 		{ type: 'Texture', name: 'snow', file: 'patterns/snow-tile.jpg' },
 		{ type: 'Texture', name: 'snowmound', file: 'patterns/snow-tile.jpg' },
-		{ type: 'Texture', name: 'stars', file: 'patterns/starfield.png' },
+		{ type: 'Texture', name: 'stars', file: 'patterns/starfield.jpg' },
 		{ type: 'Texture', name: 'snowball', file: 'patterns/snow-ground.jpg' },
 		{ type: 'Texture', name: 'snowburst', file: 'patterns/pixel-snow.jpg' },
 

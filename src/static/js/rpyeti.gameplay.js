@@ -16,7 +16,10 @@ RPYeti.Gameplay = function (game, player, camera, scene) {
 
 	(function (self) {
 		self.player.on('defeated', function (context) {
-			RPYeti.music.publisher.trigger('rpyeti.music.lose');
+			RPYeti.music.publisher.trigger('rpyeti.music.lose', function () {
+				RPYeti.music.publisher.trigger('rpyeti.music.mute');
+			});
+
 			self.game.hud.addText(RPYeti.config.dialogs.gameOver, 0);
 
 			if (window) {

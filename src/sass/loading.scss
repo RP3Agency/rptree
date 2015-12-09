@@ -108,7 +108,8 @@
 }
 
 .howto {
-	margin: 0 0 1em 0;
+	display: none;
+	// margin: 0 0 1em 0;
 
 	svg {
 		height: 24px;
@@ -117,6 +118,13 @@
 			right: 0.5em;
 		}
 		width: auto;
+
+		&.speaker-svg {
+
+			path {
+				fill: get-color( "white" );
+			}
+		}
 	}
 }
 
@@ -197,6 +205,7 @@
 		align-items: center;
 		display: none;
 		justify-content: center;
+		margin: 1em 0;
 	}
 }
 

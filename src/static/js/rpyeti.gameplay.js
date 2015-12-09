@@ -21,11 +21,11 @@ RPYeti.Gameplay = function (game, player, camera, scene) {
 
 			if (window) {
 				self.game.hud.startCountdown(10, function () {
-					location = RPYeti.config.urls.leaderBoard;
+					var l = RPYeti.config.urls.leaderBoard;
 					if (window.location.hash) {
-						location += '#' + window.location.hash;
+						l += window.location.hash;
 					}
-					window.location.assign(location);
+					window.location.assign(l);
 				});
 			}
 		});

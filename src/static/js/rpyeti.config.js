@@ -167,10 +167,19 @@ RPYeti.config = {
 		{ type: 'Sound', name: 'player_throw', file: 'throw.mp3' },
 		{ type: 'Sound', name: 'yeti_roar', file: 'roar.mp3' },
 		{ type: 'Sound', name: 'yeti_hit', file: 'oof.mp3' },
-		{ type: 'Sound', name: 'rock_hit', file: 'whack.mp3' },		// Rock Hit
-		{ type: 'Sound', name: 'tree_hit', file: 'thump.mp3' },		// Tree Hit
-		{ type: 'Sound', name: 'snow_hit', file: 'tink.mp3' },		// placeholder - snow on snow
-		{ type: 'Sound', name: 'player_hit', file: 'smack.mp3' },	// placeholder - player hit
+		{ type: 'Sound', name: 'rock_hit', file: 'whack.mp3' },		
+		{ type: 'Sound', name: 'tree_hit', file: 'thump.mp3' },		
+		{ type: 'Sound', name: 'snow_hit', file: 'tink.mp3' },		
+		{ type: 'Sound', name: 'player_hit', file: 'smack.mp3' },	
+		
+		// game music
+		{ type: 'Sound', name: 'music_bells', file: 'music-tree-selection.mp3' },	
+		{ type: 'Sound', name: 'music_tree_selection', file: 'music-tree-selection.mp3' },	
+		{ type: 'Sound', name: 'music_tree_theft', file: 'music-tree-theft.mp3' },	
+		{ type: 'Sound', name: 'music_snowball_fight', file: 'music-snowball-fight.mp3' },	
+		{ type: 'Sound', name: 'music_snowball_fight_low_health', file: 'music-snowball-fight-low-health.mp3' },	
+		{ type: 'Sound', name: 'music_level_lose', file: 'music-level-lose.mp3' },	
+		{ type: 'Sound', name: 'music_level_win', file: 'music-level-win.mp3' },	
 
 		// fonts
 		{ type: 'Font', name: 'eightBit', file: '8bit.ttf' },

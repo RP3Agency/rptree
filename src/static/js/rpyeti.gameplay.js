@@ -73,7 +73,6 @@ RPYeti.Gameplay.prototype.levelBegin = function (level) {
 	this.modSettings(this.settings, RPYeti.config.gameplay.modifiers, (level - 1));
 	this.nextRound();
 
-	//console.log(this.settings);
 };
 
 RPYeti.Gameplay.prototype.setTimer = function () {
@@ -103,9 +102,9 @@ RPYeti.Gameplay.prototype.nextRound = function () {
 };
 
 RPYeti.Gameplay.prototype.levelComplete = function () {
-	this.game.hud.addText('Level Complete\nScore: ' + this.player.points);
+	this.game.hud.addText('Level Complete\nScore: ' + this.player.points, 9600);
 
-	RPYeti.music.publisher.trigger('rpyeti.music.win', 9600);
+	RPYeti.music.publisher.trigger('rpyeti.music.win');
 
 	(function (self) {
 		self.stopTimer();
@@ -241,7 +240,7 @@ RPYeti.Gameplay.prototype.endIntro = function (number) {
 							delete self.intro;
 						}
 
-						// TODO: Move this to dialog
+						// TODO: Move this seque to dialog
 						context.setTimeout(function () {
 							// Start level 1!
 							self.start(1);

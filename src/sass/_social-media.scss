@@ -3,6 +3,7 @@ ul.social-media {
 	position: fixed;
 	right: 0.5em;
 	top: 0.5em;
+	z-index: 100;
 
 	@include breakpoint( 640px ) {
 		top: auto;

@@ -74,3 +74,29 @@
 		margin-right: -2px !important;
 	}
 }
+
+.leaderboard__footer {
+	padding: 40px 0 0;
+	position: absolute;
+	width: 100%;
+
+	.brought {
+		font-size: 16px;
+		font-weight: 300;
+		margin: 15px 20px 0 0;
+		vertical-align: top;
+	}
+
+	.site-footer__logo,
+	.brought {
+		display: inline-block;
+	}
+
+	.site-footer__logo {
+		background-image: url('../images/rp3-logo-white.png');
+		background-repeat: no-repeat;
+		background-size: contain;
+		height: 50px;
+		width: 75px;
+	}
+}

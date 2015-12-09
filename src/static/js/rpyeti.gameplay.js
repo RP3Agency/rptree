@@ -18,6 +18,12 @@ RPYeti.Gameplay = function (game, player, camera, scene) {
 		self.player.on('defeated', function (context) {
 			RPYeti.music.publisher.trigger('rpyeti.music.lose');
 			self.game.hud.addText(RPYeti.config.dialogs.gameOver, 0);
+
+			if (window) {
+				self.game.hud.startCountdown(10, function () {
+					window.location.assign(RPYeti.config.urls.leaderBoard);
+				});
+			}
 		});
 
 		self.player.on('hit', function (context) {

@@ -19,6 +19,10 @@ RPYeti.config = {
 		depth: 500
 	},
 
+	urls: {
+		leaderBoard: '../leaderboard.html'
+	},
+
 	dialogs: {
 		introSeque: '\nYour donation is safe\nbut the world\nstill needs RPTree\n\nSnowball fight!\nSave RPTree!',
 		gameOver: 'GAME OVER',
@@ -48,7 +52,7 @@ RPYeti.config = {
 	},
 
 	player: {
-		hitbox: 5,
+		hitbox: 6,
 		health: 100,
 		lowHealth: 35
 	},

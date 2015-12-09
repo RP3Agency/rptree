@@ -14,6 +14,7 @@ RPYeti.HUD = function (player, camera, stereoCamera) {
 	this.stereoCamera = stereoCamera;
 	this.text = '';
 	this.resetText = '';
+	this.countdown = -1;
 	this.visible = true;
 
 	// draw reticle
@@ -81,7 +82,31 @@ RPYeti.HUD.prototype.addText = function (text, duration) {
 	this.updateReticle();
 };
 
-RPYeti.HUD.prototype.updateReticle = function() {
+RPYeti.HUD.prototype.startCountdown = function (seconds, callback) {
+	this.countdown = seconds;
+	this.countdownCallback = callback;
+
+	(function (self) {
+		self.updateReticle();
+		self.countdownTimer = setInterval(function () {
+			self.countdown--;
+
+			self.updateReticle();
+
+			if (self.countdown == 0) {
+				self.countdown = -1;
+				clearInterval(self.countdownTimer);
+
+				if (typeof self.countdownCallback === 'function') {
+					self.countdownCallback();
+					delete self.countdownCallback;
+				}
+			}
+		}, 1000);
+	})(this);
+};
+
+RPYeti.HUD.prototype.updateReticle = function () {
 	if (!this.visible) {
 		this.hud.clearRect(0, 0, width, height);
 		return;
@@ -136,6 +161,11 @@ RPYeti.HUD.prototype.updateReticle = function() {
 		this.hud.fillStyle = RPYeti.config.hud.textStyle;
 
 		var parts = this.text.split('\n');
+		if (this.countdown >= 0) {
+			parts.push('');
+			parts.push(this.countdown);
+		}
+
 		for (var i in parts) {
 			this.hud.fillText(parts[i], RPYeti.config.hud.canvasWidth / 2, RPYeti.config.hud.canvasHeight / 2 + textPos + (i * textSize));
 		}

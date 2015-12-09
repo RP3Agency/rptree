@@ -266,10 +266,10 @@ RPYeti.game = (function() {
 			var ambient = new THREE.AmbientLight(0x888888);
 			self.scene.add( ambient );
 
-			var light = new THREE.HemisphereLight(0xffdddd, 0x333333, 0.3);
+			var light = new THREE.HemisphereLight(0xddddff, 0x333355, 0.3);
 			self.scene.add( light );
 
-			var directional = new THREE.DirectionalLight( 0xddeeff, 0.6 );
+			var directional = new THREE.DirectionalLight( 0xaaddff, 0.6 );
 			directional.position.x	= -600;
 			directional.position.y	= 600;
 			directional.position.z	= -400;

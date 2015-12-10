@@ -2,18 +2,22 @@
  * Typography
  */
 
-@import url(https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300italic,300,400italic);
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,700,900,900italic&subset=latin,latin-ext);
+
+$font-weight--black:   900;
+$font-weight--bold:    700;
+$font-weight--regular: 400;
 
 body {
 	font-family: Roboto, sans-serif;
 }
 
 h2 {
-	font-family: "Roboto Condensed", sans-serif;
-	font-weight: 500;
+	font-family: "Roboto", sans-serif;
+	font-weight: 700;
 	text-transform: uppercase;
 }
 
 strong {
-	font-weight: 500;
+	font-weight: 700;
 }

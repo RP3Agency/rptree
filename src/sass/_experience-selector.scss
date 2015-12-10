@@ -100,7 +100,7 @@
 		.experience-selector--vr {
 			display: block;
 			font-size: 14px;
-			font-weight: 700;
+			font-weight: $font-weight--bold;
 			height: 100%;
 			letter-spacing: 1px;
 			line-height: 1.1;
@@ -116,7 +116,7 @@
 			a {
 				color: get-color( "blue--brand" );
 				display: block;
-				font-family: "Roboto Condensed", sans-serif;
+				font-family: "Roboto", sans-serif;
 				height: 100%;
 				padding: 1em;
 				position: relative;
@@ -197,9 +197,10 @@
 		}
 
 		p {
-			font-family: "Roboto Condensed", sans-serif;
+			font-family: "Roboto", sans-serif;
 			font-size: 14px;
 			font-style: italic;
+			font-weight: $font-weight--black;
 
 			.blue {
 				display: block;

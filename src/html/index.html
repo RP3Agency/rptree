@@ -65,59 +65,58 @@
 
 			<div class="experience-selector experience-selector--white">
 
-				<!-- <div class="container"> -->
+				<p>This year, RP3 Agency is making gifts to three amazing non-profits on behalf of our clients, friends and colleagues.</p>
 
-					<p>This year, RP3 Agency is making gifts to three amazing non-profits on behalf of our clients, friends and colleagues.</p>
+				<p>All you have to do is choose which one.</p>
 
-					<p>All you have to do is choose which one.</p>
+				<a href="https://google.com/chrome" id="no-webgl" class="no-webgl" target="_blank">
+					
+					Your browser does not support modern 3D graphics.<br/>
+					Download Google Chrome.
 
-					<div class="experience-selector__icons">
+				</a>
 
-						<div class="experience-selector__desktop">
+				<div id="experience-selector__icons" class="experience-selector__icons">
 
-							<span class="experience-selector--desktop">
+					<div class="experience-selector__desktop">
 
-								<a href="rpyeti/#desktop">
+						<span class="experience-selector--desktop">
 
-									<span class="experience-selector__svg"><% include ../static/images/computer.svg %></span>
+							<a href="rpyeti/#desktop">
 
-									Standard
+								<span class="experience-selector__svg"><% include ../static/images/computer.svg %></span>
 
-									<span>Requires Chrome, Firefox, Safari or Edge</span>
+								Standard
 
-								</a>
+							</a>
 
-							</span>
-
-						</div>
-						<!-- desktop -->
-
-						<div class="experience-selector__vr">
-
-							<span class="experience-selector--vr">
-
-								<a href="rpyeti/">
-
-									<span class="experience-selector__svg">
-										<% include ../static/images/cardboard.svg %>
-									</span>
-
-									Virtual Reality
-
-									<span>Requires Mobile Safari for iOS or Chrome for Android</span>
-
-								</a>
-
-							</span>
-
-						</div>
-						<!-- vr -->
-
+						</span>
 
 					</div>
-					<!-- // .experience-selector__icons -->
+					<!-- desktop -->
 
-				<!-- </div> -->
+					<div class="experience-selector__vr">
+
+						<span class="experience-selector--vr">
+
+							<a href="rpyeti/">
+
+								<span class="experience-selector__svg">
+									<% include ../static/images/cardboard.svg %>
+								</span>
+
+								Virtual Reality
+
+							</a>
+
+						</span>
+
+					</div>
+					<!-- vr -->
+
+
+				</div>
+				<!-- // .experience-selector__icons -->
 
 			</div>
 
@@ -169,5 +168,15 @@
 		</ul>
 
 	</div>
+
+	<script src="../js/scripts-bower.min.js"></script>
+	<script src="../js/rptree.min.js"></script>
+	<script src="/js/third-party/threejs/Detector.js"></script>
+	<script>
+	if ( ! Detector.webgl ) {
+		$('#experience-selector__icons').css('display', 'none');
+		$('#no-webgl').css('display', 'block');
+	}
+	</script>
 
 <!-- @@close -->

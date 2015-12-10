@@ -168,14 +168,6 @@
 						}
 					}
 				}
-
-				span {
-					display: block;
-					font-weight: $font-weight--regular;
-					margin-top: 0.5em;
-					text-transform: none;
-					white-space: normal;
-				}
 			}
 		}
 	}
@@ -215,6 +207,24 @@
 				display: block;
 				margin-top: 10px;
 			}
+		}
+	}
+
+	// WebGL Detect
+	.no-webgl {
+		background-color: get-color( "white" );
+		border: 4px solid get-color( "blue--brand" );
+		border-radius: 12px;
+		color: currentColor;
+		display: none;
+		margin: 2em 0;
+		padding: 1em;
+		text-decoration: none;
+		transition: background-color 100ms linear, color 100ms linear;
+
+		@include hover-state {
+			background-color: get-color( "blue--brand" );
+			color: get-color( "white" );
 		}
 	}
 }

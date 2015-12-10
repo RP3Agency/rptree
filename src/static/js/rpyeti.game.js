@@ -6,7 +6,6 @@ RPYeti.game = (function() {
 	return {
 
 		/** Public Properties **/
-		isFiring: false,
 		lastFire: 0,
 		startLevel: 0,
 		snowballBlockers: [],
@@ -35,46 +34,10 @@ RPYeti.game = (function() {
 			this.camera.add( this.listener );
 
 			// create user controls
-			this.controls = new THREE.OrbitControls( this.camera, this.renderer.domElement );
-			this.controls.target.set(
-				this.camera.position.x + 0.1,
-				this.camera.position.y,
-				this.camera.position.z
-			);
-			this.controls.enableZoom = false;
-			this.controls.enablePan = false;
+			this.controls = RPYeti.controls.init( this );
 
 			this.player = new RPYeti.Player();
 			this.gameplay = new RPYeti.Gameplay(this, this.player, this.camera, this.scene);
-
-			//TODO: use or make key controls library instead of hardcoding
-			$(document).on('keydown', function(e) {
-				var prevent = true;
-				switch (e.keyCode) {
-					case 32: //SPACE
-						self.isFiring = true;
-						break;
-					default:
-						prevent = false;
-				}
-				if (prevent) {
-					e.preventDefault();
-				}
-			})
-			.on('touchstart', function(e) {
-				self.isFiring = true;
-				e.preventDefault();
-			})
-			.on('touchmove', function(e) {
-				e.preventDefault();
-			})
-			.on('keyup touchend', function(e) {
-				self.isFiring = false;
-				e.preventDefault();
-			});
-
-			// if device orientation event is triggered, set controls to orientation mode
-			window.addEventListener('deviceorientation', this.setOrientationControls, true);
 
 			this.clock = new THREE.Clock();
 
@@ -110,6 +73,10 @@ RPYeti.game = (function() {
 			$(window).on('resize', this.resize);
 			setTimeout(this.resize, 1);
 
+			$( this.container ).one('click', function() {
+				self.fullscreen();
+			});
+
 			if (self.startLevel > 0) {
 				self.player.setTimeout(function () {
 					self.gameplay.start(self.startLevel, true);
@@ -127,7 +94,7 @@ RPYeti.game = (function() {
 			window.requestAnimationFrame( self.animate );
 			self.update( delta );
 
-			if( self.isFiring && self.player.health > 0 ) {
+			if( self.controls.isFiring && self.player.health > 0 ) {
 				if( ( t - self.lastFire ) >= RPYeti.config.snowball.rate ) {
 					self.playSound( self.sounds.throw );
 					self.throwSnowball(undefined, self.player);
@@ -156,21 +123,6 @@ RPYeti.game = (function() {
 		},
 
 		/** Event Handlers **/
-
-		setOrientationControls: function(e) {
-			if (!e.alpha) {
-				return;
-			}
-
-			window.removeEventListener('deviceorientation', self.setOrientationControls, true);
-
-			self.controls.dispose();
-			self.controls = new THREE.DeviceOrientationControls(self.camera, true);
-			self.controls.connect();
-			self.controls.update();
-
-			self.renderer.domElement.addEventListener('click', self.fullscreen, false);
-		},
 
 		resize: function() {
 			var width = self.container.offsetWidth;

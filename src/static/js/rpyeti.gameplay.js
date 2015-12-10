@@ -215,6 +215,8 @@ RPYeti.Gameplay.prototype.endIntro = function (number) {
 
 	this.player.on('intro.select', function () {});
 
+	this.game.hud.addText(RPYeti.config.dialogs.thankYou, 0);
+
 	for (var i in this.intro.children) {
 		if (this.intro.children[i].userData && this.intro.children[i].userData.character instanceof RPYeti.Yeti) {
 			yeti = this.intro.children[i].userData.character;
@@ -231,11 +233,9 @@ RPYeti.Gameplay.prototype.endIntro = function (number) {
 			context.roar = self.game.createSoundEffect( RPYeti.loader.sounds.yeti_roar );
 			context.pivot.add( context.roar );
 
-			self.game.hud.addText('', 0);
-			self.game.hud.addText('...?');
-
 			RPYeti.music.publisher.trigger('rpyeti.music.theft', function () {
 				context.roar.play();
+				self.game.hud.addText('', 0);
 				self.game.hud.addText(RPYeti.config.dialogs.exclamation);
 
 				var bounds = new THREE.Box3().setFromObject(self.intro);

@@ -26,7 +26,8 @@ RPYeti.config = {
 		exclamation: 'Oh no!',
 		yetiDowned: 'Yeti Down!',
 		yetiOnYeti: 'Yeti Crossfire!',
-		remaining: 'to go'
+		remaining: 'to go',
+		thankYou: 'thank you for\nyour donation'
 	},
 
 	audio: {

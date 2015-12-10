@@ -79,6 +79,7 @@ RPYeti.config = {
 		textPos: -350,
 		textSize: 40,
 		textStyle: 'rgba(0,192,0,1)'
+		textFont: 'PressStart2P',
 	},
 
 	character: {

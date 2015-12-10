@@ -194,7 +194,13 @@ RPYeti.Gameplay.prototype.startIntro = function () {
 
 		(function (self) {
 			self.player.setTimeout(function () {
-				self.game.hud.addText(RPYeti.config.dialogs.select, 0);
+				var text = RPYeti.config.dialogs.select;
+				if (self.game.stereo) {
+					text += RPYeti.config.dialogs.vrHelp;
+				} else {
+					text += RPYeti.config.dialogs.desktopHelp;
+				}
+				self.game.hud.addText(text, 0);
 			}, 1500);
 
 			self.player.on('intro.select', function (context, number) {
@@ -215,6 +221,8 @@ RPYeti.Gameplay.prototype.endIntro = function (number) {
 
 	this.player.on('intro.select', function () {});
 
+	this.game.hud.addText(RPYeti.config.dialogs.thankYou, 0);
+
 	for (var i in this.intro.children) {
 		if (this.intro.children[i].userData && this.intro.children[i].userData.character instanceof RPYeti.Yeti) {
 			yeti = this.intro.children[i].userData.character;
@@ -231,11 +239,9 @@ RPYeti.Gameplay.prototype.endIntro = function (number) {
 			context.roar = self.game.createSoundEffect( RPYeti.loader.sounds.yeti_roar );
 			context.pivot.add( context.roar );
 
-			self.game.hud.addText('', 0);
-			self.game.hud.addText('...?');
-
 			RPYeti.music.publisher.trigger('rpyeti.music.theft', function () {
 				context.roar.play();
+				self.game.hud.addText('', 0);
 				self.game.hud.addText(RPYeti.config.dialogs.exclamation);
 
 				var bounds = new THREE.Box3().setFromObject(self.intro);

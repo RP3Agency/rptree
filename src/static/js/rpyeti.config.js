@@ -22,11 +22,14 @@ RPYeti.config = {
 	dialogs: {
 		introSeque: '\nYour donation is safe\nbut the world\nstill needs RPTree\n\nSnowball fight!\nSave RPTree!',
 		gameOver: 'GAME OVER',
-		select: 'Select your\nnonprofit',
+		select: 'Select your\nnon-profit',
+		desktopHelp: '\n\n1. Click and drag mouse\n2. Press spacebar',
+		vrHelp: '\n\n1. Aim viewer\n2. Press button on right',
 		exclamation: 'Oh no!',
 		yetiDowned: 'Yeti Down!',
 		yetiOnYeti: 'Yeti Crossfire!',
-		remaining: 'to go'
+		remaining: 'to go',
+		thankYou: 'thank you for\nyour support'
 	},
 
 	audio: {
@@ -71,11 +74,11 @@ RPYeti.config = {
 		easeDuration: 200,
 		innerFocalMax: 0.05,
 		borderColor: 'rgba(0,0,0,0.25)',
-		baseColor: 'rgba(0,174,239,0.75)',
+		baseColor: 'rgba(0,192,0,0.75)',
 		damageColor: 'rgba(255,0,0,1)',
 		textPos: -350,
 		textSize: 40,
-		textStyle: 'rgba(0,174,239,1)',
+		textStyle: 'rgba(0,192,0,1)',
 		textFont: 'PressStart2P',
 	},
 

@@ -15,10 +15,6 @@ RPYeti.config = {
 		fov: 65,
 	},
 
-	terrain: {
-		depth: 500
-	},
-
 	urls: {
 		leaderBoard: '../leaderboard.html'
 	},
@@ -41,6 +37,10 @@ RPYeti.config = {
 	},
 
 	/** Game Mechanics **/
+
+	terrain: {
+		depth: 500
+	},
 
 	snowball: {
 		size: 1,
@@ -194,7 +194,7 @@ RPYeti.config = {
 	],
 
 	/** Debug Settings **/
-	debug: true,
+	debug: false,
 	wireframe: false,
 	fps: false,
 

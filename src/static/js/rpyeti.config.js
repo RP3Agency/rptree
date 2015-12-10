@@ -75,7 +75,8 @@ RPYeti.config = {
 		damageColor: 'rgba(255,0,0,1)',
 		textPos: -350,
 		textSize: 40,
-		textStyle: 'rgba(0,174,239,1)'
+		textStyle: 'rgba(0,174,239,1)',
+		textFont: 'PressStart2P',
 	},
 
 	character: {

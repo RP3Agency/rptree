@@ -60,7 +60,7 @@ RPYeti.HUD.prototype.constructor = RPYeti.HUD;
 RPYeti.HUD.prototype.addText = function (text, duration) {
 	this.text = text;
 
-	if (typeof duration == 'undefined') {
+	if (duration === undefined) {
 		duration = 5000;
 	}
 

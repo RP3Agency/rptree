@@ -195,7 +195,9 @@ RPYeti.Gameplay.prototype.startIntro = function () {
 		(function (self) {
 			self.player.setTimeout(function () {
 				var text = RPYeti.config.dialogs.select;
-				if (!self.game.stereo) {
+				if (self.game.stereo) {
+					text += RPYeti.config.dialogs.vrHelp;
+				} else {
 					text += RPYeti.config.dialogs.desktopHelp;
 				}
 				self.game.hud.addText(text, 0);

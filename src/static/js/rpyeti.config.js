@@ -23,6 +23,7 @@ RPYeti.config = {
 		introSeque: '\nYour donation is safe\nbut the world\nstill needs RPTree\n\nSnowball fight!\nSave RPTree!',
 		gameOver: 'GAME OVER',
 		select: 'Select your\nnonprofit',
+		desktopHelp: '\n\nClick-and-drag to aim\nSpacebar to throw',
 		exclamation: 'Oh no!',
 		yetiDowned: 'Yeti Down!',
 		yetiOnYeti: 'Yeti Crossfire!',

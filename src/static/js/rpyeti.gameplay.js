@@ -194,7 +194,11 @@ RPYeti.Gameplay.prototype.startIntro = function () {
 
 		(function (self) {
 			self.player.setTimeout(function () {
-				self.game.hud.addText(RPYeti.config.dialogs.select, 0);
+				var text = RPYeti.config.dialogs.select;
+				if (!self.game.stereo) {
+					text += RPYeti.config.dialogs.desktopHelp;
+				}
+				self.game.hud.addText(text, 0);
 			}, 1500);
 
 			self.player.on('intro.select', function (context, number) {

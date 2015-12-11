@@ -15,21 +15,50 @@ RPYeti.config = {
 		fov: 65,
 	},
 
+	camera: {
+		height: 10,
+		yaw: ( - Math.PI / 2 ),
+	},
+
+	controls: {
+		keys: {
+			MOVEUP:		[ 38, 87, ],		// up-arrow, W
+			MOVEDOWN:	[ 40, 83, ],		// down-arrow, S
+			MOVELEFT:	[ 37, 65, ],		// left-arrow, A
+			MOVERIGHT:	[ 39, 68, ],		// right-arrow, D
+			FIRE:		[ 32, 13, 14, ],	// spacebar, return, enter
+		},
+		keySpeed: {
+			x: 3.0,
+			y: 1.7,
+		},
+		mouseSpeed: 0.002,
+	},
+
 	urls: {
 		leaderBoard: '../leaderboard.html'
 	},
 
-	dialogs: {
-		introSeque: '\nYour donation is\nsafe but the world\nstill needs RPTree\n\nSnowball fight!\nSave RPTree!',
-		gameOver: 'GAME OVER',
-		select: 'Select your\nnon-profit',
-		desktopHelp: '\n\n1.Click and drag mouse\n2.Press spacebar',
-		vrHelp: '\n\n1.Aim viewer\n2.Press button\non right',
-		exclamation: 'Oh no!',
-		yetiDowned: 'Yeti Down!',
-		yetiOnYeti: 'Yeti Crossfire!',
-		remaining: 'to go',
-		thankYou: 'thank you for\nyour support'
+	text: {
+		hud: {
+			gameOver: 'GAME OVER',
+			exclamation: 'Oh no...\nYeti!',
+			yetiDowned: 'Yeti Down!',
+			yetiOnYeti: 'Yeti Crossfire!',
+			remaining: 'to go',
+			thankYou: 'Thank you for\nyour support!'
+		},
+		dialog: {
+			introSeque: [
+				'Throw snowballs to hit\nYetis before they hit you.\n\nThe more you hit,\nthe higher your score.'
+			],
+			desktopHelp: [
+				'The first snowball you\nthrow determines where\nyour donation goes.\n\nClick and drag mouse to\naim at a logo. Press\nspacebar to fire away.'
+			],
+			vrHelp: [
+				'The first snowball you\nthrow determines where\nyour donation goes.\n\nMove viewer to aim at\na logo. Press top right\ntrigger to fire away.',
+			]
+		}
 	},
 
 	audio: {
@@ -80,6 +109,21 @@ RPYeti.config = {
 		textSize: 40,
 		textStyle: 'rgba(0,192,0,1)',
 		textFont: 'PressStart2P',
+	},
+
+	dialog: {
+		canvasWidth: 1024,
+		canvasHeight: 1024,
+		focalPoint: 0.05,
+		lineWidth: 10,
+		borderColor: 'rgba(192,192,192,0.75)',
+		baseColor: 'rgba(255,255,255,0.50)',
+		topStereoOffset: 50,
+		innerPadding: 30,
+		outerPadding: 5,
+		textSize: 65,
+		textStyle: 'rgba(0,174,239,1)',
+		textFont: 'Verdana'
 	},
 
 	character: {

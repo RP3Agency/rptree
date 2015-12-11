@@ -79,6 +79,24 @@
 			padding: 0 10px;
 			width: 100%;
 		}
+
+		&.trigger-icon {
+			margin-top: 0;
+
+			li {
+				margin-bottom: 0;
+				height: 7rem;
+
+				span {
+					margin-bottom: 0;
+				}
+
+				p {
+					margin-top: 1em;
+				}
+			}
+
+		}
 	}
 
 	h2 {

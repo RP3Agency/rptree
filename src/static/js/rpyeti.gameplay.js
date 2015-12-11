@@ -20,7 +20,7 @@ RPYeti.Gameplay = function (game, player, camera, scene) {
 				RPYeti.music.publisher.trigger('rpyeti.music.mute');
 			});
 
-			self.game.hud.addText(RPYeti.config.dialogs.gameOver, 0);
+			self.game.hud.addText(RPYeti.config.text.hud.gameOver, 0);
 
 			if (window) {
 				self.game.hud.startCountdown(15, function () {
@@ -138,82 +138,85 @@ RPYeti.Gameplay.prototype.startIntro = function () {
 		cameraPos = this.camera.getWorldPosition(),
 		centerPos = null;
 
-		if (this.intro !== undefined) {
-			this.scene.remove(this.intro);
-			while (this.intro.children.length) { this.intro.children.pop(); }
-		}
+	if (this.intro !== undefined) {
+		this.scene.remove(this.intro);
+		while (this.intro.children.length) { this.intro.children.pop(); }
+	}
 
-		cameraPos.y = treeModel.position.y;
+	cameraPos.y = treeModel.position.y;
 
-		this.intro = new THREE.Group();
-		for (var i = 0; i < introPoints.length; i++) {
-			var tree = treeModel.clone(),
-				x = introPoints[i][0] * density,
-				z = introPoints[i][1] * density;
+	this.intro = new THREE.Group();
+	for (var i = 0; i < introPoints.length; i++) {
+		var tree = treeModel.clone(),
+			x = introPoints[i][0] * density,
+			z = introPoints[i][1] * density;
 
-			tree.translateX(x + 8);
-			tree.translateZ(z);
-			tree.scale.set(treeScale, treeScale, treeScale);
+		tree.translateX(x + 8);
+		tree.translateZ(z);
+		tree.scale.set(treeScale, treeScale, treeScale);
 
-			tree.lookAt(cameraPos);
-			this.intro.add(tree);
+		tree.lookAt(cameraPos);
+		this.intro.add(tree);
 
-			centerPos = tree.position.clone();
+		centerPos = tree.position.clone();
 
-			(function (self, position) {
-				position.x += 10;
-				position.z -= 15;
-				setTimeout(function () {
-					self.spawnYeti(self.intro, position, undefined, 1.85, 9001, 0);
-				});
-			})(this, tree.position.clone());
-		}
-
-		if (centerPos != null && signs.length > 0) {
-			var xOffset = 12;
-
-			cameraPos.y = signs[0].position.y;
-
-			centerPos.x -= 15;
-			centerPos.z -= xOffset * Math.floor(signs.length / 2);
-
-			for (var i = 0; i < signs.length; i++) {
-				signs[i].position.set(centerPos.x, centerPos.y, centerPos.z);
-				signs[i].scale.set(signScale, signScale, signScale);
-
-				signs[i].lookAt(cameraPos);
-
-				this.intro.add(signs[i]);
-
-				centerPos.z += xOffset;
-			}
-		}
-
-		this.scene.add(this.intro);
-		this.game.snowballBlockers.push(this.intro);
-
-		(function (self) {
-			self.player.setTimeout(function () {
-				var text = RPYeti.config.dialogs.select;
-				if (self.game.stereo) {
-					text += RPYeti.config.dialogs.vrHelp;
-				} else {
-					text += RPYeti.config.dialogs.desktopHelp;
-				}
-				self.game.hud.addText(text, 0);
-			}, 1500);
-
-			self.player.on('intro.select', function (context, number) {
-				var pattern = /decoration_(.*)/i;
-				if (number.match(pattern)) {
-					context.selected = number.replace(pattern, '$1');
-
-					RPYeti.service.publisher.trigger('rpyeti.game.charity', context.selected);
-
-					self.endIntro(number);
-				}
+		(function (self, position) {
+			position.x += 10;
+			position.z -= 15;
+			setTimeout(function () {
+				self.spawnYeti(self.intro, position, undefined, 1.85, 9001, 0);
 			});
-		})(this);
+		})(this, tree.position.clone());
+	}
+
+	if (centerPos != null && signs.length > 0) {
+		var xOffset = 12;
+
+		cameraPos.y = signs[0].position.y;
+
+		centerPos.x -= 15;
+		centerPos.z -= xOffset * Math.floor(signs.length / 2);
+
+		for (var i = 0; i < signs.length; i++) {
+			signs[i].position.set(centerPos.x, centerPos.y, centerPos.z);
+			signs[i].scale.set(signScale, signScale, signScale);
+
+			signs[i].lookAt(cameraPos);
+
+			this.intro.add(signs[i]);
+
+			centerPos.z += xOffset;
+		}
+	}
+
+	this.scene.add(this.intro);
+	this.game.snowballBlockers.push(this.intro);
+
+	(function (self) {
+		self.player.setTimeout(function () {
+			var text = [],
+				dialog = new RPYeti.Dialog(self.game.controls, self.game.camera, self.game.stereo);
+
+			if (self.game.stereo) {
+				Array.prototype.push.apply(text, RPYeti.config.text.dialog.vrHelp)
+			} else {
+				Array.prototype.push.apply(text, RPYeti.config.text.dialog.desktopHelp)
+			}
+
+			dialog.show(text);
+		}, 1500);
+
+		self.player.on('intro.select', function (context, number) {
+			var pattern = /decoration_(.*)/i;
+			if (number.match(pattern)) {
+				context.selected = number.replace(pattern, '$1');
+
+				RPYeti.service.publisher.trigger('rpyeti.game.charity', context.selected);
+
+				self.endIntro(number);
+			}
+		});
+	})(this);
 };
 
 RPYeti.Gameplay.prototype.endIntro = function (number) {
@@ -221,7 +224,7 @@ RPYeti.Gameplay.prototype.endIntro = function (number) {
 
 	this.player.on('intro.select', function () {});
 
-	this.game.hud.addText(RPYeti.config.dialogs.thankYou, 0);
+	this.game.hud.addText(RPYeti.config.text.hud.thankYou, 0);
 
 	for (var i in this.intro.children) {
 		if (this.intro.children[i].userData && this.intro.children[i].userData.character instanceof RPYeti.Yeti) {
@@ -242,7 +245,7 @@ RPYeti.Gameplay.prototype.endIntro = function (number) {
 			RPYeti.music.publisher.trigger('rpyeti.music.theft', function () {
 				context.roar.play();
 				self.game.hud.addText('', 0);
-				self.game.hud.addText(RPYeti.config.dialogs.exclamation);
+				self.game.hud.addText(RPYeti.config.text.hud.exclamation, 3000);
 
 				var bounds = new THREE.Box3().setFromObject(self.intro);
 				context.setTimeout(function () {
@@ -263,12 +266,15 @@ RPYeti.Gameplay.prototype.endIntro = function (number) {
 								delete self.intro;
 							}
 
-							// TODO: Move this seque to dialog
-							context.setTimeout(function () {
-								// Start level 1!
-								self.start(1);
-							}, 12000)
-							self.game.hud.addText(RPYeti.config.dialogs.introSeque, 12000);
+							setTimeout(function () {
+								var dialog = new RPYeti.Dialog(self.game.controls, self.game.camera, self.game.stereo);
+								dialog.show(RPYeti.config.text.dialog.introSeque, function () {
+									context.setTimeout(function () {
+										// Start level 1!
+										self.start(1);
+									}, 2500);
+								});
+							}, 1000);
 						});
 
 					positionTween.to({ y: -Math.abs(bounds.max.y) }, RPYeti.config.character.yeti.disappearDuration * 1.5).start();
@@ -355,12 +361,12 @@ RPYeti.Gameplay.prototype.yetiSpawner = function () {
 					&& param.userData.initiator !== undefined
 					&& param.userData.initiator instanceof RPYeti.Yeti) {
 
-					self.game.hud.addText(RPYeti.config.dialogs.yetiOnYeti);
+					self.game.hud.addText(RPYeti.config.text.hud.yetiOnYeti);
 				} else if (param.userData.initiator == self.player) {
 					self.player.trigger('yeti.defeat', context);
-					self.game.hud.addText(RPYeti.config.dialogs.yetiDowned
+					self.game.hud.addText(RPYeti.config.text.hud.yetiDowned
 						+ ' ' + self.player.points + '\n'
-						+ (self.settings.yeti.total - self.currentLevelDefeated) + ' ' + RPYeti.config.dialogs.remaining);
+						+ (self.settings.yeti.total - self.currentLevelDefeated) + ' ' + RPYeti.config.text.hud.remaining);
 				}
 			});
 

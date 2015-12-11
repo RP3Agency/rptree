@@ -178,8 +178,8 @@ RPYeti.controls = (function() {
 				self.controls.update( delta );
 			}
 
-			var dx = RPYeti.config.controls.keySpeed.x * delta * ( self.state.isLookUp ? 1 : 0 ) + ( self.state.isLookDown ? -1 : 0 ),
-				dy = RPYeti.config.controls.keySpeed.y * delta * ( self.state.isPanLeft ? 1 : 0 ) + ( self.state.isPanRight ? -1 : 0 );
+			var dx = RPYeti.config.controls.keySpeed.x * delta * ( ( self.state.isLookUp ? 1 : 0 ) + ( self.state.isLookDown ? -1 : 0 ) ),
+				dy = RPYeti.config.controls.keySpeed.y * delta * ( ( self.state.isPanLeft ? 1 : 0 ) + ( self.state.isPanRight ? -1 : 0 ) );
 
 			self.yawGimbal.rotation.y += dy;
 			self.pitchGimbal.rotation.x += dx;

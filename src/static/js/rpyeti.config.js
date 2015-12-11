@@ -30,16 +30,13 @@ RPYeti.config = {
 		},
 		dialog: {
 			introSeque: [
-				'Throw snowballs to\nhit the Yetis before\nthey hit you.',
-				'The more you hit,\nthe higher your score.'
+				'Throw snowballs to hit\nYetis before they hit you.\n\nThe more you hit,\nthe higher your score.'
 			],
 			desktopHelp: [
-				'The first snowball you\nthrow determines where\nyour donation goes.',
-				'Click and drag mouse to\naim at a logo.\nPress spacebar\nto fire away.'
+				'The first snowball you\nthrow determines where\nyour donation goes.\n\nClick and drag mouse to\naim at a logo. Press\nspacebar to fire away.'
 			],
 			vrHelp: [
-				'The first snowball you\nthrow determines where\nyour donation goes.',
-				'Move viewer to aim\nat a logo.\nPress top right trigger\nto fire away.',
+				'The first snowball you\nthrow determines where\nyour donation goes.\n\nMove viewer to aim at\na logo. Press top right\ntrigger to fire away.',
 			]
 		}
 	},
@@ -100,7 +97,7 @@ RPYeti.config = {
 		focalPoint: 0.05,
 		lineWidth: 10,
 		borderColor: 'rgba(192,192,192,0.75)',
-		baseColor: 'rgba(255,255,255,0.15)',
+		baseColor: 'rgba(255,255,255,0.50)',
 		topStereoOffset: 50,
 		innerPadding: 30,
 		outerPadding: 5,

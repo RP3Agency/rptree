@@ -23,6 +23,8 @@ RPYeti.Dialog = function (controls, camera, stereoCamera) {
 	plane.name = 'Dialog';
 	plane.position.set( 0, 0, -1 );
 
+	this.dialog.clearRect(0, 0, RPYeti.config.dialog.canvasWidth, RPYeti.config.dialog.canvasHeight);
+
 	if (this.stereoCamera !== undefined) {
 		var plane2 = plane.clone();
 
@@ -95,7 +97,7 @@ RPYeti.Dialog.prototype.reveal = function (section) {
 	}
 
 	var dlgWidth = width - lineWidth - (outerPadding * 2);
-		dlgHeight = parts.length * textSize + (innerPadding * 2) + lineWidth,
+		dlgHeight = (parts.length * textSize) + (innerPadding * 2) + (lineWidth * 2),
 		dlgOffsetX = innerPadding + lineWidth + outerPadding;
 		dlgOffsetY = dlgOffsetX + topOffset
 

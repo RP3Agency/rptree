@@ -28,8 +28,11 @@ RPYeti.config = {
 			MOVERIGHT:	[ 39, 68, ],		// right-arrow, D
 			FIRE:		[ 32, 13, 14, ],	// spacebar, return, enter
 		},
-		keySpeed: 1.5,
-		mouseSpeed: 0.005,
+		keySpeed: {
+			x: 3.0,
+			y: 1.7,
+		},
+		mouseSpeed: 0.002,
 	},
 
 	urls: {

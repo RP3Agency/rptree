@@ -92,6 +92,9 @@ RPYeti.controls = (function() {
 			.on('mouseup', function(e) {
 				self.state.isFiring = false;
 				e.preventDefault();
+			})
+			.on('contextMenu', function(e) {
+				e.preventDefault();
 			});
 		},
 
@@ -121,14 +124,22 @@ RPYeti.controls = (function() {
 			document.addEventListener( prefix + 'change', function( event ) {
 				if ( element === ( document.pointerLockElement || document.mozPointerLockElement || document.webkitPointerLockElement ) ) {
 					self.controlType = TYPE.POINTERLOCK;
-					//TODO: wire up camera controls
-					console.log('pointer lock engaged');
 				} else {
 					self.controlType = TYPE.DEFAULT;
-					//TODO: hook into the click event to re-engage lock
-					console.log('pointer lock disengaged');
 				}
 			});
+
+			document.addEventListener('mousemove', function( event ) {
+				if( self.controlType != TYPE.POINTERLOCK ) {
+					return;
+				}
+				var movementX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
+				var movementY = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
+				self.yawGimbal.rotation.y -= movementX * RPYeti.config.controls.mouseSpeed;
+				self.pitchGimbal.rotation.x -= movementY * RPYeti.config.controls.mouseSpeed;
+				self.pitchGimbal.rotation.x = Math.max( - PI_2, Math.min( PI_2, self.pitchGimbal.rotation.x ) );
+			});
+
 			document.addEventListener( prefix + 'error', function( event ) {
 				console.log( 'pointerlock error ', event);
 			});
@@ -167,12 +178,11 @@ RPYeti.controls = (function() {
 				self.controls.update( delta );
 			}
 
-			var dx			= ( self.state.isLookUp ? 1 : 0 ) + ( self.state.isLookDown ? -1 : 0 ),
-				dy			= ( self.state.isPanLeft ? 1 : 0 ) + ( self.state.isPanRight ? -1 : 0 ),
-				rotateSpeed = RPYeti.config.controls.keySpeed * delta;
+			var dx = RPYeti.config.controls.keySpeed.x * delta * ( self.state.isLookUp ? 1 : 0 ) + ( self.state.isLookDown ? -1 : 0 ),
+				dy = RPYeti.config.controls.keySpeed.y * delta * ( self.state.isPanLeft ? 1 : 0 ) + ( self.state.isPanRight ? -1 : 0 );
 
-			self.yawGimbal.rotation.y += dy * rotateSpeed;
-			self.pitchGimbal.rotation.x += dx * rotateSpeed;
+			self.yawGimbal.rotation.y += dy;
+			self.pitchGimbal.rotation.x += dx;
 			self.pitchGimbal.rotation.x = Math.max( - PI_2, Math.min( PI_2, self.pitchGimbal.rotation.x ) );
 		},
 

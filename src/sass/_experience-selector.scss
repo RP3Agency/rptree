@@ -168,6 +168,14 @@
 						}
 					}
 				}
+
+				span {
+					display: block;
+					font-weight: $font-weight--regular;
+					margin-top: 0.5em;
+					text-transform: none;
+					white-space: normal;
+				}
 			}
 		}
 	}

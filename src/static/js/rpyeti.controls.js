@@ -10,7 +10,7 @@ RPYeti.controls = (function() {
 	return {
 
 		/** Public Properties **/
-		isHooked: true,
+		isHooked: false,
 		state: {},
 		keyMap: {},
 		controlType: TYPE.DEFAULT,

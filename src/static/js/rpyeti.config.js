@@ -15,6 +15,26 @@ RPYeti.config = {
 		fov: 65,
 	},
 
+	camera: {
+		height: 10,
+		yaw: ( - Math.PI / 2 ),
+	},
+
+	controls: {
+		keys: {
+			MOVEUP:		[ 38, 87, ],		// up-arrow, W
+			MOVEDOWN:	[ 40, 83, ],		// down-arrow, S
+			MOVELEFT:	[ 37, 65, ],		// left-arrow, A
+			MOVERIGHT:	[ 39, 68, ],		// right-arrow, D
+			FIRE:		[ 32, 13, 14, ],	// spacebar, return, enter
+		},
+		keySpeed: {
+			x: 3.0,
+			y: 1.7,
+		},
+		mouseSpeed: 0.002,
+	},
+
 	urls: {
 		leaderBoard: '../leaderboard.html'
 	},

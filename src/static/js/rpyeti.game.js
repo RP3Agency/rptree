@@ -26,15 +26,13 @@ RPYeti.game = (function() {
 			// create perspective camera
 			var fov = ( RPYeti.config.stereo ) ? RPYeti.config.cardboard.fov : RPYeti.config.desktop.fov;
 			this.camera = new THREE.PerspectiveCamera( fov, self.container.offsetWidth / self.container.offsetHeight, 0.1, RPYeti.config.terrain.depth );
-			this.camera.position.set( 0, 10, 0 );
-			this.scene.add( this.camera );
+
+			// create user controls
+			this.controls = RPYeti.controls.init( this );
 
 			// create audio listener
 			this.listener = new THREE.AudioListener();
 			this.camera.add( this.listener );
-
-			// create user controls
-			this.controls = RPYeti.controls.init( this );
 
 			this.player = new RPYeti.Player();
 			this.gameplay = new RPYeti.Gameplay(this, this.player, this.camera, this.scene);
@@ -94,7 +92,7 @@ RPYeti.game = (function() {
 			window.requestAnimationFrame( self.animate );
 			self.update( delta );
 
-			if( self.controls.isFiring && !self.controls.isHooked && self.player.health > 0 ) {
+			if( self.controls.state.isFiring && !self.controls.isHooked && self.player.health > 0 ) {
 				if( ( t - self.lastFire ) >= RPYeti.config.snowball.rate ) {
 					self.playSound( self.sounds.throw );
 					self.throwSnowball(undefined, self.player);
@@ -378,7 +376,7 @@ RPYeti.game = (function() {
 			if( source ) {
 				raycaster.set( source, self.camera.getWorldPosition().sub(source).normalize() );
 			} else {
-				raycaster.set( self.camera.getWorldPosition(), self.camera.getWorldDirection() );
+				raycaster.set( self.camera.getWorldPosition(), self.controls.getDirection() );
 			}
 
 			var snowball = self.snowball.clone();

@@ -143,8 +143,10 @@ RPYeti.controls = (function() {
 			document.addEventListener( prefix + 'error', function( event ) {
 				console.log( 'pointerlock error ', event);
 			});
-			this.publisher.one('click', function() {
-				element.requestPointerLock();
+			this.publisher.on('dblclick', function() {
+				if( self.controlType != TYPE.POINTERLOCK ) {
+					element.requestPointerLock();
+				}
 			});
 		},
 

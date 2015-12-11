@@ -3,7 +3,8 @@ var RPYeti = RPYeti || {};
 RPYeti.controls = (function() {
 	var self;
 
-	var TYPE = { DEFAULT: 0, MOUSEOVER: 1, POINTERLOCK: 2, ORIENTATION: 3 },
+	var PI_2 = Math.PI / 2.0,
+		TYPE = { DEFAULT: 0, MOUSEOVER: 1, POINTERLOCK: 2, ORIENTATION: 3 },
 		ACTION = { FIRE: 'isFiring', MOVEUP: 'isLookUp', MOVEDOWN: 'isLookDown', MOVELEFT: 'isPanLeft', MOVERIGHT: 'isPanRight' };
 
 	return {
@@ -13,6 +14,10 @@ RPYeti.controls = (function() {
 		keyMap: {},
 		controlType: TYPE.DEFAULT,
 		publisher: $(document),
+
+		yawGimbal: new THREE.Object3D(),
+		pitchGimbal: new THREE.Object3D(),
+
 
 		/** Constructor **/
 
@@ -37,10 +42,18 @@ RPYeti.controls = (function() {
 			this.element = this.game.renderer.domElement;
 			this.camera = this.game.camera;
 
+			// mount camera on gimbals
+			this.pitchGimbal.add( this.camera );
+			this.yawGimbal.position.y = RPYeti.config.camera.height;
+			this.yawGimbal.rotation.y = RPYeti.config.camera.yaw;
+			this.yawGimbal.add( this.pitchGimbal );
+			this.game.scene.add( this.yawGimbal );
+
 			// initialize control schemes
 			this.initOrientation();
 			this.initPointerLock();
 			this.initMouseLook();
+			this.initMouseFire();
 			this.initKeys();
 			this.initTouch();
 
@@ -71,6 +84,17 @@ RPYeti.controls = (function() {
 
 		},
 
+		initMouseFire: function() {
+			this.publisher.on('mousedown', function(e) {
+				self.state.isFiring = true;
+				e.preventDefault();
+			})
+			.on('mouseup', function(e) {
+				self.state.isFiring = false;
+				e.preventDefault();
+			});
+		},
+
 		initTouch: function() {
 			this.publisher.on('touchstart', function(e) {
 				self.state.isFiring = true;
@@ -86,7 +110,31 @@ RPYeti.controls = (function() {
 		},
 
 		initPointerLock: function() {
+			var pointerLock = 'pointerLockElement' in document || 'mozPointerLockElement' in document || 'webkitPointerLockElement' in document;
+			if( self.controlType == TYPE.ORIENTATION || ! pointerLock ) {
+				return;
+			}
+			var element = document.body,
+				prefix = ( document.mozPointerLockElement === null ) ? 'mozpointerlock' : ( ( document.webkitPointerLockElement === null ) ? 'webkitpointerlock' : 'pointerlock' );
+			element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;
 
+			document.addEventListener( prefix + 'change', function( event ) {
+				if ( element === ( document.pointerLockElement || document.mozPointerLockElement || document.webkitPointerLockElement ) ) {
+					self.controlType = TYPE.POINTERLOCK;
+					//TODO: wire up camera controls
+					console.log('pointer lock engaged');
+				} else {
+					self.controlType = TYPE.DEFAULT;
+					//TODO: hook into the click event to re-engage lock
+					console.log('pointer lock disengaged');
+				}
+			});
+			document.addEventListener( prefix + 'error', function( event ) {
+				console.log( 'pointerlock error ', event);
+			});
+			this.publisher.one('click', function() {
+				element.requestPointerLock();
+			});
 		},
 
 		initOrientation: function() {
@@ -100,7 +148,12 @@ RPYeti.controls = (function() {
 				if( self.controls ) {
 					self.controls.dispose();
 				}
-				self.controls = new THREE.DeviceOrientationControls( self.camera, true );
+				// reset camera mount rotation
+				self.camera.rotation.set( 0, 0, 0 );
+				self.yawGimbal.rotation.set( 0, 0, 0 );
+				self.pitchGimbal.rotation.set( 0, 0, 0 );
+
+				self.controls = new THREE.DeviceOrientationControls( self.yawGimbal, true );
 				self.controls.connect();
 				self.controls.update();
 
@@ -116,13 +169,29 @@ RPYeti.controls = (function() {
 
 			var dx			= ( self.state.isLookUp ? 1 : 0 ) + ( self.state.isLookDown ? -1 : 0 ),
 				dy			= ( self.state.isPanLeft ? 1 : 0 ) + ( self.state.isPanRight ? -1 : 0 ),
-				rotateSpeed = RPYeti.config.controls.keySpeed * delta,
-				quaternion	= new THREE.Quaternion( dx * rotateSpeed, dy * rotateSpeed, 0, 1 ).normalize();
+				rotateSpeed = RPYeti.config.controls.keySpeed * delta;
 
-			self.camera.quaternion.multiply( quaternion );
-			self.camera.rotation.setFromQuaternion( self.camera.quaternion, self.camera.rotation.order );
-
+			self.yawGimbal.rotation.y += dy * rotateSpeed;
+			self.pitchGimbal.rotation.x += dx * rotateSpeed;
+			self.pitchGimbal.rotation.x = Math.max( - PI_2, Math.min( PI_2, self.pitchGimbal.rotation.x ) );
 		},
+
+		getDirection: function() {
+			if( self.controlType == TYPE.ORIENTATION ) {
+				return self.camera.getWorldDirection();
+			}
+			var direction = new THREE.Vector3( 0, 0, -1 ),
+		    	rotation = new THREE.Euler( 0, 0, 0, 'YXZ' ),
+				vector = self.yawGimbal.position.clone();
+
+			rotation.set( self.pitchGimbal.rotation.x, self.yawGimbal.rotation.y, 0 );
+		    vector.copy( direction ).applyEuler( rotation )
+		    return vector;
+		},
+
+		getCamera: function() {
+			return self.yawGimbal;
+		}
 
 	};
 

@@ -15,6 +15,11 @@ RPYeti.config = {
 		fov: 65,
 	},
 
+	camera: {
+		height: 10,
+		yaw: ( - Math.PI / 2 ),
+	},
+
 	controls: {
 		keys: {
 			MOVEUP:		[ 38, 87, ],		// up-arrow, W
@@ -23,7 +28,7 @@ RPYeti.config = {
 			MOVERIGHT:	[ 39, 68, ],		// right-arrow, D
 			FIRE:		[ 32, 13, 14, ],	// spacebar, return, enter
 		},
-		keySpeed: 0.5,
+		keySpeed: 1.5,
 		mouseSpeed: 0.005,
 	},
 
@@ -211,7 +216,7 @@ RPYeti.config = {
 	],
 
 	/** Debug Settings **/
-	debug: false,
+	debug: true,
 	wireframe: false,
 	fps: false,
 

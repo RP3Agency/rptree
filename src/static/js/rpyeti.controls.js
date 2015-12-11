@@ -38,24 +38,13 @@ RPYeti.controls = (function() {
 			this.camera = this.game.camera;
 
 			// initialize control schemes
-			//this.initOrbit();
 			this.initOrientation();
+			this.initPointerLock();
+			this.initMouseLook();
 			this.initKeys();
 			this.initTouch();
 
 			return this;
-		},
-
-		initOrbit: function() {
-			this.controlType = TYPE.ORBIt;
-			this.controls = new THREE.OrbitControls( this.camera, this.element );
-			this.controls.target.set(
-				this.camera.position.x + 0.1,
-				this.camera.position.y,
-				this.camera.position.z
-			);
-			this.controls.enableZoom = false;
-			this.controls.enablePan = false;
 		},
 
 		initKeys: function() {
@@ -78,6 +67,10 @@ RPYeti.controls = (function() {
 			});
 		},
 
+		initMouseLook: function() {
+
+		},
+
 		initTouch: function() {
 			this.publisher.on('touchstart', function(e) {
 				self.state.isFiring = true;
@@ -92,25 +85,28 @@ RPYeti.controls = (function() {
 			});
 		},
 
-		initOrientation: function() {
-			// if device orientation event is triggered, set controls to orientation mode
-			window.addEventListener('deviceorientation', self.setOrientationControls, true);
+		initPointerLock: function() {
+
 		},
 
-		setOrientationControls: function(e) {
-			if (!e.alpha) {
-				return;
+		initOrientation: function() {
+			var setOrientationControls = function(e) {
+				if (!e.alpha) {
+					return;
+				}
+				this.controlType = TYPE.ORIENTATION;
+				window.removeEventListener('deviceorientation', setOrientationControls, true);
+
+				if( self.controls ) {
+					self.controls.dispose();
+				}
+				self.controls = new THREE.DeviceOrientationControls( self.camera, true );
+				self.controls.connect();
+				self.controls.update();
+
+				self.element.addEventListener('click', self.game.fullscreen, false);
 			}
-			this.controlType = TYPE.ORIENTATION;
-			window.removeEventListener('deviceorientation', self.setOrientationControls, true);
-
-			self.controls.dispose();
-			self.controls = new THREE.DeviceOrientationControls( self.camera, true );
-			self.controls.connect();
-			self.controls.update();
-
-			self.element.addEventListener('click', self.game.fullscreen, false);
-
+			window.addEventListener('deviceorientation', setOrientationControls, true);
 		},
 
 		update: function(delta) {

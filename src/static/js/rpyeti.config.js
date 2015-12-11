@@ -20,17 +20,17 @@ RPYeti.config = {
 	},
 
 	dialogs: {
-		introSeque: '\nYour donation is\nsafe but the world\nstill needs RPTree\n\nSnowball fight!\nSave RPTree!',
+		introSeque: '\nThrow snowballs to\nhit the Yetis before\nthey hit you.\n\nThe more you hit,\nthe higher your score.',
 		gameOver: 'GAME OVER',
-		desktopSelect: 'Select your non-profit',
-		vrSelect: 'Select your\nnon-profit',
-		desktopHelp: '\n\n1.Click and drag your\nmouse to aim at a logo\n\n2.Press spacebar',
-		vrHelp: '\n\n1.Aim viewer\n2.Press button\non right',
-		exclamation: 'Oh no!',
+		desktopSelect: 'The first snowball you\nthrow determines where\nyour donation goes.',
+		vrSelect: 'The first snowball you\nthrow determines where\nyour donation goes.',
+		desktopHelp: '\n\nClick and drag mouse to\naim at a logo.\nPress spacebar\nto fire away.',
+		vrHelp: '\n\nMove viewer to aim at a logo.\nPress top right trigger\nto fire away.',
+		exclamation: 'Oh no...\nYeti!',
 		yetiDowned: 'Yeti Down!',
 		yetiOnYeti: 'Yeti Crossfire!',
 		remaining: 'to go',
-		thankYou: 'thank you for\nyour support'
+		thankYou: 'Thank you for\nyour support!'
 	},
 
 	audio: {

@@ -7,6 +7,7 @@ RPYeti.controls = (function() {
 
 		/** Public Properties **/
 		isFiring: false,
+		isHooked: true,
 
 		/** Constructor **/
 
@@ -58,6 +59,9 @@ RPYeti.controls = (function() {
 				e.preventDefault();
 			})
 			.on('keyup touchend', function(e) {
+				if (typeof self.hook === 'function') {
+					self.hook();
+				}
 				self.isFiring = false;
 				e.preventDefault();
 			});
@@ -83,6 +87,16 @@ RPYeti.controls = (function() {
 
 			self.element.addEventListener('click', self.game.fullscreen, false);
 
+		},
+
+		setHook: function (hook) {
+			if (typeof hook === 'function') {
+				this.hook = hook;
+				this.isHooked = true;
+			} else {
+				delete this.hook;
+				this.isHooked = false;
+			}
 		},
 
 		update: function(delta) {

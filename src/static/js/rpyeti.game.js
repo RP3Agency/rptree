@@ -94,7 +94,7 @@ RPYeti.game = (function() {
 			window.requestAnimationFrame( self.animate );
 			self.update( delta );
 
-			if( self.controls.isFiring && self.player.health > 0 ) {
+			if( self.controls.isFiring && !self.controls.isHooked && self.player.health > 0 ) {
 				if( ( t - self.lastFire ) >= RPYeti.config.snowball.rate ) {
 					self.playSound( self.sounds.throw );
 					self.throwSnowball(undefined, self.player);

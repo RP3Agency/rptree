@@ -19,18 +19,29 @@ RPYeti.config = {
 		leaderBoard: '../leaderboard.html'
 	},
 
-	dialogs: {
-		introSeque: '\nThrow snowballs to\nhit the Yetis before\nthey hit you.\n\nThe more you hit,\nthe higher your score.',
-		gameOver: 'GAME OVER',
-		desktopSelect: 'The first snowball you\nthrow determines where\nyour donation goes.',
-		vrSelect: 'The first snowball you\nthrow determines where\nyour donation goes.',
-		desktopHelp: '\n\nClick and drag mouse to\naim at a logo.\nPress spacebar\nto fire away.',
-		vrHelp: '\n\nMove viewer to aim at a logo.\nPress top right trigger\nto fire away.',
-		exclamation: 'Oh no...\nYeti!',
-		yetiDowned: 'Yeti Down!',
-		yetiOnYeti: 'Yeti Crossfire!',
-		remaining: 'to go',
-		thankYou: 'Thank you for\nyour support!'
+	text: {
+		hud: {
+			gameOver: 'GAME OVER',
+			exclamation: 'Oh no...\nYeti!',
+			yetiDowned: 'Yeti Down!',
+			yetiOnYeti: 'Yeti Crossfire!',
+			remaining: 'to go',
+			thankYou: 'Thank you for\nyour support!'
+		},
+		dialog: {
+			introSeque: [
+				'Throw snowballs to\nhit the Yetis before\nthey hit you.',
+				'The more you hit,\nthe higher your score.'
+			],
+			desktopHelp: [
+				'The first snowball you\nthrow determines where\nyour donation goes.',
+				'Click and drag mouse to\naim at a logo.\nPress spacebar\nto fire away.'
+			],
+			vrHelp: [
+				'The first snowball you\nthrow determines where\nyour donation goes.',
+				'Move viewer to aim\nat a logo.\nPress top right trigger\nto fire away.',
+			]
+		}
 	},
 
 	audio: {
@@ -81,6 +92,21 @@ RPYeti.config = {
 		textSize: 40,
 		textStyle: 'rgba(0,192,0,1)',
 		textFont: 'PressStart2P',
+	},
+
+	dialog: {
+		canvasWidth: 1024,
+		canvasHeight: 1024,
+		focalPoint: 0.05,
+		lineWidth: 10,
+		borderColor: 'rgba(192,192,192,0.75)',
+		baseColor: 'rgba(255,255,255,0.15)',
+		topStereoOffset: 50,
+		innerPadding: 30,
+		outerPadding: 5,
+		textSize: 65,
+		textStyle: 'rgba(0,174,239,1)',
+		textFont: 'Verdana'
 	},
 
 	character: {

@@ -107,14 +107,17 @@ RPYeti.HUD.prototype.startCountdown = function (seconds, callback) {
 };
 
 RPYeti.HUD.prototype.updateReticle = function () {
+	var width = RPYeti.config.hud.canvasWidth,
+		height = RPYeti.config.hud.canvasHeight;
+
+	this.hudTexture.needsUpdate = true;
+
 	if (!this.visible) {
 		this.hud.clearRect(0, 0, width, height);
 		return;
 	}
 
 	var healthPercent = 0.0,
-		width = RPYeti.config.hud.canvasWidth,
-		height = RPYeti.config.hud.canvasHeight,
 		arcInitial = (1 * Math.PI),
 		arcFull = (2 * Math.PI);
 
@@ -170,8 +173,6 @@ RPYeti.HUD.prototype.updateReticle = function () {
 			this.hud.fillText(parts[i], RPYeti.config.hud.canvasWidth / 2, RPYeti.config.hud.canvasHeight / 2 + textPos + (i * textSize));
 		}
 	}
-
-	this.hudTexture.needsUpdate = true;
 };
 
 RPYeti.HUD.prototype.updateReticleFocus = function (scene) {
@@ -204,7 +205,7 @@ RPYeti.HUD.prototype.getClosestFocalPoints = function(scene) {
 		closest = null;
 
 	for (var i in intersects) {
-		if (intersects[i].object.name != 'HUD' && intersects[i].distance < this.stereoCamera.focalLength) {
+		if (intersects[i].object.name != 'HUD' && intersects[i].object.name != 'Dialog' && intersects[i].distance < this.stereoCamera.focalLength) {
 			closest = intersects[i];
 			break;
 		} else if (intersects[i].distance > this.stereoCamera.focalLength) {

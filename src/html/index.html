@@ -65,63 +65,66 @@
 
 			<div class="experience-selector experience-selector--white">
 
-				<!-- <div class="container"> -->
+				<p>This year, RP3 Agency is making gifts to three amazing non-profits on behalf of our clients, friends and colleagues.</p>
 
-					<p>This year, RP3 Agency is making gifts to three amazing non-profits on behalf of our clients, friends and colleagues.</p>
+				<p>All you have to do is choose which one.</p>
 
-					<p>All you have to do is choose which one.</p>
+				<a href="https://google.com/chrome" id="no-webgl" class="no-webgl" target="_blank">
+					
+					Your browser does not support modern 3D graphics.<br/>
+					Download Google Chrome.
 
-					<div class="experience-selector__icons">
+				</a>
 
-						<div class="experience-selector__desktop">
+				<div id="experience-selector__icons" class="experience-selector__icons">
 
-							<span class="experience-selector--desktop">
+					<div class="experience-selector__desktop">
 
-								<a href="rpyeti/#desktop">
+						<span class="experience-selector--desktop">
 
-									<span class="experience-selector__svg"><% include ../static/images/computer.svg %></span>
+							<a href="rpyeti/#desktop">
 
-									Standard
+								<span class="experience-selector__svg"><% include ../static/images/computer.svg %></span>
 
-									<span>Requires Chrome, Firefox, Safari or Edge</span>
+								Standard
 
-								</a>
+								<span>(Desktop, Tablet, or Mobile)</span>
 
-							</span>
+							</a>
 
-						</div>
-						<!-- desktop -->
-
-						<div class="experience-selector__vr">
-
-							<span class="experience-selector--vr">
-
-								<a href="rpyeti/">
-
-									<span class="experience-selector__svg">
-										<% include ../static/images/phone.svg %>
-									</span>
-
-									Virtual Reality
-
-									<span>Requires Mobile Safari for iOS or Chrome for Android</span>
-
-								</a>
-
-							</span>
-
-						</div>
-						<!-- vr -->
-
+						</span>
 
 					</div>
-					<!-- // .experience-selector__icons -->
+					<!-- desktop -->
 
-				<!-- </div> -->
+					<div class="experience-selector__vr">
+
+						<span class="experience-selector--vr">
+
+							<a href="rpyeti/">
+
+								<span class="experience-selector__svg">
+									<% include ../static/images/cardboard.svg %>
+								</span>
+
+								Virtual Reality
+
+								<span>(with Google Cardboard)</span>
+
+							</a>
+
+						</span>
+
+					</div>
+					<!-- vr -->
+
+
+				</div>
+				<!-- // .experience-selector__icons -->
 
 			</div>
 
-			<button id="instructions-arrow" class="instructions-arrow">Instructions <i class="fa fa-chevron-down"></i></button>
+			<button id="instructions-arrow" class="instructions-arrow">More About Google Cardboard <i class="fa fa-chevron-down"></i></button>
 
 		</div>
 		<!-- // intro -->
@@ -131,6 +134,14 @@
 			<div class="container">
 				<div class="cardboard__tree-img"></div>
 				<h2>New to Cardboard?</h2>
+
+				<div class="about-cardboard">
+
+					<p><a href="http://www.google.com/get/cardboard/" target="_blank">Google Cardboard</a> allows anyone with a smartphone to experience virtual reality in a simple, fun, and affordable way. RPTree is one way we’re exploring and sharing the exciting possibilities of this emerging platform.</p>
+
+					<p>If you’ve already received your viewer from RP3, here’s how to use it. If not, you can <a href="http://amzn.to/1IIiA9p" target="_blank">purchase one from Amazon</a> or play in <a href="rpyeti/#desktop">standard mode</a> and tweet your score for a chance to win one.</p>
+
+				</div>
 
 				<ol>
 					<li class="step1"><span class="svg"><% include ../static/images/step-1.svg %></span><p><span>1</span> Remove viewer from case</p></li>
@@ -169,5 +180,15 @@
 		</ul>
 
 	</div>
+
+	<script src="../js/scripts-bower.min.js"></script>
+	<script src="../js/rptree.min.js"></script>
+	<script src="/js/third-party/threejs/Detector.js"></script>
+	<script>
+	if ( ! Detector.webgl ) {
+		$('#experience-selector__icons').css('display', 'none');
+		$('#no-webgl').css('display', 'block');
+	}
+	</script>
 
 <!-- @@close -->

@@ -73,7 +73,7 @@ RPYeti.game = (function() {
 			$(window).on('resize', this.resize);
 			setTimeout(this.resize, 1);
 
-			$( this.container ).one('click', function() {
+			$( this.container ).one('mousedown', function() {
 				self.fullscreen();
 			});
 

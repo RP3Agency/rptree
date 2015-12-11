@@ -20,11 +20,11 @@ RPYeti.config = {
 	},
 
 	dialogs: {
-		introSeque: '\nYour donation is safe\nbut the world\nstill needs RPTree\n\nSnowball fight!\nSave RPTree!',
+		introSeque: '\nYour donation is\nsafe but the world\nstill needs RPTree\n\nSnowball fight!\nSave RPTree!',
 		gameOver: 'GAME OVER',
 		select: 'Select your\nnon-profit',
-		desktopHelp: '\n\n1. Click and drag mouse\n2. Press spacebar',
-		vrHelp: '\n\n1. Aim viewer\n2. Press button on right',
+		desktopHelp: '\n\n1.Click and drag mouse\n2.Press spacebar',
+		vrHelp: '\n\n1.Aim viewer\n2.Press button\non right',
 		exclamation: 'Oh no!',
 		yetiDowned: 'Yeti Down!',
 		yetiOnYeti: 'Yeti Crossfire!',

@@ -71,13 +71,19 @@ RPYeti.Gameplay.prototype.start = function (level, reset) {
 	this.player.health = RPYeti.config.player.health;
 	this.player.lowHealthTrigger = false;
 
-	if (level == 0) {
-		RPYeti.music.publisher.trigger('rpyeti.music.selection');
-		this.startIntro();
-	} else {
-		RPYeti.music.publisher.trigger('rpyeti.music.fight');
-		this.levelBegin(level);
-	}
+	(function (self) {
+		if (level == 0) {
+			RPYeti.music.publisher.trigger('rpyeti.music.selection');
+			self.startIntro();
+		} else {
+			RPYeti.music.publisher.trigger('rpyeti.music.fight');
+
+			// For some reason if the timeout is not set, the font is wrong on the HUD
+			setTimeout(function () {
+				self.levelBegin(level);
+			}, 250);
+		}
+	})(this);
 
 	RPYeti.music.publisher.trigger('rpyeti.music.start');
 };
@@ -197,18 +203,16 @@ RPYeti.Gameplay.prototype.startIntro = function () {
 	this.game.snowballBlockers.push(this.intro);
 
 	(function (self) {
-		self.player.setTimeout(function () {
-			var text = [],
-				dialog = new RPYeti.Dialog(self.game.controls, self.game.camera, self.game.stereo);
+		var text = [],
+			dialog = new RPYeti.Dialog(self.game.controls, self.game.camera, self.game.stereo);
 
-			if (self.game.stereo) {
-				Array.prototype.push.apply(text, RPYeti.config.text.dialog.vrHelp)
-			} else {
-				Array.prototype.push.apply(text, RPYeti.config.text.dialog.desktopHelp)
-			}
+		if (self.game.stereo) {
+			Array.prototype.push.apply(text, RPYeti.config.text.dialog.vrHelp)
+		} else {
+			Array.prototype.push.apply(text, RPYeti.config.text.dialog.desktopHelp)
+		}
 
-			dialog.show(text);
-		}, 1500);
+		dialog.show(text);
 
 		self.player.on('intro.select', function (context, number) {
 			var pattern = /decoration_(.*)/i;

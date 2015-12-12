@@ -74,15 +74,13 @@ RPYeti.game = (function() {
 			$( this.container ).on('dblclick', function() {
 				self.fullscreen();
 			});
+		},
 
-			if (self.startLevel > 0) {
-				// Delay start to keep the font from being wrong on level start screen
-				self.player.setTimeout(function () {
-					self.gameplay.start(self.startLevel, true);
-				}, 1000);
-			} else {
-				self.gameplay.start(self.startLevel, true);
-			}
+		start: function() {
+			//self.startLevel = 1;
+
+			RPYeti.music.publisher.trigger('rpyeti.music.start');
+			self.gameplay.start(self.startLevel, true);
 		},
 
 		/** Methods / Callbacks **/
@@ -529,11 +527,13 @@ $(function() {
 					init = true;
 					RPYeti.game.init();
 					RPYeti.game.animate();
+					RPYeti.game.start();
 				}
 			});
 		} else {
 			RPYeti.game.init();
 			RPYeti.game.animate();
+			RPYeti.game.start();
 		}
 	});
 

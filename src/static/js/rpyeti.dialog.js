@@ -113,10 +113,10 @@ RPYeti.Dialog.prototype.reveal = function (section) {
 
 	this.dialog.font = 'bold ' + textSize + 'px ' + RPYeti.config.dialog.textFont;
 	this.dialog.textAlign = 'left';
-	this.dialog.shadowColor = 'transparent',
-	this.dialog.shadowOffsetX = 1;
-	this.dialog.shadowOffsetY = 1;
-	this.dialog.shadowBlur = 1;
+	this.dialog.shadowColor = RPYeti.config.dialog.textShadowColor,
+	this.dialog.shadowOffsetX = RPYeti.config.dialog.textShadowOffsetX;
+	this.dialog.shadowOffsetY = RPYeti.config.dialog.textShadowOffsetY;
+	this.dialog.shadowBlur = RPYeti.config.dialog.textShadowBlur;
 	this.dialog.fillStyle = RPYeti.config.dialog.textStyle;
 
 	for (var i in parts) {

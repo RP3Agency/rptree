@@ -129,7 +129,11 @@ RPYeti.config = {
 		outerPadding: 5,
 		textSize: 65,
 		textStyle: 'rgba(51,51,51,1)',
-		textFont: 'Verdana'
+		textFont: 'Verdana',
+		textShadowColor: 'transparent',
+		textShadowOffsetX: 1;
+		textShadowOffsetY: 1;
+		textShadowBlur: 1;
 	},
 
 	character: {

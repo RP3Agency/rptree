@@ -108,11 +108,11 @@ RPYeti.config = {
 		easeDuration: 200,
 		innerFocalMax: 0.05,
 		borderColor: 'rgba(0,0,0,0.25)',
-		baseColor: 'rgba(0,192,0,0.75)',
+		baseColor: 'rgba(255,222,0,0.75)',
 		damageColor: 'rgba(255,0,0,1)',
 		textPos: -350,
 		textSize: 40,
-		textStyle: 'rgba(0,192,0,1)',
+		textStyle: 'rgba(255,77,148,1)',
 		textFont: 'PressStart2P',
 	},
 
@@ -122,12 +122,12 @@ RPYeti.config = {
 		focalPoint: 0.05,
 		lineWidth: 10,
 		borderColor: 'rgba(192,192,192,0.75)',
-		baseColor: 'rgba(255,255,255,0.50)',
+		baseColor: 'rgba(255,255,255,0.8)',
 		topStereoOffset: 50,
 		innerPadding: 30,
 		outerPadding: 5,
 		textSize: 65,
-		textStyle: 'rgba(0,174,239,1)',
+		textStyle: 'rgba(51,51,51,1)',
 		textFont: 'Verdana'
 	},
 

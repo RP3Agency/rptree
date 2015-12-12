@@ -113,10 +113,10 @@ RPYeti.Dialog.prototype.reveal = function (section) {
 
 	this.dialog.font = 'bold ' + textSize + 'px ' + RPYeti.config.dialog.textFont;
 	this.dialog.textAlign = 'left';
-	this.dialog.shadowColor = 'black',
-	this.dialog.shadowOffsetX = 0;
-	this.dialog.shadowOffsetY = 0;
-	this.dialog.shadowBlur = 10;
+	this.dialog.shadowColor = 'transparent',
+	this.dialog.shadowOffsetX = 1;
+	this.dialog.shadowOffsetY = 1;
+	this.dialog.shadowBlur = 1;
 	this.dialog.fillStyle = RPYeti.config.dialog.textStyle;
 
 	for (var i in parts) {

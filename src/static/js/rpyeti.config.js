@@ -28,9 +28,14 @@ RPYeti.config = {
 			MOVERIGHT:	[ 39, 68, ],		// right-arrow, D
 			FIRE:		[ 32, 13, 14, ],	// spacebar, return, enter
 		},
+		codes: {
+			KONAMI:		[ 38, 38, 40, 40, 37, 39, 37, 39, 66, 65 ],
+			STARFOXZ:	[ 90, 90 ],
+			STARFOXR:	[ 82, 82 ],
+		},
 		keySpeed: {
-			x: 3.0,
-			y: 1.7,
+			x: 1.1,
+			y: 1.8,
 		},
 		mouseSpeed: 0.002,
 	},

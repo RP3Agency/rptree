@@ -4,13 +4,13 @@ RPYeti.controls = (function() {
 	var self;
 
 	var PI_2 = Math.PI / 2.0,
-		TYPE = { DEFAULT: 0, MOUSEOVER: 1, POINTERLOCK: 2, ORIENTATION: 3 },
+		TYPE = { DEFAULT: 0, POINTERLOCK: 1, ORIENTATION: 2 },
 		ACTION = { FIRE: 'isFiring', MOVEUP: 'isLookUp', MOVEDOWN: 'isLookDown', MOVELEFT: 'isPanLeft', MOVERIGHT: 'isPanRight' };
 
 	return {
 
 		/** Public Properties **/
-		isHooked: true,
+		isHooked: false,
 		state: {},
 		keyMap: {},
 		controlType: TYPE.DEFAULT,
@@ -82,11 +82,37 @@ RPYeti.controls = (function() {
 				} else  {
 					e.preventDefault();
 				}
+				self.checkCodes( e.keyCode );
 			});
 		},
 
 		initMouseLook: function() {
-
+			if( self.controlType != TYPE.ORIENTATION ) {
+				document.addEventListener('mousemove', function( event ) {
+					if( self.controlType != TYPE.DEFAULT ) {
+						return;
+					}
+					self.state.isPanLeft = self.state.isPanRight = false;
+					if( event.pageX < window.innerWidth * 0.3 ) {
+						self.state.isPanLeft = true;
+					} else if ( event.pageX > window.innerWidth * 0.7 ) {
+						self.state.isPanRight = true;
+					}
+					self.state.isLookUp = self.state.isLookDown = false;
+					if( event.pageY < window.innerHeight * 0.3 ) {
+						self.state.isLookUp = true;
+					} else if ( event.pageY > window.innerHeight * 0.7 ) {
+						self.state.isLookDown = true;
+					}
+				});
+				document.addEventListener('mouseout', function( event ) {
+					if( self.controlType != TYPE.DEFAULT ) {
+						return;
+					}
+					self.state.isPanLeft = self.state.isPanRight = false;
+					self.state.isLookUp = self.state.isLookDown = false;
+				});
+			}
 		},
 
 		initMouseFire: function() {
@@ -137,6 +163,8 @@ RPYeti.controls = (function() {
 			document.addEventListener( prefix + 'change', function( event ) {
 				if ( element === ( document.pointerLockElement || document.mozPointerLockElement || document.webkitPointerLockElement ) ) {
 					self.controlType = TYPE.POINTERLOCK;
+					self.state.isPanLeft = self.state.isPanRight = false;
+					self.state.isLookUp = self.state.isLookDown = false;
 				} else {
 					self.controlType = TYPE.DEFAULT;
 				}
@@ -168,7 +196,7 @@ RPYeti.controls = (function() {
 				if (!e.alpha) {
 					return;
 				}
-				this.controlType = TYPE.ORIENTATION;
+				self.controlType = TYPE.ORIENTATION;
 				window.removeEventListener('deviceorientation', setOrientationControls, true);
 
 				if( self.controls ) {
@@ -225,6 +253,49 @@ RPYeti.controls = (function() {
 			} else {
 				delete this.hook;
 				this.isHooked = false;
+			}
+		},
+
+		checkCodes: function( key ) {
+			self.code = self.code || [];
+			self.code.push( key );
+			var flag = false, i = self.code.length - 1;
+			$.each( RPYeti.config.controls.codes, function( action, code ) {
+				if( code[ i ] == self.code[ i ] ) {
+					if( code.length == self.code.length ) {
+						self.code = [];
+						switch( action ) {
+							case 'KONAMI':
+								self.game.gameplay.start(1000, true);
+								break;
+							case 'STARFOXZ':
+								var barrelRollTween = new TWEEN.Tween({ angle: self.camera.rotation.z })
+									.easing( TWEEN.Easing.Linear.None )
+									.onUpdate(function () {
+										self.camera.rotation.z = this.angle;
+									}).onComplete(function () {
+										self.camera.rotation.z = 0;
+									});
+									barrelRollTween.to({ angle: 2 * Math.PI }, 1000 ).start();
+								break;
+							case 'STARFOXR':
+								var barrelRollTween = new TWEEN.Tween({ angle: self.camera.rotation.z })
+									.easing( TWEEN.Easing.Linear.None )
+									.onUpdate(function () {
+										self.camera.rotation.z = this.angle;
+									}).onComplete(function () {
+										self.camera.rotation.z = 0;
+									});
+									barrelRollTween.to({ angle: - 2 * Math.PI }, 1000 ).start();
+								break;
+						}
+					} else {
+						flag = true;
+					}
+				}
+			});
+			if ( ! flag ) {
+				self.code = [];
 			}
 		},
 

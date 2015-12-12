@@ -163,6 +163,8 @@ RPYeti.controls = (function() {
 			document.addEventListener( prefix + 'change', function( event ) {
 				if ( element === ( document.pointerLockElement || document.mozPointerLockElement || document.webkitPointerLockElement ) ) {
 					self.controlType = TYPE.POINTERLOCK;
+					self.state.isPanLeft = self.state.isPanRight = false;
+					self.state.isLookUp = self.state.isLookDown = false;
 				} else {
 					self.controlType = TYPE.DEFAULT;
 				}

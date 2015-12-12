@@ -5,7 +5,7 @@ RPYeti.controls = (function() {
 
 	var PI_2 = Math.PI / 2.0,
 		TYPE = { DEFAULT: 0, POINTERLOCK: 1, ORIENTATION: 2 },
-		ACTION = { FIRE: 'isFiring', MOVEUP: 'isLookUp', MOVEDOWN: 'isLookDown', MOVELEFT: 'isPanLeft', MOVERIGHT: 'isPanRight' };
+		ACTION = { FIRE: 'isFiring', MOVEUP: 'isLookUp', MOVEDOWN: 'isLookDown', MOVELEFT: 'isPanLeft', MOVERIGHT: 'isPanRight', HALFSPEED: 'isHalfSpeed' };
 
 	return {
 
@@ -88,29 +88,45 @@ RPYeti.controls = (function() {
 
 		initMouseLook: function() {
 			if( self.controlType != TYPE.ORIENTATION ) {
-				document.addEventListener('mousemove', function( event ) {
+				document.addEventListener('mousemove', _.debounce(function( event ) {
 					if( self.controlType != TYPE.DEFAULT ) {
 						return;
 					}
 					self.state.isPanLeft = self.state.isPanRight = false;
-					if( event.pageX < window.innerWidth * 0.3 ) {
-						self.state.isPanLeft = true;
-					} else if ( event.pageX > window.innerWidth * 0.7 ) {
-						self.state.isPanRight = true;
-					}
 					self.state.isLookUp = self.state.isLookDown = false;
-					if( event.pageY < window.innerHeight * 0.3 ) {
-						self.state.isLookUp = true;
-					} else if ( event.pageY > window.innerHeight * 0.7 ) {
-						self.state.isLookDown = true;
+					self.state.isHalfPan = self.state.isHalfLook = false;
+					if( ! self.isHooked ) {
+						if( event.pageX < window.innerWidth * 0.45 ) {
+							self.state.isPanLeft = true;
+							if( event.pageX > window.innerWidth * 0.3 ) {
+								self.state.isHalfPan = true;
+							}
+						} else if ( event.pageX > window.innerWidth * 0.55 ) {
+							self.state.isPanRight = true;
+							if( event.pageX < window.innerWidth * 0.7 ) {
+								self.state.isHalfPan = true;
+							}
+						}
+						if( event.pageY < window.innerHeight * 0.45 ) {
+							self.state.isLookUp = true;
+							if( event.pageY > window.innerHeight * 0.3 ) {
+								self.state.isHalfLook = true;
+							}
+						} else if ( event.pageY > window.innerHeight * 0.55 ) {
+							self.state.isLookDown = true;
+							if( event.pageY < window.innerHeight * 0.7 ) {
+								self.state.isHalfLook = true;
+							}
+						}
 					}
-				});
+				}), 100);
 				document.addEventListener('mouseout', function( event ) {
 					if( self.controlType != TYPE.DEFAULT ) {
 						return;
 					}
 					self.state.isPanLeft = self.state.isPanRight = false;
 					self.state.isLookUp = self.state.isLookDown = false;
+					self.state.isHalfPan = self.state.isHalfLook = false;
 				});
 			}
 		},
@@ -221,8 +237,8 @@ RPYeti.controls = (function() {
 				self.controls.update( delta );
 			}
 
-			var dx = RPYeti.config.controls.keySpeed.x * delta * ( ( self.state.isLookUp ? 1 : 0 ) + ( self.state.isLookDown ? -1 : 0 ) ),
-				dy = RPYeti.config.controls.keySpeed.y * delta * ( ( self.state.isPanLeft ? 1 : 0 ) + ( self.state.isPanRight ? -1 : 0 ) );
+			var dx = RPYeti.config.controls.keySpeed.x * delta * ( ( self.state.isHalfSpeed || self.state.isHalfLook ) ? 0.5 : 1 ) * ( ( self.state.isLookUp ? 1 : 0 ) + ( self.state.isLookDown ? -1 : 0 ) ),
+				dy = RPYeti.config.controls.keySpeed.y * delta * ( ( self.state.isHalfSpeed || self.state.isHalfPan ) ? 0.5 : 1 ) * ( ( self.state.isPanLeft ? 1 : 0 ) + ( self.state.isPanRight ? -1 : 0 ) );
 
 			self.yawGimbal.rotation.y += dy;
 			self.pitchGimbal.rotation.x += dx;

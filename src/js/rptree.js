@@ -73,9 +73,11 @@ var rptree = (function($) {
 	},
 
 	getHighScore = function() {
-		$.getJSON("/api/highest", function( data ) {
-			$('#high-score').html(data.highestScore);
-		});
+		if( $('#high-score').length > 0 ) {
+			$.getJSON("/api/highest", function( data ) {
+				$('#high-score').html(data.highestScore);
+			});
+		}
 	},
 
 	init = function() {

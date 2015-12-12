@@ -56,7 +56,7 @@ RPYeti.music = (function() {
 		},
 
 		start: function () {
-			if (self.phraseMonitor === undefined) {
+			if (self.queuedForPlay !== null && self.phraseMonitor === undefined) {
 				self.startAllTracks();
 				self.phraseSwitch();
 			}

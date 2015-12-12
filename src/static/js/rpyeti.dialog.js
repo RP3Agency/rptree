@@ -86,6 +86,7 @@ RPYeti.Dialog.prototype.reveal = function (section) {
 	}
 
 	var textSize = RPYeti.config.dialog.textSize,
+		textLineSpacing = RPYeti.config.dialog.textLineSpacing,
 		topOffset = 0,
 		outerPadding = RPYeti.config.dialog.outerPadding,
 		innerPadding = RPYeti.config.dialog.innerPadding,
@@ -96,10 +97,11 @@ RPYeti.Dialog.prototype.reveal = function (section) {
 		topOffset = RPYeti.config.dialog.topStereoOffset;
 	}
 
-	var dlgWidth = width - lineWidth - (outerPadding * 2);
-		dlgHeight = (parts.length * textSize) + (innerPadding * 2) + (lineWidth * 2),
-		dlgOffsetX = innerPadding + lineWidth + outerPadding;
-		dlgOffsetY = dlgOffsetX + topOffset
+	var textLineHeight = textSize + textLineSpacing,
+		dlgWidth = width - lineWidth - (outerPadding * 2),
+		dlgHeight = (parts.length * textLineHeight) + (innerPadding * 2) + (lineWidth * 2),
+		dlgOffsetX = innerPadding + lineWidth + outerPadding,
+		dlgOffsetY = dlgOffsetX + topOffset;
 
 	this.dialog.clearRect(0, 0, width, height);
 
@@ -113,14 +115,14 @@ RPYeti.Dialog.prototype.reveal = function (section) {
 
 	this.dialog.font = 'bold ' + textSize + 'px ' + RPYeti.config.dialog.textFont;
 	this.dialog.textAlign = 'left';
-	this.dialog.shadowColor = 'transparent',
-	this.dialog.shadowOffsetX = 1;
-	this.dialog.shadowOffsetY = 1;
-	this.dialog.shadowBlur = 1;
+	this.dialog.shadowColor = RPYeti.config.dialog.textShadowColor,
+	this.dialog.shadowOffsetX = RPYeti.config.dialog.textShadowOffsetX;
+	this.dialog.shadowOffsetY = RPYeti.config.dialog.textShadowOffsetY;
+	this.dialog.shadowBlur = RPYeti.config.dialog.textShadowBlur;
 	this.dialog.fillStyle = RPYeti.config.dialog.textStyle;
 
 	for (var i in parts) {
-		this.dialog.fillText(parts[i], dlgOffsetX, dlgOffsetY + (i * textSize) + textSize);
+		this.dialog.fillText(parts[i], dlgOffsetX, dlgOffsetY + (i * textLineHeight) + textLineHeight);
 	}
 
 	if (section !== undefined) {
@@ -142,7 +144,6 @@ RPYeti.Dialog.prototype.dismiss = function () {
 };
 
 RPYeti.Dialog.prototype.updateFocus = function () {
-	console.log(this.stereoCamera)
 	if (this.stereoCamera === undefined) {
 		return;
 	}

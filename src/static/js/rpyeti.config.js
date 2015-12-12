@@ -26,6 +26,7 @@ RPYeti.config = {
 			MOVEDOWN:	[ 40, 83, ],		// down-arrow, S
 			MOVELEFT:	[ 37, 65, ],		// left-arrow, A
 			MOVERIGHT:	[ 39, 68, ],		// right-arrow, D
+			HALFSPEED:	[ 16, ],			// shift
 			FIRE:		[ 32, 13, 14, ],	// spacebar, return, enter
 		},
 		codes: {
@@ -47,6 +48,7 @@ RPYeti.config = {
 	text: {
 		hud: {
 			gameOver: 'GAME OVER',
+			gameOverVR: 'GAME OVER\nPlease remove device',
 			exclamation: 'Oh no...\nYeti!',
 			yetiDowned: 'Yeti Down!',
 			yetiOnYeti: 'Yeti Crossfire!',
@@ -58,7 +60,7 @@ RPYeti.config = {
 				'Throw snowballs to hit\nYetis before they hit you.\n\nThe more you hit,\nthe higher your score.'
 			],
 			desktopHelp: [
-				'The first snowball you\nthrow determines where\nyour donation goes.\n\nDouble-click to start.  Use your\nmouse to aim at a logo.\nClick to fire away.'
+				'The first snowball you\nthrow determines where\nyour donation goes.\n\nDouble-click to start.\nUse your mouse\nto aim at a logo.\nClick to fire away.'
 			],
 			vrHelp: [
 				'The first snowball you\nthrow determines where\nyour donation goes.\n\nMove viewer to aim at\na logo. Press top right\ntrigger to fire away.',
@@ -128,7 +130,12 @@ RPYeti.config = {
 		outerPadding: 5,
 		textSize: 65,
 		textStyle: 'rgba(51,51,51,1)',
-		textFont: 'Verdana'
+		textFont: 'Verdana',
+		textShadowColor: 'transparent',
+		textShadowOffsetX: 1,
+		textShadowOffsetY: 1,
+		textShadowBlur: 1,
+		textLineSpacing: 1
 	},
 
 	character: {

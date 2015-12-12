@@ -185,7 +185,11 @@
 	<script src="../js/rptree.min.js"></script>
 	<script src="/js/third-party/threejs/Detector.js"></script>
 	<script>
-	if ( ! Detector.webgl ) {
+	// Internet Explorer maybe?
+	var MSIE = navigator.userAgent.indexOf('MSIE');
+	var Trident = navigator.userAgent.indexOf('Trident');
+
+	if ( ( ! Detector.webgl ) || ( -1 < MSIE ) || ( -1 < Trident ) ) {
 		$('#experience-selector__icons').css('display', 'none');
 		$('#no-webgl').css('display', 'block');
 	}

@@ -144,7 +144,6 @@ RPYeti.Dialog.prototype.dismiss = function () {
 };
 
 RPYeti.Dialog.prototype.updateFocus = function () {
-	console.log(this.stereoCamera)
 	if (this.stereoCamera === undefined) {
 		return;
 	}

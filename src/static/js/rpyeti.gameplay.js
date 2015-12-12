@@ -20,7 +20,11 @@ RPYeti.Gameplay = function (game, player, camera, scene) {
 				RPYeti.music.publisher.trigger('rpyeti.music.mute');
 			});
 
-			self.game.hud.addText(RPYeti.config.text.hud.gameOver, 0);
+			if (self.game.stereo) {
+				self.game.hud.addText(RPYeti.config.text.hud.gameOverVR, 0);
+			} else {
+				self.game.hud.addText(RPYeti.config.text.hud.gameOver, 0);
+			}
 
 			if (window) {
 				self.game.hud.startCountdown(15, function () {

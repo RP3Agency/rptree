@@ -76,6 +76,7 @@ RPYeti.game = (function() {
 			});
 
 			if (self.startLevel > 0) {
+				// Delay start to keep the font from being wrong on level start screen
 				self.player.setTimeout(function () {
 					self.gameplay.start(self.startLevel, true);
 				}, 1000);

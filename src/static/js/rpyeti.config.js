@@ -26,6 +26,7 @@ RPYeti.config = {
 			MOVEDOWN:	[ 40, 83, ],		// down-arrow, S
 			MOVELEFT:	[ 37, 65, ],		// left-arrow, A
 			MOVERIGHT:	[ 39, 68, ],		// right-arrow, D
+			HALFSPEED:	[ 16, ],			// shift
 			FIRE:		[ 32, 13, 14, ],	// spacebar, return, enter
 		},
 		codes: {

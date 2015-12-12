@@ -168,7 +168,7 @@ RPYeti.controls = (function() {
 				if (!e.alpha) {
 					return;
 				}
-				this.controlType = TYPE.ORIENTATION;
+				self.controlType = TYPE.ORIENTATION;
 				window.removeEventListener('deviceorientation', setOrientationControls, true);
 
 				if( self.controls ) {

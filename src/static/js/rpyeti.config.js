@@ -58,7 +58,7 @@ RPYeti.config = {
 				'Throw snowballs to hit\nYetis before they hit you.\n\nThe more you hit,\nthe higher your score.'
 			],
 			desktopHelp: [
-				'The first snowball you\nthrow determines where\nyour donation goes.\n\nClick and drag mouse to\naim at a logo. Press\nspacebar to fire away.'
+				'The first snowball you\nthrow determines where\nyour donation goes.\n\nDouble-click to start.  Use your\nmouse to aim at a logo.\nClick to fire away.'
 			],
 			vrHelp: [
 				'The first snowball you\nthrow determines where\nyour donation goes.\n\nMove viewer to aim at\na logo. Press top right\ntrigger to fire away.',
@@ -108,11 +108,11 @@ RPYeti.config = {
 		easeDuration: 200,
 		innerFocalMax: 0.05,
 		borderColor: 'rgba(0,0,0,0.25)',
-		baseColor: 'rgba(0,192,0,0.75)',
+		baseColor: 'rgba(255,222,0,0.75)',
 		damageColor: 'rgba(255,0,0,1)',
 		textPos: -350,
 		textSize: 40,
-		textStyle: 'rgba(0,192,0,1)',
+		textStyle: 'rgba(255,77,148,1)',
 		textFont: 'PressStart2P',
 	},
 
@@ -122,12 +122,12 @@ RPYeti.config = {
 		focalPoint: 0.05,
 		lineWidth: 10,
 		borderColor: 'rgba(192,192,192,0.75)',
-		baseColor: 'rgba(255,255,255,0.50)',
+		baseColor: 'rgba(255,255,255,0.8)',
 		topStereoOffset: 50,
 		innerPadding: 30,
 		outerPadding: 5,
 		textSize: 65,
-		textStyle: 'rgba(0,174,239,1)',
+		textStyle: 'rgba(51,51,51,1)',
 		textFont: 'Verdana'
 	},
 

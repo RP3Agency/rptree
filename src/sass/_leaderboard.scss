@@ -1,5 +1,5 @@
 .leaderboard {
-	padding-bottom : 7em;
+	min-height: 100vh;
 	text-align: center;
 
 	h1, h2, p, a, span {
@@ -91,19 +91,23 @@
 		height: 50px;
 		width: 75px;
 	}
+}
 
-	.credits {
+.credits {
+	bottom: 1em;
+	font-family: "Roboto", sans-serif !important;
+	font-size: rem(11px);
+	color: mix( white, #d3f9fa, 50% );
+	margin: 0;
+	position: absolute;
+	right: 1em;
+	text-align: right;
+	margin-right: 2rem;
+
+	a {
 		font-family: "Roboto", sans-serif;
 		font-size: rem(11px);
 		color: mix( white, #d3f9fa, 50% );
-		text-align: right;
-		margin-right: 2rem;
-
-		a {
-			font-family: "Roboto", sans-serif;
-			font-size: rem(11px);
-			color: mix( white, #d3f9fa, 50% );
-			text-decoration: underline;
-		}
+		text-decoration: underline;
 	}
 }

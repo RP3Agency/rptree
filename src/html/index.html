@@ -76,46 +76,52 @@
 
 				<div id="experience-selector__icons" class="experience-selector__icons">
 
-					<div class="experience-selector__desktop">
+					<p>Choose your game mode to begin:</p>
 
-						<span class="experience-selector--desktop">
+					<div class="experience-selector__icons__choices">
 
-							<a href="rpyeti/#desktop">
+						<div class="experience-selector__desktop">
 
-								<span class="experience-selector__svg"><% include ../static/images/computer.svg %></span>
+							<span class="experience-selector--desktop">
 
-								Standard
+								<a href="rpyeti/#desktop">
 
-								<span>(Desktop, Tablet, or Mobile)</span>
+									<span class="experience-selector__svg"><% include ../static/images/computer.svg %></span>
 
-							</a>
+									Standard
 
-						</span>
+									<span>(Desktop, Tablet, or Mobile)</span>
+
+								</a>
+
+							</span>
+
+						</div>
+						<!-- desktop -->
+
+						<div class="experience-selector__vr">
+
+							<span class="experience-selector--vr">
+
+								<a href="rpyeti/">
+
+									<span class="experience-selector__svg">
+										<% include ../static/images/cardboard.svg %>
+									</span>
+
+									Virtual Reality
+
+									<span>(with Google Cardboard)</span>
+
+								</a>
+
+							</span>
+
+						</div>
+						<!-- vr -->
 
 					</div>
-					<!-- desktop -->
-
-					<div class="experience-selector__vr">
-
-						<span class="experience-selector--vr">
-
-							<a href="rpyeti/">
-
-								<span class="experience-selector__svg">
-									<% include ../static/images/cardboard.svg %>
-								</span>
-
-								Virtual Reality
-
-								<span>(with Google Cardboard)</span>
-
-							</a>
-
-						</span>
-
-					</div>
-					<!-- vr -->
-
+					<!-- experience-selector__icons__choices -->
 
 				</div>
 				<!-- // .experience-selector__icons -->

@@ -1,37 +1,6 @@
-<!-- @@master /_templates/main.html { "title": "RPTree", "description":"This year, rp3 is making gifts to three amazing charities on behalf of our friends and colleagues. All you have to do is choose which charity.", "fbTitle": "A Little Virtual Magic to Light Up the Season.", "fbUrl":"https://rptree.com/" }  -->
+<!-- @@master /_templates/main.html { "title": "RPTree", "description":"This year, RP3 Agency is making gifts to three amazing non-profits on behalf of our friends and colleagues. All you have to do is choose one.", "fbTitle": "A Little Virtual Magic to Light Up the Season.", "fbUrl":"https://rptree.com/" }  -->
 
 <!-- @@block content -->
-	<script>
-		window.fbAsyncInit = function() {
-			FB.init({
-				appId      : '1094917163907618',
-				xfbml      : true,
-				version    : 'v2.5'
-			});
-			shareFB();
-		};
-		function shareFB() {
-			$('#facebook-share').on('click', function () {
-				FB.login(function(){
-					FB.ui({
-						method: 'feed',
-						description: 'I defeated X yetis to support Washington Area Women’s Foundation this holiday season—and you can too! Visit rptree.com for an epic snowball fight that benefits important organizations.',
-						name:'RPYeti',
-						link: 'rptree.com/home.html'
-					}, function(response){});
-				}, {scope: 'publish_actions'});
-			});
-		}
-		(function(d, s, id){
-			var js, fjs = d.getElementsByTagName(s)[0];
-			if (d.getElementById(id)) {return;}
-			js = d.createElement(s); js.id = id;
-			js.src = "//connect.facebook.net/en_US/sdk.js";
-			fjs.parentNode.insertBefore(js, fjs);
-		}(document, 'script', 'facebook-jssdk'));
-	</script>
-
-
 	<main id="content" class="site-content leaderboard">
 		<div class="leaderboard intro">
 			<!-- Snowflakes -->
@@ -89,9 +58,11 @@
 			<div class="leaderboard__footer">
 				<div class="brought">Brought to you by </div>
 				<a href="https://rp3agency.com"><div class="site-footer__logo"></div></a>
-				<p class="credits">Yeti art inspired by <a href="http://pixelblock.tumblr.com/">TinyPixelBlock</a>.</p>
 			</div>
 		</div>
+
+		<p class="credits">Yeti art inspired by <a href="http://pixelblock.tumblr.com/">TinyPixelBlock</a>.</p>
+
 	</main>
 	<!-- // #content -->
 <!-- @@close -->

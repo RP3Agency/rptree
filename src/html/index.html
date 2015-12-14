@@ -128,10 +128,57 @@
 
 			</div>
 
+			<section id="tweets" class="tweets">
+			</section>
+			<!-- // #tweets -->
+
+			<script type="text/template" id="tweet-template">
+			[[ _.each(tweets, function(tweet) { ]]
+				<div class="tweet">
+
+					<div class="tweet__container">
+
+						<img src="[[= tweet.get('profileImage') ]]" class="tweet__avatar">
+
+						<a href="https://twitter.com/[[= tweet.get('user') ]]" class="tweet__handle">@[[= tweet.get('user') ]]</a>
+
+						<p class="tweet__content">[[= tweet.get('text') ]]</p>
+
+						<span class="tweet__timestamp" id="tweet__timestamp" data-livestamp="[[= tweet.get('timestamp') ]]">[[= tweet.get('timestamp') ]]</span>
+
+					</div>
+
+					<div class="tweet__footer"></div>
+
+				</div>
+				<!-- // .tweet -->
+			[[ }); ]]
+			</script>
+
 			<button id="instructions-arrow" class="instructions-arrow">More About Google Cardboard <i class="fa fa-chevron-down"></i></button>
 
 		</div>
 		<!-- // intro -->
+
+
+		<section class="partners">
+
+			<div class="partners__inner">
+
+				<div class="partners__logos">
+
+					<span><% include ../static/images/cnhs.svg %></span>
+
+					<span><% include ../static/images/ja.svg %></span>
+
+					<span><% include ../static/images/wawf.svg %></span>
+
+				</div>
+
+			</div>
+
+		</section>
+
 
 		<div id="cardboard" class="cardboard">
 
@@ -162,6 +209,7 @@
 			</div>
 
 		</div>
+		<!-- // cardboard -->
 
 	</main>
 	<!-- // #content -->

@@ -1,0 +1,26 @@
+.partners {
+	background-color: get-color( "gray--lightest" );
+	padding: 4rem 0;
+	text-align: center;
+
+	&__inner {
+		margin: 0 auto;
+		max-width: 40rem;
+		padding: 0 5px;
+	}
+
+	&__logos {
+		align-items: center;
+		display: flex;
+		justify-content: space-between;
+
+		span {
+			margin: 0;
+			width: span(4 of 12);
+
+			@include breakpoint( 640px ) {
+				width: span( 3 of 12 );
+			}
+		}
+	}
+}

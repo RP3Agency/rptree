@@ -48,7 +48,7 @@ RPYeti.config = {
 	text: {
 		hud: {
 			gameOver: 'GAME OVER',
-			gameOverVR: 'GAME OVER\nPlease remove device',
+			gameOverVR: 'GAME OVER\nRemove phone to\nsee score or\nplay again',
 			exclamation: 'Oh no...\nYeti!',
 			yetiDowned: 'Yeti Down!',
 			yetiOnYeti: 'Yeti Crossfire!',
@@ -110,7 +110,7 @@ RPYeti.config = {
 		easeDuration: 200,
 		innerFocalMax: 0.05,
 		borderColor: 'rgba(0,0,0,0.25)',
-		baseColor: 'rgba(255,222,0,0.75)',
+		baseColor: 'rgba(227,211,145,0.67)',
 		damageColor: 'rgba(255,0,0,1)',
 		textPos: -350,
 		textSize: 40,

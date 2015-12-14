@@ -47,25 +47,36 @@
 
 				<div id="ready" class="ready">
 
-					<p>Press trigger to enter</p>
+					<div class="howto howto--mobile">
 
-					<p class="howto howto--mobile">
+						<p>Press trigger to enter</p>
 
-						<% include ../../static/images/phone.svg %> <span>+</span>
+						<p class="howto__icons">
 
-						<% include ../../static/images/cardboard.svg %> <span>+</span>
+							<% include ../../static/images/phone.svg %> <span>+</span>
 
-						<% include ../../static/images/headphones.svg %>
+							<% include ../../static/images/cardboard.svg %> <span>+</span>
 
-					</p>
+							<% include ../../static/images/headphones.svg %>
 
-					<p class="howto howto--desktop">
+						</p>
+						<!-- // howto__icons -->
 
-						<% include ../../static/images/headphones.svg %> <span>or</span>
+					</div>
 
-						<% include ../../static/images/speaker.svg %>
+					<div class="howto howto--desktop">
 
-					</p>
+						<p>Click or tap to enter</p>
+
+						<p class="howto__icons">
+
+							<% include ../../static/images/headphones.svg %> <span>or</span>
+
+							<% include ../../static/images/speaker.svg %>
+
+						</p>
+
+					</div>
 
 					<ul id="hints" class="hints">
 
@@ -101,8 +112,7 @@
 	});
 
 	if ( '#desktop' !== hash ) {
-		r.find('p:first-child').css('display', 'block');
-		r.find('.howto--mobile').css('display', 'flex');
+		r.find('.howto--mobile').css('display', 'block');
 
 		window.addEventListener( "orientationchange", function() {
 
@@ -119,7 +129,7 @@
 			}
 		}, false );
 	} else {
-		r.find('.howto--desktop').css('display', 'flex');
+		r.find('.howto--desktop').css('display', 'block');
 	}
 
 	// Load a random hint
@@ -167,20 +177,11 @@
 
 		r.addClass('visible');
 
-		if ( '#desktop' === hash ) {
-			setTimeout( function() {
-				n.fadeOut( 500, function() {
-					$(this).remove();
-				} );
-			}, 4000 );
-		} else {
-
-			n.on( 'click touchend', function() {
-				$(this).fadeOut( 200, function() {
-					$(this).remove();
-				});
+		n.on( 'click touchend', function() {
+			$(this).fadeOut( 200, function() {
+				$(this).remove();
 			});
-		}
+		});
 	})
 	.on('rpyeti.loader.progress', function() {
 		// calculate percent complete

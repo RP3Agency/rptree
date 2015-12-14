@@ -519,22 +519,17 @@ RPYeti.game = (function() {
 $(function() {
 
 	$(document).on('rpyeti.loader.complete', function(){
-		if( RPYeti.config.stereo ) {
-			//TODO: display touch to start message
-			var init;
-			$(document).on('mouseup touchend', function(e) {
-				if( ! init ) {
-					init = true;
-					RPYeti.game.init();
-					RPYeti.game.animate();
-					RPYeti.game.start();
-				}
-			});
-		} else {
-			RPYeti.game.init();
-			RPYeti.game.animate();
-			RPYeti.game.start();
-		}
+
+		//TODO: display touch to start message
+		var init;
+		$(document).on('mouseup touchend', function(e) {
+			if( ! init ) {
+				init = true;
+				RPYeti.game.init();
+				RPYeti.game.animate();
+				RPYeti.game.start();
+			}
+		});
 	});
 
 });

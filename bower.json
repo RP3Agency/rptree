@@ -28,10 +28,11 @@
     "masonry": "~3.3.2",
     "backbone": "~1.2.3",
     "moment": "~2.10.6",
-    "susy": "~2.2.7"
-  },
-  "dependencies": {
+    "susy": "~2.2.7",
     "tween.js": "tweenjs#~16.3.1",
-    "js-cookie": "~2.0.4"
-  }
+    "js-cookie": "~2.0.4",
+    "livestampjs": "~1.1.2",
+    "imagesloaded": "~3.2.0"
+  },
+  "dependencies": {}
 }

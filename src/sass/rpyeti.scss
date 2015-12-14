@@ -1,16 +1,6 @@
-@font-face {
-    font-family: 'eightBit';
-    src: url('/fonts/8bit.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'PressStart2P';
-    src: url('/fonts/PressStart2P.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
+@import
+	"../../bower_components/compass-breakpoint/stylesheets/breakpoint",
+	"settings";
 
 .rpyeti {
     font-family: 'PressStart2P', sans-serif;

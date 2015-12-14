@@ -42,13 +42,9 @@ $enable-flex: true;
 
 $fa-font-path:   "../font";
 
-/**
-* 8Bit font setup
-*/
-
 @font-face {
-	font-family: 'eightBit';
-    src: url('/fonts/8bit.ttf') format('truetype');
+    font-family: 'PressStart2P';
+    src: url('/fonts/PressStart2P.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }

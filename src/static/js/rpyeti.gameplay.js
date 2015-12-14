@@ -27,7 +27,7 @@ RPYeti.Gameplay = function (game, player, camera, scene) {
 			}
 
 			if (window) {
-				self.game.hud.startCountdown(15, function () {
+				self.game.hud.startCountdown(5, function () {
 					var l = RPYeti.config.urls.leaderBoard;
 					if (window.location.hash) {
 						l += window.location.hash;

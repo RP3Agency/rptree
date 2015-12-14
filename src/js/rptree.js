@@ -1,4 +1,4 @@
-/* global rptree:true */
+/* global rptree:true, Cookies:false */
 
 // Define our "rptree" object, if not already defined
 if ( rptree === undefined ) { var rptree = {}; }
@@ -73,9 +73,11 @@ var rptree = (function($) {
 	},
 
 	getHighScore = function() {
-		$.getJSON("https://rptree.com/api/highest", function( data ) {
-			$('#high-score').html(data.highestScore);
-		});
+		if( $('#high-score').length > 0 ) {
+			$.getJSON("/api/highest", function( data ) {
+				$('#high-score').html(data.highestScore);
+			});
+		}
 	},
 
 	init = function() {
@@ -96,4 +98,3 @@ var rptree = (function($) {
 
 	rptree.init();
 }());
-

@@ -1,4 +1,4 @@
-<!-- @@master /_templates/main.html { "title": "RPTree", "description":"This year, rp3 is making gifts to three amazing charities on behalf of our friends and colleagues. All you have to do is choose which charity.", "fbTitle": "A Little Virtual Magic to Light Up the Season.", "fbUrl":"https://rptree.com/" }  -->
+<!-- @@master /_templates/main.html { "title": "RPTree", "description":"This year, RP3 Agency is making gifts to three amazing non-profits on behalf of our friends and colleagues. All you have to do is choose one.", "fbTitle": "A Little Virtual Magic to Light Up the Season.", "fbUrl":"https://rptree.com/" }  -->
 
 <!-- @@block content -->
 
@@ -65,13 +65,20 @@
 
 			<div class="experience-selector experience-selector--white">
 
-				<!-- <div class="container"> -->
+				<p>This year we’re making gifts to three amazing non-profits on behalf of our clients, friends and colleagues. And to keep spirits high, we’ve created this snowball fight game to help you direct where your donation goes.</p>
 
-					<p>This year, RP3 Agency is making gifts to three amazing non-profits on behalf of our clients, friends and colleagues.</p>
+				<a href="https://google.com/chrome" id="no-webgl" class="no-webgl" target="_blank">
 
-					<p>All you have to do is choose which one.</p>
+					Your browser does not support modern 3D graphics.<br/>
+					Download Google Chrome.
 
-					<div class="experience-selector__icons">
+				</a>
+
+				<div id="experience-selector__icons" class="experience-selector__icons">
+
+					<p>Choose your game mode to begin:</p>
+
+					<div class="experience-selector__icons__choices">
 
 						<div class="experience-selector__desktop">
 
@@ -83,7 +90,7 @@
 
 									Standard
 
-									<span>Requires Chrome, Firefox, Safari or Edge</span>
+									<span>(Desktop, Tablet, or Mobile)</span>
 
 								</a>
 
@@ -99,12 +106,12 @@
 								<a href="rpyeti/">
 
 									<span class="experience-selector__svg">
-										<% include ../static/images/phone.svg %>
+										<% include ../static/images/cardboard.svg %>
 									</span>
 
 									Virtual Reality
 
-									<span>Requires Mobile Safari for iOS or Chrome for Android</span>
+									<span>(with Google Cardboard)</span>
 
 								</a>
 
@@ -113,15 +120,15 @@
 						</div>
 						<!-- vr -->
 
-
 					</div>
-					<!-- // .experience-selector__icons -->
+					<!-- experience-selector__icons__choices -->
 
-				<!-- </div> -->
+				</div>
+				<!-- // .experience-selector__icons -->
 
 			</div>
 
-			<button id="instructions-arrow" class="instructions-arrow">Instructions <i class="fa fa-chevron-down"></i></button>
+			<button id="instructions-arrow" class="instructions-arrow">More About Google Cardboard <i class="fa fa-chevron-down"></i></button>
 
 		</div>
 		<!-- // intro -->
@@ -130,7 +137,14 @@
 
 			<div class="container">
 				<div class="cardboard__tree-img"></div>
-				<h2>New to Cardboard?</h2>
+
+				<div class="about-cardboard">
+
+					<p><a href="http://www.google.com/get/cardboard/" target="_blank">Google Cardboard</a> allows anyone with a smartphone to experience virtual reality in a simple, fun, and affordable way. RPTree is one way we’re exploring and sharing the exciting possibilities of this emerging platform.</p>
+
+					<p>If you’ve already received your viewer from RP3, here’s how to use it. If not, you can <a href="http://amzn.to/1IIiA9p" target="_blank">purchase one from Amazon</a> or play in <a href="rpyeti/#desktop">standard mode</a> and tweet your score for a chance to win one.</p>
+
+				</div>
 
 				<ol>
 					<li class="step1"><span class="svg"><% include ../static/images/step-1.svg %></span><p><span>1</span> Remove viewer from case</p></li>
@@ -139,8 +153,11 @@
 					<li><span class="svg"><% include ../static/images/step-4.svg %></span><p><span>4</span> Choose the "Virtual Reality" experience</p></li>
 					<li><span class="svg"><% include ../static/images/step-5.svg %></span><p><span>5</span> Place phone in viewer, close and begin</p></li>
 				</ol>
+				<ol class="trigger-icon">
+					<li><span class="svg"><% include ../static/images/trigger.svg %></span><p>Press top right trigger to fire away!</p></li>
+				</ol>
 
-				<p><strong>Use headphones for best results.</strong></p>
+				<p><strong>Use headphones and remove protective film from lenses for best results.</strong></p>
 
 			</div>
 
@@ -169,5 +186,19 @@
 		</ul>
 
 	</div>
+
+	<script src="../js/scripts-bower.min.js"></script>
+	<script src="../js/rptree.min.js"></script>
+	<script src="/js/third-party/threejs/Detector.js"></script>
+	<script>
+	// Internet Explorer maybe?
+	var MSIE = navigator.userAgent.indexOf('MSIE');
+	var Trident = navigator.userAgent.indexOf('Trident');
+
+	if ( ( ! Detector.webgl ) || ( -1 < MSIE ) || ( -1 < Trident ) ) {
+		$('#experience-selector__icons').css('display', 'none');
+		$('#no-webgl').css('display', 'block');
+	}
+	</script>
 
 <!-- @@close -->

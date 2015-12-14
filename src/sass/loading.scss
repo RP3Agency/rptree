@@ -8,18 +8,18 @@
 @import
 	"settings";
 
-.rpyeti-page {
-	margin: 0;
-	min-height: 200vh;
-	min-width: 101vw;
-	position: relative;
+.rpyeti-html {
+	height: 101vh;
+	overflow: hidden;
+	width: 100%;
+}
 
-	&.desktop {
-		min-height: 0;
-		min-width: 0;
-		height: 100vh;
-		width: 100vw;
-	}
+.rpyeti-page {
+	height: 100vh;
+	margin: 0;
+	overflow: hidden;
+	position: relative;
+	width: 100%;
 }
 
 .loading {
@@ -109,7 +109,6 @@
 
 .howto {
 	display: none;
-	// margin: 0 0 1em 0;
 
 	svg {
 		height: 24px;
@@ -119,7 +118,8 @@
 		}
 		width: auto;
 
-		&.speaker-svg {
+
+		&.speaker-svg, &.cardboard-svg {
 
 			path {
 				fill: get-color( "white" );
@@ -135,7 +135,7 @@
 	display: flex;
 	font-family: sans-serif;
 	font-weight: 700;
-	height: 51%;
+	height: 100%;
 	left: 0;
 	line-height: 1.5;
 	position: absolute;

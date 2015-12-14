@@ -1,4 +1,3 @@
-
 %eight-bit-border {
 	border: {
 		top: 4px solid white;
@@ -21,6 +20,18 @@
 		margin-right: -4px;
 		right: 0;
 	}
+}
+
+.eight-bit-button {
+	@extend %eight-bit-border;
+	background-color: get-color( "blue--brand" );
+	color: get-color( "white" );
+	display: inline-block;
+	font-size: 0.8rem;
+	line-height: 1.1;
+    margin: 30px 10px 20px;
+    padding: 7px;
+	text-decoration: none;
 }
 
 .leaderboard__yeti-angel {

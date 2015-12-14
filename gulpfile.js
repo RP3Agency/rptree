@@ -182,7 +182,12 @@ gulp.task('watch', function() {
 });
 
 // Default task
-gulp.task('default', [ 'build', 'serve', 'watch' ]);
+if( process.platform != 'darwin' ) {
+	// Default is build-only on servers
+	gulp.task('default', [ 'build' ]);
+} else {
+	gulp.task('default', [ 'build', 'serve', 'watch' ]);
+}
 
 // Develop task
 gulp.task('develop', [ 'build', 'launch', 'watch' ]);

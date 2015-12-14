@@ -1,5 +1,5 @@
 .leaderboard {
-	padding-bottom : 7em;
+	min-height: 100vh;
 	text-align: center;
 
 	h1, h2, p, a, span {
@@ -29,6 +29,11 @@
 			max-width: 340px;
 		}
 	}
+
+	&__buttons {
+		display: flex;
+		justify-content: center;
+	}
 }
 
 .leaderboard__stats-banner {
@@ -44,27 +49,9 @@
 	max-width: 340px;
 }
 
-.facebook-share,
 .twitter-share {
-	@extend %eight-bit-border;
 	background-color: get-color("blue--brand");
 	display: inline-block;
-	height: 37px;
-	width: 37px;
-}
-
-.twitter-share {
-	background-image: url(../images/twitter.png);
-	background-size: 35%;
-	background-repeat: no-repeat;
-	background-position: center;
-}
-
-.facebook-share {
-	background-image: url(../images/facebook.png);
-	background-size: 28%;
-	background-repeat: no-repeat;
-	background-position: center;
 }
 
 .leaderboard__footer {
@@ -91,19 +78,22 @@
 		height: 50px;
 		width: 75px;
 	}
+}
 
-	.credits {
+.credits {
+	bottom: 1em;
+	font-family: "Roboto", sans-serif !important;
+	font-size: rem(11px);
+	color: mix( white, #d3f9fa, 50% );
+	margin: 0;
+	position: absolute;
+	right: 1em;
+	text-align: right;
+
+	a {
 		font-family: "Roboto", sans-serif;
 		font-size: rem(11px);
 		color: mix( white, #d3f9fa, 50% );
-		text-align: right;
-		margin-right: 2rem;
-
-		a {
-			font-family: "Roboto", sans-serif;
-			font-size: rem(11px);
-			color: mix( white, #d3f9fa, 50% );
-			text-decoration: underline;
-		}
+		text-decoration: underline;
 	}
 }

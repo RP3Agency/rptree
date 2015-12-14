@@ -210,8 +210,10 @@ gulp.task( 'scripts-bower', function() {
 		bower_files = [
 			bower_dir + '/jquery/dist/jquery.js',
 			bower_dir + '/moment/min/moment-with-locales.js',
+			bower_dir + '/livestampjs/livestamp.min.js',
 			bower_dir + '/underscore/underscore.js',
 			bower_dir + '/backbone/backbone.js',
+			bower_dir + '/imagesloaded/imagesloaded.pkgd.min.js',
 			bower_dir + '/masonry/dist/masonry.pkgd.js',
 			bower_dir + '/tween.js/src/Tween.js',
 			bower_dir + '/js-cookie/src/js.cookie.js'

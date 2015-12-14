@@ -29,6 +29,11 @@
 			max-width: 340px;
 		}
 	}
+
+	&__buttons {
+		display: flex;
+		justify-content: center;
+	}
 }
 
 .leaderboard__stats-banner {
@@ -44,28 +49,10 @@
 	max-width: 340px;
 }
 
-.facebook-share,
 .twitter-share {
-	// @extend %eight-bit-border;
 	background-color: get-color("blue--brand");
 	display: inline-block;
-	// height: 37px;
-	// width: 37px;
 }
-
-.twitter-share {
-	// background-image: url(../images/twitter.png);
-	// background-size: 35%;
-	// background-repeat: no-repeat;
-	// background-position: center;
-}
-
-// .facebook-share {
-// 	background-image: url(../images/facebook.png);
-// 	background-size: 28%;
-// 	background-repeat: no-repeat;
-// 	background-position: center;
-// }
 
 .leaderboard__footer {
 	padding: 40px 0 0;

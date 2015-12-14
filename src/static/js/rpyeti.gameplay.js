@@ -66,6 +66,7 @@ RPYeti.Gameplay.prototype.start = function (level, reset) {
 
 	if (reset) {
 		this.player.points = 0;
+		RPYeti.service.publisher.trigger('rpyeti.game.score', 0);
 	}
 
 	this.player.health = RPYeti.config.player.health;

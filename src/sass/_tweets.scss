@@ -1,0 +1,65 @@
+.tweets {
+	display: none;
+/*
+	margin: 0 auto;
+	max-width: em(1830px, $default-font-size);
+
+	@include breakpoint(1830px) {
+		max-width: em(1600px);
+	}
+*/
+	.tweet {
+		@extend %roboto-light;
+		color: get-color('black');
+		margin-bottom: rem(35px);
+		width: 100%;
+
+/*
+		@include breakpoint($breakpoint-sm) {
+			width: 48%
+		}
+
+		@include breakpoint($breakpoint-lg) {
+			width: 23.5%;
+		}
+*/
+		a {
+			text-decoration: none;
+		}
+
+		&__container {
+			background-color: get-color('white');
+			border: 1px solid get-color('gray');
+			border-radius: 8px 8px 0 0;
+			overflow: hidden;
+			padding: rem(31px) percentage(57px / 689px);
+		}
+
+		&__avatar {
+			border-radius: 8px;
+		}
+
+		&__handle {
+			@extend %roboto-light;
+			color: get-color('blue--brand');
+			display: block;
+			font-size: em(16px);
+			margin: 1em 0;
+		}
+
+		&__content {
+			margin-bottom: 0.5em;
+		}
+
+		&__timestamp {
+			color: get-color('gray');
+			font-size: em(13px);
+		}
+
+		&__footer {
+			background-color: get-color('blue--dark');
+			height: rem(15px);
+		}
+	}
+
+}

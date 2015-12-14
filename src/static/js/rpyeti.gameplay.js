@@ -12,7 +12,7 @@ RPYeti.Gameplay = function (game, player, camera, scene) {
 	this.yetis = new THREE.Group();
 	this.scene.add( this.yetis );
 
-	this.settings = jQuery.extend(true, {}, RPYeti.config.gamePlayBaseline);
+	this.settings = jQuery.extend(true, {}, RPYeti.config.gameplay.baseline);
 
 	(function (self) {
 		self.player.on('defeated', function (context) {
@@ -96,7 +96,7 @@ RPYeti.Gameplay.prototype.levelBegin = function (level) {
 	this.settings = jQuery.extend(true, {}, RPYeti.config.gameplay.baseline);
 	this.currentLevelDefeated = 0;
 
-	this.modSettings(this.settings, RPYeti.config.gameplay.modifiers, (level - 1));
+	this.modSettings(this.settings, RPYeti.config.gameplay.modifiers, RPYeti.config.gameplay.limits, (level - 1));
 	this.nextRound();
 };
 
@@ -393,14 +393,18 @@ RPYeti.Gameplay.prototype.yetiSpawner = function () {
 	}
 };
 
-RPYeti.Gameplay.prototype.modSettings = function (settings, modifiers, level) {
+RPYeti.Gameplay.prototype.modSettings = function (settings, modifiers, limits, level) {
 	for (var i in settings) {
 		if (typeof settings[i] === 'object' && typeof modifiers[i] == 'object') {
-			this.modSettings(settings[i], modifiers[i], level);
+			this.modSettings(settings[i], modifiers[i], limits[i], level);
 		} else if (typeof modifiers[i] === 'function') {
-			settings[i] += modifiers[i](level);;
-			if (settings[i] < 0) {
-				settings[i] = 0;
+			settings[i] += modifiers[i]( level );
+			if( typeof limits[i] === 'function' ) {
+				settings[i] = limits[i]( settings[i] );
+			} else {
+				if (settings[i] < limits[i]) {
+					settings[i] = limits[i];
+				}
 			}
 		}
 	}

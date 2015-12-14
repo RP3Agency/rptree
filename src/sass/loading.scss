@@ -126,6 +126,11 @@
 			}
 		}
 	}
+
+	&__icons {
+		display: flex;
+		justify-content: center;
+	}
 }
 
 .now-loading {
@@ -202,9 +207,9 @@
 	}
 
 	p {
-		align-items: center;
-		display: none;
-		justify-content: center;
+		// align-items: center;
+		// display: none;
+		// justify-content: center;
 		margin: 1em 0;
 	}
 }

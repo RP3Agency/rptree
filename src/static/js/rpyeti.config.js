@@ -48,7 +48,7 @@ RPYeti.config = {
 	text: {
 		hud: {
 			gameOver: 'GAME OVER',
-			gameOverVR: 'GAME OVER\nPlease remove device',
+			gameOverVR: 'GAME OVER\nRemove phone to\nsee score or\nplay again',
 			exclamation: 'Oh no...\nYeti!',
 			yetiDowned: 'Yeti Down!',
 			yetiOnYeti: 'Yeti Crossfire!',

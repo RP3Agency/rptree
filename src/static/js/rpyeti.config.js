@@ -48,7 +48,7 @@ RPYeti.config = {
 	text: {
 		hud: {
 			gameOver: 'GAME OVER',
-			gameOverVR: 'GAME OVER\nPlease remove device',
+			gameOverVR: 'GAME OVER\nRemove phone to\nsee score or\nplay again',
 			exclamation: 'Oh no...\nYeti!',
 			yetiDowned: 'Yeti Down!',
 			yetiOnYeti: 'Yeti Crossfire!',
@@ -110,7 +110,7 @@ RPYeti.config = {
 		easeDuration: 200,
 		innerFocalMax: 0.05,
 		borderColor: 'rgba(0,0,0,0.25)',
-		baseColor: 'rgba(255,222,0,0.75)',
+		baseColor: 'rgba(227,211,145,0.67)',
 		damageColor: 'rgba(255,0,0,1)',
 		textPos: -350,
 		textSize: 40,
@@ -156,13 +156,13 @@ RPYeti.config = {
 	gameplay: {
 		baseline: {
 			popTimer: {
-				min: 2000,
-				max: 7500
+				min: 1500,
+				max: 5000
 			},
 			yeti: {
 				appearDelay: {
-					min: 3000,
-					max: 7000
+					min: 1000,
+					max: 6000
 				},
 				throwCount: {
 					min: 1,
@@ -172,33 +172,58 @@ RPYeti.config = {
 					min: 1500,
 					max: 3000
 				},
-				health: 5,
+				health: 4.5,
 				points: 1,
 				total: 10,
 				maxOnScreen: 2,
 			}
 		},
 
+		limits: {
+			popTimer: {
+				min: 300,
+				max: 750,
+			},
+			yeti: {
+				appearDelay: {
+					min: 500,
+					max: 1000,
+				},
+				throwCount: {
+					min: function (x) { return Math.min( x, 5 ); },
+					max: function (x) { return Math.min( x, 10 ); },
+				},
+				throwDelay: {
+					min: 100,
+					max: 500
+				},
+				health: function (x) { return Math.min( x, 20 ); },
+				points: 1,
+				total: function (x) { return Math.min( x, 100 ); },
+				maxOnScreen: function (x) { return Math.min( x, 50 ); },
+			}
+		},
+
 		modifiers: {
 			popTimer: {
-				min: function (level) { return -(level * 150); },
-				max: function (level) { return -(level * 65); }
+				min: function (level) { return -(level * 200); },
+				max: function (level) { return -(level * 75); },
 			},
 			yeti: {
 				appearDelay: {
 					min: function (level) { return -(level * 150); },
-					max: function (level) { return -(level * 25); }
+					max: function (level) { return -(level * 25); },
 				},
 				throwCount: {
 					min: function (level) { return Math.floor(level * 0.01); },
-					max: function (level) { return Math.floor(level * 0.15); }
+					max: function (level) { return Math.floor(level * 0.15); },
 				},
 				throwDelay: {
-					min: function (level) { return -(level * 45); },
-					max: function (level) { return -(level * 30); }
+					min: function (level) { return -(level * 40); },
+					max: function (level) { return -(level * 20); },
 				},
 				health: function (level) { return Math.floor(level * 0.5); },
-				total: function (level) { return Math.floor(level * 0.45); },
+				total: function (level) { return Math.floor(level * 0.4); },
 				maxOnScreen: function (level) { return Math.floor(level * .2); },
 			}
 		}

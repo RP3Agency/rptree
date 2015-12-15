@@ -5,7 +5,7 @@ RPYeti.controls = (function() {
 
 	var PI_2 = Math.PI / 2.0,
 		TYPE = { DEFAULT: 0, MOUSELOOK: 1, POINTERLOCK: 2, ORIENTATION: 3 },
-		ACTION = { FIRE: 'isFiring', MOVEUP: 'isLookUp', MOVEDOWN: 'isLookDown', MOVELEFT: 'isPanLeft', MOVERIGHT: 'isPanRight', HALFSPEED: 'isHalfSpeed' };
+		ACTION = { FIRE: 'isFiring', PAUSE: 'isPausing', MOVEUP: 'isLookUp', MOVEDOWN: 'isLookDown', MOVELEFT: 'isPanLeft', MOVERIGHT: 'isPanRight', HALFSPEED: 'isHalfSpeed' };
 
 	return {
 
@@ -74,6 +74,13 @@ RPYeti.controls = (function() {
 			})
 			.on('keyup', function(e) {
 				if( self.keyMap[ e.keyCode ] ) {
+					if( self.state.isPausing && ! self.isHooked && self.controlType == TYPE.MOUSELOOK ) {
+						self.dialog.resume = new RPYeti.Dialog(self, self.camera, self.game.stereo);
+						self.dialog.resume.show( RPYeti.config.text.dialog.resumePlay, function() {
+							self.dialog.resume = null;
+						});
+					}
+										
 					self.state[ ACTION[ self.keyMap[ e.keyCode ] ] ] = false;
 
 					if( self.isHooked && self.keyMap[ e.keyCode ] == 'FIRE' ) {
@@ -88,7 +95,7 @@ RPYeti.controls = (function() {
 
 		initMouseLook: function() {
 			if( self.controlType == TYPE.MOUSELOOK ) {
-				this.publisher.on('mousemove', _.debounce(function( event ) {
+				document.addEventListener('mousemove', function( event ) {
 					if( self.controlType != TYPE.MOUSELOOK ) {
 						return;
 					}
@@ -97,20 +104,24 @@ RPYeti.controls = (function() {
 						self.state.isMoving = true;
 					}
 					if( self.state.isMoving ) {
-						var movementX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
-						var movementY = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
-						self.yawGimbal.rotation.y -= movementX * RPYeti.config.controls.mouseSpeed;
-						self.pitchGimbal.rotation.x -= movementY * RPYeti.config.controls.mouseSpeed;
+						var movementX = event.screenX - self.lastX;
+						var movementY = event.screenY - self.lastY;
+						self.yawGimbal.rotation.y -= movementX * RPYeti.config.controls.lookSpeed.y;
+						self.pitchGimbal.rotation.x -= movementY * RPYeti.config.controls.lookSpeed.x;
 						self.pitchGimbal.rotation.x = Math.max( - PI_2, Math.min( PI_2, self.pitchGimbal.rotation.x ) );
+						self.lastX = event.screenX;
+						self.lastY = event.screenY;
 					}
-				}), 100);
+				});
 			}
 		},
 
 		initMouseFire: function() {
 			this.publisher.on('mousedown', function(e) {
 				self.state.isFiring = true;
-				self.state.isMoving = false;				
+				self.state.isMoving = false;
+				self.lastX = event.screenX;
+				self.lastY = event.screenY;
 				e.preventDefault();
 			})
 			.on('mouseup', function(e) {

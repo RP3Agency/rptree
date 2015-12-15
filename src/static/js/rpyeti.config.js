@@ -28,6 +28,7 @@ RPYeti.config = {
 			MOVERIGHT:	[ 39, 68, ],		// right-arrow, D
 			HALFSPEED:	[ 16, ],			// shift
 			FIRE:		[ 32, 13, 14, ],	// spacebar, return, enter
+			PAUSE:		[ 27, ],			// escape
 		},
 		codes: {
 			KONAMI:		[ 38, 38, 40, 40, 37, 39, 37, 39, 66, 65 ],
@@ -37,6 +38,10 @@ RPYeti.config = {
 		keySpeed: {
 			x: 1.1,
 			y: 1.8,
+		},
+		lookSpeed: {
+			x: 0.005,
+			y: 0.005,
 		},
 		mouseSpeed: 0.002,
 	},

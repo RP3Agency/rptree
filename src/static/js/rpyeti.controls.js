@@ -181,7 +181,6 @@ RPYeti.controls = (function() {
 
 			document.addEventListener( prefix + 'change', function( event ) {
 				if ( element === ( document.pointerLockElement || document.mozPointerLockElement || document.webkitPointerLockElement ) ) {
-console.log('pointer lock enabled');
 					self.controlType = TYPE.POINTERLOCK;
 					self.state.isPanLeft = self.state.isPanRight = false;
 					self.state.isLookUp = self.state.isLookDown = false;
@@ -190,13 +189,11 @@ console.log('pointer lock enabled');
 						self.dialog.resume = null;
 					}
 				} else {
-console.log('pointer lock disabled');
 					self.controlType = TYPE.DEFAULT;
 					if( ! self.isHooked ) {
 						self.dialog.resume = new RPYeti.Dialog(self, self.camera, self.game.stereo);
 						self.dialog.resume.show( RPYeti.config.text.dialog.resumePlay, function() {
 							if( self.controlType == TYPE.DEFAULT ) {
-console.log('attempting pointer lock');
 								self.initFullscreen( function() {
 									if( document.fullscreenEnabled || document.mozFullScreenEnabled || document.webkitFullscreenEnabled ) {
 										element.requestPointerLock();

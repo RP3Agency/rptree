@@ -88,56 +88,34 @@ RPYeti.controls = (function() {
 
 		initMouseLook: function() {
 			if( self.controlType == TYPE.MOUSELOOK ) {
-				document.addEventListener('mousemove', _.debounce(function( event ) {
+				this.publisher.on('mousemove', _.debounce(function( event ) {
 					if( self.controlType != TYPE.MOUSELOOK ) {
 						return;
 					}
-					self.state.isPanLeft = self.state.isPanRight = false;
-					self.state.isLookUp = self.state.isLookDown = false;
-					self.state.isHalfPan = self.state.isHalfLook = false;
-					if( ! self.isHooked ) {
-						if( event.pageX < window.innerWidth * 0.45 ) {
-							self.state.isPanLeft = true;
-							if( event.pageX > window.innerWidth * 0.3 ) {
-								self.state.isHalfPan = true;
-							}
-						} else if ( event.pageX > window.innerWidth * 0.55 ) {
-							self.state.isPanRight = true;
-							if( event.pageX < window.innerWidth * 0.7 ) {
-								self.state.isHalfPan = true;
-							}
-						}
-						if( event.pageY < window.innerHeight * 0.45 ) {
-							self.state.isLookUp = true;
-							if( event.pageY > window.innerHeight * 0.3 ) {
-								self.state.isHalfLook = true;
-							}
-						} else if ( event.pageY > window.innerHeight * 0.55 ) {
-							self.state.isLookDown = true;
-							if( event.pageY < window.innerHeight * 0.7 ) {
-								self.state.isHalfLook = true;
-							}
-						}
+					if( self.state.isFiring && ! self.isHooked ) {
+						self.state.isFiring = false;
+						self.state.isMoving = true;
+					}
+					if( self.state.isMoving ) {
+						var movementX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
+						var movementY = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
+						self.yawGimbal.rotation.y -= movementX * RPYeti.config.controls.mouseSpeed;
+						self.pitchGimbal.rotation.x -= movementY * RPYeti.config.controls.mouseSpeed;
+						self.pitchGimbal.rotation.x = Math.max( - PI_2, Math.min( PI_2, self.pitchGimbal.rotation.x ) );
 					}
 				}), 100);
-				document.addEventListener('mouseout', function( event ) {
-					if( self.controlType != TYPE.DEFAULT ) {
-						return;
-					}
-					self.state.isPanLeft = self.state.isPanRight = false;
-					self.state.isLookUp = self.state.isLookDown = false;
-					self.state.isHalfPan = self.state.isHalfLook = false;
-				});
 			}
 		},
 
 		initMouseFire: function() {
 			this.publisher.on('mousedown', function(e) {
 				self.state.isFiring = true;
+				self.state.isMoving = false;				
 				e.preventDefault();
 			})
 			.on('mouseup', function(e) {
 				self.state.isFiring = false;
+				self.state.isMoving = false;
 				e.preventDefault();
 
 				if( self.isHooked ) {

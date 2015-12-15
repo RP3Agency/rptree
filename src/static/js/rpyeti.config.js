@@ -28,6 +28,7 @@ RPYeti.config = {
 			MOVERIGHT:	[ 39, 68, ],		// right-arrow, D
 			HALFSPEED:	[ 16, ],			// shift
 			FIRE:		[ 32, 13, 14, ],	// spacebar, return, enter
+			PAUSE:		[ 27, ],			// escape
 		},
 		codes: {
 			KONAMI:		[ 38, 38, 40, 40, 37, 39, 37, 39, 66, 65 ],
@@ -37,6 +38,10 @@ RPYeti.config = {
 		keySpeed: {
 			x: 1.1,
 			y: 1.8,
+		},
+		lookSpeed: {
+			x: 0.005,
+			y: 0.005,
 		},
 		mouseSpeed: 0.002,
 	},
@@ -60,11 +65,14 @@ RPYeti.config = {
 				'Throw snowballs to hit\nYetis before they hit you.\n\nThe more you hit,\nthe higher your score.'
 			],
 			desktopHelp: [
-				'The first snowball you\nthrow determines where\nyour donation goes.\n\nDouble-click to start.\nUse your mouse\nto aim at a logo.\nClick to fire away.'
+				'The first snowball you\nthrow determines where\nyour donation goes.\n\nClick to start.\nUse your mouse\nto aim at a logo.\nClick to fire away.'
 			],
 			vrHelp: [
 				'The first snowball you\nthrow determines where\nyour donation goes.\n\nMove viewer to aim at\na logo. Press top right\ntrigger to fire away.',
-			]
+			],
+			resumePlay: [
+				'Click the window to\ncontinue playing.'
+			],
 		}
 	},
 

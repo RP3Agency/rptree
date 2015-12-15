@@ -4,8 +4,8 @@ RPYeti.controls = (function() {
 	var self;
 
 	var PI_2 = Math.PI / 2.0,
-		TYPE = { DEFAULT: 0, POINTERLOCK: 1, ORIENTATION: 2 },
-		ACTION = { FIRE: 'isFiring', MOVEUP: 'isLookUp', MOVEDOWN: 'isLookDown', MOVELEFT: 'isPanLeft', MOVERIGHT: 'isPanRight', HALFSPEED: 'isHalfSpeed' };
+		TYPE = { DEFAULT: 0, MOUSELOOK: 1, POINTERLOCK: 2, ORIENTATION: 3 },
+		ACTION = { FIRE: 'isFiring', PAUSE: 'isPausing', MOVEUP: 'isLookUp', MOVEDOWN: 'isLookDown', MOVELEFT: 'isPanLeft', MOVERIGHT: 'isPanRight', HALFSPEED: 'isHalfSpeed' };
 
 	return {
 
@@ -15,10 +15,10 @@ RPYeti.controls = (function() {
 		keyMap: {},
 		controlType: TYPE.DEFAULT,
 		publisher: $(document),
+		dialog: {},
 
 		yawGimbal: new THREE.Object3D(),
 		pitchGimbal: new THREE.Object3D(),
-
 
 		/** Constructor **/
 
@@ -53,10 +53,10 @@ RPYeti.controls = (function() {
 			// initialize control schemes
 			this.initOrientation();
 			this.initPointerLock();
-			this.initMouseLook();
 			this.initMouseFire();
 			this.initKeys();
 			this.initTouch();
+			this.initMouseLook();
 
 			return this;
 		},
@@ -74,6 +74,13 @@ RPYeti.controls = (function() {
 			})
 			.on('keyup', function(e) {
 				if( self.keyMap[ e.keyCode ] ) {
+					if( self.state.isPausing && ! self.isHooked && self.controlType == TYPE.MOUSELOOK ) {
+						self.dialog.resume = new RPYeti.Dialog(self, self.camera, self.game.stereo);
+						self.dialog.resume.show( RPYeti.config.text.dialog.resumePlay, function() {
+							self.dialog.resume = null;
+						});
+					}
+										
 					self.state[ ACTION[ self.keyMap[ e.keyCode ] ] ] = false;
 
 					if( self.isHooked && self.keyMap[ e.keyCode ] == 'FIRE' ) {
@@ -87,46 +94,24 @@ RPYeti.controls = (function() {
 		},
 
 		initMouseLook: function() {
-			if( self.controlType != TYPE.ORIENTATION ) {
-				document.addEventListener('mousemove', _.debounce(function( event ) {
-					if( self.controlType != TYPE.DEFAULT ) {
+			if( self.controlType == TYPE.MOUSELOOK ) {
+				document.addEventListener('mousemove', function( event ) {
+					if( self.controlType != TYPE.MOUSELOOK ) {
 						return;
 					}
-					self.state.isPanLeft = self.state.isPanRight = false;
-					self.state.isLookUp = self.state.isLookDown = false;
-					self.state.isHalfPan = self.state.isHalfLook = false;
-					if( ! self.isHooked ) {
-						if( event.pageX < window.innerWidth * 0.45 ) {
-							self.state.isPanLeft = true;
-							if( event.pageX > window.innerWidth * 0.3 ) {
-								self.state.isHalfPan = true;
-							}
-						} else if ( event.pageX > window.innerWidth * 0.55 ) {
-							self.state.isPanRight = true;
-							if( event.pageX < window.innerWidth * 0.7 ) {
-								self.state.isHalfPan = true;
-							}
-						}
-						if( event.pageY < window.innerHeight * 0.45 ) {
-							self.state.isLookUp = true;
-							if( event.pageY > window.innerHeight * 0.3 ) {
-								self.state.isHalfLook = true;
-							}
-						} else if ( event.pageY > window.innerHeight * 0.55 ) {
-							self.state.isLookDown = true;
-							if( event.pageY < window.innerHeight * 0.7 ) {
-								self.state.isHalfLook = true;
-							}
-						}
+					if( self.state.isFiring && ! self.isHooked ) {
+						self.state.isFiring = false;
+						self.state.isMoving = true;
 					}
-				}), 100);
-				document.addEventListener('mouseout', function( event ) {
-					if( self.controlType != TYPE.DEFAULT ) {
-						return;
+					if( self.state.isMoving ) {
+						var movementX = event.screenX - self.lastX;
+						var movementY = event.screenY - self.lastY;
+						self.yawGimbal.rotation.y -= movementX * RPYeti.config.controls.lookSpeed.y;
+						self.pitchGimbal.rotation.x -= movementY * RPYeti.config.controls.lookSpeed.x;
+						self.pitchGimbal.rotation.x = Math.max( - PI_2, Math.min( PI_2, self.pitchGimbal.rotation.x ) );
+						self.lastX = event.screenX;
+						self.lastY = event.screenY;
 					}
-					self.state.isPanLeft = self.state.isPanRight = false;
-					self.state.isLookUp = self.state.isLookDown = false;
-					self.state.isHalfPan = self.state.isHalfLook = false;
 				});
 			}
 		},
@@ -134,10 +119,14 @@ RPYeti.controls = (function() {
 		initMouseFire: function() {
 			this.publisher.on('mousedown', function(e) {
 				self.state.isFiring = true;
+				self.state.isMoving = false;
+				self.lastX = event.screenX;
+				self.lastY = event.screenY;
 				e.preventDefault();
 			})
 			.on('mouseup', function(e) {
 				self.state.isFiring = false;
+				self.state.isMoving = false;
 				e.preventDefault();
 
 				if( self.isHooked ) {
@@ -169,7 +158,10 @@ RPYeti.controls = (function() {
 
 		initPointerLock: function() {
 			var pointerLock = 'pointerLockElement' in document || 'mozPointerLockElement' in document || 'webkitPointerLockElement' in document;
-			if( self.controlType == TYPE.ORIENTATION || ! pointerLock ) {
+			if( self.controlType == TYPE.ORIENTATION ) {
+				return;
+			} else if ( ! pointerLock ) {
+				self.controlType = TYPE.MOUSELOOK;
 				return;
 			}
 			var element = document.body,
@@ -181,8 +173,26 @@ RPYeti.controls = (function() {
 					self.controlType = TYPE.POINTERLOCK;
 					self.state.isPanLeft = self.state.isPanRight = false;
 					self.state.isLookUp = self.state.isLookDown = false;
+					if( self.dialog.resume ) {
+						self.dialog.resume.dismiss();
+						self.dialog.resume = null;
+					}
 				} else {
 					self.controlType = TYPE.DEFAULT;
+					if( ! self.isHooked ) {
+						self.dialog.resume = new RPYeti.Dialog(self, self.camera, self.game.stereo);
+						self.dialog.resume.show( RPYeti.config.text.dialog.resumePlay, function() {
+							if( self.controlType == TYPE.DEFAULT ) {
+								self.initFullscreen( function() {
+									if( document.fullscreenEnabled || document.mozFullScreenEnabled || document.webkitFullscreenEnabled ) {
+										element.requestPointerLock();
+									} else {
+										self.controlType = TYPE.DEFAULT;
+									}
+								});
+							}
+						});
+					}
 				}
 			});
 
@@ -198,13 +208,34 @@ RPYeti.controls = (function() {
 			});
 
 			document.addEventListener( prefix + 'error', function( event ) {
-				console.log( 'pointerlock error ', event);
+				self.controlType = TYPE.DEFAULT;
 			});
-			this.publisher.on('dblclick', function() {
-				if( self.controlType != TYPE.POINTERLOCK ) {
+
+			self.initFullscreen( function() {
+				if( document.fullscreenEnabled || document.mozFullScreenEnabled || document.webkitFullscreenEnabled ) {
 					element.requestPointerLock();
 				}
 			});
+		},
+
+		initFullscreen: function(cb) {
+			var element = self.game.container || document.body;
+			if ( element.requestFullscreen ) {
+				element.requestFullscreen();
+			} else if ( element.msRequestFullscreen ) {
+				element.msRequestFullscreen();
+			} else if ( element.mozRequestFullScreen ) {
+				element.mozRequestFullScreen();
+			} else if ( element.webkitRequestFullscreen ) {
+				element.webkitRequestFullscreen();
+			}
+			$(document).on('webkitfullscreenerror mozfullscreenerror fullscreenerror', function( event ) {
+				console.log( 'fullscreen error ', event );
+				self.controlType = TYPE.MOUSELOOK;
+			});
+			if( cb ) {
+				$(document).on('webkitfullscreenchange mozfullscreenchange fullscreenchange', cb);
+			}
 		},
 
 		initOrientation: function() {

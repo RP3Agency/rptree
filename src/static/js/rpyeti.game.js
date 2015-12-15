@@ -71,9 +71,6 @@ RPYeti.game = (function() {
 			$(window).on('resize', this.resize);
 			setTimeout(this.resize, 1);
 
-			$( this.container ).on('dblclick', function() {
-				self.fullscreen();
-			});
 		},
 
 		start: function() {
@@ -89,25 +86,25 @@ RPYeti.game = (function() {
 			var delta = self.clock.getDelta();
 
 			window.requestAnimationFrame( self.animate );
-			self.update( delta );
-
-			if( self.controls.state.isFiring && !self.controls.isHooked && self.player.health > 0 ) {
-				if( ( t - self.lastFire ) >= RPYeti.config.snowball.rate ) {
-					self.playSound( self.sounds.throw );
-					self.throwSnowball(undefined, self.player);
-					self.lastFire = t;
+			if( ! self.controls.isHooked ) {
+				self.update( delta );
+				if( self.controls.state.isFiring && self.player.health > 0 ) {
+					if( ( t - self.lastFire ) >= RPYeti.config.snowball.rate ) {
+						self.playSound( self.sounds.throw );
+						self.throwSnowball(undefined, self.player);
+						self.lastFire = t;
+					}
 				}
 			}
-			self.updateSnowballs( delta );
-			$(self.container).trigger('rpyeti.game.update', delta);
-
 			self.render( delta );
 		},
 
-		update: function(dt) {
-			self.controls.update(dt);
-			RPYeti.Character.update(dt);
+		update: function(delta) {
+			self.controls.update( delta );
+			RPYeti.Character.update( delta );
+			self.updateSnowballs( delta );
 			TWEEN.update();
+			$(self.container).trigger('rpyeti.game.update', delta );
 		},
 
 		render: function(dt) {
@@ -134,18 +131,6 @@ RPYeti.game = (function() {
 				if (self.offset < 0) { self.offset = 0 }
 			} else {
 				self.renderer.setSize( width, height );
-			}
-		},
-
-		fullscreen: function() {
-			if ( self.container.requestFullscreen ) {
-				self.container.requestFullscreen();
-			} else if ( self.container.msRequestFullscreen ) {
-				self.container.msRequestFullscreen();
-			} else if ( self.container.mozRequestFullScreen ) {
-				self.container.mozRequestFullScreen();
-			} else if ( self.container.webkitRequestFullscreen ) {
-				self.container.webkitRequestFullscreen();
 			}
 		},
 

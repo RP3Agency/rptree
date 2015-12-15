@@ -267,6 +267,7 @@ RPYeti.config = {
 		{ type: 'Sound', name: 'tree_hit', file: 'thump.mp3' },
 		{ type: 'Sound', name: 'snow_hit', file: 'tink.mp3' },
 		{ type: 'Sound', name: 'player_hit', file: 'smack.mp3' },
+		{ type: 'Sound', name: 'wilhelm', file: 'wilhelm.mp3' },
 
 		// game music
 		{ type: 'Sound', name: 'music_bells', file: 'music-tree-selection.mp3' },

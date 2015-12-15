@@ -1,38 +1,46 @@
+$tweet-colors: (
+	#cdeef4,
+	#d6f5fc,
+	#c1f0fa
+);
+
+$tweet-text: #839095;
+
 .tweets {
-	display: none;
-/*
-	margin: 0 auto;
-	max-width: em(1830px, $default-font-size);
 
-	@include breakpoint(1830px) {
-		max-width: em(1600px);
-	}
-*/
 	.tweet {
-		@extend %roboto-light;
-		color: get-color('black');
-		margin-bottom: rem(35px);
-		width: 100%;
+		color: $tweet-text;
+		font-family: "Roboto", sans-serif;
+		font-size: rem(10px);
+		font-weight: $font-weight--regular;
+		margin: 0 auto rem(35px);
+		max-width: rem(640px);
+		width: 90%;
 
-/*
-		@include breakpoint($breakpoint-sm) {
-			width: 48%
-		}
-
-		@include breakpoint($breakpoint-lg) {
-			width: 23.5%;
-		}
-*/
 		a {
 			text-decoration: none;
 		}
 
 		&__container {
 			background-color: get-color('white');
-			border: 1px solid get-color('gray');
-			border-radius: 8px 8px 0 0;
+			line-height: 2;
+			margin-bottom: 1rem;
 			overflow: hidden;
-			padding: rem(31px) percentage(57px / 689px);
+			padding: 1rem 2rem;
+
+			@for $i from 1 through 3 {
+				&:nth-of-type(#{$i}n) {
+					background-color: nth($tweet-colors, $i);
+				}
+			}
+
+			@include breakpoint( 480px ) {
+				width: span( 6 of 12 );
+			}
+
+			@include breakpoint( 640px ) {
+				width: span( 4 of 12 );
+			}
 		}
 
 		&__avatar {
@@ -40,7 +48,6 @@
 		}
 
 		&__handle {
-			@extend %roboto-light;
 			color: get-color('blue--brand');
 			display: block;
 			font-size: em(16px);
@@ -54,11 +61,6 @@
 		&__timestamp {
 			color: get-color('gray');
 			font-size: em(13px);
-		}
-
-		&__footer {
-			background-color: get-color('blue--dark');
-			height: rem(15px);
 		}
 	}
 

@@ -284,7 +284,15 @@ RPYeti.controls = (function() {
 						self.code = [];
 						switch( action ) {
 							case 'KONAMI':
-								self.game.gameplay.start(1000, true);
+								self.game.gameplay.start(1000, false);
+								setTimeout(function() {
+									self.game.hud.addText('ALL YOUR YETI\nARE BELONG TO US!!');
+									var wilhelm = new THREE.Audio( self.game.listener );
+									wilhelm.setBuffer( RPYeti.loader.sounds.wilhelm );
+									wilhelm.setVolume( RPYeti.config.audio.pointblankVolume );
+									self.game.listener.add( wilhelm );
+									wilhelm.play();
+								}, 275);
 								break;
 							case 'STARFOXZ':
 								var barrelRollTween = new TWEEN.Tween({ angle: self.camera.rotation.z })

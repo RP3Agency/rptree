@@ -1,38 +1,69 @@
+$tweet-colors: (
+	#cdeef4,
+	#d6f5fc,
+	#c1f0fa
+);
+
+$tweet-text: #839095;
+
 .tweets {
 	display: none;
-/*
-	margin: 0 auto;
-	max-width: em(1830px, $default-font-size);
+	margin: 0 auto rem(35px);
+	width: 320px;
 
-	@include breakpoint(1830px) {
-		max-width: em(1600px);
+	@include breakpoint(480px) {
+		width: 480px;
 	}
-*/
+
+	@include breakpoint(640px) {
+		width: 640px;
+	}
+
 	.tweet {
-		@extend %roboto-light;
-		color: get-color('black');
-		margin-bottom: rem(35px);
+		color: $tweet-text;
+		font-family: "Roboto", sans-serif;
+		font-size: rem(10px);
+		font-weight: $font-weight--regular;
+		margin-bottom: 1rem;
+		padding: 1rem 2rem;
 		width: 100%;
 
-/*
-		@include breakpoint($breakpoint-sm) {
-			width: 48%
+		@for $i from 1 through 3 {
+			&.color-#{$i} {
+				background-color: nth($tweet-colors, $i);
+			}
 		}
 
-		@include breakpoint($breakpoint-lg) {
-			width: 23.5%;
+		@include breakpoint( 480px ) {
+			width: 230px;
 		}
-*/
+
+		@include breakpoint( 640px ) {
+			width: 200px;
+		}
+
+		// @include breakpoint( 640px ) {
+		// 	// margin-right: gutter();
+		// 	// width: 30%;
+
+		// 	&:nth-of-type(2n) {
+		// 		// margin-right: gutter( 12 );
+		// 	}
+
+		// 	&:nth-of-type(3n) {
+		// 		// margin-right: 0;
+		// 	}
+		// }
+
 		a {
+			color: get-color('blue--brand');
 			text-decoration: none;
 		}
 
 		&__container {
-			background-color: get-color('white');
-			border: 1px solid get-color('gray');
-			border-radius: 8px 8px 0 0;
+			line-height: 2;
+			margin-bottom: 1rem;
 			overflow: hidden;
-			padding: rem(31px) percentage(57px / 689px);
 		}
 
 		&__avatar {
@@ -40,7 +71,6 @@
 		}
 
 		&__handle {
-			@extend %roboto-light;
 			color: get-color('blue--brand');
 			display: block;
 			font-size: em(16px);
@@ -55,11 +85,9 @@
 			color: get-color('gray');
 			font-size: em(13px);
 		}
-
-		&__footer {
-			background-color: get-color('blue--dark');
-			height: rem(15px);
-		}
 	}
 
+	.masonry-gutter {
+		width: gutter();
+	}
 }

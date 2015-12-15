@@ -57,7 +57,7 @@ rptree.backbone = (function($, _, Backbone) {
 		initialize: function() {
 			_.bindAll(this, 'checkScroll', 'refresh');
 			//$(window).scroll(this.checkScroll);
-			this.timer = setInterval(this.refresh, 15000);
+			// this.timer = setInterval(this.refresh, 15000);
 			this.isLoading = false;
 			this.isAppending = false;
 			this.tweetsCollection = new TweetsCollection();

@@ -128,93 +128,34 @@
 
 			</div>
 
-			<section id="tweets" class="tweets">
-
-
-				<div class="tweet">
-
-					<div class="tweet__container">
-
-						<p><img src="[[= tweet.get('profileImage') ]]" class="tweet__avatar"></p>
-
-						<p><a href="https://twitter.com/taupecat" class="tweet__handle">@taupecat</a></p>
-
-						<p class="tweet__content">It seems like every project we launch at @RP3Agency is crazier than the last. Just wait until our next announcement… #VRP3 #RPTree</p>
-
-						<span class="tweet__timestamp" id="tweet__timestamp" data-livestamp="[[= tweet.get('timestamp') ]]">2 Hours Ago</span>
-
-					</div>
-
-					<div class="tweet__container">
-
-						<p><img src="[[= tweet.get('profileImage') ]]" class="tweet__avatar"></p>
-
-						<p><a href="https://twitter.com/RPYeti" class="tweet__handle">@RPYet</a></p>
-
-						<p class="tweet__content">Picking out an outfit for the #RPTree holiday party. @ RP3 Agency instagram.com/p/-SHKgYq-UO/</p>
-
-						<span class="tweet__timestamp" id="tweet__timestamp" data-livestamp="[[= tweet.get('timestamp') ]]">2 Hours Ago</span>
-
-					</div>
-
-					<div class="tweet__container">
-
-						<p><img src="[[= tweet.get('profileImage') ]]" class="tweet__avatar"></p>
-
-						<p><a href="https://twitter.com/RPYeti" class="tweet__handle">@RPYeti</a></p>
-
-						<p class="tweet__content">I'm thankful for snowballs. #RPTree #VRP3 #thanksgiving</p>
-
-						<span class="tweet__timestamp" id="tweet__timestamp" data-livestamp="[[= tweet.get('timestamp') ]]">2 Hours Ago</span>
-
-					</div>
-
-					<div class="tweet__container">
-
-						<p><img src="[[= tweet.get('profileImage') ]]" class="tweet__avatar"></p>
-
-						<p><a href="https://twitter.com/kurtroberts" class="tweet__handle">@kurtroberts</a></p>
-
-						<p class="tweet__content">#releasetheyetis! #RPTree</p>
-
-						<span class="tweet__timestamp" id="tweet__timestamp" data-livestamp="[[= tweet.get('timestamp') ]]">2 Hours Ago</span>
-
-					</div>
-
-				</div>
-
-
-
-			</section>
-			<!-- // #tweets -->
-
-			<script type="text/template" id="tweet-template">
-			[[ _.each(tweets, function(tweet) { ]]
-				<div class="tweet">
-
-					<div class="tweet__container">
-
-						<img src="[[= tweet.get('profileImage') ]]" class="tweet__avatar">
-
-						<a href="https://twitter.com/[[= tweet.get('user') ]]" class="tweet__handle">@[[= tweet.get('user') ]]</a>
-
-						<p class="tweet__content">[[= tweet.get('text') ]]</p>
-
-						<span class="tweet__timestamp" id="tweet__timestamp" data-livestamp="[[= tweet.get('timestamp') ]]">[[= tweet.get('timestamp') ]]</span>
-
-					</div>
-
-					<div class="tweet__footer"></div>
-
-				</div>
-				<!-- // .tweet -->
-			[[ }); ]]
-			</script>
-
 			<button id="instructions-arrow" class="instructions-arrow">More About Google Cardboard <i class="fa fa-chevron-down"></i></button>
 
 		</div>
 		<!-- // intro -->
+
+		<section id="tweets" class="tweets"></section>
+		<!-- // #tweets -->
+
+		<script type="text/template" id="tweet-template">
+		[[ _.each(tweets, function(tweet) { ]]
+			<div class="tweet color-[[= tweet.get('i') ]]">
+
+				<div class="tweet__container">
+
+					<img src="[[= tweet.get('profileImage') ]]" class="tweet__avatar">
+
+					<a href="https://twitter.com/[[= tweet.get('user') ]]" class="tweet__handle">@[[= tweet.get('user') ]]</a>
+
+					<p class="tweet__content">[[= tweet.get('text') ]]</p>
+
+					<span class="tweet__timestamp" id="tweet__timestamp" data-livestamp="[[= tweet.get('timestamp') ]]">[[= tweet.get('timestamp') ]]</span>
+
+				</div>
+
+			</div>
+			<!-- // .tweet -->
+		[[ }); ]]
+		</script>
 
 
 		<section class="partners">

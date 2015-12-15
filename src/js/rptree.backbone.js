@@ -25,7 +25,11 @@ rptree.backbone = (function($, _, Backbone) {
 	 */
 
 	/** Tweet model */
-	TweetModel = Backbone.Model.extend(),
+	TweetModel = Backbone.Model.extend({
+		defaults: {
+			"i": 0
+		}
+	}),
 
 	/** Tweets Collection */
 	TweetsCollection = Backbone.Collection.extend({
@@ -53,7 +57,7 @@ rptree.backbone = (function($, _, Backbone) {
 		initialize: function() {
 			_.bindAll(this, 'checkScroll', 'refresh');
 			//$(window).scroll(this.checkScroll);
-			this.timer = setInterval(this.refresh, 5000);
+			this.timer = setInterval(this.refresh, 15000);
 			this.isLoading = false;
 			this.isAppending = false;
 			this.tweetsCollection = new TweetsCollection();
@@ -77,6 +81,12 @@ rptree.backbone = (function($, _, Backbone) {
 			}
 			this.tweetsCollection.fetch({
 				success: function(tweets) {
+
+					tweets.each( function( tweet ) {
+						tweet.attributes.i = Math.floor(Math.random() * (3 - 1 + 1)) + 1;
+						tweet.attributes.timestamp = moment( tweet.attributes.timestamp ).fromNow();
+					});
+
 					var content = $( tweetTemplate({ tweets: tweets.models }) );
 
 					if ( screen && tweets.models.length) {
@@ -94,6 +104,8 @@ rptree.backbone = (function($, _, Backbone) {
 							that.$el.masonry({
 								columnWidth: '.tweet',
 								itemSelector: '.tweet',
+								transitionDuration: 0,
+								gutter: 20
 							});
 							that.isAppending = true;
 						}
@@ -101,7 +113,6 @@ rptree.backbone = (function($, _, Backbone) {
 					that.$el.imagesLoaded(function() {
 						that.$el.masonry();
 					});
-					$.livestamp('update');
 
 					var those = that.tweetsCollection;
 					if(tweets.models.length) {

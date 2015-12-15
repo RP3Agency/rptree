@@ -7,40 +7,62 @@ $tweet-colors: (
 $tweet-text: #839095;
 
 .tweets {
+	margin: 0 auto rem(35px);
+	width: 320px;
+
+	@include breakpoint(480px) {
+		width: 480px;
+	}
+
+	@include breakpoint(640px) {
+		width: 640px;
+	}
 
 	.tweet {
 		color: $tweet-text;
 		font-family: "Roboto", sans-serif;
 		font-size: rem(10px);
 		font-weight: $font-weight--regular;
-		margin: 0 auto rem(35px);
-		max-width: rem(640px);
-		width: 90%;
+		margin-bottom: 1rem;
+		padding: 1rem 2rem;
+		width: 100%;
+
+		@for $i from 1 through 3 {
+			&.color-#{$i} {
+				background-color: nth($tweet-colors, $i);
+			}
+		}
+
+		@include breakpoint( 480px ) {
+			width: 230px;
+		}
+
+		@include breakpoint( 640px ) {
+			width: 200px;
+		}
+
+		// @include breakpoint( 640px ) {
+		// 	// margin-right: gutter();
+		// 	// width: 30%;
+
+		// 	&:nth-of-type(2n) {
+		// 		// margin-right: gutter( 12 );
+		// 	}
+
+		// 	&:nth-of-type(3n) {
+		// 		// margin-right: 0;
+		// 	}
+		// }
 
 		a {
+			color: get-color('blue--brand');
 			text-decoration: none;
 		}
 
 		&__container {
-			background-color: get-color('white');
 			line-height: 2;
 			margin-bottom: 1rem;
 			overflow: hidden;
-			padding: 1rem 2rem;
-
-			@for $i from 1 through 3 {
-				&:nth-of-type(#{$i}n) {
-					background-color: nth($tweet-colors, $i);
-				}
-			}
-
-			@include breakpoint( 480px ) {
-				width: span( 6 of 12 );
-			}
-
-			@include breakpoint( 640px ) {
-				width: span( 4 of 12 );
-			}
 		}
 
 		&__avatar {
@@ -64,4 +86,7 @@ $tweet-text: #839095;
 		}
 	}
 
+	.masonry-gutter {
+		width: gutter();
+	}
 }

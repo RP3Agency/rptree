@@ -4,7 +4,7 @@ RPYeti.controls = (function() {
 	var self;
 
 	var PI_2 = Math.PI / 2.0,
-		TYPE = { DEFAULT: 0, POINTERLOCK: 1, ORIENTATION: 2 },
+		TYPE = { DEFAULT: 0, MOUSELOOK: 1, POINTERLOCK: 2, ORIENTATION: 3 },
 		ACTION = { FIRE: 'isFiring', MOVEUP: 'isLookUp', MOVEDOWN: 'isLookDown', MOVELEFT: 'isPanLeft', MOVERIGHT: 'isPanRight', HALFSPEED: 'isHalfSpeed' };
 
 	return {
@@ -15,10 +15,10 @@ RPYeti.controls = (function() {
 		keyMap: {},
 		controlType: TYPE.DEFAULT,
 		publisher: $(document),
+		dialog: {},
 
 		yawGimbal: new THREE.Object3D(),
 		pitchGimbal: new THREE.Object3D(),
-
 
 		/** Constructor **/
 
@@ -53,10 +53,10 @@ RPYeti.controls = (function() {
 			// initialize control schemes
 			this.initOrientation();
 			this.initPointerLock();
-			this.initMouseLook();
 			this.initMouseFire();
 			this.initKeys();
 			this.initTouch();
+			this.initMouseLook();
 
 			return this;
 		},
@@ -87,9 +87,9 @@ RPYeti.controls = (function() {
 		},
 
 		initMouseLook: function() {
-			if( self.controlType != TYPE.ORIENTATION ) {
+			if( self.controlType == TYPE.MOUSELOOK ) {
 				document.addEventListener('mousemove', _.debounce(function( event ) {
-					if( self.controlType != TYPE.DEFAULT ) {
+					if( self.controlType != TYPE.MOUSELOOK ) {
 						return;
 					}
 					self.state.isPanLeft = self.state.isPanRight = false;
@@ -169,7 +169,10 @@ RPYeti.controls = (function() {
 
 		initPointerLock: function() {
 			var pointerLock = 'pointerLockElement' in document || 'mozPointerLockElement' in document || 'webkitPointerLockElement' in document;
-			if( self.controlType == TYPE.ORIENTATION || ! pointerLock ) {
+			if( self.controlType == TYPE.ORIENTATION ) {
+				return;
+			} else if ( ! pointerLock ) {
+				self.controlType = TYPE.MOUSELOOK;
 				return;
 			}
 			var element = document.body,
@@ -178,11 +181,32 @@ RPYeti.controls = (function() {
 
 			document.addEventListener( prefix + 'change', function( event ) {
 				if ( element === ( document.pointerLockElement || document.mozPointerLockElement || document.webkitPointerLockElement ) ) {
+console.log('pointer lock enabled');
 					self.controlType = TYPE.POINTERLOCK;
 					self.state.isPanLeft = self.state.isPanRight = false;
 					self.state.isLookUp = self.state.isLookDown = false;
+					if( self.dialog.resume ) {
+						self.dialog.resume.dismiss();
+						self.dialog.resume = null;
+					}
 				} else {
+console.log('pointer lock disabled');
 					self.controlType = TYPE.DEFAULT;
+					if( ! self.isHooked ) {
+						self.dialog.resume = new RPYeti.Dialog(self, self.camera, self.game.stereo);
+						self.dialog.resume.show( RPYeti.config.text.dialog.resumePlay, function() {
+							if( self.controlType == TYPE.DEFAULT ) {
+console.log('attempting pointer lock');
+								self.initFullscreen( function() {
+									if( document.fullscreenEnabled || document.mozFullScreenEnabled || document.webkitFullscreenEnabled ) {
+										element.requestPointerLock();
+									} else {
+										self.controlType = TYPE.DEFAULT;
+									}
+								});
+							}
+						});
+					}
 				}
 			});
 
@@ -198,13 +222,34 @@ RPYeti.controls = (function() {
 			});
 
 			document.addEventListener( prefix + 'error', function( event ) {
-				console.log( 'pointerlock error ', event);
+				self.controlType = TYPE.DEFAULT;
 			});
-			this.publisher.on('dblclick', function() {
-				if( self.controlType != TYPE.POINTERLOCK ) {
+
+			self.initFullscreen( function() {
+				if( document.fullscreenEnabled || document.mozFullScreenEnabled || document.webkitFullscreenEnabled ) {
 					element.requestPointerLock();
 				}
 			});
+		},
+
+		initFullscreen: function(cb) {
+			var element = self.game.container || document.body;
+			if ( element.requestFullscreen ) {
+				element.requestFullscreen();
+			} else if ( element.msRequestFullscreen ) {
+				element.msRequestFullscreen();
+			} else if ( element.mozRequestFullScreen ) {
+				element.mozRequestFullScreen();
+			} else if ( element.webkitRequestFullscreen ) {
+				element.webkitRequestFullscreen();
+			}
+			$(document).on('webkitfullscreenerror mozfullscreenerror fullscreenerror', function( event ) {
+				console.log( 'fullscreen error ', event );
+				self.controlType = TYPE.MOUSELOOK;
+			});
+			if( cb ) {
+				$(document).on('webkitfullscreenchange mozfullscreenchange fullscreenchange', cb);
+			}
 		},
 
 		initOrientation: function() {

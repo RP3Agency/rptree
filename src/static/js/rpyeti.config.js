@@ -60,11 +60,14 @@ RPYeti.config = {
 				'Throw snowballs to hit\nYetis before they hit you.\n\nThe more you hit,\nthe higher your score.'
 			],
 			desktopHelp: [
-				'The first snowball you\nthrow determines where\nyour donation goes.\n\nDouble-click to start.\nUse your mouse\nto aim at a logo.\nClick to fire away.'
+				'The first snowball you\nthrow determines where\nyour donation goes.\n\nClick to start.\nUse your mouse\nto aim at a logo.\nClick to fire away.'
 			],
 			vrHelp: [
 				'The first snowball you\nthrow determines where\nyour donation goes.\n\nMove viewer to aim at\na logo. Press top right\ntrigger to fire away.',
-			]
+			],
+			resumePlay: [
+				'Click the window to\ncontinue playing.'
+			],
 		}
 	},
 

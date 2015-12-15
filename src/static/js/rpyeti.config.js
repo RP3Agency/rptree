@@ -156,13 +156,13 @@ RPYeti.config = {
 	gameplay: {
 		baseline: {
 			popTimer: {
-				min: 2000,
-				max: 7500
+				min: 1500,
+				max: 5000
 			},
 			yeti: {
 				appearDelay: {
-					min: 3000,
-					max: 7000
+					min: 1000,
+					max: 6000
 				},
 				throwCount: {
 					min: 1,
@@ -172,33 +172,58 @@ RPYeti.config = {
 					min: 1500,
 					max: 3000
 				},
-				health: 5,
+				health: 4.5,
 				points: 1,
 				total: 10,
 				maxOnScreen: 2,
 			}
 		},
 
+		limits: {
+			popTimer: {
+				min: 300,
+				max: 750,
+			},
+			yeti: {
+				appearDelay: {
+					min: 500,
+					max: 1000,
+				},
+				throwCount: {
+					min: function (x) { return Math.min( x, 5 ); },
+					max: function (x) { return Math.min( x, 10 ); },
+				},
+				throwDelay: {
+					min: 100,
+					max: 500
+				},
+				health: function (x) { return Math.min( x, 20 ); },
+				points: 1,
+				total: function (x) { return Math.min( x, 100 ); },
+				maxOnScreen: function (x) { return Math.min( x, 50 ); },
+			}
+		},
+
 		modifiers: {
 			popTimer: {
-				min: function (level) { return -(level * 150); },
-				max: function (level) { return -(level * 65); }
+				min: function (level) { return -(level * 200); },
+				max: function (level) { return -(level * 75); },
 			},
 			yeti: {
 				appearDelay: {
 					min: function (level) { return -(level * 150); },
-					max: function (level) { return -(level * 25); }
+					max: function (level) { return -(level * 25); },
 				},
 				throwCount: {
 					min: function (level) { return Math.floor(level * 0.01); },
-					max: function (level) { return Math.floor(level * 0.15); }
+					max: function (level) { return Math.floor(level * 0.15); },
 				},
 				throwDelay: {
-					min: function (level) { return -(level * 45); },
-					max: function (level) { return -(level * 30); }
+					min: function (level) { return -(level * 40); },
+					max: function (level) { return -(level * 20); },
 				},
 				health: function (level) { return Math.floor(level * 0.5); },
-				total: function (level) { return Math.floor(level * 0.45); },
+				total: function (level) { return Math.floor(level * 0.4); },
 				maxOnScreen: function (level) { return Math.floor(level * .2); },
 			}
 		}

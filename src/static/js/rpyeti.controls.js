@@ -237,12 +237,14 @@ RPYeti.controls = (function() {
 				self.controls.update( delta );
 			}
 
-			var dx = RPYeti.config.controls.keySpeed.x * delta * ( ( self.state.isHalfSpeed || self.state.isHalfLook ) ? 0.5 : 1 ) * ( ( self.state.isLookUp ? 1 : 0 ) + ( self.state.isLookDown ? -1 : 0 ) ),
-				dy = RPYeti.config.controls.keySpeed.y * delta * ( ( self.state.isHalfSpeed || self.state.isHalfPan ) ? 0.5 : 1 ) * ( ( self.state.isPanLeft ? 1 : 0 ) + ( self.state.isPanRight ? -1 : 0 ) );
+			if( ! self.isHooked ) {
+				var dx = RPYeti.config.controls.keySpeed.x * delta * ( ( self.state.isHalfSpeed || self.state.isHalfLook ) ? 0.5 : 1 ) * ( ( self.state.isLookUp ? 1 : 0 ) + ( self.state.isLookDown ? -1 : 0 ) ),
+					dy = RPYeti.config.controls.keySpeed.y * delta * ( ( self.state.isHalfSpeed || self.state.isHalfPan ) ? 0.5 : 1 ) * ( ( self.state.isPanLeft ? 1 : 0 ) + ( self.state.isPanRight ? -1 : 0 ) );
 
-			self.yawGimbal.rotation.y += dy;
-			self.pitchGimbal.rotation.x += dx;
-			self.pitchGimbal.rotation.x = Math.max( - PI_2, Math.min( PI_2, self.pitchGimbal.rotation.x ) );
+				self.yawGimbal.rotation.y += dy;
+				self.pitchGimbal.rotation.x += dx;
+				self.pitchGimbal.rotation.x = Math.max( - PI_2, Math.min( PI_2, self.pitchGimbal.rotation.x ) );
+			}
 		},
 
 		getDirection: function() {

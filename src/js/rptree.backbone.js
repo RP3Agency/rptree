@@ -39,7 +39,7 @@ rptree.backbone = (function($, _, Backbone) {
 		url: function() {
 			var url = location.protocol + '//' + location.host + '/feed',
 			    params = {
-                    limit: 20,
+                    limit: 18,
                 };
             if( this.isUpdating ) {
                 params.since = this.firstTweetID;
@@ -101,17 +101,17 @@ rptree.backbone = (function($, _, Backbone) {
 						if(that.isAppending) {
 							that.$el.masonry('appended', content);
 						} else {
-							that.$el.masonry({
-								columnWidth: '.tweet',
-								itemSelector: '.tweet',
-								transitionDuration: 0,
-								gutter: 20
-							});
+							// that.$el.masonry({
+							// 	columnWidth: '.tweet',
+							// 	itemSelector: '.tweet',
+							// 	transitionDuration: 0,
+							// 	gutter: 20
+							// });
 							that.isAppending = true;
 						}
 					}
 					that.$el.imagesLoaded(function() {
-						that.$el.masonry();
+						// that.$el.masonry();
 					});
 
 					var those = that.tweetsCollection;

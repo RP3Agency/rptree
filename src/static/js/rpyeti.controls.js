@@ -80,7 +80,7 @@ RPYeti.controls = (function() {
 							self.dialog.resume = null;
 						});
 					}
-										
+
 					self.state[ ACTION[ self.keyMap[ e.keyCode ] ] ] = false;
 
 					if( self.isHooked && self.keyMap[ e.keyCode ] == 'FIRE' ) {
@@ -171,6 +171,9 @@ RPYeti.controls = (function() {
 			document.addEventListener( prefix + 'change', function( event ) {
 				if ( element === ( document.pointerLockElement || document.mozPointerLockElement || document.webkitPointerLockElement ) ) {
 					self.controlType = TYPE.POINTERLOCK;
+					if( ! ( document.fullscreenEnabled || document.mozFullScreenEnabled || document.webkitFullscreenEnabled ) ) {
+						self.initFullscreen();
+					}
 					self.state.isPanLeft = self.state.isPanRight = false;
 					self.state.isLookUp = self.state.isLookDown = false;
 					if( self.dialog.resume ) {
@@ -183,13 +186,7 @@ RPYeti.controls = (function() {
 						self.dialog.resume = new RPYeti.Dialog(self, self.camera, self.game.stereo);
 						self.dialog.resume.show( RPYeti.config.text.dialog.resumePlay, function() {
 							if( self.controlType == TYPE.DEFAULT ) {
-								self.initFullscreen( function() {
-									if( document.fullscreenEnabled || document.mozFullScreenEnabled || document.webkitFullscreenEnabled ) {
-										element.requestPointerLock();
-									} else {
-										self.controlType = TYPE.DEFAULT;
-									}
-								});
+								self.initScreenLock();
 							}
 						});
 					}
@@ -211,11 +208,8 @@ RPYeti.controls = (function() {
 				self.controlType = TYPE.DEFAULT;
 			});
 
-			self.initFullscreen( function() {
-				if( document.fullscreenEnabled || document.mozFullScreenEnabled || document.webkitFullscreenEnabled ) {
-					element.requestPointerLock();
-				}
-			});
+			self.initScreenLock();
+
 		},
 
 		initFullscreen: function(cb) {
@@ -229,13 +223,21 @@ RPYeti.controls = (function() {
 			} else if ( element.webkitRequestFullscreen ) {
 				element.webkitRequestFullscreen();
 			}
-			$(document).on('webkitfullscreenerror mozfullscreenerror fullscreenerror', function( event ) {
-				console.log( 'fullscreen error ', event );
+			$(document).on('fullscreenerror webkitfullscreenerror mozfullscreenerror ', function( event ) {
 				self.controlType = TYPE.MOUSELOOK;
 			});
 			if( cb ) {
-				$(document).on('webkitfullscreenchange mozfullscreenchange fullscreenchange', cb);
+				$(document).on('fullscreenchange webkitfullscreenchange mozfullscreenchange', cb);
 			}
+		},
+
+		initScreenLock: function() {
+			self.initFullscreen(function() {
+				if( self.controlType != TYPE.POINTERLOCK && document.fullscreenEnabled || document.mozFullScreenEnabled || document.webkitFullscreenEnabled ) {
+					document.body.requestPointerLock();
+				}
+			});
+			document.body.requestPointerLock();
 		},
 
 		initOrientation: function() {

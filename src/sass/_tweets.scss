@@ -7,7 +7,9 @@ $tweet-colors: (
 $tweet-text: #839095;
 
 .tweets {
-	display: none;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
 	margin: 0 auto rem(35px);
 	width: 320px;
 

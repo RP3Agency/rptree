@@ -172,6 +172,7 @@
 				span {
 					display: block;
 					font-weight: $font-weight--regular;
+					line-height: 1.2;
 					margin-top: 0.5em;
 					text-transform: none;
 					white-space: normal;
@@ -207,9 +208,10 @@
 
 		p {
 			font-family: "Roboto", sans-serif;
-			font-size: 14px;
-			font-style: italic;
-			font-weight: $font-weight--black;
+			font-size: rem(16px);
+			font-weight: $font-weight--regular;
+			margin: 1.5rem 0;
+			padding: 0 1rem;
 
 			.blue {
 				display: block;

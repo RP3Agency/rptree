@@ -1,4 +1,4 @@
-// * global rptree:true */
+/* global rptree:true, moment:false */
 
 // Define our "rptree" object, if not already defined
 if ( rptree === undefined ) { var rptree = {}; }

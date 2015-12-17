@@ -169,6 +169,9 @@ RPYeti.controls = (function() {
 			element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;
 
 			document.addEventListener( prefix + 'change', function( event ) {
+				if( self.controlType == TYPE.ORIENTATION ) {
+					return;
+				}
 				if ( element === ( document.pointerLockElement || document.mozPointerLockElement || document.webkitPointerLockElement ) ) {
 					self.controlType = TYPE.POINTERLOCK;
 					if( ! ( document.fullscreenEnabled || document.mozFullScreenEnabled || document.webkitFullscreenEnabled ) ) {
@@ -205,7 +208,9 @@ RPYeti.controls = (function() {
 			});
 
 			document.addEventListener( prefix + 'error', function( event ) {
-				self.controlType = TYPE.DEFAULT;
+				if( self.controlType != TYPE.ORIENTATION ) {
+					self.controlType = TYPE.DEFAULT;
+				}
 			});
 
 			self.initScreenLock();
@@ -224,7 +229,9 @@ RPYeti.controls = (function() {
 				element.webkitRequestFullscreen();
 			}
 			$(document).on('fullscreenerror webkitfullscreenerror mozfullscreenerror ', function( event ) {
-				self.controlType = TYPE.MOUSELOOK;
+				if( self.controlType != TYPE.ORIENTATION ) {
+					self.controlType = TYPE.MOUSELOOK;
+				}
 			});
 			if( cb ) {
 				$(document).on('fullscreenchange webkitfullscreenchange mozfullscreenchange', cb);
@@ -251,16 +258,18 @@ RPYeti.controls = (function() {
 				if( self.controls ) {
 					self.controls.dispose();
 				}
-				// reset camera mount rotation
-				self.camera.rotation.set( 0, 0, 0 );
-				self.yawGimbal.rotation.set( 0, 0, 0 );
-				self.pitchGimbal.rotation.set( 0, 0, 0 );
+				// unmount camera and add directly to scene
+				self.game.scene.remove( self.yawGimbal );
+				self.pitchGimbal.remove( self.camera );
+				self.game.scene.add( self.camera );
+				self.camera.position.y = RPYeti.config.camera.height;
+				self.camera.rotation.y = RPYeti.config.camera.yaw;
 
-				self.controls = new THREE.DeviceOrientationControls( self.yawGimbal, true );
+				self.controls = new THREE.DeviceOrientationControls( self.camera, true );
 				self.controls.connect();
 				self.controls.update();
 
-				self.element.addEventListener('click', self.game.fullscreen, false);
+				//self.element.addEventListener('click', self.initFullscreen, false);
 			}
 			window.addEventListener('deviceorientation', setOrientationControls, true);
 		},
@@ -270,7 +279,7 @@ RPYeti.controls = (function() {
 				self.controls.update( delta );
 			}
 
-			if( ! self.isHooked ) {
+			if( self.controlType != TYPE.ORIENTATION && ! self.isHooked ) {
 				var dx = RPYeti.config.controls.keySpeed.x * delta * ( ( self.state.isHalfSpeed || self.state.isHalfLook ) ? 0.5 : 1 ) * ( ( self.state.isLookUp ? 1 : 0 ) + ( self.state.isLookDown ? -1 : 0 ) ),
 					dy = RPYeti.config.controls.keySpeed.y * delta * ( ( self.state.isHalfSpeed || self.state.isHalfPan ) ? 0.5 : 1 ) * ( ( self.state.isPanLeft ? 1 : 0 ) + ( self.state.isPanRight ? -1 : 0 ) );
 
@@ -291,10 +300,6 @@ RPYeti.controls = (function() {
 			rotation.set( self.pitchGimbal.rotation.x, self.yawGimbal.rotation.y, 0 );
 		    vector.copy( direction ).applyEuler( rotation )
 		    return vector;
-		},
-
-		getCamera: function() {
-			return self.yawGimbal;
 		},
 
 		setHook: function (hook) {

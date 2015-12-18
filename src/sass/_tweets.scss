@@ -25,7 +25,7 @@ $tweet-text: #839095;
 	.tweet {
 		color: $tweet-text;
 		font-family: "Roboto", sans-serif;
-		font-size: rem(10px);
+		font-size: rem(14px);
 		font-weight: $font-weight--regular;
 		margin-bottom: 1rem;
 		padding: 1rem 2rem;
@@ -45,26 +45,13 @@ $tweet-text: #839095;
 			width: 200px;
 		}
 
-		// @include breakpoint( 640px ) {
-		// 	// margin-right: gutter();
-		// 	// width: 30%;
-
-		// 	&:nth-of-type(2n) {
-		// 		// margin-right: gutter( 12 );
-		// 	}
-
-		// 	&:nth-of-type(3n) {
-		// 		// margin-right: 0;
-		// 	}
-		// }
-
 		a {
 			color: get-color('blue--brand');
 			text-decoration: none;
 		}
 
 		&__container {
-			line-height: 2;
+			line-height: 1.5;
 			margin-bottom: 1rem;
 			overflow: hidden;
 		}
@@ -88,9 +75,5 @@ $tweet-text: #839095;
 			color: get-color('gray');
 			font-size: em(13px);
 		}
-	}
-
-	.masonry-gutter {
-		width: gutter();
 	}
 }

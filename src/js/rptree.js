@@ -38,6 +38,11 @@ var rptree = (function($) {
 
 			if ( Cookies !== undefined) {
 				var cookies = Cookies.getJSON('rp3.rptree');
+
+				if ( typeof( cookies ) === 'undefined' || typeof( cookies.player ) === 'undefined' || typeof( cookies.player.charity ) === 'undefined' ) {
+					location.href = '/';
+				}
+
 				if ( cookies.player.lastScore !== undefined ) {
 					$('.score').html(cookies.player.lastScore);
 					var childrens = '%40childrenshealth',

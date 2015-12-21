@@ -34,6 +34,52 @@
 		display: flex;
 		justify-content: center;
 	}
+
+	.rptree-credits {
+		color: get-color( "white" );
+		background-color: #9C9C9C;
+		position: absolute;
+		margin-top: 8em;
+		padding-bottom: 3em;
+		left: 0;
+		right: 0;
+
+		&-wrapper {
+			margin: 0 auto;
+			max-width: 1020px;
+			@include breakpoint( 640px ) {
+				column-count: 3;
+			}
+		}
+
+		&-category {
+			margin-bottom: 0.25em;
+
+			//the following is hacky
+			&:first-of-type {
+				@include breakpoint( 640px ) {
+					margin-top: 0;
+				}
+			}
+			&.orange {
+				@include breakpoint( 640px ) {
+					margin-top: 2em;
+				}
+			}
+		}
+
+		&-name {
+			font-family: "Roboto", sans-serif;
+			margin: 0;
+
+			//the following is  hacky
+			@include breakpoint( 640px ) {
+				&.apple {
+					margin-bottom: 7em;
+				}
+			}
+		}
+	}
 }
 
 .leaderboard__stats-banner {

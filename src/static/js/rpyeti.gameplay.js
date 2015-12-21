@@ -175,7 +175,10 @@ RPYeti.Gameplay.prototype.startIntro = function () {
 			position.x += 10;
 			position.z -= 15;
 			setTimeout(function () {
-				self.spawnYeti(self.intro, position, undefined, 1.85, 9001, 0);
+				var yeti = self.spawnYeti(self.intro, position, undefined, 1.85, 9001, 0);
+
+				// Disable hit animation
+				yeti.hit = function () {}
 			});
 		})(this, tree.position.clone());
 	}

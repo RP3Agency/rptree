@@ -15,32 +15,27 @@ RPYeti.Yeti = function (group, health, points) {
 
 	this.pivot.userData.character = this;
 
-	this.model = RPYeti.loader.models.yeti.clone();
-	this.model.userData.character = this;
-	this.model.name = 'yeti model';
+	this.model = {
+		normal: RPYeti.loader.models.yeti.clone(),
+		prethrow: RPYeti.loader.models.yeti_prethrow.clone(),
+		throw: RPYeti.loader.models.yeti_throw.clone(),
+		wince: RPYeti.loader.models.yeti_wince.clone()
+	}
 
-	this.prethrow = RPYeti.loader.models.yeti_prethrow.clone();
-	this.prethrow.userData.character = this;
-	this.prethrow.name = 'yeti prethrow'
-
-	this.throw = RPYeti.loader.models.yeti_throw.clone();
-	this.throw.userData.character = this;
-	this.throw.name = 'yeti throw'
-
-	this.pivot.add(this.model);
-	this.pivot.add(this.prethrow);
-	this.pivot.add(this.throw);
+	this.model.normal.name = 'yeti model';
+	this.model.prethrow.name = 'yeti prethrow';
+	this.model.throw.name = 'yeti throw';
+	this.model.wince.name = 'yeti wince';
 
 	(function (self) {
-		self.model.traverse(function (child) {
-			child.userData.character = self;
-		});
-		self.prethrow.traverse(function (child) {
-			child.userData.character = self;
-		});
-		self.throw.traverse(function (child) {
-			child.userData.character = self;
-		});
+		for (var i in self.model) {
+			self.model[i].userData.character = self;
+			self.pivot.add(self.model[i]);
+
+			self.model[i].traverse(function (child) {
+				child.userData.character = self;
+			});
+		}
 	})(this);
 
 	group.add(this.pivot);
@@ -51,19 +46,15 @@ RPYeti.Yeti.prototype.constructor = RPYeti.Yeti;
 
 RPYeti.Yeti.prototype.action = function () {
 	if (!this.isDefeated) {
-		this.model.visible = false;
-		this.prethrow.visible = true;
-		this.throw.visible = false;
+		this.prethrowModel();
 
 		this.setTimeout(function () {
-			this.model.visible = false;
-			this.prethrow.visible = false;
-			this.throw.visible = true;
+			this.throwModel();
 
 			RPYeti.Character.prototype.action.call( this );
 
 			this.setTimeout(function () {
-				this.resetModel();
+				this.normalModel();
 			}, 750);
 		}, 500);
 	}
@@ -71,14 +62,7 @@ RPYeti.Yeti.prototype.action = function () {
 
 RPYeti.Yeti.prototype.position = function (x, z, scale, lookAtPos) {
 	RPYeti.Character.prototype.position.call( this, x, z, scale, lookAtPos );
-
-	this.prethrow.position.x = this.xoffset;
-	this.prethrow.position.y = this.yoffset;
-
-	this.throw.position.x = this.xoffset;
-	this.throw.position.y = this.yoffset;
-
-	this.resetModel();
+	this.normalModel();
 };
 
 RPYeti.Yeti.prototype.hide = function () {
@@ -101,7 +85,7 @@ RPYeti.Yeti.prototype.appear = function () {
 
 RPYeti.Yeti.prototype.disappear = function () {
 	if (!this.isDefeated) {
-		this.resetModel();
+		this.normalModel();
 
 		(function (self) {
 			self.positionTween = new TWEEN.Tween(self.pivot.position)
@@ -116,6 +100,16 @@ RPYeti.Yeti.prototype.disappear = function () {
 };
 
 RPYeti.Yeti.prototype.hit = function (byObject) {
+	this.winceModel();
+
+	(function (self) {
+		self.setTimeout(function () {
+			if (!self.isDefeated) {
+				self.normalModel();
+			}
+		}, 750);
+	});
+
 	RPYeti.Character.prototype.hit.call( this, byObject );
 };
 
@@ -123,25 +117,58 @@ RPYeti.Yeti.prototype.defeat = function (byObject) {
 	if (!this.isDefeated) {
 		RPYeti.Character.prototype.defeat.call( this, byObject );
 
-		this.resetModel();
+		this.winceModel();
 
 		(function (self) {
-			var positionTween = new TWEEN.Tween({ rx: self.model.rotation.x, py: self.pivot.position.y })
+			var model = self.getActiveModel();
+
+			self.positionTween = new TWEEN.Tween({ rx: model.rotation.x, py: self.pivot.position.y })
 				.easing(RPYeti.config.character.yeti.defeatEasing)
 				.onUpdate(function () {
-					self.model.rotation.x = this.rx;
+					model.rotation.x = this.rx;
 					self.pivot.position.y = this.py;
 				}).onComplete(function () {
 					self.trigger('defeated', byObject);
 				});
 
-			positionTween.to({ rx: "-" + Math.PI/2, py: 0.5 }, RPYeti.config.character.yeti.defeatDuration).start();
+			self.positionTween.to({ rx: "-" + Math.PI/2, py: 0.5 }, RPYeti.config.character.yeti.defeatDuration).start();
 		})(this);
 	}
 };
 
+RPYeti.Yeti.prototype.getActiveModel = function () {
+	for (var i in this.model) {
+		if (this.model[i].visible) {
+			return this.model[i];
+		}
+	}
+
+	return this.model.normal;
+}
+
 RPYeti.Yeti.prototype.resetModel = function () {
-	this.model.visible = true;
-	this.prethrow.visible = false;
-	this.throw.visible = false;
+	for (var i in this.model) {
+		this.model[i].visible = false;
+	}
+}
+
+RPYeti.Yeti.prototype.normalModel = function () {
+	this.resetModel();
+	this.model.normal.visible = true;
+}
+
+
+RPYeti.Yeti.prototype.prethrowModel = function () {
+	this.resetModel();
+	this.model.prethrow.visible = true;
+}
+
+RPYeti.Yeti.prototype.throwModel = function () {
+	this.resetModel();
+	this.model.throw.visible = true;
+}
+
+RPYeti.Yeti.prototype.winceModel = function () {
+	this.resetModel();
+	this.model.wince.visible = true;
 }

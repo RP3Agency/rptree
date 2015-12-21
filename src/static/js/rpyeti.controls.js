@@ -259,7 +259,6 @@ RPYeti.controls = (function() {
 					self.controls.dispose();
 				}
 				// unmount camera and add directly to scene
-				self.game.scene.remove( self.yawGimbal );
 				self.pitchGimbal.remove( self.camera );
 				self.game.scene.add( self.camera );
 				self.camera.position.y = RPYeti.config.camera.height;
@@ -268,8 +267,6 @@ RPYeti.controls = (function() {
 				self.controls = new THREE.DeviceOrientationControls( self.camera, true );
 				self.controls.connect();
 				self.controls.update();
-
-				//self.element.addEventListener('click', self.initFullscreen, false);
 			}
 			window.addEventListener('deviceorientation', setOrientationControls, true);
 		},
@@ -277,6 +274,8 @@ RPYeti.controls = (function() {
 		update: function(delta) {
 			if( self.controls ) {
 				self.controls.update( delta );
+				self.yawGimbal.rotation.y = self.camera.rotation.y;
+				return;
 			}
 
 			if( self.controlType != TYPE.ORIENTATION && ! self.isHooked ) {

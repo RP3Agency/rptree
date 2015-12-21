@@ -21,71 +21,6 @@
 		padding-top: 11rem;
 	}
 
-	&__logo {
-		position: relative;
-
-		img {
-			display: block;
-			margin: 0 auto;
-			max-width: rem(400px);
-			position: relative;
-			width: 100%;
-		}
-
-		&::before {
-			background: linear-gradient( get-color( "blue--brand" ), transparent 80%);
-			border-radius: 50%;
-			content: "";
-			display: block;
-			position: absolute;
-			height: 96%;
-			opacity: 0.3;
-			width: 100%;
-			left: 50%;
-			top: 40%;
-			transform: translate( -50%, -50% );
-		}
-
-		.snowflake {
-			position: absolute;
-
-			height: 16px;
-			width: 16px;
-
-			svg {
-				display: block;
-				height: 100%;
-				width: 100%;
-			}
-
-			$containerWidth: 568px;
-			$containerHeight: 663px;
-
-			$snowflake-positioning: (
-				"left" 30px "bottom" 241px,
-				"left" 65px "top" 236px,
-				"left" 130px "top" 58px,
-				"right" 187px "top" 25px,
-				"right" 131px "top" 166px,
-				"right" 35px "bottom" 184px
-			);
-
-			@for $i from 1 through 6 {
-
-				$horizontalDirection: nth( nth( $snowflake-positioning, $i ), 1 );
-				$horizontalValue:     floor( percentage( nth( nth( $snowflake-positioning, $i ), 2 ) / $containerWidth ) );
-
-				$verticalDirection:   nth( nth( $snowflake-positioning, $i ), 3 );
-				$verticalValue:       floor( percentage( nth( nth( $snowflake-positioning, $i ), 4 ) / $containerHeight ) );
-
-				&.snowflake--#{$i} {
-					#{$horizontalDirection}: $horizontalValue;
-					#{$verticalDirection}: $verticalValue;
-				}
-			}
-		}
-	}
-
 	&__icons__choices {
 		display: flex;
 		margin-bottom: 1em;
@@ -199,10 +134,6 @@
 		@include breakpoint( 640px ) {
 			background-color: transparent;
 			box-shadow: none;
-		}
-
-		.container {
-			max-width: rem(305px);
 		}
 
 		p {

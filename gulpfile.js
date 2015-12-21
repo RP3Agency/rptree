@@ -216,7 +216,8 @@ gulp.task( 'scripts-bower', function() {
 			bower_dir + '/imagesloaded/imagesloaded.pkgd.min.js',
 			bower_dir + '/masonry/dist/masonry.pkgd.js',
 			bower_dir + '/tween.js/src/Tween.js',
-			bower_dir + '/js-cookie/src/js.cookie.js'
+			bower_dir + '/js-cookie/src/js.cookie.js',
+			bower_dir + '/jquery.stellar/jquery.stellar.min.js'
 		];
 
 	return gulp.src( bower_files )

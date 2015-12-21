@@ -1,0 +1,121 @@
+		<div id="home-intro" class="intro">
+
+			<div class="experience-selector" data-stellar-ratio="1.5">
+
+				<div class="container">
+
+
+				</div>
+
+			</div>
+			<!-- // .container -->
+
+			<div class="experience-selector experience-selector--white">
+
+
+
+			</div>
+
+			<button id="instructions-arrow" class="instructions-arrow">More About Google Cardboard <i class="fa fa-chevron-down"></i></button>
+
+		</div>
+		<!-- // intro -->
+
+		<section id="tweets" class="tweets"></section>
+		<!-- // #tweets -->
+
+		<script type="text/template" id="tweet-template">
+		[[ _.each(tweets, function(tweet) { ]]
+			<div class="tweet color-[[= tweet.get('i') ]]">
+
+				<div class="tweet__container">
+
+					<img src="[[= tweet.get('profileImage') ]]" class="tweet__avatar">
+
+					<a href="https://twitter.com/[[= tweet.get('user') ]]" class="tweet__handle">@[[= tweet.get('user') ]]</a>
+
+					<p class="tweet__content">[[= tweet.get('text') ]]</p>
+
+					<span class="tweet__timestamp" id="tweet__timestamp" data-livestamp="[[= tweet.get('timestamp') ]]">[[= tweet.get('timestamp') ]]</span>
+
+				</div>
+
+			</div>
+			<!-- // .tweet -->
+		[[ }); ]]
+		</script>
+
+
+		<section class="partners">
+
+			<div class="partners__inner">
+
+				<div class="partners__logos">
+
+					<span><a href="http://childrensnational.org/giving" target="_blank"><% include ../static/images/cnhs.svg %></a></span>
+
+					<span><a href="http://www.myja.org/give" target="_blank"><% include ../static/images/ja.svg %></a></span>
+
+					<span><a href="http://thewomensfoundation.org/give/" target="_blank"><% include ../static/images/wawf.svg %></a></span>
+
+				</div>
+
+			</div>
+
+		</section>
+
+
+		<div id="cardboard" class="cardboard">
+
+			<div class="container">
+				<div class="cardboard__tree-img"></div>
+
+				<div class="about-cardboard">
+
+					<p><a href="http://www.google.com/get/cardboard/" target="_blank">Google Cardboard</a> allows anyone with a smartphone to experience virtual reality in a simple, fun, and affordable way. RPTree is one way we’re exploring and sharing the exciting possibilities of this emerging platform.</p>
+
+					<p>If you’ve already received your viewer from RP3, here’s how to use it. If not, you can <a href="http://amzn.to/1IIiA9p" target="_blank">purchase one from Amazon</a> or play in <a href="rpyeti/#desktop">standard mode</a> and tweet your score for a chance to win one.</p>
+
+				</div>
+
+				<ol>
+					<li class="step1"><span class="svg"><% include ../static/images/step-1.svg %></span><p><span>1</span> Remove viewer from case</p></li>
+					<li class="step2"><span class="svg"><% include ../static/images/step-2.svg %></span><p><span>2</span> Open front and pull out tabs</p></li>
+					<li class="step3"><span class="svg"><% include ../static/images/step-3.svg %></span><p><span>3</span> Pull tabs up and fasten</p></li>
+					<li><span class="svg"><% include ../static/images/step-4.svg %></span><p><span>4</span> Choose the "Virtual Reality" experience</p></li>
+					<li><span class="svg"><% include ../static/images/step-5.svg %></span><p><span>5</span> Place phone in viewer, close and begin</p></li>
+				</ol>
+				<ol class="trigger-icon">
+					<li><span class="svg"><% include ../static/images/trigger.svg %></span><p>Press top right trigger to fire away!</p></li>
+				</ol>
+
+				<p><strong>Use headphones and remove protective film from lenses for best results.</strong></p>
+
+			</div>
+
+		</div>
+		<!-- // cardboard -->
+
+
+
+
+	<footer id="site-footer" class="site-footer">
+
+		<div class="container">
+
+			<div class="brought">Brought to you by</div>
+			<div class="site-footer__logo"><a href="https://rp3agency.com"><% include ../static/images/rp3-logo.svg %></a></div>
+
+		</div>
+		<!-- // .container -->
+
+	</footer>
+
+	<div class="site-footer__social-media">
+
+		<ul class="social-media list-inline">
+			<li class="tw"><a href="https://twitter.com/rpyeti" target="_blank">Twitter</a></li>
+			<li class="in"><a href="https://instagram.com/rpyeti" target="_blank">Instagram</a></li>
+		</ul>
+
+	</div>

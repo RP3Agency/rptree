@@ -4,233 +4,136 @@
 
 	<% include ../static/images/snowflakes_sprite.svg %>
 
-	<main id="content" class="site-content">
+	<main id="content" class="site-content site-content--landing-page">
 
-		<div class="intro">
+		<section class="logo">
 
-			<div class="experience-selector">
+			<div class="container">
 
-				<div class="container">
+				<img srcset="images/rptree-home.png" class="rpyeti" alt="RPTree: Rise of the Yeti" id="rpyeti"/>
 
-					<div class="experience-selector__logo">
-						<img srcset="images/rptree-home.png" class="rpyeti" alt="RPTree: Rise of the Yeti" id="rpyeti"/>
+				<div class="logo__snowflakes">
 
-						<div class="snowflakes">
+					<div class="snowflake snowflake--1">
+						<svg>
+							<use xlink:href="#icon-snowflake5"></use>
+						</svg>
+					</div>
 
-							<div class="snowflake snowflake--1">
-								<svg>
-									<use xlink:href="#icon-snowflake5"></use>
-								</svg>
-							</div>
+					<div class="snowflake snowflake--2">
+						<svg>
+							<use xlink:href="#icon-snowflake4"></use>
+						</svg>
+					</div>
 
-							<div class="snowflake snowflake--2">
-								<svg>
-									<use xlink:href="#icon-snowflake4"></use>
-								</svg>
-							</div>
+					<div class="snowflake snowflake--3">
+						<svg>
+							<use xlink:href="#icon-snowflake2"></use>
+						</svg>
+					</div>
 
-							<div class="snowflake snowflake--3">
-								<svg>
-									<use xlink:href="#icon-snowflake2"></use>
-								</svg>
-							</div>
+					<div class="snowflake snowflake--4">
+						<svg>
+							<use xlink:href="#icon-snowflake2"></use>
+						</svg>
+					</div>
 
-							<div class="snowflake snowflake--4">
-								<svg>
-									<use xlink:href="#icon-snowflake2"></use>
-								</svg>
-							</div>
+					<div class="snowflake snowflake--5">
+						<svg>
+							<use xlink:href="#icon-snowflake3"></use>
+						</svg>
+					</div>
 
-							<div class="snowflake snowflake--5">
-								<svg>
-									<use xlink:href="#icon-snowflake3"></use>
-								</svg>
-							</div>
-
-							<div class="snowflake snowflake--6">
-								<svg>
-									<use xlink:href="#icon-snowflake6"></use>
-								</svg>
-							</div>
-
-						</div>
-						<!-- // .snowflakes -->
-
+					<div class="snowflake snowflake--6">
+						<svg>
+							<use xlink:href="#icon-snowflake6"></use>
+						</svg>
 					</div>
 
 				</div>
+				<!-- // .snowflakes -->
 
 			</div>
 			<!-- // .container -->
 
-			<div class="experience-selector experience-selector--white">
-
-				<p>This year we’re making gifts to three amazing non-profits on behalf of our clients, friends and colleagues. And to keep spirits high, we’ve created this snowball fight game to help you direct where your donation goes.</p>
-
-				<a href="https://google.com/chrome" id="no-webgl" class="no-webgl" target="_blank">
-
-					Your browser does not support modern 3D graphics.<br/>
-					Download Google Chrome.
-
-				</a>
-
-				<div id="experience-selector__icons" class="experience-selector__icons">
-
-					<p>Choose your game mode to begin:</p>
-
-					<div class="experience-selector__icons__choices">
-
-						<div class="experience-selector__desktop">
-
-							<span class="experience-selector--desktop">
-
-								<a href="rpyeti/#desktop">
-
-									<span class="experience-selector__svg"><% include ../static/images/computer.svg %></span>
-
-									Standard
-
-									<span>(Desktop, Tablet, or Mobile)</span>
-
-								</a>
-
-							</span>
-
-						</div>
-						<!-- desktop -->
-
-						<div class="experience-selector__vr">
-
-							<span class="experience-selector--vr">
-
-								<a href="rpyeti/">
-
-									<span class="experience-selector__svg">
-										<% include ../static/images/cardboard.svg %>
-									</span>
-
-									Virtual Reality
-
-									<span>(with Google Cardboard)</span>
-
-								</a>
-
-							</span>
-
-						</div>
-						<!-- vr -->
-
-					</div>
-					<!-- experience-selector__icons__choices -->
-
-				</div>
-				<!-- // .experience-selector__icons -->
-
-			</div>
-
-			<button id="instructions-arrow" class="instructions-arrow">More About Google Cardboard <i class="fa fa-chevron-down"></i></button>
-
-		</div>
-		<!-- // intro -->
-
-		<section id="tweets" class="tweets"></section>
-		<!-- // #tweets -->
-
-		<script type="text/template" id="tweet-template">
-		[[ _.each(tweets, function(tweet) { ]]
-			<div class="tweet color-[[= tweet.get('i') ]]">
-
-				<div class="tweet__container">
-
-					<img src="[[= tweet.get('profileImage') ]]" class="tweet__avatar">
-
-					<a href="https://twitter.com/[[= tweet.get('user') ]]" class="tweet__handle">@[[= tweet.get('user') ]]</a>
-
-					<p class="tweet__content">[[= tweet.get('text') ]]</p>
-
-					<span class="tweet__timestamp" id="tweet__timestamp" data-livestamp="[[= tweet.get('timestamp') ]]">[[= tweet.get('timestamp') ]]</span>
-
-				</div>
-
-			</div>
-			<!-- // .tweet -->
-		[[ }); ]]
-		</script>
+		</section>
+		<!-- // .logo -->
 
 
-		<section class="partners">
+		<section class="intro-copy">
 
-			<div class="partners__inner">
-
-				<div class="partners__logos">
-
-					<span><a href="http://childrensnational.org/giving" target="_blank"><% include ../static/images/cnhs.svg %></a></span>
-
-					<span><a href="http://www.myja.org/give" target="_blank"><% include ../static/images/ja.svg %></a></span>
-
-					<span><a href="http://thewomensfoundation.org/give/" target="_blank"><% include ../static/images/wawf.svg %></a></span>
-
-				</div>
-
-			</div>
+			<p>This year we’re making gifts to three amazing non-profits on behalf of our clients, friends and colleagues. And to keep spirits high, we’ve created this snowball fight game to help you direct where your donation goes.</p>
 
 		</section>
 
+		<section class="experience-selector">
 
-		<div id="cardboard" class="cardboard">
+			<div id="experience-selector__no-webgl" class="experience-selector__no-webgl">
 
-			<div class="container">
-				<div class="cardboard__tree-img"></div>
-
-				<div class="about-cardboard">
-
-					<p><a href="http://www.google.com/get/cardboard/" target="_blank">Google Cardboard</a> allows anyone with a smartphone to experience virtual reality in a simple, fun, and affordable way. RPTree is one way we’re exploring and sharing the exciting possibilities of this emerging platform.</p>
-
-					<p>If you’ve already received your viewer from RP3, here’s how to use it. If not, you can <a href="http://amzn.to/1IIiA9p" target="_blank">purchase one from Amazon</a> or play in <a href="rpyeti/#desktop">standard mode</a> and tweet your score for a chance to win one.</p>
-
-				</div>
-
-				<ol>
-					<li class="step1"><span class="svg"><% include ../static/images/step-1.svg %></span><p><span>1</span> Remove viewer from case</p></li>
-					<li class="step2"><span class="svg"><% include ../static/images/step-2.svg %></span><p><span>2</span> Open front and pull out tabs</p></li>
-					<li class="step3"><span class="svg"><% include ../static/images/step-3.svg %></span><p><span>3</span> Pull tabs up and fasten</p></li>
-					<li><span class="svg"><% include ../static/images/step-4.svg %></span><p><span>4</span> Choose the "Virtual Reality" experience</p></li>
-					<li><span class="svg"><% include ../static/images/step-5.svg %></span><p><span>5</span> Place phone in viewer, close and begin</p></li>
-				</ol>
-				<ol class="trigger-icon">
-					<li><span class="svg"><% include ../static/images/trigger.svg %></span><p>Press top right trigger to fire away!</p></li>
-				</ol>
-
-				<p><strong>Use headphones and remove protective film from lenses for best results.</strong></p>
+				<a href="https://google.com/chrome" target="_blank">
+					Your browser does not support modern 3D graphics.<br/>
+					Download Google Chrome.
+				</a>
 
 			</div>
 
-		</div>
-		<!-- // cardboard -->
+			<div id="experience-selector__icons" class="experience-selector__icons">
+
+				<p>Choose your game mode to begin:</p>
+
+				<div class="experience-selector__icons__choices">
+
+					<div class="experience-selector__desktop">
+
+						<span class="experience-selector--desktop">
+
+							<a href="rpyeti/#desktop">
+
+								<span class="experience-selector__svg"><% include ../static/images/computer.svg %></span>
+
+								Standard
+
+								<span>(Desktop, Tablet, or Mobile)</span>
+
+							</a>
+
+						</span>
+
+					</div>
+					<!-- desktop -->
+
+					<div class="experience-selector__vr">
+
+						<span class="experience-selector--vr">
+
+							<a href="rpyeti/">
+
+								<span class="experience-selector__svg">
+									<% include ../static/images/cardboard.svg %>
+								</span>
+
+								Virtual Reality
+
+								<span>(with Google Cardboard)</span>
+
+							</a>
+
+						</span>
+
+					</div>
+					<!-- vr -->
+
+				</div>
+				<!-- experience-selector__icons__choices -->
+
+			</div>
+			<!-- // .experience-selector__icons -->
+
+		</section>
 
 	</main>
 	<!-- // #content -->
 
-	<footer id="site-footer" class="site-footer">
-
-		<div class="container">
-
-			<div class="brought">Brought to you by</div>
-			<div class="site-footer__logo"><a href="https://rp3agency.com"><% include ../static/images/rp3-logo.svg %></a></div>
-
-		</div>
-		<!-- // .container -->
-
-	</footer>
-
-	<div class="site-footer__social-media">
-
-		<ul class="social-media list-inline">
-			<li class="tw"><a href="https://twitter.com/rpyeti" target="_blank">Twitter</a></li>
-			<li class="in"><a href="https://instagram.com/rpyeti" target="_blank">Instagram</a></li>
-		</ul>
-
-	</div>
 
 	<script src="../js/scripts-bower.min.js"></script>
 	<script src="../js/rptree.min.js"></script>

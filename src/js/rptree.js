@@ -85,11 +85,23 @@ var rptree = (function($) {
 		}
 	},
 
+	parallax = function() {
+
+		$.stellar({
+			horizontalScrolling: false,
+			verticalOffset: 150,
+			responsive: true,
+			parallaxBackground: false
+		});
+
+	},
+
 	init = function() {
 		scrollToInstructions();
 		desktopStyling();
 		leaderboard();
 		getHighScore();
+		parallax();
 	};
 
 	return {

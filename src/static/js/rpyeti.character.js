@@ -58,10 +58,18 @@ RPYeti.Character.prototype = {
 	},
 
 	position: function (x, z, scale, lookAtPos) {
-		if (scale !== undefined && scale instanceof THREE.Vector3 ) {
-			this.model.scale.set( scale.x, scale.y, scale.z );
-		} else if (scale !== undefined) {
-			this.model.scale.set( scale, scale, scale );
+		if (this.model !== undefined) {
+			for (var i in this.model) {
+				if (scale !== undefined && scale instanceof THREE.Vector3 ) {
+					this.model[i].scale.set( scale.x, scale.y, scale.z );
+				} else if (scale !== undefined) {
+					this.model[i].scale.set( scale, scale, scale );
+				}
+
+				this.model[i].rotation.set(0, 0, 0);
+				this.model[i].position.x = this.xoffset;
+				this.model[i].position.y = this.yoffset;
+			}
 		}
 
 		this.pivot.position.x = x;
@@ -72,13 +80,9 @@ RPYeti.Character.prototype = {
 			this.pivot.lookAt(lookAtPos);
 		}
 
-		if (this.model !== undefined) {
-			this.model.rotation.set(0, 0, 0);
-			this.model.position.x = this.xoffset;
-			this.model.position.y = this.yoffset;
-
+		if (this.model.normal !== undefined) {
 			if (this.bounds === undefined) {
-				this.bounds = new THREE.Box3().setFromObject(this.model);
+				this.bounds = new THREE.Box3().setFromObject(this.model.normal);
 			}
 
 			this.pivot.position.y = Math.abs(this.bounds.max.y);
@@ -89,9 +93,9 @@ RPYeti.Character.prototype = {
 		this.pivot.updateMatrixWorld();
 
 		var sources = [ this.pivot.getWorldPosition() ];
-		if (this.model !== undefined) {
-			this.model.updateMatrixWorld();
-			sources.push(this.model.getWorldPosition());
+		if (this.model.normal !== undefined) {
+			this.model.normal.updateMatrixWorld();
+			sources.push(this.model.normal.getWorldPosition());
 		}
 
 		for (var s = 0; s < sources.length; s++) {

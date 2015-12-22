@@ -72,3 +72,37 @@ body.page {
  */
 
 @import "social-media";
+
+
+
+/**
+ * Frequently Asked Childrens
+ */
+
+.faq {
+	background-color: get-color( "gray--dark" );
+	padding: 2rem 1rem;
+
+	&__inner {
+		margin: 0 auto;
+		max-width: 450px;
+	}
+
+	h2 {
+		text-align: center;
+	}
+
+	li {
+		margin-bottom: 1rem;
+
+		b {
+			display: block;
+			margin-bottom: 0.5rem;
+			text-transform: uppercase;
+		}
+	}
+
+	a {
+		color: currentColor;
+	}
+}

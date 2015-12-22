@@ -90,7 +90,7 @@ RPYeti.Gameplay.prototype.start = function (level, reset) {
 };
 
 RPYeti.Gameplay.prototype.levelBegin = function (level) {
-	this.game.hud.addText('Level ' + level);
+	this.game.hud.addText('Level ' + level + "\n\nLook down and fire\nto exit at any time.");
 
 	delete this.settings
 	this.settings = jQuery.extend(true, {}, RPYeti.config.gameplay.baseline);
@@ -175,7 +175,10 @@ RPYeti.Gameplay.prototype.startIntro = function () {
 			position.x += 10;
 			position.z -= 15;
 			setTimeout(function () {
-				self.spawnYeti(self.intro, position, undefined, 1.85, 9001, 0);
+				var yeti = self.spawnYeti(self.intro, position, undefined, 1.85, 9001, 0);
+
+				// Disable hit animation
+				yeti.hit = function () {}
 			});
 		})(this, tree.position.clone());
 	}

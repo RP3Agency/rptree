@@ -43,6 +43,7 @@ RPYeti.game = (function() {
 			this.addSnow();
 			this.addSky();
 			this.addLights();
+			this.addExit();
 
 			// add static models
 			this.addTrees();
@@ -52,7 +53,7 @@ RPYeti.game = (function() {
 			this.addSigns();
 			this.addSnowball();
 
-			self.snowballBlockers = [ self.snow, self.snowballs, self.trees, self.rocks, self.mounds, self.logs, self.signs, self.gameplay.yetis ];
+			self.snowballBlockers = [ self.exit, self.snow, self.snowballs, self.trees, self.rocks, self.mounds, self.logs, self.signs, self.gameplay.yetis ];
 
 			// add game HUD
 			if (RPYeti.config.stereo) {
@@ -215,6 +216,42 @@ RPYeti.game = (function() {
 			//directional.shadowCameraFov = 90;
 			self.scene.add( directional );
 
+		},
+
+		addExit: function() {
+			var	canvas = document.createElement('canvas'),
+				context = canvas.getContext('2d');
+			context.width = 512,
+			context.height = 256;
+
+			context.fillStyle = '#ffffff';
+			context.font = '12pt normal PressStart2P';
+			context.fillText('LOADING FONT', 1, 1);
+
+			context.beginPath();
+			context.lineWidth = 20;
+			context.strokeStyle = '#444400';
+			context.rect(0, 0, 300, 150);
+			context.fillStyle = '#fff2ec';
+			context.fill();
+			context.stroke();
+
+			context.shadowColor = '#ff0000';
+			context.shadowBlur = 8;
+			context.fillStyle = '#e7231f';
+			context.font = '36pt normal "Courier New", Courier, monospace';
+			context.fillText('EXIT GAME', 20, 90);
+
+			var geometry = new THREE.BoxGeometry( 3.5, 0.2, 1.25 ),
+				top = new THREE.MeshBasicMaterial({ map: new THREE.Texture( canvas ), transparent: true }),
+				side = new THREE.MeshBasicMaterial({ color: 0x444400 }),
+				faces = new THREE.MeshFaceMaterial([ side, side, top, side, side, side ]);
+
+			top.map.needsUpdate = true;
+
+			self.exit = new THREE.Mesh( geometry, faces );
+			self.exit.position.set( 0.0, -9.8, -1.7 );
+			self.controls.yawGimbal.add( self.exit );
 		},
 
 		/** Models **/
@@ -408,7 +445,11 @@ RPYeti.game = (function() {
 				// play impact sound depending on object struck
 				if( target ) {
 					var effect;
-					if ( target instanceof RPYeti.Player ) {
+					if ( target == self.exit && snowball.userData.initiator == self.player) {
+						// player hit exit sign, time to go!
+						self.exitGame();
+						return;
+					} else if ( target instanceof RPYeti.Player ) {
 						effect = RPYeti.loader.sounds.player_hit;
 					} else if ( target == self.snow ) {
 						effect = RPYeti.loader.sounds.snow_hit;
@@ -475,6 +516,32 @@ RPYeti.game = (function() {
 			} else {
 				explosionTween.to({ scale: 4, opacity: 0 }, 300 ).start();
 			}
+		},
+
+		exitGame: function() {
+			// remove yetis and prevent spawning
+			self.gameplay.settings.yeti.maxOnScreen = 0;
+			self.gameplay.yetis.traverse( function(yeti) {
+				if( yeti instanceof THREE.Mesh ) {
+					yeti.userData.character.defeat({ userData: { initiator: null } });
+				}
+			});
+			// remove snowballs
+			self.snowballs.traverseVisible(function(snowball) {
+				if( snowball instanceof THREE.Mesh ) {
+					self.removeSnowball( snowball );
+				}
+			});
+			// zero health
+			self.player.health = 0;
+			// turn off music
+			RPYeti.music.publisher.trigger('rpyeti.music.mute');
+			// display countdown
+			var text = self.stereo ? RPYeti.config.text.hud.gameOverVR : RPYeti.config.text.hud.gameOver;
+			self.hud.addText( text, 0 );
+			self.hud.startCountdown(5, function () {
+				location.assign( RPYeti.config.urls.leaderBoard + ( location.hash || '' ) );
+			});
 		},
 
 		debug: function() {

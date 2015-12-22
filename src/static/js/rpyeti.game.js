@@ -452,7 +452,7 @@ RPYeti.game = (function() {
 			if (projectile.visible) {
 				if (projectile.name === 'snowball') {
 					self.explodeSnowball( projectile, ( ! target ) );
-				} else if (projectile instanceof THREE.Group) {
+				} else if (projectile.userData && projectile.userData.type === 'projectile') {
 					self.explodeProjectileModel(projectile, (!target));
 				}
 
@@ -462,7 +462,7 @@ RPYeti.game = (function() {
 				// play impact sound depending on object struck
 				if( target ) {
 					var effect;
-					if ( target == self.exit && snowball.userData.initiator == self.player) {
+					if ( target == self.exit && projectile.userData.initiator == self.player) {
 						// player hit exit sign, time to go!
 						self.exitGame();
 						return;
@@ -539,6 +539,7 @@ RPYeti.game = (function() {
 			}
 		},
 
+		// TODO: refactor to consolidate with above
 		explodeProjectileModel: function (projectile, implode) {
 			var explosion = projectile.userData.model.clone(),
 				materials = [],

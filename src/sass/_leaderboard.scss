@@ -143,3 +143,34 @@
 		text-decoration: underline;
 	}
 }
+
+.leaderboard__snowflakes {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: 1;
+
+	svg {
+		animation: 10s linear snowflake1 infinite;
+		display: block;
+		position: absolute;
+		width: 32px;
+		height: 32px;
+		top: 0;
+		left: 10%;
+	}
+}
+
+@keyframes snowflake1 {
+	0 {
+		top: 0;
+		left: 10%;
+	}
+
+	100% {
+		top: 100%;
+		left: 20%;
+	}
+}

@@ -3,6 +3,8 @@
 	padding: 10px;
 	right: 20px;
 	top: 81px;
+	position: relative;
+	z-index: 2;
 
 	@include breakpoint( 640px ) {
 		padding: 0;

@@ -335,7 +335,8 @@ RPYeti.Gameplay.prototype.yetiSpawner = function () {
 				var pos = context.pivot.position.clone();
 				pos.y = context.handHeight;
 
-				self.game.throwSnowball(pos, context);
+				//self.game.throwSnowball(pos, context);
+				self.game.throwHam(pos, context);
 			});
 
 			yeti.on('appear', function (context) {

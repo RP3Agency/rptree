@@ -52,6 +52,7 @@ RPYeti.game = (function() {
 			this.addLogs();
 			this.addSigns();
 			this.addSnowball();
+			this.addHam();
 
 			self.snowballBlockers = [ self.exit, self.snow, self.projectiles, self.trees, self.rocks, self.mounds, self.logs, self.signs, self.gameplay.yetis ];
 
@@ -392,11 +393,25 @@ RPYeti.game = (function() {
 			self.snowball.name = 'snowball';
 		},
 
+		addHam: function( ) {
+			if (self.projectiles === undefined) {
+				self.projectiles = new THREE.Group();
+				self.scene.add( self.projectiles );
+			}
+			self.ham = RPYeti.loader.models.ham;
+			self.ham.scale.set(4, 4, 4);
+			self.ham.castShadow = true;
+			self.ham.receiveShadow = true;
+			self.ham.name = 'ham';
+		},
 
 		throwSnowball: function (source, character) {
 			self.throwProjectile(source, character, self.snowball);
 		},
 
+		throwHam: function (source, character) {
+			self.throwProjectile(source, character, self.ham);
+		},
 
 		throwProjectile: function( source, character, model ) {
 			model = model || self.snowball;

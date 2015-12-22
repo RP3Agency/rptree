@@ -90,7 +90,7 @@ RPYeti.Gameplay.prototype.start = function (level, reset) {
 };
 
 RPYeti.Gameplay.prototype.levelBegin = function (level) {
-	this.game.hud.addText('Level ' + level);
+	this.game.hud.addText('Level ' + level + "\n\nLook down and fire\nto exit at any time.");
 
 	delete this.settings
 	this.settings = jQuery.extend(true, {}, RPYeti.config.gameplay.baseline);

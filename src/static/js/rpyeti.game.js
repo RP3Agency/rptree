@@ -53,7 +53,7 @@ RPYeti.game = (function() {
 			this.addSigns();
 			this.addSnowball();
 
-			self.snowballBlockers = [ self.exit, self.snow, self.snowballs, self.trees, self.rocks, self.mounds, self.logs, self.signs, self.gameplay.yetis ];
+			self.snowballBlockers = [ self.exit, self.snow, self.projectiles, self.trees, self.rocks, self.mounds, self.logs, self.signs, self.gameplay.yetis ];
 
 			// add game HUD
 			if (RPYeti.config.stereo) {
@@ -103,7 +103,7 @@ RPYeti.game = (function() {
 		update: function(delta) {
 			self.controls.update( delta );
 			RPYeti.Character.update( delta );
-			self.updateSnowballs( delta );
+			self.updateProjectiles( delta );
 			TWEEN.update();
 			$(self.container).trigger('rpyeti.game.update', delta );
 		},
@@ -379,9 +379,11 @@ RPYeti.game = (function() {
 
 		/** Projectiles **/
 
-		addSnowball: function( source ) {
-			self.snowballs = new THREE.Group();
-			self.scene.add( self.snowballs );
+		addSnowball: function( ) {
+			if (self.projectiles === undefined) {
+				self.projectiles = new THREE.Group();
+				self.scene.add( self.projectiles );
+			}
 			var geometry = new THREE.SphereGeometry( RPYeti.config.snowball.size, RPYeti.config.snowball.lod, RPYeti.config.snowball.lod ),
 				material = new THREE.MeshPhongMaterial({ map: RPYeti.loader.textures.snowball });
 			self.snowball = new THREE.Mesh( geometry, material );
@@ -390,8 +392,15 @@ RPYeti.game = (function() {
 			self.snowball.name = 'snowball';
 		},
 
-		throwSnowball: function( source, character ) {
-			if( ! self.snowball ) return;
+
+		throwSnowball: function (source, character) {
+			self.throwProjectile(source, character, self.snowball);
+		},
+
+
+		throwProjectile: function( source, character, model ) {
+			model = model || self.snowball;
+			if( ! model ) return;
 
 			var raycaster = new THREE.Raycaster();
 			if( source ) {
@@ -400,34 +409,37 @@ RPYeti.game = (function() {
 				raycaster.set( self.camera.getWorldPosition(), self.controls.getDirection() );
 			}
 
-			var snowball = self.snowball.clone();
-			snowball.userData.initiator = character;
-			snowball.userData.damage = RPYeti.config.snowball.damage;
-			snowball.ray = raycaster.ray;
-			snowball.ray.at( 5.0, snowball.position );
-			self.snowballs.add( snowball );
+			var projectile = model.clone();
+			projectile.userData.type = 'projectile'
+			projectile.userData.initiator = character;
+			projectile.userData.damage = RPYeti.config.snowball.damage;
+			projectile.userData.model = model;
+			projectile.lookAt(self.camera);
+			projectile.ray = raycaster.ray;
+			projectile.ray.at( 5.0, projectile.position );
+			self.projectiles.add( projectile );
 		},
 
-		updateSnowballs: function( delta ) {
-			if( self.snowballs ) {
-				self.snowballs.traverseVisible(function(snowball) {
-					if( snowball instanceof THREE.Mesh ) {
+		updateProjectiles: function( delta ) {
+			if( self.projectiles ) {
+				self.projectiles.traverseVisible(function(projectile) {
+					if( projectile.userData && projectile.userData.type === 'projectile' ) {
 						var speed = RPYeti.config.snowball.speed * delta,
-							dir = snowball.ray.direction;
-						snowball.translateX( speed * dir.x );
-						snowball.translateY( speed * dir.y );
-						snowball.translateZ( speed * dir.z );
-						if( snowball.ray.origin.distanceTo( snowball.position ) >= RPYeti.config.snowball.range ) {
-							self.removeSnowball( snowball );
+							dir = projectile.ray.direction;
+						projectile.translateX( speed * dir.x );
+						projectile.translateY( speed * dir.y );
+						projectile.translateZ( speed * dir.z );
+						if( projectile.ray.origin.distanceTo( projectile.position ) >= RPYeti.config.snowball.range ) {
+							self.removeProjectile( projectile );
 						}
-						if( snowball.userData.initiator != self.player && snowball.position.distanceTo( self.camera.getWorldPosition() ) <= RPYeti.config.player.hitbox ) {
-							self.removeSnowball( snowball, self.player );
+						if( projectile.userData.initiator != self.player && projectile.position.distanceTo( self.camera.getWorldPosition() ) <= RPYeti.config.player.hitbox ) {
+							self.removeProjectile( projectile, self.player );
 						}
-						var raycaster = new THREE.Raycaster( snowball.position, dir );
+						var raycaster = new THREE.Raycaster( projectile.position, dir );
 						var collisions = raycaster.intersectObjects( self.snowballBlockers, true );
 						for( var i = 0; i < collisions.length; i++ ) {
-							if( collisions[i].object != snowball && collisions[i].distance <= ( RPYeti.config.snowball.size * 4 ) ) {
-								self.removeSnowball( snowball, collisions[i].object );
+							if( collisions[i].object != projectile && collisions[i].distance <= ( RPYeti.config.snowball.size * 4 ) ) {
+								self.removeProjectile( projectile, collisions[i].object );
 							}
 						}
 					}
@@ -435,12 +447,17 @@ RPYeti.game = (function() {
 			}
 		},
 
-		removeSnowball: function( snowball, target ) {
+		removeProjectile: function( projectile, target ) {
 			// avoid duplicate hits
-			if (snowball.visible) {
-				self.explodeSnowball( snowball, ( ! target ) );
-				// hide snowball
-				snowball.visible = false;
+			if (projectile.visible) {
+				if (projectile.name === 'snowball') {
+					self.explodeSnowball( projectile, ( ! target ) );
+				} else if (projectile instanceof THREE.Group) {
+					self.explodeProjectileModel(projectile, (!target));
+				}
+
+				// hide projectile
+				projectile.visible = false;
 
 				// play impact sound depending on object struck
 				if( target ) {
@@ -455,8 +472,12 @@ RPYeti.game = (function() {
 						effect = RPYeti.loader.sounds.snow_hit;
 					} else if( self.gameplay.yetis.getObjectById( target.id ) ) {
 						effect = RPYeti.loader.sounds.yeti_hit;
-					} else if( self.snowballs.getObjectById( target.id ) ) {
-						self.removeSnowball( target, true );
+					} else if( self.projectiles.getObjectById( target.id ) ) {
+						var t = target;
+						while (t.userData !== undefined && t.userData.type != 'projectile' && t.parent != null) {
+							t = t.parent;
+						}
+						self.removeProjectile( t, true );
 						effect = RPYeti.loader.sounds.snow_hit;
 					} else if( self.trees.getObjectById( target.id ) ) {
 						effect = RPYeti.loader.sounds.tree_hit;
@@ -476,20 +497,20 @@ RPYeti.game = (function() {
 
 					if( effect ) {
 						var impact = self.createSoundEffect( effect );
-						snowball.add( impact );
+						projectile.add( impact );
 						impact.play();
 					}
 
 					if (target instanceof RPYeti.Character) {
-						target.hit(snowball);
+						target.hit(projectile);
 					} else if (target.userData && target.userData.character) {
-						target.userData.character.hit(snowball);
+						target.userData.character.hit(projectile);
 					}
 				}
 
-				// get rid of snowball after delay
+				// get rid of projectile after delay
 				setTimeout( function() {
-					self.snowballs.remove( snowball );
+					self.projectiles.remove( projectile );
 				}, 500 );
 			}
 		},
@@ -518,6 +539,51 @@ RPYeti.game = (function() {
 			}
 		},
 
+		explodeProjectileModel: function (projectile, implode) {
+			var explosion = projectile.userData.model.clone(),
+				materials = [],
+				opacity = 1;
+
+			explosion.position.copy( projectile.position );
+
+			for (var i in explosion.children) {
+				if (explosion.children[i] instanceof THREE.Object3D) {
+					for (var m in explosion.children[i].children) {
+						if (explosion.children[i].children[m] instanceof THREE.Mesh) {
+							explosion.children[i].children[m].material = explosion.children[i].children[m].material.clone();
+							materials.push(explosion.children[i].children[m].material);
+
+							explosion.children[i].children[m].material.transparent = true;
+							explosion.children[i].children[m].castShadow = false;
+							explosion.children[i].children[m].receiveShadow = false
+						}
+					}
+				}
+			}
+
+			if (materials.length > 0) {
+				opacity = materials[i].opacity;
+			}
+
+			explosion.name = 'explosion';
+			self.scene.add( explosion );
+			var explosionTween = new TWEEN.Tween({ scale: explosion.scale.x, opacity: opacity })
+				.easing( TWEEN.Easing.Quadratic.Out )
+				.onUpdate(function () {
+					explosion.scale.set( this.scale, this.scale, this.scale );
+					for (var i in materials) {
+						materials[i].opacity = this.opacity;
+					}
+				}).onComplete(function () {
+					self.scene.remove( explosion );
+				});
+			if( implode ) {
+				explosionTween.to({ scale: 0, opacity: 0 }, 1000 ).start();
+			} else {
+				explosionTween.to({ scale: projectile.scale.x * 4, opacity: 0 }, 300 ).start();
+			}
+		},
+
 		exitGame: function() {
 			// remove yetis and prevent spawning
 			self.gameplay.settings.yeti.maxOnScreen = 0;
@@ -527,9 +593,9 @@ RPYeti.game = (function() {
 				}
 			});
 			// remove snowballs
-			self.snowballs.traverseVisible(function(snowball) {
-				if( snowball instanceof THREE.Mesh ) {
-					self.removeSnowball( snowball );
+			self.projectiles.traverseVisible(function(projectile) {
+				if( projectile instanceof THREE.Mesh || projectile instanceof THREE.Group ) {
+					self.removeProjectile( projectile );
 				}
 			});
 			// zero health

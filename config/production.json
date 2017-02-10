@@ -2,9 +2,9 @@
     "debug": false,
     "express": {
         "ssl": {
-            "key": "/srv/ssl/rptree.com.key",
-            "cert": "/srv/ssl/rptree.com.crt",
-            "ca": "/srv/ssl/rapidssl.com.ca",
+            "key": "/etc/letsencrypt/live/rptree.com/privkey.pem",
+            "cert": "/etc/letsencrypt/live/rptree.com/cert.pem",
+            "ca": "/etc/letsencrypt/live/rptree.com/chain.pem",
             "http": {
                 "redirect": "https://%s",
                 "port": 8080

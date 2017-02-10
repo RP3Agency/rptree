@@ -98,21 +98,38 @@ var data = _.bindAll({
 	},
 
 	savePlayer: function(player) {
+		var self = this;
 		if( ! player.id ) {
 			player.id = uuid.v1();
 		}
-		player = _.omit( player, '_id' );
+		player = _.omit( player, [ '_id', 'gamesPlayed' ] );
 		player.highScore = parseInt( player.highScore );
 		player.lastScore = parseInt( player.lastScore );
-		var result = this.players.findAndModify(
-			{ id: player.id },
-			{ $set: player },
-			{ upsert: true, new: true }
-		)
-		.error(function(err) {
+		player.lastUpdate = new Date();
+		return Promise.resolve( this.players.findOne({ id: player.id }) )
+		.then(function( record ) {
+			if( ! record ) {
+				return Promise.resolve( self.players.insert( player ));
+			}
+			// if record is more recent, return record
+			if( record.lastUpdate > player.lastUpdate ) {
+				record = _.omit( record, '_id' );
+				record.lastUpdate = new Date();
+				return Promise.resolve( self.players.update({ id: record.id }, { $set: record }) ).return( record );
+			}
+			// increment games played (doesn't count until your first hit)
+			if( player.lastScore == 1 ) {
+				if ( record.gamesPlayed ) {
+					player.gamesPlayed = record.gamesPlayed + 1;
+				} else {
+					player.gamesPlayed = 1;
+				}
+			}
+			return Promise.resolve( self.players.update({ id: player.id }, { $set: player }) ).return( player );
+		})
+		.catch(function(err) {
 			console.log( '## Data error: ', err );
 		});
-		return Promise.cast( result );
 	},
 
 });

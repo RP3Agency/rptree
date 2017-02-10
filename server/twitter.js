@@ -88,7 +88,7 @@ var scanner = _.bindAll({
 				id:				tweet.id_str,
 				user:			tweet.user.screen_name,
 				name:			emoji.unifiedToHTML( tweet.user.name ),
-				profileImage:	tweet.user.profile_image_url,
+				profileImage:	tweet.user.profile_image_url_https,
 				text:			emoji.unifiedToHTML( text.autoLink(tweet.text, { urlEntities: tweet.entities.urls }) ),
 				tags:			_.pluck( tweet.entities.hashtags, 'text' ),
 				timestamp:		( tweet.timestamp_ms ) ? new Date( parseInt(tweet.timestamp_ms) ) : new Date( tweet.created_at ),
